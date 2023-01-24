@@ -9,8 +9,8 @@ services:
           MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: test 
       volumes:
-          - ./dump:/var/lib/mysql
-          - persistent:/var/lib/mysql
+          - ./db:/var/lib/mysql
+          - my-db:/var/lib/mysql
   api:
     build: ./api        
     ports:
@@ -27,4 +27,4 @@ services:
       - ./front:/front
     command: npm run dev
 volumes:
-    persistent:
+    my-db:
