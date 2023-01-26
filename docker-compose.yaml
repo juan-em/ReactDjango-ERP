@@ -25,6 +25,7 @@ services:
       - "3000:3000"
     volumes:
       - ./front:/front
+      - /front/node_modules
     command: npm run dev
 volumes:
     my-db:
