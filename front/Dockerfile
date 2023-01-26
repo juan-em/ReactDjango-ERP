@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:16.16.0
 WORKDIR /front
 COPY package.json /front/package.json
 RUN npm install
