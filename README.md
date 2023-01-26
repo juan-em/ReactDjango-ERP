@@ -35,4 +35,4 @@ Para poder ejecutar un comando del proyecto es necesario:
     - 'Puerto': 3306,
 
 ## Imagen Docker Node
-- `docker pull aldorama/rd-erp-web`
+- `docker pull aldorama/rd-erp-web:v1`
