@@ -33,3 +33,6 @@ Para poder ejecutar un comando del proyecto es necesario:
     - 'Password': 'test',
     - 'Host': '0.0.0.0',
     - 'Puerto': 3306,
+
+## Imagen Docker Node
+- `docker pull aldorama/rd-erp-web`
