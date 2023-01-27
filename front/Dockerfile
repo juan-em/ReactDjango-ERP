@@ -1,6 +1,6 @@
-FROM node:16.16.0
+FROM node:alpine
 WORKDIR /front
-COPY package.json /front/package.json
+COPY package.json /front/
 RUN npm install
 EXPOSE 3000
 COPY . /front/
