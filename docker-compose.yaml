@@ -19,14 +19,5 @@ services:
       - ./api:/api
     command: python3 manage.py runserver 0.0.0.0:8000 
 
-  web:
-    image: aldorama/rd-erp-web:v1
-    build: ./front
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./front:/front
-      - /front/node_modules
-    command: npm run dev
 volumes:
     my-db:
