@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'api_models',
+    'api_proveedores',
     'api_clientes',
     'corsheaders',
     'cloudinary',
