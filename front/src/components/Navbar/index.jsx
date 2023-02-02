@@ -70,7 +70,6 @@ function ResponsiveAppBar() {
   return (
     <section>
         <div class="topnav" id="myTopnav">
-        <a href="#home" className="active">Home</a>
         <a href="#news" className="buscar">
           <Search>
               <SearchIconWrapper>

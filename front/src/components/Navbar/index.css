@@ -1,19 +1,20 @@
-
 .topnav {
     overflow: hidden;
     background-color: #333;
-    padding: 1em;
+    padding: 0.5em;
+    margin-left: 20%;
+    float: left;
+    width: 79%;
 }
   
 .topnav a {
-    float: left;
     display: block;
     text-align: center;
     text-decoration: none;
 }
 
 .topnav a:hover {
-color: #ddd;
+    color: #ddd;
 }
 
 .topnav a.active {
