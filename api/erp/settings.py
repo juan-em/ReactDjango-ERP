@@ -134,12 +134,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dm8aqmori',
-    'API_KEY': '416938536925695',
-    'API_SECRET': 'PDq8lrOVNA3hI3EwM3c3b1gosVU'
-}
-
-
-import cloudinary.uploader
-import cloudinary.api
+cloudinary.config( 
+  cloud_name = "dm8aqmori", 
+  api_key = "416938536925695", 
+  api_secret = "PDq8lrOVNA3hI3EwM3c3b1gosVU", 
+  secure = True
+)

@@ -13,6 +13,7 @@ from rest_framework.response import Response
 
 # Create your views here.
 
+
 class ClientePersonaView(APIView):
     def get(self, request):
         dataCliente = Clientes.objects.filter(borrado=False).filter(empresa=None)
