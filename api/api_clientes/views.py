@@ -7,6 +7,8 @@ from api_models.models import (
 #Import serializer
 from .serializers import *
 
+from rest_framework import serializers
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -22,27 +24,14 @@ class ClientePersonaView(APIView):
         }
         return Response(context)
     
-    def post(self, request):
-        serPersona = PersonaSerializer(data=request.data)
-        if serPersona.is_valid():
-            serPersona.save()
-            
-        dataPersona = Persona.objects.last()
-        print(dataPersona)
-        persona_id = dataPersona.id
-        clienteData = {
-            'persona':persona_id,
-            'codformapago':request.data.get('codformapago'),
-        }
-        serCliente = ClientePersonaSerilizer(data=clienteData)
+    def post(self, request):    
+        serCliente = ClientePersonaSerilizer(data=request.data)
+        
         if serCliente.is_valid():
             serCliente.save()
-        context = {
-            'status':True,
-            'persona': serPersona,
-            'cliente': serCliente,
-        }
-        return Response(context)
+            return Response({'data': 'OK'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'data': 'ERROR'})
 
 class ClienteEmpresaView(APIView):
     def get(self, request):
@@ -57,15 +46,10 @@ class ClienteEmpresaView(APIView):
         return Response(context)
     
     def post(self, request):
-        serEmpresa = EmpresaSerilizer(data=request.data)
-        serEmpresa.is_valid(raise_exception=True)
-        serEmpresa.save()
-        dataEmpresa = Empresa.objects.last()
         serCliente = ClienteEmpresaSerilizer(data=request.data)
-        serCliente.is_valid(raise_exception=True)
-        request.data.get('')
-        context = {
-            'status':True,
-            'serEmpresa': serEmpresa,
-        }
-        return Response(context)
+        
+        if serCliente.is_valid():
+            serCliente.save()
+            return Response({'data': 'OK'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'data': 'ERROR'})
