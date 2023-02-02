@@ -33,8 +33,6 @@ class ProveedoresDetailView(APIView):
         serProveedor.save()
         return Response(serProveedor.data)
     
-    
-    
     def patch(self, request, id ):
         dataProveedor = Proveedores.objects.get(pk=id)
         serProveedor = ProveedoresSerializer(dataProveedor, data=request.data,
