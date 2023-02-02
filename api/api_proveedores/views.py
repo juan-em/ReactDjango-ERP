@@ -26,6 +26,15 @@ class ProveedoresDetailView(APIView):
         serProveedores = ProveedoresSerializer(dataProveedores)
         return Response(serProveedores.data)
 
+    def put(self, request, id):
+        dataProveedor = Proveedores.objects.get(pk=id)
+        serProveedor = ProveedoresSerializer(dataProveedor, data=request.data)
+        serProveedor.is_valid(raise_exception=True)
+        serProveedor.save()
+        return Response(serProveedor.data)
+    
+    
+    
     def patch(self, request, id ):
         dataProveedor = Proveedores.objects.get(pk=id)
         serProveedor = ProveedoresSerializer(dataProveedor, data=request.data,

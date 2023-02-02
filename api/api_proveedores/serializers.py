@@ -9,7 +9,7 @@ class ProveedoresSerializer(serializers.ModelSerializer):
     class Meta:
         model = Proveedores
         fields = '__all__'
-        depth=3
+        depth=2
         read_only_fields = ('id', 'borrado')
     
     def create(self, validated_data):
