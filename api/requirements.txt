@@ -8,3 +8,4 @@ Pillow==9.4.0
 djangorestframework
 djangorestframework-simplejwt
 cloudinary
+drf-writable-nested
