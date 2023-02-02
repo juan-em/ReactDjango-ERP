@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 from django.contrib.auth.models import User
 
 #Import models
@@ -17,27 +17,20 @@ class EmpresaSerilizer(serializers.ModelSerializer):
         model = Empresa
         fields = '__all__'
 
-class ClientePersonaSerilizer(serializers.ModelSerializer):
+class ClientePersonaSerilizer(WritableNestedModelSerializer):
     persona = PersonaSerializer()
     class Meta:
         model = Clientes
         fields = ['id','persona','codformapago','borrado']
-    def create(self, validate_data):
-        persona_data = validate_data.pop('persona')
-        persona = Persona.objects.create(**persona_data)
-        cliente =  Clientes.objects.create(persona=persona, **validate_data)
-        return cliente
+    
 
-class ClienteEmpresaSerilizer(serializers.ModelSerializer):
+
+class ClienteEmpresaSerilizer(WritableNestedModelSerializer):
     empresa = EmpresaSerilizer()
     class Meta:
         model = Clientes
-        fields = ['id','empresa','codformapago','borrado']
-    def create(self, validate_data):
-        empresa_data = validate_data.pop('persona')
-        empresa = Empresa.objects.create(**empresa_data)
-        cliente =  Clientes.objects.create(empresa=empresa, **validate_data)
-        return cliente
+        fields = ['id','empresa','codformapago','borrado'] 
+ 
 
 class ProvinciasSerilizer(serializers.ModelSerializer):
     class Meta:
