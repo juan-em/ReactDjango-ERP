@@ -31,24 +31,30 @@ const Home = () =>{
         }
     ];
     return(
-        <section>
-            <Menu/>
-            <section class="container">
-                <Grid container spacing={1}>
-                    {itemData.map((item) => (
-                        <Grid item xs={4}>
-                            <ImageListItem key={item.img}>
-                            <img
-                                src={`${item.img}fit=crop&auto=format`}
-                                alt={item.title}
-                            />
-                            </ImageListItem>
-                        </Grid>
-                    ))}
-                </Grid>
-            </section>
-        </section>
-    )
+       
+      <section>
+          <Menu/>
+          <div class="container">
+              
+              <Grid container spacing={1}>
+                  {itemData.map((item) => (
+                      <Grid item xs={12} sm={6} md={4}>
+                          
+                          <ImageListItem key={item.img}>
+                          <img
+                              src={`${item.img}fit=crop&auto=format`}
+                              alt={item.title}
+                          />
+                          </ImageListItem>
+                      </Grid>
+                      
+                      
+                  ))}
+              </Grid>
+          </div>
+      </section>
+     
+  )
 }
 
 export default Home;
