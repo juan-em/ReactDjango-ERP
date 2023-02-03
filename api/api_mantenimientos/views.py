@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from api_models.models import Formapago, Provincias, Entidades, Impuestos, Embalajes
+from api_models.models import Formapago, Provincias, Entidades, Impuestos, Embalajes, Categoria
 from api_mantenimientos.serializers import *
 from rest_framework import viewsets, permissions
 
@@ -29,3 +29,8 @@ class FormaPagoViewSet(viewsets.ModelViewSet):
     queryset = Formapago.objects.all()
     permissions_classes = [permissions.AllowAny]
     serializer_class = FormapagoSerializer
+
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()
+    permissions_classes = [permissions.AllowAny]
+    serializer_class = CategoriaSerializer
