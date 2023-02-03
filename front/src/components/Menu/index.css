@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 * {
     margin: 0;
@@ -9,21 +10,22 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 20%;
+    width: 18%;
     background-color: #EDECEF;
     position: fixed;
     height: 100%;
     overflow: auto;
+    font-size: 0.9em;
 }
 
 li a {
     display: flex;
     color: #633256;
     padding: 0.7em;
-    margin-right:2em;
-    margin-left: 2em;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-right:1em;
+    margin-left: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
     text-decoration: none;
 }
 
@@ -41,9 +43,20 @@ li a:hover:not(.active) {
     color: white;
     border-radius: 0.3em;
 }
+.logo{
+    text-align: center;
+    padding: 1.5em;
+    font-family: 'Anton', sans-serif;
+    letter-spacing:1em;
+}
 
-@media (max-width:1000px){
-    li a .nav{
+@media (max-width:1100px){
+    li .nav{
         display: none;
+    }
+    .icon{
+        text-align: center;
+        align-items: center;
+
     }
 }

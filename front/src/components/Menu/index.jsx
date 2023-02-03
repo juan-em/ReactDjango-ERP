@@ -8,7 +8,6 @@ import CategoryIcon from '@mui/icons-material/Category';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
-import ResponsiveAppBar from '../Navbar';
 import { Link } from "react-router-dom";
 
 
@@ -20,8 +19,8 @@ const MenuItem = (item) =>{
 
 
 const menu_items = [
-    {url:"#Home",icon:HomeIcon,name:"Inicio"},
-    {url:"#news",icon:HandshakeIcon,name:"Inter. Comer."},
+    {url:"/",icon:HomeIcon,name:"Inicio"},
+    {url:"/comerciales",icon:HandshakeIcon,name:"Inter. Comer."},
     {url:"#contact",icon:Inventory2Icon,name:"Productos"},
     {url:"#about",icon:AttachMoneyIcon,name:"Ventas"},
     {url:"#about",icon:ReceiptIcon,name:"Compras"},
@@ -36,6 +35,7 @@ const Menu = () =>{
     return(
         <section>
             <ul>
+                <h1 className="logo">ALPACA</h1>
                 {
                 menu_items.map((item,i)=>(
                     <MenuItem  url={item.url} icon={item.icon} name={item.name}/>

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'api_models',
     'api_proveedores',
     'api_clientes',
+    'api_productos',
     'corsheaders',
     'cloudinary',
     'rest_framework',

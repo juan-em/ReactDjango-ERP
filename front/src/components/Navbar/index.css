@@ -1,24 +1,25 @@
 .topnav {
-    overflow: hidden;
-    background-color: #333;
+    background-color: #EDECEF;
+    width: 82%;
+    float: right;
+    height: 4em;
     padding: 0.5em;
-    margin-left: 20%;
-    float: left;
-    width: 79%;
 }
   
-.topnav a {
-    display: block;
-    text-align: center;
-    text-decoration: none;
+.buscar {
+    padding: 1em;
 }
-
-.topnav a:hover {
+.cuenta{
+    align-items: center;
+    text-align: center;
+}
+.buscar:hover {
     color: #ddd;
 }
 
-.topnav a.active {
-    color: white;
-    text-align: left;
-    margin-right: 15%;
+@media (max-width:1000px){
+    .cuenta{
+        align-items: right;
+        text-align: right;
+    }
 }
