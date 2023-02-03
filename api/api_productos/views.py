@@ -169,7 +169,7 @@ class ProductoDetailView(APIView):
     
     def delete(self, request, id):
         dataProducto = Producto.objects.filter(borrado=False).get(pk=id)
-        serializer = ProductoSerializer(dataProducto, data=request.data)
+        serializer = ProductoSerializer(dataProducto)
         dataProducto.delete()
         context = {
             'status':status.HTTP_202_ACCEPTED,
