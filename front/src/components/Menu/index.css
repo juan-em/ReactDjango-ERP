@@ -9,21 +9,22 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 15%;
+    width: 18%;
     background-color: #EDECEF;
     position: fixed;
     height: 100%;
     overflow: auto;
+    font-size: 0.9em;
 }
 
 li a {
     display: flex;
     color: #633256;
     padding: 0.7em;
-    margin-right:2em;
-    margin-left: 2em;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-right:1em;
+    margin-left: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
     text-decoration: none;
 }
 
@@ -43,34 +44,15 @@ li a:hover:not(.active) {
 }
 h1{
     text-align: center;
-    margin: 2em;
-    font-size: 30px;
+    padding: 1.5em;
 }
 
-@media (max-width:1000px){
-    li a .nav{
+@media (max-width:1100px){
+    li .nav{
         display: none;
     }
+    .icon{
+        text-align: center;
+        align-items: center;
+    }
 }
-
-  /* Por debajo de 1000px */
-  @media screen and (max-width: 1000px){
-    h1{
-    font-size:20px;
-    }
-    
-    }
-     /* Por debajo de 700px */
-@media screen and (max-width: 700px){
-    h1{
-    font-size:15px;
-    }
-    }
- 
-    /* Por debajo de 300px */
-    @media screen and (max-width: 300px){
-    h1{
-    font-size:20px;
-    }
-    
-    }
