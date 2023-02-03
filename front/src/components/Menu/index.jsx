@@ -11,20 +11,36 @@ import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturi
 import ResponsiveAppBar from '../Navbar';
 import { Link } from "react-router-dom";
 
+
+const MenuItem = (item) =>{
+    return (
+        <li><Link to={item.url}><item.icon></item.icon><div className="nav">{item.name}</div></Link></li>
+    )
+}
+
+
+const menu_items = [
+    {url:"#Home",icon:HomeIcon,name:"Inicio"},
+    {url:"#news",icon:HandshakeIcon,name:"Inter. Comer."},
+    {url:"#contact",icon:Inventory2Icon,name:"Productos"},
+    {url:"#about",icon:AttachMoneyIcon,name:"Ventas"},
+    {url:"#about",icon:ReceiptIcon,name:"Compras"},
+    {url:"#about",icon:CategoryIcon,name:"Producción"},
+    {url:"#about",icon:AutoStoriesIcon,name:"Tesorería"},
+    {url:"#about",icon:DragIndicatorIcon,name:"Mantenimiento"},
+    {url:"#about",icon:PrecisionManufacturingIcon,name:"Servicios"},
+];
+
 const Menu = () =>{
+    
     return(
         <section>
-            <ResponsiveAppBar></ResponsiveAppBar>
             <ul>
-                <li><Link to="#home"><HomeIcon></HomeIcon><div class="nav">Inicio</div></Link></li>
-                <li><Link to="#news"><HandshakeIcon></HandshakeIcon><div class="nav">Inter. Comer.</div></Link></li>
-                <li><Link to="#contact"><Inventory2Icon></Inventory2Icon><div class="nav">Productos</div></Link></li>
-                <li><Link to="#about"><AttachMoneyIcon></AttachMoneyIcon><div class="nav">Ventas</div></Link></li>
-                <li><Link to="#about"><ReceiptIcon></ReceiptIcon><div class="nav">Compras</div></Link></li>
-                <li><Link to="#about"><CategoryIcon></CategoryIcon><div class="nav">Producción</div></Link></li>
-                <li><Link to="#about"><AutoStoriesIcon></AutoStoriesIcon><div class="nav">Tesorería</div></Link></li>
-                <li><Link to="#about"><DragIndicatorIcon></DragIndicatorIcon><div class="nav">Mantenimiento</div></Link></li>
-                <li><Link to="#about"><PrecisionManufacturingIcon></PrecisionManufacturingIcon><div class="nav">Servicios</div></Link></li>
+                {
+                menu_items.map((item,i)=>(
+                    <MenuItem  url={item.url} icon={item.icon} name={item.name}/>
+                )) 
+                }
             </ul>
         </section>
     )

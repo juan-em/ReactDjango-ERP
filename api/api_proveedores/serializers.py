@@ -8,7 +8,7 @@ class ProveedoresSerializer(serializers.ModelSerializer):
     empresa = EmpresaSerializer(required=False)
     class Meta:
         model = Proveedores
-        fields = '__all__'
+        fields = ['id', 'persona', 'empresa','ruc', 'borrado', 'codigo']
         depth=2
         read_only_fields = ('id', 'borrado')
     

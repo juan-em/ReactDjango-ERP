@@ -33,7 +33,6 @@ const Home = () =>{
     return(
        
       <section>
-          <Menu/>
           <div class="container">
               
               <Grid container spacing={1}>
