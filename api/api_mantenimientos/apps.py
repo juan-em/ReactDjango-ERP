@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ApiPerempConfig(AppConfig):
+class ApiMantenimientosConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'api_peremp'
+    name = 'api_mantenimientos'
