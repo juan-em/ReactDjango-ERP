@@ -1,51 +1,176 @@
-from api_models import models
+from api_models.models import Proveedores
+from .serializers import *
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import *
+from rest_framework import status
+
 
 # Create your views here.
 
-class ProveedoresView(APIView):
+class ProveedorPersonaView(APIView):
     
     def get(self, request):
-        dataProveedores = Proveedores.objects.all()
-        serProveedores = ProveedoresSerializer(dataProveedores, many=True)
-        return Response(serProveedores.data)
+        dataProveedores = Proveedores.objects.filter(borrado=False).filter(empresa=None)
+        serProveedores = ProveedorPersonaSerializer(dataProveedores, many=True)
+        context = {
+            'status':True,
+            'content':serProveedores.data
+        }
+        return Response(context)
     
     def post(self, request):
-        serProveedores = ProveedoresSerializer(data=request.data)
+        serProveedores = ProveedorPersonaSerializer(data=request.data)
         serProveedores.is_valid(raise_exception=True)
         serProveedores.save()
-        return Response(serProveedores.data)
+        context = {
+                'data':'OK',
+                'status':status.HTTP_201_CREATED,
+                'content':serProveedores.data
+        }
+        return Response(context)
 
 
-class ProveedoresDetailView(APIView):
+class ProveedorPersonaViewDetalle(APIView):
 
     def get(self, request, id):
-        dataProveedores = Proveedores.objects.get(pk=id)
-        serProveedores = ProveedoresSerializer(dataProveedores)
-        return Response(serProveedores.data)
+        dataProveedores = Proveedores.objects.filter(borrado=False).get(id=id)
+        serProveedores = ProveedorPersonaSerializer(dataProveedores)
+        context = {
+            'status':True,
+            'content':serProveedores.data,
+        }
+        return Response(context)
 
     def put(self, request, id):
-        dataProveedor = Proveedores.objects.get(pk=id)
-        serProveedor = ProveedoresSerializer(dataProveedor, data=request.data)
-        serProveedor.is_valid(raise_exception=True)
-        serProveedor.save()
-        return Response(serProveedor.data)
-    
-    
+        dataProveedor = Proveedores.objects.filter(borrado=False).get(id=id)
+        serProveedor = ProveedorPersonaSerializer(dataProveedor, data=request.data)
+        if serProveedor.is_valid():
+            serProveedor.save()
+            context = {
+                'status':True,
+                'content':serProveedor.data,
+                'status':status.HTTP_202_ACCEPTED
+            }
+        else:
+            context = {
+                'status':False,
+                'message':'serialize error',
+                'status':status.HTTP_400_BAD_REQUEST
+            }
+        return Response(context)
     
     def patch(self, request, id ):
-        dataProveedor = Proveedores.objects.get(pk=id)
-        serProveedor = ProveedoresSerializer(dataProveedor, data=request.data,
+        dataProveedor = Proveedores.objects.filter(borrado=False).get(id=id)
+        serProveedor = ProveedorPersonaSerializer(dataProveedor, data=request.data,
                                             partial=True)
-        serProveedor.is_valid(raise_exception=True)
-        serProveedor.save()
-        return Response(serProveedor.data)
+        if serProveedor.is_valid():
+            serProveedor.save()
+            context = {
+                'status':True,
+                'content':serProveedor.data,
+                'status':status.HTTP_202_ACCEPTED
+            }
+        else:
+            context = {
+                'status':False,
+                'message':'serialize error',
+                'status':status.HTTP_400_BAD_REQUEST
+            }
+        return Response(context)
 
     
     def delete(self, request, id):
-        dataProveedores = Proveedores.objects.get(pk=id)
-        serProveedores = ProveedoresSerializer(dataProveedores)
+        dataProveedores = Proveedores.objects.filter(borrado=False).get(id=id) 
+        serProveedores = ProveedorPersonaSerializer(dataProveedores)
         dataProveedores.delete()
-        return Response({'mensaje':'proveedor eliminado'})    
+        context = {
+            'status':True,
+            'message':'Delete succes',
+            'content':serProveedores.data
+        }
+        return Response(context) 
+
+
+class ProveedorEmpresaView(APIView):
+    
+    def get(self, request):
+        dataProveedores = Proveedores.objects.filter(borrado=False).filter(persona=None)
+        serProveedores = ProveedorEmpresaSerializer(dataProveedores, many=True)
+        context = {
+            'status':True,
+            'content':serProveedores.data
+        }
+        return Response(context)
+    
+    def post(self, request):
+        serProveedores = ProveedorEmpresaSerializer(data=request.data)
+        serProveedores.is_valid(raise_exception=True)
+        serProveedores.save()
+        context = {
+                'data':'OK',
+                'status':status.HTTP_201_CREATED,
+                'content':serProveedores.data
+        }
+        return Response(context)
+
+
+class ProveedorEmpresaViewDetalle(APIView):
+
+    def get(self, request, id):
+        dataProveedores = Proveedores.objects.filter(borrado=False).get(id=id)
+        serProveedores = ProveedorEmpresaSerializer(dataProveedores)
+        context = {
+            'status':True,
+            'content':serProveedores.data,
+        }
+        return Response(context)
+
+    def put(self, request, id):
+        dataProveedor = Proveedores.objects.filter(borrado=False).get(id=id)
+        serProveedor = ProveedorEmpresaSerializer(dataProveedor, data=request.data)
+        if serProveedor.is_valid():
+            serProveedor.save()
+            context = {
+                'status':True,
+                'content':serProveedor.data,
+                'status':status.HTTP_202_ACCEPTED
+            }
+        else:
+            context = {
+                'status':False,
+                'message':'serialize error',
+                'status':status.HTTP_400_BAD_REQUEST
+            }
+        return Response(context)
+    
+    def patch(self, request, id ):
+        dataProveedor = Proveedores.objects.filter(borrado=False).get(id=id)
+        serProveedor = ProveedorEmpresaSerializer(dataProveedor, data=request.data,
+                                            partial=True)
+        if serProveedor.is_valid():
+            serProveedor.save()
+            context = {
+                'status':True,
+                'content':serProveedor.data,
+                'status':status.HTTP_202_ACCEPTED
+            }
+        else:
+            context = {
+                'status':False,
+                'message':'serialize error',
+                'status':status.HTTP_400_BAD_REQUEST
+            }
+        return Response(context)
+
+    
+    def delete(self, request, id):
+        dataProveedores = Proveedores.objects.filter(borrado=False).get(id=id) 
+        serProveedores = ProveedorEmpresaSerializer(dataProveedores)
+        dataProveedores.delete()
+        context = {
+            'status':True,
+            'message':'Delete succes',
+            'content':serProveedores.data
+        }
+        return Response(context) 
