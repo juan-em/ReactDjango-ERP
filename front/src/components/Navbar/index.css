@@ -1,0 +1,25 @@
+.topnav {
+    background-color: #EDECEF;
+    width: 82%;
+    float: right;
+    height: 4em;
+    padding: 0.5em;
+}
+  
+.buscar {
+    padding: 1em;
+}
+.cuenta{
+    align-items: center;
+    text-align: center;
+}
+.buscar:hover {
+    color: #ddd;
+}
+
+@media (max-width:1000px){
+    .cuenta{
+        align-items: right;
+        text-align: right;
+    }
+}
