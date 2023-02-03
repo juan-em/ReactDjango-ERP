@@ -1,29 +1,33 @@
 from rest_framework import serializers
 
-from api_models.models import Formapago, Provincias, Entidades, Impuestos, Embalajes
+from api_models.models import Formapago, Provincias, Entidades, Impuestos, Embalajes, Categoria
 
 class ProviciasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provincias
-        fields = ['nombreprovincia']
+        fields = ['id', 'nombreprovincia']
 
 class EntidadesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Entidades
-        fields = ['nombreentidad']
+        fields = ['id', 'nombreentidad']
 
 class ImpuestosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Impuestos
-        fields = ['nombre', 'valor']
+        fields = ['id', 'nombre', 'valor']
 
 class EmbalajesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Embalajes
-        fields = ['nombre']
+        fields = ['id', 'nombre']
 
 class FormapagoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Formapago
-        fields = ['nombrefp']
+        fields = ['id', 'nombrefp']
 
+class CategoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categoria
+        fields = ['id', 'nombre']
