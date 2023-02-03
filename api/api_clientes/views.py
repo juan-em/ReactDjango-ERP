@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 #Import models
 from api_models.models import (
-    Persona,Empresa, Clientes, Provincias, Formapago, Entidades
+    Clientes
 )
 #Import serializer
 from .serializers import *
