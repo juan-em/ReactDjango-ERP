@@ -73,6 +73,25 @@ class Producto_detallelView(APIView):
         }        
         return Response(context)
 
+    def post(self, request):
+        serializer = Producto_detalleSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            context = {
+                'data':'OK',
+                'status':status.HTTP_201_CREATED,
+                'content':serializer.data
+            }
+            return Response(context)
+        else:
+            context = {
+                'data':'ERROR',
+                'status':status.HTTP_400_BAD_REQUEST
+            }
+            return Response(context)
+
+
 class Producto_detalleDetailView(APIView):
     def get(self, request,id):
         dataProducto_detalle = Producto_detalle.objects.filter(borrado=False).get(pk=id)

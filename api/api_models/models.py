@@ -178,8 +178,8 @@ class Producto(models.Model):
         return self.nombre
 
 class Producto_detalle(models.Model):
-    producto = models.ForeignKey(Producto,related_name='producto_detalle', on_delete=models.CASCADE)
-    articulo = models.ForeignKey(Articulos, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto,related_name='producto_detalle', on_delete=models.CASCADE, null=True)
+    articulo = models.ForeignKey(Articulos, on_delete=models.CASCADE, null=True)
     cantidad = models.IntegerField(default=0)
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
