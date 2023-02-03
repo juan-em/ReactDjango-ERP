@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 #Import models
 from api_models.models import (
-    Persona,Empresa, Clientes, Provincias, Formapago, Entidades
+    Clientes
 )
 #Import serializer
 from .serializers import *
@@ -144,8 +144,7 @@ class ClienteEmpresaViewDetalle(APIView):
             return Response(context)
 
     def delete(self, request, id):
-
-        dataCliente = Clientes.objects.filter(borrado=False).get(id=id) 
+        dataCliente = Clientes.objects.filter(borrado=False).get(pk=id) 
         serializer = ClienteEmpresaSerilizer(dataCliente)
         dataCliente.delete()
         context = {
