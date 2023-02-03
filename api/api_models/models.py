@@ -154,6 +154,7 @@ class Articulos(models.Model):
     imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     # Insumo o Materia Prima
     tipo = models.CharField(max_length=50, choices=CHOICES_PRIM_INS, default="Ninguno") 
+    borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.nombre
 
@@ -172,13 +173,15 @@ class Producto(models.Model):
     horas_manufactura=models.IntegerField(default=0)
     costos_extra=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
     precio_inicial=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
+    borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.nombre
 
 class Producto_detalle(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    articulo = models.ForeignKey(Articulos, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto,related_name='producto_detalle', on_delete=models.CASCADE, null=True)
+    articulo = models.ForeignKey(Articulos, on_delete=models.CASCADE, null=True)
     cantidad = models.IntegerField(default=0)
+    borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.articulo.nombre
 
