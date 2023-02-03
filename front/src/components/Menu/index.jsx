@@ -38,7 +38,8 @@ const Menu = () =>{
                 <h1 className="logo">ALPACA</h1>
                 {
                 menu_items.map((item,i)=>(
-                    <MenuItem  url={item.url} icon={item.icon} name={item.name}/>
+                    MenuItem(item)
+                    // <MenuItem  url={item.url} icon={item.icon} name={item.name}/>
                 )) 
                 }
             </ul>
