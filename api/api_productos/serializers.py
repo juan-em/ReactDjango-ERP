@@ -6,21 +6,24 @@ from api_models.serializers import EmpresaSerializer, PersonaSerializer
 
 #Import Models
 from api_models.models import (
-   Articulos, Producto, Categoria
+   Articulos, Producto, Producto_detalle
 )
 
-class CategoriaSerializer(serializers.ModeleSerializer):
-    class Meta:
-        model = Categoria
-        fields = '__all__' 
-
-class ArticuloSerializer(serializers.ModeleSerializer):
+class ArticuloSerializer(serializers.ModelSerializer):
     class Meta:
         model = Articulos
         fields = '__all__'
 
-class ProductoSerializer(WritableNestedModelSerializer):
+class Producto_detalleSerializer(WritableNestedModelSerializer):
     articulo = ArticuloSerializer()
+    class Meta:
+        model = Producto_detalle
+        fields = '__all__'
+
+class ProductoSerializer(WritableNestedModelSerializer):
+    producto_detalle = Producto_detalleSerializer(many=True)
     class Meta:
         model = Producto
         fields = '__all__'
+
+
