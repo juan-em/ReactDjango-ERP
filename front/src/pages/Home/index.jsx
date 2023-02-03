@@ -35,7 +35,6 @@ const Home = () =>{
       <section>
           <Menu/>
           <div class="container">
-              
               <Grid container spacing={1}>
                   {itemData.map((item) => (
                       <Grid item xs={12} sm={6} md={4}>
@@ -47,8 +46,6 @@ const Home = () =>{
                           />
                           </ImageListItem>
                       </Grid>
-                      
-                      
                   ))}
               </Grid>
           </div>

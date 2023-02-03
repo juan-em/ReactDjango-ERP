@@ -9,7 +9,7 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 20%;
+    width: 15%;
     background-color: #EDECEF;
     position: fixed;
     height: 100%;
@@ -41,9 +41,36 @@ li a:hover:not(.active) {
     color: white;
     border-radius: 0.3em;
 }
+h1{
+    text-align: center;
+    margin: 2em;
+    font-size: 30px;
+}
 
 @media (max-width:1000px){
     li a .nav{
         display: none;
     }
 }
+
+  /* Por debajo de 1000px */
+  @media screen and (max-width: 1000px){
+    h1{
+    font-size:20px;
+    }
+    
+    }
+     /* Por debajo de 700px */
+@media screen and (max-width: 700px){
+    h1{
+    font-size:15px;
+    }
+    }
+ 
+    /* Por debajo de 300px */
+    @media screen and (max-width: 300px){
+    h1{
+    font-size:20px;
+    }
+    
+    }

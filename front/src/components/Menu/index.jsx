@@ -16,6 +16,7 @@ const Menu = () =>{
         <section>
             <ResponsiveAppBar></ResponsiveAppBar>
             <ul>
+            <h1>HOME</h1>
                 <li><Link to="#home"><HomeIcon></HomeIcon><div class="nav">Inicio</div></Link></li>
                 <li><Link to="#news"><HandshakeIcon></HandshakeIcon><div class="nav">Inter. Comer.</div></Link></li>
                 <li><Link to="#contact"><Inventory2Icon></Inventory2Icon><div class="nav">Productos</div></Link></li>

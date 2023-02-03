@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 
-
+import Grid from '@mui/material/Grid';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -34,17 +34,17 @@ function ResponsiveAppBar() {
     '&:hover': {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
+    marginRight: theme.spacing(0),
+    marginLeft: 20,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
+      marginLeft: theme.spacing(8),
       width: 'auto',
     },
   }));
   
   const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
+    padding: theme.spacing(0, 3),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -58,11 +58,11 @@ function ResponsiveAppBar() {
     '& .MuiInputBase-input': {
       padding: theme.spacing(1, 1, 1, 0),
       // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      paddingLeft: `calc(1em + ${theme.spacing(5)})`,
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('md')]: {
-        width: '20ch',
+        width: '100ch',
       },
     },
   }));
@@ -70,28 +70,34 @@ function ResponsiveAppBar() {
   return (
     <section>
         <div class="topnav" id="myTopnav">
-        <a href="#news" className="buscar">
-          <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Buscar"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-            <Box sx={{ flexGrow: 1 }} />
-            </a>
-        <a className='cuenta'>
-          <IconButton
-              size="large"
-              edge="end"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle />
-          </IconButton>
-        </a>
+        <Grid container spacing={1}>
+          <Grid item xs={11} sm={11} md={11}>
+          <div className="buscar">
+            <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Buscar"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+              <Box sx={{ flexGrow: 1 }} />
+              </div>
+          </Grid>
+          <Grid item xs={1} sm={1} md={1}>
+          <div className='cuenta'>
+            <IconButton
+                size="large"
+                edge="end"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+            </IconButton>
+          </div>
+          </Grid>
+        </Grid>
     </div>
     </section>
   );
