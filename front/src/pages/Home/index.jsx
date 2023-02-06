@@ -1,7 +1,6 @@
-import Menu from "../../components/Menu";
+// import Menu from "../../components/Menu";
 import "./index.css";
-import ImageListItem from '@mui/material/ImageListItem';
-import Grid from '@mui/material/Grid';
+import { Container, ImageListItem, Grid } from "@mui/material";
 
 const Home = () =>{
     const itemData = [
@@ -32,9 +31,7 @@ const Home = () =>{
     ];
     return(
        
-      <section>
-          <Menu/>
-          <div class="container">
+          <Container class="container">
               <Grid container spacing={1}>
                   {itemData.map((item) => (
                       <Grid item xs={12} sm={6} md={4}>
@@ -48,9 +45,7 @@ const Home = () =>{
                       </Grid>
                   ))}
               </Grid>
-          </div>
-      </section>
-     
+          </Container>
   )
 }
 
