@@ -11,9 +11,9 @@ import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturi
 import { Link } from "react-router-dom";
 
 
-const MenuItem = (item) =>{
+const MenuItem = (item, i) =>{
     return (
-        <li><Link to={item.url}><item.icon></item.icon><div className="nav">{item.name}</div></Link></li>
+        <li key={i}><Link to={item.url}><item.icon/><div className="nav">{item.name}</div></Link></li>
     )
 }
 
@@ -37,8 +37,8 @@ const Menu = () =>{
             <ul>
                 <h1 className="logo">ALPACA</h1>
                 {
-                menu_items.map((item,i)=>(
-                    MenuItem(item)
+                menu_items.map((item, i)=>(
+                    MenuItem(item, i)
                     // <MenuItem  url={item.url} icon={item.icon} name={item.name}/>
                 )) 
                 }
