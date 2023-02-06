@@ -17,17 +17,17 @@ const Comerciales = () =>{
             <Menu/>
             <div className="container">
             <Grid container spacing={4}>
-                <Grid item xs={12} sm={6} md={6}>
+                <Grid item xs={12} sm={6} md={4}>
                     <Paper elevation={10} className="paper">
                         <Grid container spacing={0}>
                             <Grid item xs={12} sm={4} md={4}>
-                            <SupportAgentIcon sx={{ fontSize: "60px" , color:purple[900]}} className="icon_comerciales"></SupportAgentIcon>
+                            <SupportAgentIcon sx={{ fontSize: "80px" , color:'#8D4C32'}} className="icon_comerciales"></SupportAgentIcon>
                             </Grid>
                             <Grid item xs={12} sm={8} md={8}>
                                 <div className="noicon_comerciales">
-                                    <div class="comerciales">CLIENTES</div>
+                                    <div class="comerciales">Clientes</div>
                                     <Button variant="outlined" endIcon={<ArrowRightIcon />} color='inherit'>
-                                        <Link to="#clientes" className="ver_proveedores">VER</Link>
+                                        <Link to="/comerciales/clientes/" className="ver_clientes">Ver</Link>
                                     </Button>
                                 </div>
                             </Grid>
@@ -35,17 +35,36 @@ const Comerciales = () =>{
                         </Grid>
                     </Paper>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6}>
+                <Grid item xs={12} sm={6} md={4}>
                     <Paper elevation={10} className="paper">
                         <Grid container spacing={0}>
                             <Grid item xs={12} sm={4} md={4}>
-                            <ApiIcon sx={{ fontSize: "60px" , color:purple[900]}} className="icon_comerciales"></ApiIcon>
+                            <ApiIcon sx={{ fontSize: "80px" , color:'#8D4C32'}} className="icon_comerciales"></ApiIcon>
                             </Grid>
                             <Grid item xs={12} sm={8} md={8}>
                             <div className="noicon_comerciales">
-                                    <div class="comerciales">PROVEEDORES</div>
+                                    <div class="comerciales">Proveedores</div>
                                     <Button variant="outlined" endIcon={<ArrowRightIcon />} color='inherit'>
-                                        <Link to="#clientes" className="ver_proveedores">VER</Link>
+                                        <Link to="#clientes" className="ver_proveedores">Ver</Link>
+                                    </Button>
+                                </div>
+                            </Grid>
+                            
+                        </Grid>
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={4}>
+                    <Paper elevation={10} className="paper">
+                        <Grid container spacing={0}>
+                            <Grid item xs={12} sm={4} md={4}>
+                            <SupportAgentIcon sx={{ fontSize: "80px" , color:'#8D4C32' }} className="icon_comerciales"></SupportAgentIcon>
+                            </Grid>
+                            <Grid item xs={12} sm={8} md={8}>
+                                <div className="noicon_comerciales">
+                                    <div class="comerciales">Trabajadores</div>
+                                    <Button variant="outlined" endIcon={<ArrowRightIcon />} color='inherit'>
+                                        <Link to="#clientes" className="ver_proveedores">Ver</Link>
                                     </Button>
                                 </div>
                             </Grid>
