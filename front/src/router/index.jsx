@@ -9,6 +9,7 @@ import Clientes from "../pages/Clientes";
 //SERVICES
 import { ProveedoresProvider } from "../services/proveedores";
 import { ClientesProvider } from "../services/clientes";
+import AddForm from "../pages/Clientes/addform";
 
 // LAYOUTS
 
@@ -25,6 +26,11 @@ const Router = () => {
                 <Clientes />
               </ClientesProvider>
             }
+          />
+          <Route
+            path="/clientes/add"
+            element={<AddForm
+            />}
           />
           <Route
             path="/proveedores"

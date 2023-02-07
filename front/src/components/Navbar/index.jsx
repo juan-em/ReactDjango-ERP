@@ -70,8 +70,8 @@ const Navbar = () => {
   return (
     <section>
       <div className="topnav" id="myTopnav">
-        <Grid container spacing={1}>
-            <Grid item xs={9} sm={9} md={10} lg={11}>
+        <Grid container spacing={0}>
+            <Grid item xs={0} sm={7} md={8} lg={11}>
             <div className="buscar">
               <Search>
                 <SearchIconWrapper>
@@ -86,7 +86,7 @@ const Navbar = () => {
           </Grid>
 
           <div className="cuenta">
-          <Grid item xs={12} sm={1} md={1}>
+          <Grid item xs={12} sm={5} md={4} lg={1}>
             <Box sx={{ flexGrow: 1 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 2.3 }}>

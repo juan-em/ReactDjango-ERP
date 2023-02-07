@@ -20,7 +20,7 @@ import {
   putClienteper,
 } from "../../services/clientes";
 
-
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -76,116 +76,72 @@ const AddForm = () => {
 
   return (
     <Box sx={style}>
-      <Card>
+      <Card elevation={10} sx={{ p:4 }}>
         <CardContent>
           <FormControl>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12} md={12}>
-                <Typography
-                  sx={{ fontSize: 40 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  {!nuevo ? "Editar Cliente" : "Nuevo Cliente"}
-                </Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12} md={12} sx={{ mb:4 , color:'#633256'}}>
+                  {!nuevo ? "EDITAR CLIENTE" : "NUEVO CLIENTE"}
               </Grid>
               {!empresa ? (
                 <>
                   <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Nombre" required />
+                    <TextField fullWidth label="Nombre" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Provincia" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Direccion" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Cuenta Bancaria" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Movil" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Forma de Pago" required size="small" color="secondary" id="textfields" margin="dense"/>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="DNI" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Provincia" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Localidad" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Direccion" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Codigo Postal" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Cuenta Bancaria" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Telefono" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Movil" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Web" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Forma de Pago" required />
+                    <TextField fullWidth label="DNI" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Localidad" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Codigo Postal" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Telefono" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Web" required size="small" color="secondary" id="textfields" margin="dense"/>
                   </Grid>
                 </>
               ) : (
                 <>
                   <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Nombre" required />
+                    <TextField fullWidth label="Nombre" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Estructura" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Provincia" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Direccion" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Cuenta Bancaria" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Movil" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Forma de Pago" required size="small" color="secondary" id="textfields" margin="dense"/>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="RUC" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Estructura" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Tipo de Empresa" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Provincia" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Localidad" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Direccion" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Codigo Postal" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Cuenta Bancaria" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Telefono" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Movil" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Web" required />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField label="Forma de Pago" required />
+                    <TextField fullWidth label="RUC" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Tipo de Empresa" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Localidad" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Codigo Postal" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Telefono" required size="small" color="secondary" id="textfields" margin="dense"/>
+                    <TextField fullWidth label="Web" required size="small" color="secondary" id="textfields" margin="dense"/>
                   </Grid>
                 </>
               )}
               <Grid item xs={12} sm={6} md={6}>
-                <Button
+                <Button fullWidth sx={{ mt:4 }}
                   id="btnClick"
                   size="medium"
                   color="secondary"
                   className="navbar-btn-single"
-                  variant="outlined"
+                  variant="contained"
                 >
-                  <span>&nbsp;&nbsp;{!nuevo ? "Editar" : "Registrar"}</span>
+                  <span>{!nuevo ? "Editar" : "Registrar"}</span>
                 </Button>
-                <Button
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                <Button fullWidth sx={{ mt:4 }}
                   id="btnClick"
                   size="medium"
                   color="error"
                   className="navbar-btn-single"
-                  variant="outlined"
+                  variant="contained"
                 >
-                  <span>&nbsp;&nbsp;Cancelar</span>
+                  <span>Cancelar</span>
                 </Button>
               </Grid>
             </Grid>

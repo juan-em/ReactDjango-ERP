@@ -1,5 +1,15 @@
 import Menu from "../../components/Menu";
 import "./index.css";
+import "../../fonts/poppins.ttf"
+
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import NumbersIcon from '@mui/icons-material/Numbers';
 
 import {
   Paper,
@@ -27,6 +37,7 @@ import ClientesContext from "../../services/clientes";
 import { Tabla } from "./complements";
 import { getProvincias } from "../../services/mantenimiento";
 import AddForm from "./addform";
+import { borderRight } from "@mui/system";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -67,7 +78,7 @@ const Clientes = () => {
       <div className="container">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={6}>
-            <Paper elevation={10} className="paper">
+            <Paper elevation={10} className="paper" sx={{ mt: 4}}>
               Buscar Cliente <br />
               <TextField
                 fullWidth
@@ -77,6 +88,7 @@ const Clientes = () => {
                 color="secondary"
                 margin="dense"
                 value={id}
+                id="textfields"
                 onChange={(e) => setId(e.target.value)}
               />
               <TextField
@@ -87,6 +99,7 @@ const Clientes = () => {
                 color="secondary"
                 margin="dense"
                 value={ruc}
+                id="textfields"
                 onChange={(e) => setRuc(e.target.value)}
               />
               <TextField
@@ -97,6 +110,7 @@ const Clientes = () => {
                 color="secondary"
                 margin="dense"
                 value={nombre}
+                id="textfields"
                 onChange={(e) => setNombre(e.target.value)}
               />
               <TextField
@@ -107,6 +121,7 @@ const Clientes = () => {
                 color="secondary"
                 margin="dense"
                 value={telefono}
+                id="textfields"
                 onChange={(e) => setTelefono(e.target.value)}
               />
               <FormControl
@@ -121,6 +136,7 @@ const Clientes = () => {
                   size="small"
                   color="secondary"
                   value={provincia}
+                  id="textfields"
                   onChange={(e) => setProvincia(e.target.value)}
                 >
                   <MenuItem value="all">
@@ -141,6 +157,7 @@ const Clientes = () => {
                 color="secondary"
                 margin="dense"
                 value={localidad}
+                id="textfields"
                 onChange={(e) => setLocalidad(e.target.value)}
               />
               <FormControlLabel
@@ -148,19 +165,53 @@ const Clientes = () => {
                 control={<Checkbox color="secondary" />}
                 label="Empresa"
                 labelPlacement="start"
+                id="textfields"
               />
               <br />
-              <Button fullWidth color="secondary" variant="contained">
+              <Button fullWidth color="secondary" variant="contained" id="textfields">
                 Buscar
               </Button>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
+
+            <Paper elevation={10} className="paper" sx={{ mt: 4}}>
+              Cliente seleccionado
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+              <ListItem id="textfields">
+                <ListItemAvatar>
+                  <Avatar>
+                    <NumbersIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Código" secondary="codigocliente" />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <AttachMoneyIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Forma de pago" secondary="formapago" />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar>
+                    <HomeWorkIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Empresa" secondary="empresa checkbox" />
+              </ListItem>
+
+            </List>
+            </Paper>
+
             <IconButton
               aria-label="delete"
               color="secondary"
               size="large"
               onClick={handleOpen}
+              sx={{ float:"right" , mt:4 }}
             >
               <AddCircleIcon fontSize="large" />
             </IconButton>

@@ -30,13 +30,13 @@ const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
                         <ListItemIcon
                             sx={{
                                 minWidth: 0,
-                                mr: open ? 3 : 'auto',
+                                mr: open ? 2 : 'auto',
                                 justifyContent: 'center',
                             }}
                         >
                             {icons}
                         </ListItemIcon>
-                        <ListItemText primary={name} style={{ color: '#454545 ' }} sx={{ opacity: bigOpen ? 1 : 0 }} />
+                        <ListItemText id="items" primary={name} style={{ color: '#454545 ' }} sx={{ opacity: bigOpen ? 1 : 0 , marginLeft:2 }} />
 
                     </ListItemButton>
                 </Link>
@@ -49,7 +49,7 @@ const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
                             <ListItemIcon>
                                 {i.icon}
                             </ListItemIcon>
-                            <ListItemText primary={i.name} />
+                            <ListItemText  id="items" primary={i.name} />
                         </ListItemButton>
                     </List></Link>
                 </Collapse>

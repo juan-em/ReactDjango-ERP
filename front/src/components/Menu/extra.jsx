@@ -24,6 +24,7 @@ export const openedMixin = (theme) => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
     }),
+    backgroundColor: '#EDECEF',
     overflowX: 'hidden',
 });
 

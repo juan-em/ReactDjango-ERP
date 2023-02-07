@@ -26,7 +26,7 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import AlbumIcon from '@mui/icons-material/Album';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
-
+import EngineeringIcon from '@mui/icons-material/Engineering';
 
 export const menuItems = [
     { url: "/", icon: <HomeIcon/>, name: "Inicio",
@@ -34,7 +34,8 @@ export const menuItems = [
 
     { url: "#comerciales", icon: <HandshakeIcon/>, name: "Inter. Comer.",
     item:[{name:'Clientes',icon: <SwitchAccountIcon/>,url:'/clientes'},
-        {name:'Proveedores',icon: <SupportAgentIcon/>,url:'/proveedores'}] },
+        {name:'Proveedores',icon: <SupportAgentIcon/>,url:'/proveedores'},
+        {name:'Trabajadores',icon: <EngineeringIcon/>,url:'/trabajadores'}] },
 
     { url: "#contact", icon: <Inventory2Icon/>, name: "Productos",
     item:[{name:'Productos',icon: <ArtTrackIcon/>,url:'#cliente'},

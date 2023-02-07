@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
     Box, IconButton, Typography, Menu, Avatar, Tooltip,
-    MenuItem, Grid, Toolbar, List, CssBaseline
+    MenuItem, Grid, Toolbar, List, CssBaseline, Button
 } from '@mui/material'
 
 import SearchIcon from '@mui/icons-material/Search';
@@ -50,28 +50,29 @@ const MenuNavbar = ({ content }) => {
                         onClick={handleDrawerOpen}
                         edge="start"
                         sx={{
-                            marginRight: 5,
+                            fontSize:30,
+                            margin: 1,
                             ...(open && { display: 'none' }),
                         }}
                     >
                         <h1 className="logo">ALPACA</h1>
                     </IconButton>
                     <Grid container>
-                        <Grid item xs={0} sm={10} md={11}>
+                        <Grid item xs={1} sm={9} md={10} lg={11}>
                             <div className="buscar">
                                 <Search>
                                     <SearchIconWrapper>
                                         <SearchIcon />
                                     </SearchIconWrapper>
                                     <StyledInputBase
-                                        placeholder="Search…"
+                                        placeholder="Buscar…"
                                         inputProps={{ 'aria-label': 'search' }}
                                     />
                                 </Search>
                             </div>
                         </Grid>
                         <div className="cuenta">
-                            <Grid item xs={12} sm={2} md={1}>
+                            <Grid item xs={11} sm={2} md={1}>
                                 <Box sx={{ flexGrow: 1 }}>
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 2.3 }}>
@@ -96,7 +97,7 @@ const MenuNavbar = ({ content }) => {
                                     >
                                         {inSettings.map((setting) => (
                                             <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                                <Typography textAlign="center">{setting}</Typography>
+                                                {setting}
                                             </MenuItem>
                                         ))}
                                     </Menu>
@@ -107,14 +108,14 @@ const MenuNavbar = ({ content }) => {
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
-                <DrawerHeader style={{ background: '#EDECEF' }}>
-                    <IconButton onClick={handleDrawerClose}>
+                <DrawerHeader disableTypography style={{ background: '#EDECEF' }}>
+                    <Button sx={{fontSize:30}} onClick={handleDrawerClose}>
                         <h1 className="logo">ALPACA</h1>
-                    </IconButton>
+                    </Button>
                 </DrawerHeader>
-                <List style={{ background: '#EDECEF' }}>
+                <List disableTypography style={{ background: '#EDECEF' }}>
                     {menuItems.map((item, index) => (
-                        <CustomListItem key={item.name} name={item.name} url={item.url} icons={item.icon} item={item.item} bigOpen={open}/>
+                        <CustomListItem disableTypography id="items" key={item.name} name={item.name} url={item.url} icons={item.icon} item={item.item} bigOpen={open}/>
                     ))}
                 </List>
                 
