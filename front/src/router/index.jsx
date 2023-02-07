@@ -9,6 +9,7 @@ import Comerciales from "../pages/Comerciales";
 
 const Router = () =>{
     return(
+
         <BrowserRouter>
             <Routes>
                 <Route element={<Main />}>

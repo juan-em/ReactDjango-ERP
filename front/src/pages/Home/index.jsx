@@ -30,7 +30,7 @@ const Home = () =>{
         }
     ];
     return(
-       
+
           <Container class="container">
               <Grid container spacing={1}>
                   {itemData.map((item) => (
