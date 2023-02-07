@@ -33,11 +33,10 @@ const Home = () =>{
     return(
        
       <section>
-          <div class="container">
+          <div className="container">
               <Grid container spacing={1}>
-                  {itemData.map((item) => (
-                      <Grid item xs={12} sm={6} md={4}>
-                          
+                  {itemData.map((item,i) => (
+                      <Grid item xs={12} sm={6} md={4} key={i}>
                           <ImageListItem key={item.img}>
                           <img
                               src={`${item.img}fit=crop&auto=format`}

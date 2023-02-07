@@ -84,7 +84,7 @@ function ResponsiveAppBar() {
 
   return (
     <section>
-        <div class="topnav" id="myTopnav">
+        <div className="topnav" id="myTopnav">
         <Grid container spacing={1}>
           
             
