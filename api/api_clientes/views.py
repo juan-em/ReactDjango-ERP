@@ -10,10 +10,13 @@ from .serializers import *
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+
 
 # Create your views here.
 
-
+@permission_classes([IsAuthenticated])
 class ClientePersonaView(APIView):
     def get(self, request):
         dataCliente = Clientes.objects.filter(borrado=False).filter(empresa=None)
@@ -42,6 +45,7 @@ class ClientePersonaView(APIView):
             }
             return Response(context)
 
+@permission_classes([IsAuthenticated])
 class ClientePersonaViewDetalle(APIView):
     def get(self, request, id):
         dataCliente = Clientes.objects.filter(borrado=False).get(pk=id)
@@ -85,6 +89,7 @@ class ClientePersonaViewDetalle(APIView):
         }
         return Response(context)
 
+@permission_classes([IsAuthenticated])
 class ClienteEmpresaView(APIView):
     def get(self, request):
         dataCliente = Clientes.objects.filter(borrado=False).filter(persona=None)
@@ -112,6 +117,7 @@ class ClienteEmpresaView(APIView):
             }
             return Response(context)
 
+@permission_classes([IsAuthenticated])
 class ClienteEmpresaViewDetalle(APIView):
     def get(self, request, id):
         dataCliente = Clientes.objects.filter(borrado=False).get(pk=id)
