@@ -20,7 +20,7 @@ export const ClientesProvider = ({children}) => {
     const searcher = (fields, list) =>{
         let resultData = list;
         
-        resultData = fields.id ? resultData.filter(item=>item.id.toString().includes(fields.id.toString())) : resultData
+        resultData = fields.id ? resultData.filter(item=>item.id.toString()===fields.id.toString()) : resultData
         resultData = fields.ruc ? resultData.filter(item=>{
             if (item.persona) return item.persona.dni.toString().includes(fields.ruc.toString())
             else return item.empresa.ruc.toString().includes(fields.ruc.toString())
