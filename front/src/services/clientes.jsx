@@ -18,10 +18,30 @@ export const ClientesProvider = ({children}) => {
 
     //Searcher
     const searcher = (fields, list) =>{
-        let resultData = [];
-        fields.forEach((element) => {
-            resultData = !element ? list : list.filter(item=>item.id.toString()===element.toString())
-        })
+        let resultData = list;
+        
+        resultData = fields.id ? resultData.filter(item=>item.id.toString().includes(fields.id.toString())) : resultData
+        resultData = fields.ruc ? resultData.filter(item=>{
+            if (item.persona) return item.persona.dni.toString().includes(fields.ruc.toString())
+            else return item.empresa.ruc.toString().includes(fields.ruc.toString())
+        }) : resultData
+        resultData = fields.nombre ? resultData.filter(item=>{
+            if (item.persona) return item.persona.nombre.toLowerCase().includes(fields.nombre.toLocaleLowerCase())
+            else return item.empresa.nombre.toString().includes(fields.nombre.toString())
+        }) : resultData
+        resultData = fields.telefono ? resultData.filter(item=>{
+            if (item.persona) return item.persona.telefono.toString().includes(fields.telefono.toString())
+            else return item.empresa.telefono.toString().includes(fields.telefono.toString())
+        }) : resultData
+        resultData = fields.provincia ? resultData.filter(item=>{
+            if (item.persona) return item.persona.codprovincia == fields.provincia
+            else return item.empresa.codprovincia == fields.provincia
+        }) : resultData
+        resultData = fields.per_emp != "" ? resultData.filter(item=>{
+            if (fields.per_emp == "persona") return item.persona
+            else if (fields.per_emp == "empresa") return item.empresa
+        }) : resultData
+
         return resultData
     }
 

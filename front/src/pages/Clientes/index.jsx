@@ -9,6 +9,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from '@mui/material/Select';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormLabel from '@mui/material/FormLabel';
 
 //iconos
 import Button from '@mui/material/Button';
@@ -54,9 +57,8 @@ const Clientes = () =>{
     const[telefono, setTelefono] = useState('')
     const[provincia, setProvincia] = useState('')
     const[localidad, setLocalidad] = useState('')
-
-
-    let cliente_encontrados = searcher([id],clientes)
+    const[per_emp, setPer_Emp] = useState('')
+    let cliente_encontrados = searcher({id,ruc,nombre,telefono,provincia,localidad,per_emp},clientes)
 
     return(
         <section>
@@ -75,7 +77,7 @@ const Clientes = () =>{
                             onChange={(e)=>setId(e.target.value)}
                         />
                         <TextField fullWidth
-                            label="RUC"
+                            label="RUC/DNI"
                             type="number"
                             size="small"
                             color="secondary"
@@ -111,7 +113,7 @@ const Clientes = () =>{
                             value={provincia}
                             onChange={(e)=>setProvincia(e.target.value)}
                             >
-                            <MenuItem value="all">
+                            <MenuItem value="">
                                 <em>all</em>
                             </MenuItem>
                             { provincias.map((item,i)=><MenuItem key={i} value={item.id}>{item.nombreprovincia}</MenuItem>) }
@@ -132,7 +134,23 @@ const Clientes = () =>{
                             label="Empresa"
                             labelPlacement="start"
                             />
+                        
+                        <FormControl>
+                            <FormLabel id="demo-row-radio-buttons-group-label">Tipo</FormLabel>
+                            <RadioGroup
+                                row
+                                aria-labelledby="demo-row-radio-buttons-group-label"
+                                name="row-radio-buttons-group"
+                                onChange={(e)=>setPer_Emp(e.target.value)}
+                            >
+                                <FormControlLabel value="" control={<Radio />} label="all" />
+                                <FormControlLabel value="persona" control={<Radio />} label="persona" />
+                                <FormControlLabel value="empresa" control={<Radio />} label="empresa" />
+                            </RadioGroup>
+                        </FormControl>
+
                         <br/>
+
                         <Button fullWidth color="secondary" variant="contained">Buscar</Button>
                         </Paper>
                     </Grid>
