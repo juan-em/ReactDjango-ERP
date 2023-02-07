@@ -1,42 +1,23 @@
 import { useState } from 'react';
-import { styled, useTheme, alpha } from '@mui/material/styles';
-import { Box, IconButton, Typography, Menu, Avatar, Tooltip, 
-        MenuItem, Grid, Toolbar, List, CssBaseline, Divider,
-        ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material'
+import { useTheme } from '@mui/material/styles';
+import {
+    Box, IconButton, Typography, Menu, Avatar, Tooltip,
+    MenuItem, Grid, Toolbar, List, CssBaseline
+} from '@mui/material'
 
-import { Link } from "react-router-dom";
-
-import MenuIcon from '@mui/icons-material/Menu'
-import HomeIcon from '@mui/icons-material/Home';
-import HandshakeIcon from '@mui/icons-material/Handshake';
-import Inventory2Icon from '@mui/icons-material/Inventory2';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import CategoryIcon from '@mui/icons-material/Category';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import SearchIcon from '@mui/icons-material/Search';
 
 import './index.css'
 
-import {openedMixin, closedMixin, DrawerHeader, AppBar, Drawer} from './extra.jsx'
+import { DrawerHeader, AppBar, Drawer } from './extra.jsx'
 import { SearchIconWrapper, StyledInputBase, Search } from './extra.jsx';
+import CustomListItem from './listitem';
+import {menuItems} from '../../resources/menuItems'
 
-const menu_items = [
-    { url: "/", icon: HomeIcon, name: "Inicio" },
-    { url: "/comerciales", icon: HandshakeIcon, name: "Inter. Comer." },
-    { url: "#contact", icon: Inventory2Icon, name: "Productos" },
-    { url: "#about", icon: AttachMoneyIcon, name: "Ventas" },
-    { url: "#about", icon: ReceiptIcon, name: "Compras" },
-    { url: "#about", icon: CategoryIcon, name: "Producción" },
-    { url: "#about", icon: AutoStoriesIcon, name: "Tesorería" },
-    { url: "#about", icon: DragIndicatorIcon, name: "Mantenimiento" },
-    { url: "#about", icon: PrecisionManufacturingIcon, name: "Servicios" },
-];
 
-const settings = ['Perfil', 'Logout'];
-const MenuNavbar = ({content}) => {
+const outSettings = ['Iniciar', 'Registrarme'];
+const inSettings = ['Perfil', 'Logout'];
+const MenuNavbar = ({ content }) => {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
 
@@ -57,15 +38,14 @@ const MenuNavbar = ({content}) => {
         setOpen(false);
     };
 
-    
 
     return (
         <Box sx={{ display: 'flex' }} className='topnavbar'>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open} style={{ background: '#EDECEF' }}>
                 <Toolbar>
                     <IconButton
-                        color="inherit"
+                        color="#000"
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
@@ -74,7 +54,7 @@ const MenuNavbar = ({content}) => {
                             ...(open && { display: 'none' }),
                         }}
                     >
-                        <MenuIcon />
+                        <h1 className="logo">ALPACA</h1>
                     </IconButton>
                     <Grid container>
                         <Grid item xs={0} sm={10} md={11}>
@@ -114,7 +94,7 @@ const MenuNavbar = ({content}) => {
                                         open={Boolean(anchorElUser)}
                                         onClose={handleCloseUserMenu}
                                     >
-                                        {settings.map((setting) => (
+                                        {inSettings.map((setting) => (
                                             <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                                 <Typography textAlign="center">{setting}</Typography>
                                             </MenuItem>
@@ -127,38 +107,17 @@ const MenuNavbar = ({content}) => {
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
-                <DrawerHeader>
+                <DrawerHeader style={{ background: '#EDECEF' }}>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <h1 className="logo">ALPACA</h1> : <h1 className="logo">ALPACA</h1>}
+                        <h1 className="logo">ALPACA</h1>
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
-                <List>
-                    {menu_items.map((item, index) => (
-                        <ListItem key={item.name} disablePadding sx={{ display: 'block' }}>
-                            <Link to={item.url}>
-                                <ListItemButton
-                                    sx={{
-                                        minHeight: 48,
-                                        justifyContent: open ? 'initial' : 'center',
-                                        px: 2.5,
-                                    }}
-                                >
-                                    <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            mr: open ? 3 : 'auto',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        <item.icon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={item.name} sx={{textColor:'#0000', opacity: open ? 1 : 0 }} />
-                                </ListItemButton>
-                            </Link>
-                        </ListItem>
+                <List style={{ background: '#EDECEF' }}>
+                    {menuItems.map((item, index) => (
+                        <CustomListItem key={item.name} name={item.name} url={item.url} icons={item.icon} item={item.item} bigOpen={open}/>
                     ))}
                 </List>
+                
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
