@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class ProveedorPersonaView(APIView):
     
     def get(self, request):
@@ -32,7 +32,7 @@ class ProveedorPersonaView(APIView):
         }
         return Response(context)
 
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class ProveedorPersonaViewDetalle(APIView):
 
     def get(self, request, id):
@@ -93,7 +93,7 @@ class ProveedorPersonaViewDetalle(APIView):
         }
         return Response(context) 
 
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class ProveedorEmpresaView(APIView):
     
     def get(self, request):
@@ -116,7 +116,7 @@ class ProveedorEmpresaView(APIView):
         }
         return Response(context)
 
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class ProveedorEmpresaViewDetalle(APIView):
 
     def get(self, request, id):

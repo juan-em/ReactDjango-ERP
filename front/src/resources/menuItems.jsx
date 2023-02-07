@@ -33,7 +33,7 @@ export const menuItems = [
     item:[] },
 
     { url: "#comerciales", icon: <HandshakeIcon/>, name: "Inter. Comer.",
-    item:[{name:'Clientes',icon: <SwitchAccountIcon/>,url:'#cliente'},
+    item:[{name:'Clientes',icon: <SwitchAccountIcon/>,url:'/comerciales/clientes'},
         {name:'Proveedores',icon: <SupportAgentIcon/>,url:'#proveedor'}] },
 
     { url: "#contact", icon: <Inventory2Icon/>, name: "Productos",

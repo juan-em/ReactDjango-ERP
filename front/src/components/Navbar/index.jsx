@@ -69,7 +69,11 @@ const Navbar = () => {
 
   return (
     <section>
+<<<<<<< HEAD
+        <div className="topnav" id="myTopnav">
+=======
       <div className="topnav" id="myTopnav">
+>>>>>>> d0e0d66f01f40035b3e20fe3f6bb912893618e35
         <Grid container spacing={1}>
           <Grid item xs={0} sm={2} md={2}>
               <MiniDrawer/>

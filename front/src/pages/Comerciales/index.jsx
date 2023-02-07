@@ -14,7 +14,7 @@ import { purple } from '@mui/material/colors';
 const Comerciales = () => {
 
     const cart_items = [
-        { url: "#cliente", icono: SupportAgentIcon, name: "CLIENTE" },
+        { url: "/comerciales/clientes", icono: SupportAgentIcon, name: "CLIENTE" },
         { url: "#proveedor", icono: ArrowRightIcon, name: "PROVEEDOR" },
     ];
 
