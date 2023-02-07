@@ -6,22 +6,22 @@ const ProveedoresContext = createContext()
 
 export const ProveedoresProvider = ({children}) => {
 
-    const PROV_URL = "http://localhost:8000/proveedores/"
+    const URL = "http://localhost:8000/proveedores/"
     let [proveedores , setProveedores] = useState([]);
     let [proveedor , setProveedor] = useState({});
 
     //Axios
     const getProveedores = async () =>{
-        const res_per = await axios.get(`${PROV_URL}per`)
-        const res_emp = await axios.get(`${PROV_URL}emp`)
+        const res_per = await axios.get(`${URL}per/`)
+        const res_emp = await axios.get(`${URL}emp/`)
         setProveedores(res_per.data.content.concat(res_emp.data.content))
     }
 
 
     //Fetch
     const getProveedores_1 = async() => {
-        const res_per = await fetch(`${PROV_URL}per`)
-        const res_emp = await fetch(`${PROV_URL}emp`)
+        const res_per = await fetch(`${URL}per/`)
+        const res_emp = await fetch(`${URL}emp/`)
         const data_per = await res_per.json()
         const data_emp = await res_emp.json()
         setProveedores(data_per.content.concat(data_emp.content))
@@ -29,7 +29,7 @@ export const ProveedoresProvider = ({children}) => {
     
 
     const getProveedor = async(obj) => {
-        const res = await obj.persona ?  fetch(`${PROV_URL}per/${obj.id}`) : fetch(`${PROV_URL}emp/${obj.id}`)
+        const res = await obj.persona ?  fetch(`${URL}per/${obj.id}`) : fetch(`${URL}emp/${obj.id}`)
         const data = await res.json()
         setProveedor(data.content)
     }

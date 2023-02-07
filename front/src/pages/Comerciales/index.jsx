@@ -12,6 +12,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { purple } from '@mui/material/colors';
 
 
+
 const Comerciales = () =>{
     
     return(

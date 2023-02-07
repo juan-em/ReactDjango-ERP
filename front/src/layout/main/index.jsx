@@ -4,11 +4,11 @@ import Menu from "../../components/Menu";
 
 const Main = () =>{
     return(
-        <div>
+        <section>
             <ResponsiveAppBar/>
             <Menu/>
             <Outlet/>
-        </div>
+        </section>
     )
 }
 

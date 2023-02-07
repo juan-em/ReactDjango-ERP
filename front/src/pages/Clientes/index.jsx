@@ -9,23 +9,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from '@mui/material/Select';
-import { useState } from 'react';
-import { Link } from "react-router-dom";
-
-//para la tabla
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 
 //iconos
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+
+//Componentes
+import { useState, useEffect, useContext } from 'react';
+import ClientesContext from "../../services/clientes";
+import { Tabla } from "./complements";
+import { getProvincias } from "../../services/mantenimiento";
+
 
 function createData(
     name,
@@ -46,17 +39,28 @@ function createData(
   ];
 
 const Clientes = () =>{
-    const [age, setAge] = useState('');
+    //Listado de clientes y provincias
+    const {clientes, getClientes, searcher} = useContext(ClientesContext)
+    const [provincias,setProvincias] = useState([])
+    useEffect(()=>{
+        getProvincias(setProvincias);
+        getClientes()
+    },[])
+    
+    //Buscador
+    const[id, setId] = useState('')
+    const[ruc, setRuc] = useState('')
+    const[nombre, setNombre] = useState('')
+    const[telefono, setTelefono] = useState('')
+    const[provincia, setProvincia] = useState('')
+    const[localidad, setLocalidad] = useState('')
 
-    const handleChange = event => {
-        setAge(event.target.value);
-    };
+
+    let cliente_encontrados = searcher([id],clientes)
 
     return(
         <section>
-            <Menu/>
             <div className="container">
-                
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={12} md={6}>
                         <Paper elevation={10} className="paper" >
@@ -67,6 +71,8 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            value={id}
+                            onChange={(e)=>setId(e.target.value)}
                         />
                         <TextField fullWidth
                             label="RUC"
@@ -74,6 +80,8 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            value={ruc}
+                            onChange={(e)=>setRuc(e.target.value)}
                         />
                         <TextField fullWidth
                             label="Nombre"
@@ -81,6 +89,8 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            value={nombre}
+                            onChange={(e)=>setNombre(e.target.value)}
                         />
                         <TextField fullWidth
                             label="Teléfono"
@@ -88,20 +98,23 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            value={telefono}
+                            onChange={(e)=>setTelefono(e.target.value)}
                         />
                         <FormControl fullWidth margin="dense" size="small"
                             color="secondary">
                             <InputLabel>Provincia</InputLabel>
                             <Select
-                            value={age}
                             label="Provincia"
-                            onChange={handleChange}
                             size="small"
                             color="secondary"
+                            value={provincia}
+                            onChange={(e)=>setProvincia(e.target.value)}
                             >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            <MenuItem value="all">
+                                <em>all</em>
+                            </MenuItem>
+                            { provincias.map((item,i)=><MenuItem key={i} value={item.id}>{item.nombreprovincia}</MenuItem>) }
                             </Select>
                         </FormControl>
                         <TextField fullWidth
@@ -110,6 +123,8 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            value={localidad}
+                            onChange={(e)=>setLocalidad(e.target.value)}
                         />
                         <FormControlLabel
                             value="start"
@@ -126,47 +141,8 @@ const Clientes = () =>{
                     </Grid>
                 </Grid>
 
-
-                <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                    <TableHead style={{color:'#8D4C32'}}>
-                    <TableRow>
-                        <TableCell>Item</TableCell>
-                        <TableCell align="right">Código</TableCell>
-                        <TableCell align="right">Nombre</TableCell>
-                        <TableCell align="right">RUC</TableCell>
-                        <TableCell align="right">Teléfono</TableCell>
-                        <TableCell align="right">Empresa</TableCell>
-                        <TableCell align="right">Acciones</TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name}>
-                        <TableCell component="th" scope="row">
-                            {row.name}
-                        </TableCell>
-                        <TableCell align="right">{row.calories}</TableCell>
-                        <TableCell align="right">{row.fat}</TableCell>
-                        <TableCell align="right">{row.carbs}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
-                        <TableCell align="right">{row.protein}</TableCell>
-                        <TableCell align="right">
-                            <IconButton aria-label="delete" size="small" color="primary">
-                                <VisibilityIcon fontSize="inherit" />
-                            </IconButton>
-                            <IconButton aria-label="delete" size="small" color="success">
-                                <EditIcon fontSize="inherit" />
-                            </IconButton>
-                            <IconButton aria-label="delete" size="small" color="error">
-                                <DeleteIcon fontSize="inherit" />
-                            </IconButton>
-                        </TableCell>
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
-                </TableContainer>
+                <Tabla data={cliente_encontrados}/>
+                
             </div>
         </section>
   )
