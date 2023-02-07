@@ -11,9 +11,10 @@ from .serializers import *
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 
-
-
+@permission_classes([IsAuthenticated])
 class ArticulosView(APIView):
     def get(self, request):
         dataArticulo = Articulos.objects.filter(borrado=False)
@@ -24,6 +25,7 @@ class ArticulosView(APIView):
         }        
         return Response(context)
 
+@permission_classes([IsAuthenticated])
 class ArticuloDetailView(APIView):
     def get(self, request,id):
         dataArticulo = Articulos.objects.filter(borrado=False).get(pk=id)
@@ -62,7 +64,7 @@ class ArticuloDetailView(APIView):
         }    
         return Response(context)
 
-
+@permission_classes([IsAuthenticated])
 class Producto_detallelView(APIView):
     def get(self, request):
         dataProducto_detalle = Producto_detalle.objects.filter(borrado=False)
@@ -91,7 +93,7 @@ class Producto_detallelView(APIView):
             }
             return Response(context)
 
-
+@permission_classes([IsAuthenticated])
 class Producto_detalleDetailView(APIView):
     def get(self, request,id):
         dataProducto_detalle = Producto_detalle.objects.filter(borrado=False).get(pk=id)
@@ -130,7 +132,7 @@ class Producto_detalleDetailView(APIView):
         }    
         return Response(context)
 
-
+@permission_classes([IsAuthenticated])
 class ProductoView(APIView):
     def get(self, request):
         dataProducto = Producto.objects.filter(borrado=False)
@@ -159,6 +161,7 @@ class ProductoView(APIView):
             }
             return Response(context)
 
+@permission_classes([IsAuthenticated])
 class ProductoDetailView(APIView):
     def get(self, request, id):
         dataProduco = Producto.objects.filter(borrado=False).get(pk=id)
