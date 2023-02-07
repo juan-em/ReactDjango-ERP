@@ -5,12 +5,15 @@
 }
 .comerciales{
     /*font-family: 'Anton', sans-serif;*/
-    color: #d98643;
+    color:#633256;
 }
 .ver_proveedores{
     text-decoration: none;
 }
 
 .noicon_comerciales{
-    text-align: left;
+    text-align: center;
+}
+
+@media (max-width:1100px){
 }

@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import Main from "../layout/main";
 import Comerciales from "../pages/Comerciales";
 import { ProveedoresProvider } from "../services/Proveedores";
+import Clientes from "../pages/Clientes";
 
 // LAYOUTS
 
@@ -15,7 +16,8 @@ const Router = () =>{
             <Routes>
                 <Route element={<Main />}>
                     <Route path="/" element={<Home />}/>
-                    <Route path="/comerciales" element={<ProveedoresProvider><Comerciales /></ProveedoresProvider>}/>
+                    <Route path="/comerciales" element={<Comerciales />}/>
+                    <Route path="/comerciales/clientes" element={<ProveedoresProvider><Clientes /></ProveedoresProvider>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

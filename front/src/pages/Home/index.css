@@ -1,4 +1,7 @@
 .container{
     margin-left:18%;
     padding: 2em;
+    vertical-align: middle;
+    justify-content: center;
+    align-items:center;
 }
