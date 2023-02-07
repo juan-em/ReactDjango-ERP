@@ -11,7 +11,7 @@ import ApiIcon from '@mui/icons-material/Api';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { purple } from '@mui/material/colors';
 
-const Comerciales = () => {
+const Proveedores = () => {
 
     const cart_items = [
         { url: "#cliente", icono: SupportAgentIcon, name: "CLIENTE" },
@@ -47,4 +47,4 @@ const Comerciales = () => {
     )
 }
 
-export default Comerciales;
+export default Proveedores;
