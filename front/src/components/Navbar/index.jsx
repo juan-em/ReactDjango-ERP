@@ -88,14 +88,14 @@ function ResponsiveAppBar() {
         <Grid container spacing={1}>
           
             
-            <Grid item xs={0} sm={10} md={11}>
+            <Grid item xs={9} sm={9} md={10} lg={11}>
             <div className="buscar">
               <Search>
                 <SearchIconWrapper>
                   <SearchIcon/>
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Search…"
+                  placeholder="Buscar…"
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </Search>
@@ -103,7 +103,7 @@ function ResponsiveAppBar() {
               </Grid>
             
           <div className="cuenta">
-          <Grid item xs={12} sm={2} md={1}>
+          <Grid item xs={12} sm={1} md={1}>
             <Box sx={{ flexGrow: 1 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 2.3 }}>

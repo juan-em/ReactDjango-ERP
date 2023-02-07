@@ -67,6 +67,7 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            id="textfields"
                         />
                         <TextField fullWidth
                             label="RUC"
@@ -74,6 +75,7 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            id="textfields"
                         />
                         <TextField fullWidth
                             label="Nombre"
@@ -81,6 +83,7 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            id="textfields"
                         />
                         <TextField fullWidth
                             label="Teléfono"
@@ -88,6 +91,7 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            id="textfields"
                         />
                         <FormControl fullWidth margin="dense" size="small"
                             color="secondary">
@@ -98,6 +102,7 @@ const Clientes = () =>{
                             onChange={handleChange}
                             size="small"
                             color="secondary"
+                            id="textfields"
                             >
                             <MenuItem value={10}>Ten</MenuItem>
                             <MenuItem value={20}>Twenty</MenuItem>
@@ -110,15 +115,17 @@ const Clientes = () =>{
                             size="small"
                             color="secondary"
                             margin="dense"
+                            id="textfields"
                         />
                         <FormControlLabel
                             value="start"
                             control={<Checkbox color="secondary"/>}
                             label="Empresa"
                             labelPlacement="start"
+                            id="textfields"
                             />
                         <br/>
-                        <Button fullWidth color="secondary" variant="contained">Buscar</Button>
+                        <Button fullWidth color="secondary" variant="contained" id="textfields">Buscar</Button>
                         </Paper>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
