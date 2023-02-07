@@ -1,32 +1,17 @@
 import { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import { Box, IconButton, Typography, Menu, Avatar, Tooltip, MenuItem, Grid, InputBase, Button } from '@mui/material'
 
-
-import Grid from '@mui/material/Grid';
-import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
-import './index.css';
 import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+
+import SearchIcon from '@mui/icons-material/Search';
+
+import './index.css';
+
+import MiniDrawer from '../Menu';
 
 const settings = ['Perfil', 'Logout'];
 
-function ResponsiveAppBar() {
+const Navbar = () => {
 
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -46,14 +31,14 @@ function ResponsiveAppBar() {
     },
     marginLeft: 0,
     width: '100%',
-    display:'none',
+    display: 'none',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
       width: 'auto',
-      display:'block',
+      display: 'block',
     },
   }));
-  
+
   const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -62,9 +47,9 @@ function ResponsiveAppBar() {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color:'#633256',
+    color: '#633256',
   }));
-  
+
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     //color: 'inherit',
     '& .MuiInputBase-input': {
@@ -84,24 +69,22 @@ function ResponsiveAppBar() {
 
   return (
     <section>
-        <div class="topnav" id="myTopnav">
+      <div className="topnav" id="myTopnav">
         <Grid container spacing={1}>
-          
-            
             <Grid item xs={9} sm={9} md={10} lg={11}>
             <div className="buscar">
               <Search>
                 <SearchIconWrapper>
-                  <SearchIcon/>
+                  <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="Buscar…"
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </Search>
-              </div>
-              </Grid>
-            
+            </div>
+          </Grid>
+
           <div className="cuenta">
           <Grid item xs={12} sm={1} md={1}>
             <Box sx={{ flexGrow: 1 }}>
@@ -135,10 +118,10 @@ function ResponsiveAppBar() {
           </Box>
             </Grid>
           </div>
-          
+
         </Grid>
-    </div>
+      </div>
     </section>
   );
 }
-export default ResponsiveAppBar;
+export default Navbar;

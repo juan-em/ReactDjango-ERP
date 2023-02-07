@@ -1,88 +1,49 @@
-import Menu from "../../components/Menu";
-import "./index.css";
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import { Link } from "react-router-dom";
 
+import { Link } from "react-router-dom";
+import "./index.css";
+import { Container, Grid, Card, CardActionArea, Typography } from '@mui/material';
+
+import CustomCard from "../../components/Card";
 //iconos
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import EngineeringIcon from '@mui/icons-material/Engineering';
-import PeopleIcon from '@mui/icons-material/People';
-import Button from '@mui/material/Button';
+import ApiIcon from '@mui/icons-material/Api';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { purple } from '@mui/material/colors';
 
-const Comerciales = () =>{
-    return(
-        <section>
-            <Menu/>
-            <div className="container">
-            <Grid container spacing={4}>
-                <Grid item xs={12} sm={6} md={4}>
-                    <Paper elevation={10} className="paper">
-                        <Grid container spacing={0}>
-                            <Grid item xs={12} sm={4} md={4}>
-                            <SupportAgentIcon sx={{ fontSize: "80px" , color:'#8D4C32'}} className="icon_comerciales"></SupportAgentIcon>
-                            </Grid>
-                            <Grid item xs={12} sm={8} md={8}>
-                                <div className="noicon_comerciales">
-                                    <div class="comerciales">Clientes</div>
-                                    <Link to="/comerciales/clientes/" className="ver_clientes">
-                                        <Button variant="outlined" endIcon={<ArrowRightIcon />} color='secondary'>
-                                            Ver
-                                        </Button>
-                                    </Link>
-                                </div>
-                            </Grid>
-                            
-                        </Grid>
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                    <Paper elevation={10} className="paper">
-                        <Grid container spacing={0}>
-                            <Grid item xs={12} sm={4} md={4}>
-                            <PeopleIcon sx={{ fontSize: "80px" , color:'#8D4C32'}} className="icon_comerciales"></PeopleIcon>
-                            </Grid>
-                            <Grid item xs={12} sm={8} md={8}>
-                            <div className="noicon_comerciales">
-                                    <div class="comerciales">Proveedores</div>
-                                    <Link to="/comerciales/clientes/" className="ver_clientes">
-                                        <Button variant="outlined" endIcon={<ArrowRightIcon />} color='secondary'>
-                                            Ver
-                                        </Button>
-                                    </Link>
-                                </div>
-                            </Grid>
-                            
-                        </Grid>
-                    </Paper>
-                </Grid>
+const Comerciales = () => {
 
-                <Grid item xs={12} sm={6} md={4}>
-                    <Paper elevation={10} className="paper">
-                        <Grid container spacing={0}>
-                            <Grid item xs={12} sm={4} md={4}>
-                            <EngineeringIcon sx={{ fontSize: "80px" , color:'#8D4C32' }} className="icon_comerciales"></EngineeringIcon>
-                            </Grid>
-                            <Grid item xs={12} sm={8} md={8}>
-                                <div className="noicon_comerciales">
-                                    <div class="comerciales">Trabajadores</div>
-                                    <Link to="/comerciales/clientes/" className="ver_clientes">
-                                        <Button variant="outlined" endIcon={<ArrowRightIcon />} color='secondary'>
-                                            Ver
-                                        </Button>
-                                    </Link>
-                                </div>
-                            </Grid>
-                            
-                        </Grid>
-                    </Paper>
-                </Grid>
+    const cart_items = [
+        { url: "#cliente", icono: SupportAgentIcon, name: "CLIENTE" },
+        { url: "#proveedor", icono: ArrowRightIcon, name: "PROVEEDOR" },
+    ];
+
+    return (
+        <Container>
+            <Grid container spacing={4}>
+
+                {cart_items.map((item) => (
+                    <Grid item xs={12} sm={6} md={6}>
+                        <Card sx={{ minWidth: 300}}>
+                            <CardActionArea>
+                                <Link to={item.url}>
+                                    <Grid container>
+                                        <Grid item xs={12} sm={4} md={4}>
+                                            <item.icono sx={{ fontSize: "60px", color: purple[900] }} />
+                                        </Grid>
+                                        <Grid item xs={12} sm={8} md={8}>
+                                            <Typography sx={{ fontSize: 30 }} color="text.secondary">
+                                                {item.name}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Link>
+                            </CardActionArea>
+                        </Card >
+                    </Grid>
+                ))}
             </Grid>
-            </div>
-        </section>
-  )
+        </Container>
+    )
 }
 
 export default Comerciales;

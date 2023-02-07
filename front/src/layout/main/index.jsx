@@ -1,13 +1,10 @@
 import { Outlet } from "react-router-dom";
-import ResponsiveAppBar from "../../components/Navbar";
-import Menu from "../../components/Menu";
+import MenuNavbar from "../../components/Menu";
 
-const Main = () =>{
-    return(
+const Main = () => {
+    return (
         <div>
-            <ResponsiveAppBar/>
-            <Menu/>
-            <Outlet/>
+            <MenuNavbar content={<Outlet />}/>
         </div>
     )
 }

@@ -11,4 +11,4 @@ router.register('embalajes', EmbalajesViewSet, 'embalaje')
 router.register('formapago', FormaPagoViewSet, 'formapago')
 router.register('categoriaarticulos', CategoriaViewSet, 'categoriaarticulos')
 
-urlpatterns = router.urls
+router_mantenimiento = router.urls
