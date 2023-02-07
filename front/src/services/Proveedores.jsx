@@ -6,7 +6,7 @@ const ProveedoresContext = createContext()
 
 export const ProveedoresProvider = ({children}) => {
 
-    const URL = "http://localhost:8000/proveedores/"
+    const URL = "http://localhost:8000/api/proveedores/"
     let [proveedores , setProveedores] = useState([]);
     let [proveedor , setProveedor] = useState({});
 

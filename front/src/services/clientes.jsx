@@ -6,7 +6,7 @@ const ClientesContext = createContext()
 
 export const ClientesProvider = ({children}) => {
 
-    const URL = "http://localhost:8000/clientes/"
+    const URL = "http://localhost:8000/api/clientes/"
     let [clientes , setClientes] = useState([]);
 
     //Get all clients
