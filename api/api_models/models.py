@@ -103,6 +103,10 @@ class Clientes(models.Model):
         else:
             return f'{self.empresa.nombre}'
 
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'CLIE-'+'0'*(5-len(id))+id
 
 ##################
 #PROVEEDORES
