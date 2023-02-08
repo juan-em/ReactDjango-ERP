@@ -7,3 +7,9 @@ export const getProvincias = async(set) => {
     const res = await axios.get(`${URLS_MANTENIMIENTO}provincias/`)
     set(res.data)
 }
+
+// FORMA PAGO   
+export const getFormaPago = async(set) => {
+    const res = await axios.get(`${URLS_MANTENIMIENTO}provincias/`)
+    set(res.data)
+}
