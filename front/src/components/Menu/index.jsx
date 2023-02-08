@@ -120,7 +120,7 @@ const MenuNavbar = ({ content }) => {
                 </List>
                 
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
                 <DrawerHeader />
                 {content}
             </Box>

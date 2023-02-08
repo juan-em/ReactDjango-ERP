@@ -178,7 +178,7 @@ const Clientes = () => {
             <Paper elevation={10} className="paper" sx={{ mt: 4}}>
               Cliente seleccionado
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-              <ListItem id="textfields">
+              <ListItem>
                 <ListItemAvatar>
                   <Avatar>
                     <NumbersIcon />
