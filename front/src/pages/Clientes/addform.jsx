@@ -121,7 +121,10 @@ const AddForm = () => {
       console.log(inputCliente);
   const handleClickClienteEmp = async () => {
     try {
-      await postClienteemp(inputCliente);
+      if (!nuevo) {
+        await postClienteemp(inputCliente);
+      }
+      await putClienteemp(inputCliente);
       Swal.fire({
         icon: "success",
         title: "Ok",
@@ -137,7 +140,10 @@ const AddForm = () => {
   };
   const handleClickClientePer = async () => {
     try {
-      await postClienteper(inputCliente);
+        if (!nuevo) {
+          await postClienteper(inputCliente);
+        }
+        await putClienteper(inputCliente);
       Swal.fire({
         icon: "success",
         title: "Ok",
