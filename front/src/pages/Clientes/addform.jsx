@@ -1,25 +1,16 @@
 import { useState, useEffect } from "react";
 import {
-  FormControl,
-  InputLabel,
-  Input,
   TextField,
   Button,
-  Card,
   Grid,
-  CardHeader,
-  CardContent,
   Typography,
   IconButton,
   Select,
   MenuItem,
-  FormGroup,
   Dialog,
   DialogContent,
-  DialogActions,
   DialogTitle,
 } from "@mui/material";
-import { Box, Container } from "@mui/system";
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
@@ -96,29 +87,29 @@ const AddForm = () => {
     });
 
     setInputCliente({
-        persona:inputsPer,
-        codformapago: event.target.value
-    })
+      persona: inputsPer,
+      codformapago: event.target.value,
+    });
   };
 
   const handleInputEmpValue = (event) => {
     const { value, name } = event.target;
 
-    if (name === 'codformapago'){
-        pass
-      } 
+    if (name === "codformapago") {
+      pass;
+    }
     setInputsEmp({
       ...inputsEmp,
       [name]: value,
     });
 
     setInputCliente({
-        empresa:inputsEmp,
-        codformapago: event.target.value
-    })
+      empresa: inputsEmp,
+      codformapago: event.target.value,
+    });
   };
 
-      console.log(inputCliente);
+  console.log(inputCliente);
   const handleClickClienteEmp = async () => {
     try {
       if (!nuevo) {
@@ -140,10 +131,10 @@ const AddForm = () => {
   };
   const handleClickClientePer = async () => {
     try {
-        if (!nuevo) {
-          await postClienteper(inputCliente);
-        }
-        await putClienteper(inputCliente);
+      if (!nuevo) {
+        await postClienteper(inputCliente);
+      }
+      await putClienteper(inputCliente);
       Swal.fire({
         icon: "success",
         title: "Ok",
@@ -175,6 +166,9 @@ const AddForm = () => {
       </IconButton>
       <Dialog open={openModal} onClose={handleClose}>
         <DialogTitle>
+          <IconButton aria-label="delete" size="small" onClick={handleClose}>
+            <CloseIcon fontSize="large" />
+          </IconButton>
           <Typography sx={{ fontSize: 40 }} color="text.secondary" gutterBottom>
             {!nuevo ? "Editar Cliente" : "Nuevo Cliente"}
           </Typography>
@@ -185,27 +179,23 @@ const AddForm = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
+                    fullWidth
                     label="Nombre"
                     required
-                    fullWidth
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
                     name="nombre"
-                    onChange={handleInputPerValue}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    label="DNI"
-                    required
-                    fullWidth
-                    name="dni"
-                    onChange={handleInputPerValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <Select
                     label="Provincia"
                     required
                     fullWidth
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
                     name="codprovincia"
                     onChange={handleInputPerValue}
                   >
@@ -215,75 +205,44 @@ const AddForm = () => {
                       </MenuItem>
                     ))}
                   </Select>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <TextField
-                    label="Localidad"
-                    required
                     fullWidth
-                    name="localidad"
-                    onChange={handleInputPerValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
                     label="Direccion"
                     required
-                    fullWidth
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
                     name="direccion"
-                    onChange={handleInputPerValue}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <TextField
-                    label="Codigo Postal"
-                    required
                     fullWidth
-                    name="codpostal"
-                    onChange={handleInputPerValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
                     label="Cuenta Bancaria"
                     required
-                    fullWidth
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
                     name="cuentabancaria"
-                    onChange={handleInputPerValue}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <TextField
-                    label="Telefono"
-                    required
                     fullWidth
-                    name="telefono"
-                    onChange={handleInputPerValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
                     label="Movil"
                     required
-                    fullWidth
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
                     name="movil"
-                    onChange={handleInputPerValue}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    label="Web"
-                    required
-                    fullWidth
-                    name="web"
-                    onChange={handleInputPerValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <Select
                     label="Forma de Pago"
                     required
                     fullWidth
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
                     name="codformapago"
                     onChange={handleInputPerValue}
                   >
@@ -295,12 +254,64 @@ const AddForm = () => {
                   </Select>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    fullWidth
+                    label="DNI"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="dni"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Localidad"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="localidad"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Codigo Postal"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="codpostal"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Telefono"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="telefono"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Web"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="web"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12}>
                   <Button
                     id="btnClick"
                     size="medium"
                     color="secondary"
                     className="navbar-btn-single"
-                    variant="outlined"
+                    variant="contained"
                     onClick={handleClickClientePer}
                   >
                     <span>&nbsp;&nbsp;{!nuevo ? "Editar" : "Registrar"}</span>
@@ -310,7 +321,8 @@ const AddForm = () => {
                     size="medium"
                     color="error"
                     className="navbar-btn-single"
-                    variant="outlined"
+                    variant="contained"
+                    onClick={handleClose}
                   >
                     <span>&nbsp;&nbsp;Cancelar</span>
                   </Button>
@@ -322,132 +334,83 @@ const AddForm = () => {
               <Grid content spacing={2}>
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
+                    fullWidth
                     label="Nombre"
                     required
-                    fullWidth
-                    name="empresa.nombre"
-                    onChange={handleInputEmpValue}
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="nombre"
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <TextField
-                    label="RUC"
-                    required
                     fullWidth
-                    name="empresa.ruc"
-                    onChange={handleInputEmpValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
                     label="Estructura"
                     required
-                    fullWidth
-                    name="empresa.estructurajuridica"
-                    onChange={handleInputEmpValue}
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="estructurajuridica"
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    label="Tipo de Empresa"
-                    required
-                    fullWidth
-                    name="empresa.tipo"
-                    onChange={handleInputEmpValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <Select
                     label="Provincia"
                     required
                     fullWidth
-                    name="empresa.codprovincia"
-                    onChange={handleInputEmpValue}
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="codprovincia"
+                    onChange={handleInputPerValue}
                   >
-                    <MenuItem value="all">
-                      <em>-----</em>
-                    </MenuItem>
                     {provincias.map((item, i) => (
                       <MenuItem key={i} value={item.id}>
                         {item.nombreprovincia}
                       </MenuItem>
                     ))}
                   </Select>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <TextField
-                    label="Localidad"
-                    required
                     fullWidth
-                    name="empresa.localidad"
-                    onChange={handleInputEmpValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
                     label="Direccion"
                     required
-                    fullWidth
-                    name="empresa.direccion"
-                    onChange={handleInputEmpValue}
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="direccion"
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <TextField
-                    label="Codigo Postal"
-                    required
                     fullWidth
-                    name="empresa.codpostal"
-                    onChange={handleInputEmpValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
                     label="Cuenta Bancaria"
                     required
-                    fullWidth
-                    name="empresa.cuentabancaria"
-                    onChange={handleInputEmpValue}
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="cuentabancaria"
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <TextField
-                    label="Telefono"
-                    required
                     fullWidth
-                    name="empresa.telefono"
-                    onChange={handleInputEmpValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
                     label="Movil"
                     required
-                    fullWidth
-                    name="empresa.movil"
-                    onChange={handleInputEmpValue}
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="movil"
                   />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    label="Web"
-                    required
-                    fullWidth
-                    name="empresa.web"
-                    onChange={handleInputEmpValue}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
                   <Select
                     label="Forma de Pago"
                     required
                     fullWidth
-                    name="empresa.codformapago"
-                    onChange={handleInputEmpValue}
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="codformapago"
+                    onChange={handleInputPerValue}
                   >
-                    <MenuItem value="all">
-                      <em>-----</em>
-                    </MenuItem>
                     {formPagos.map((item, i) => (
                       <MenuItem key={i} value={item.id}>
                         {item.nombrefp}
@@ -456,12 +419,74 @@ const AddForm = () => {
                   </Select>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    fullWidth
+                    label="RUC"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="ruc"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Tipo de Empresa"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="tipo"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Localidad"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="localidad"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Codigo Postal"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="codpostal"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Telefono"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="telefono"
+                  />
+                  <TextField
+                    fullWidth
+                    label="Web"
+                    required
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    margin="dense"
+                    name="web"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} md={12}>
                   <Button
                     id="btnClick"
                     size="medium"
                     color="secondary"
                     className="navbar-btn-single"
-                    variant="outlined"
+                    variant="contained"
                     onClick={handleClickClienteEmp}
                   >
                     <span>&nbsp;&nbsp;{!nuevo ? "Editar" : "Registrar"}</span>
@@ -471,7 +496,8 @@ const AddForm = () => {
                     size="medium"
                     color="error"
                     className="navbar-btn-single"
-                    variant="outlined"
+                    variant="contained"
+                    onClick={handleClose}
                   >
                     <span>&nbsp;&nbsp;Cancelar</span>
                   </Button>

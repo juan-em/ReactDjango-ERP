@@ -6,11 +6,7 @@ const ProveedoresContext = createContext()
 
 export const ProveedoresProvider = ({children}) => {
 
-<<<<<<< HEAD
     const URL = "http://locsalhost:8000/api/proveedores/"
-=======
-    const URL = "http://localhost:8000/api/proveedores/"
->>>>>>> f954dae2dee9b5e29b0fe9d045b282699aa0518c
     let [proveedores , setProveedores] = useState([]);
     let [proveedor , setProveedor] = useState({});
 
@@ -59,7 +55,6 @@ export const ProveedoresProvider = ({children}) => {
 }
 
 
-<<<<<<< HEAD
 export default ProveedoresContext;
 
 export const postProveedoresper = async (prov) => {
@@ -81,6 +76,3 @@ export const postProveedoresper = async (prov) => {
       return error;
     }
   };
-=======
-export default ProveedoresContext;
->>>>>>> f954dae2dee9b5e29b0fe9d045b282699aa0518c
