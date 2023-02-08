@@ -37,8 +37,8 @@ export const Tabla = (props) => {
                     </TableCell>
                     <TableCell align="right">{row.codigo}</TableCell>
                     <TableCell align="right">{row.persona ? row.persona.nombre : row.empresa.nombre}</TableCell>
-                    <TableCell align="right">{row.ruc}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="right">{row.persona ? row.persona.dni : row.empresa.ruc}</TableCell>
+                    <TableCell align="right">{row.persona ? row.persona.telefono : row.empresa.telefono}</TableCell>
                     <TableCell align="right">{row.protein}</TableCell>
                     <TableCell align="right">
                         <IconButton aria-label="delete" size="small" color="primary">

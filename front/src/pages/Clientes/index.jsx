@@ -15,11 +15,10 @@ import {
   Button,
   IconButton,
   Typography,
+  Dialog
 } from "@mui/material";
 
-//iconos
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import CloseIcon from "@mui/icons-material/Close";
+
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
@@ -28,35 +27,41 @@ import { Tabla } from "./complements";
 import { getProvincias } from "../../services/mantenimiento";
 import AddForm from "./addform";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+function createData(
+    name,
+    calories,
+    fat,
+    carbs,
+    protein,
+  ) {
+    return { name, calories, fat, carbs, protein };
+  }
+  
+  const rows = [
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+  ];
 
 const Clientes = () => {
   //Listado de clientes y provincias
   const { clientes, getClientes, searcher } = useContext(ClientesContext);
   const [provincias, setProvincias] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
   //Buscador
-  const [id, setId] = useState("");
-  const [ruc, setRuc] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [provincia, setProvincia] = useState("");
-  const [localidad, setLocalidad] = useState("");
+  const[id, setId] = useState('')
+  const[ruc, setRuc] = useState('')
+  const[nombre, setNombre] = useState('')
+  const[telefono, setTelefono] = useState('')
+  const[provincia, setProvincia] = useState('')
+  const[localidad, setLocalidad] = useState('')
+  const[per_emp, setPer_Emp] = useState('')
+  let cliente_encontrados = searcher({id,ruc,nombre,telefono,provincia,localidad,per_emp},clientes)
 
-  let cliente_encontrados = searcher([id], clientes);
 
-  const handleOpen = () => setOpenModal(true);
-  const handleClose = () => setOpenModal(false);
+
 
   useEffect(() => {
     getProvincias(setProvincias);
@@ -156,24 +161,9 @@ const Clientes = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <IconButton
-              aria-label="delete"
-              color="secondary"
-              size="large"
-              onClick={handleOpen}
-            >
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
+            <AddForm/>  
           </Grid>
         </Grid>
-        <Modal
-          open={openModal}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <AddForm />
-        </Modal>
         <Tabla data={cliente_encontrados} />
       </div>
     </section>
