@@ -25,19 +25,10 @@ import {
   Button,
   IconButton,
   Typography,
+  FormLabel,
+  RadioGroup,
 } from "@mui/material";
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Select from '@mui/material/Select';
 import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormLabel from '@mui/material/FormLabel';
 
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -94,7 +85,7 @@ const Clientes = () =>{
             <div className="container">
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={12} md={6}>
-                        <Paper elevation={10} className="paper" >
+                        <Paper elevation={10} className="paper" sx={{ mt: 4 , p:5 }} >
                         Buscar Cliente <br/>
                         <TextField fullWidth
                             label="Código"
@@ -163,34 +154,27 @@ const Clientes = () =>{
                             id="textfields"
                             onChange={(e)=>setLocalidad(e.target.value)}
                         />
-                        <FormControlLabel
-                            value="start"
-                            control={<Checkbox color="secondary"/>}
-                            label="Empresa"
-                            labelPlacement="start"
-                            />
-                        
                         <FormControl>
-                            <FormLabel id="demo-row-radio-buttons-group-label">Tipo</FormLabel>
+                            <FormLabel id="demo-row-radio-buttons-group-label" color="secondary">Tipo</FormLabel>
                             <RadioGroup
                                 row
                                 aria-labelledby="demo-row-radio-buttons-group-label"
                                 name="row-radio-buttons-group"
                                 onChange={(e)=>setPer_Emp(e.target.value)}
+                                
                             >
-                                <FormControlLabel value="" control={<Radio />} label="all" />
-                                <FormControlLabel value="persona" control={<Radio />} label="persona" />
-                                <FormControlLabel value="empresa" control={<Radio />} label="empresa" />
+                                <FormControlLabel disableTypography labelPlacement="start" value="" control={<Radio color="secondary"/>} label="all" />
+                                <FormControlLabel disableTypography labelPlacement="start" value="persona" control={<Radio color="secondary"/>} label="persona" />
+                                <FormControlLabel disableTypography labelPlacement="start" value="empresa" control={<Radio color="secondary"/>} label="empresa" />
                             </RadioGroup>
                         </FormControl>
 
                         <br/>
-
                         <Button fullWidth id="textfields" color="secondary" variant="contained">Buscar</Button>
                         </Paper>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                    <Paper elevation={10} className="paper" sx={{ mt: 4}}>
+                    <Paper elevation={10} className="paper" sx={{ mt: 4 , p:5 }}>
               Cliente seleccionado
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
               <ListItem>
@@ -221,25 +205,12 @@ const Clientes = () =>{
             </List>
             </Paper>
 
-            <IconButton
-              aria-label="delete"
-              color="secondary"
-              size="large"
-              onClick={handleOpen}
-              sx={{ float:"right" , mt:4 }}
-            >
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
+
+              {/*<AddForm/>*/}
+            
           </Grid>
         </Grid>
-        <Modal
-          open={openModal}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <AddForm />
-        </Modal>
+       
         <Tabla data={cliente_encontrados} />
                 
             </div>

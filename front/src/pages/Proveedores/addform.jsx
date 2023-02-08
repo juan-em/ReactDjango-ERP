@@ -74,7 +74,7 @@ const AddForm = () => {
           <FormControl>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12} md={12} sx={{ mb:4 , color:'#633256'}}>
-                  {!nuevo ? "EDITAR CLIENTE" : "NUEVO CLIENTE"}
+                  {!nuevo ? "EDITAR PROVEEDOR" : "NUEVO PROVEEDOR"}
               </Grid>
               {!empresa ? (
                 <>
