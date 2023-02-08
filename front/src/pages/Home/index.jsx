@@ -1,5 +1,4 @@
 // import Menu from "../../components/Menu";
-import "./index.css";
 import { Container, ImageListItem, Grid } from "@mui/material";
 
 const Home = () =>{
