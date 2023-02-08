@@ -51,6 +51,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+<<<<<<< HEAD
+=======
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
+>>>>>>> d0d69e87119b2109f85e432a9669b7a084f13d62
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -103,9 +109,12 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+<<<<<<< HEAD
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
+=======
+>>>>>>> d0d69e87119b2109f85e432a9669b7a084f13d62
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

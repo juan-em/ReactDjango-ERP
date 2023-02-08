@@ -72,6 +72,10 @@ const Navbar = () => {
       <div className="topnav" id="myTopnav">
         <Grid container spacing={0}>
             <Grid item xs={0} sm={7} md={8} lg={11}>
+              <MiniDrawer/>
+          </Grid>
+
+          <Grid item xs={0} sm={8} md={9}>
             <div className="buscar">
               <Search>
                 <SearchIconWrapper>
