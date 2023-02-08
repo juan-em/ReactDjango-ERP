@@ -7,7 +7,7 @@ import {
     ListItemIcon, ListItemText, Collapse
 } from '@mui/material'
 
-
+import './index.css';
 
 const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
     const [open, setOpen] = useState(false);
@@ -36,20 +36,20 @@ const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
                         >
                             {icons}
                         </ListItemIcon>
-                        <ListItemText id="items" primary={name} style={{ color: '#454545 ' }} sx={{ opacity: bigOpen ? 1 : 0 , marginLeft:2 }} />
+                        <ListItemText disableTypography id="items" primary={name} style={{ color: '#454545 ' }} sx={{ opacity: bigOpen ? 1 : 0 , marginLeft:2 }} />
 
                     </ListItemButton>
                 </Link>
             </ListItem>
             {item.map((i) => (
                 <Collapse in={open} timeout="auto">
-                    <Link to={i.url} style={{ textDecoration:'none', color:'#777777 '}}>
+                    <Link to={i.url} style={{ textDecoration:'none', color:'#777777 ' }}>
                     <List component="div" disablePadding>
                         <ListItemButton sx={{ pl: 4 }}>
                             <ListItemIcon>
                                 {i.icon}
                             </ListItemIcon>
-                            <ListItemText  id="items" primary={i.name} />
+                            <ListItemText disableTypography id="items" primary={i.name}/>
                         </ListItemButton>
                     </List></Link>
                 </Collapse>
