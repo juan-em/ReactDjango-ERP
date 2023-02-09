@@ -1,20 +1,27 @@
+
+
 //para la tabla
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import {Paper,Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
+
 
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import MenuItem from '@mui/material/MenuItem';
 import { styled, useTheme, alpha } from '@mui/material/styles';
 
+import AddForm from './addform';
+
 export const Tabla = (props) => {
+
+    const handleClick = () => {
+        console.log('click')
+    }
+
+    const handleOpenPut = () => {
+        setOpenModal(true);
+        setNuevo(false);
+      };
+
     return(
         <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -33,7 +40,7 @@ export const Tabla = (props) => {
                 </TableHead>
                 <TableBody>
                 {props.data.map((row,i) => (
-                    <TableRow key={i}>
+                    <TableRow key={i} onClick={handleClick} value={row.codigo}>
                     <TableCell component="th" scope="row">
                         {i+1}
                     </TableCell>
@@ -43,10 +50,7 @@ export const Tabla = (props) => {
                     <TableCell align="right">{row.persona ? row.persona.telefono : row.empresa.telefono}</TableCell>
                     <TableCell align="right">{row.protein}</TableCell>
                     <TableCell align="right">
-                        <IconButton aria-label="delete" size="small" color="primary">
-                            <VisibilityIcon fontSize="inherit" />
-                        </IconButton>
-                        <IconButton aria-label="delete" size="small" color="success">
+                        <IconButton aria-label="delete" size="small" color="success" onClick={handleOpenPut}>
                             <EditIcon fontSize="inherit" />
                         </IconButton>
                         <IconButton aria-label="delete" size="small" color="error">

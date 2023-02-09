@@ -18,8 +18,8 @@ import { TabContext, TabPanel, TabList } from "@mui/lab";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
 
 import {
   postClienteper,
@@ -49,13 +49,10 @@ const AddForm = () => {
   const handleOpenPost = () => {
     setOpenModal(true);
   };
-  const handleOpenPut = () => {
-    setOpenModal(true);
-    setNuevo(false);
-  };
+
   const handleClose = () => setOpenModal(false);
 
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -112,9 +109,6 @@ const AddForm = () => {
   const handleInputEmpValue = (event) => {
     const { value, name } = event.target;
 
-    if (name === "codformapago") {
-      pass;
-    }
     setInputsEmp({
       ...inputsEmp,
       [name]: value,
@@ -126,13 +120,12 @@ const AddForm = () => {
     });
   };
 
-  console.log(inputCliente);
   const handleClickClienteEmp = async () => {
     try {
-      if (!nuevo) {
-        await postClienteemp(inputCliente);
-      }
-      await putClienteemp(inputCliente);
+      nuevo
+        ? await postClienteemp(inputCliente)
+        : await putClienteemp(inputCliente);
+
       Swal.fire({
         icon: "success",
         title: "Ok",
@@ -148,10 +141,10 @@ const AddForm = () => {
   };
   const handleClickClientePer = async () => {
     try {
-      if (!nuevo) {
-        await postClienteper(inputCliente);
-      }
-      await putClienteper(inputCliente);
+      nuevo
+        ? await postClienteper(inputCliente)
+        : await putClienteper(inputCliente);
+
       Swal.fire({
         icon: "success",
         title: "Ok",
@@ -181,20 +174,24 @@ const AddForm = () => {
       >
         <AddCircleIcon fontSize="large" />
       </IconButton>
-      <Dialog open={openModal} onClose={handleClose}>
+      <Dialog open={openModal}>
         <DialogTitle>
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
             <CloseIcon fontSize="large" />
           </IconButton>
-          <Typography align="center" sx={{ fontSize: 20 , mt:2 }} gutterBottom>
+          <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             {!nuevo ? "Editar Cliente" : "Nuevo Cliente"}
           </Typography>
         </DialogTitle>
-        <DialogContent >
-          <TabContext value={value} centered >
-            <TabList onChange={handleChange} textColor="secondary" indicatorColor="secondary">
-              <Tab label="Persona" value="1"/>
-              <Tab label="Empresa" value="2"/>
+        <DialogContent>
+          <TabContext value={value} centered>
+            <TabList
+              onChange={handleChange}
+              textColor="secondary"
+              indicatorColor="secondary"
+            >
+              <Tab label="Persona" value="1" />
+              <Tab label="Empresa" value="2" />
             </TabList>
             <TabPanel value="1" color="secondary">
               <form>
@@ -209,12 +206,15 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="nombre"
+                      onChange={handleInputPerValue}
                     />
-                    <FormControl fullWidth
+                    <FormControl
+                      fullWidth
                       margin="dense"
                       size="small"
-                      color="secondary">
-                    <InputLabel id="prov">Provincia</InputLabel>
+                      color="secondary"
+                    >
+                      <InputLabel id="prov">Provincia</InputLabel>
                       <Select
                         label="Provincia"
                         required
@@ -241,6 +241,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="direccion"
+                      onChange={handleInputPerValue}
                     />
                     <TextField
                       fullWidth
@@ -251,6 +252,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="cuentabancaria"
+                      onChange={handleInputPerValue}
                     />
                     <TextField
                       fullWidth
@@ -261,28 +263,32 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="movil"
+                      onChange={handleInputPerValue}
                     />
-                    <FormControl fullWidth
+                    <FormControl
+                      fullWidth
                       margin="dense"
                       size="small"
-                      color="secondary">
-                    <InputLabel id="prov">Forma de pago</InputLabel>
-                    <Select
-                      label="Forma de Pago"
-                      required
-                      fullWidth
-                      size="small"
                       color="secondary"
-                      id="textfields"
-                      name="codformapago"
-                      onChange={handleInputPerValue}
                     >
-                      {formPagos.map((item, i) => (
-                        <MenuItem key={i} value={item.id}>
-                          {item.nombrefp}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      <InputLabel id="prov">Forma de pago</InputLabel>
+                      <Select
+                        label="Forma de Pago"
+                        required
+                        fullWidth
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        name="codformapago"
+                        onChange={handleInputPerValue}
+                      >
+                        <MenuItem value={""}>-----</MenuItem>
+                        {formPagos.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombrefp}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
@@ -295,6 +301,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="dni"
+                      onChange={handleInputPerValue}
                     />
                     <TextField
                       fullWidth
@@ -305,6 +312,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="localidad"
+                      onChange={handleInputPerValue}
                     />
                     <TextField
                       fullWidth
@@ -315,6 +323,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="codpostal"
+                      onChange={handleInputPerValue}
                     />
                     <TextField
                       fullWidth
@@ -325,6 +334,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="telefono"
+                      onChange={handleInputPerValue}
                     />
                     <TextField
                       fullWidth
@@ -335,9 +345,10 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="web"
+                      onChange={handleInputPerValue}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6} md={6} sx={{mt:4}}>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
                       fullWidth
                       id="btnClick"
@@ -350,7 +361,7 @@ const AddForm = () => {
                       <span>{!nuevo ? "Editar" : "Registrar"}</span>
                     </Button>
                   </Grid>
-                    <Grid item xs={12} sm={6} md={6} sx={{mt:4}}>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
                       fullWidth
                       id="btnClick"
@@ -379,6 +390,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="nombre"
+                      onChange={handleInputEmpValue}
                     />
                     <TextField
                       fullWidth
@@ -389,12 +401,15 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="estructurajuridica"
+                      onChange={handleInputEmpValue}
                     />
-                    <FormControl fullWidth
+                    <FormControl
+                      fullWidth
                       margin="dense"
                       size="small"
-                      color="secondary">
-                    <InputLabel id="prov">Provincia</InputLabel>
+                      color="secondary"
+                    >
+                      <InputLabel id="prov">Provincia</InputLabel>
                       <Select
                         label="Provincia"
                         required
@@ -403,7 +418,7 @@ const AddForm = () => {
                         color="secondary"
                         id="textfields"
                         name="codprovincia"
-                        onChange={handleInputPerValue}
+                        onChange={handleInputEmpValue}
                       >
                         {provincias.map((item, i) => (
                           <MenuItem key={i} value={item.id}>
@@ -421,6 +436,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="direccion"
+                      onChange={handleInputEmpValue}
                     />
                     <TextField
                       fullWidth
@@ -431,6 +447,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="cuentabancaria"
+                      onChange={handleInputEmpValue}
                     />
                     <TextField
                       fullWidth
@@ -441,28 +458,31 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="movil"
+                      onChange={handleInputEmpValue}
                     />
-                    <FormControl fullWidth
+                    <FormControl
+                      fullWidth
                       margin="dense"
                       size="small"
-                      color="secondary">
-                    <InputLabel id="prov">Forma de pago</InputLabel>
-                    <Select
-                      label="Forma de Pago"
-                      required
-                      fullWidth
-                      size="small"
                       color="secondary"
-                      id="textfields"
-                      name="codformapago"
-                      onChange={handleInputPerValue}
                     >
-                      {formPagos.map((item, i) => (
-                        <MenuItem key={i} value={item.id}>
-                          {item.nombrefp}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      <InputLabel id="prov">Forma de pago</InputLabel>
+                      <Select
+                        label="Forma de Pago"
+                        required
+                        fullWidth
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        name="codformapago"
+                        onChange={handleInputEmpValue}
+                      >
+                        {formPagos.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombrefp}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
@@ -475,6 +495,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="ruc"
+                      onChange={handleInputEmpValue}
                     />
                     <TextField
                       fullWidth
@@ -485,6 +506,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="tipo"
+                      onChange={handleInputEmpValue}
                     />
                     <TextField
                       fullWidth
@@ -495,6 +517,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="localidad"
+                      onChange={handleInputEmpValue}
                     />
                     <TextField
                       fullWidth
@@ -505,6 +528,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="codpostal"
+                      onChange={handleInputEmpValue}
                     />
                     <TextField
                       fullWidth
@@ -515,6 +539,7 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="telefono"
+                      onChange={handleInputEmpValue}
                     />
                     <TextField
                       fullWidth
@@ -525,9 +550,10 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="web"
+                      onChange={handleInputEmpValue}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6} md={6} sx={{mt:4}}>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
                       fullWidth
                       id="btnClick"
@@ -540,7 +566,7 @@ const AddForm = () => {
                       <span>{!nuevo ? "Editar" : "Registrar"}</span>
                     </Button>
                   </Grid>
-                  <Grid item xs={12} sm={6} md={6} sx={{mt:4}}>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
                       fullWidth
                       id="btnClick"
