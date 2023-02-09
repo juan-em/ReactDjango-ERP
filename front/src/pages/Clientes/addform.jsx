@@ -11,12 +11,15 @@ import {
   DialogContent,
   DialogTitle,
   Tab,
+  FormLabel,
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 
 import {
   postClienteper,
@@ -183,19 +186,19 @@ const AddForm = () => {
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
             <CloseIcon fontSize="large" />
           </IconButton>
-          <Typography sx={{ fontSize: 40 }} color="text.secondary" gutterBottom>
+          <Typography align="center" sx={{ fontSize: 20 , mt:2 }} gutterBottom>
             {!nuevo ? "Editar Cliente" : "Nuevo Cliente"}
           </Typography>
         </DialogTitle>
-        <DialogContent>
-          <TabContext value={value} centered>
-            <TabList onChange={handleChange}>
-              <Tab label="Persona" value="1" />
-              <Tab label="Empresa" value="2" />
+        <DialogContent >
+          <TabContext value={value} centered >
+            <TabList onChange={handleChange} textColor="secondary" indicatorColor="secondary">
+              <Tab label="Persona" value="1"/>
+              <Tab label="Empresa" value="2"/>
             </TabList>
-            <TabPanel value="1">
+            <TabPanel value="1" color="secondary">
               <form>
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                   <Grid item xs={12} sm={6} md={6}>
                     <TextField
                       fullWidth
@@ -207,23 +210,28 @@ const AddForm = () => {
                       margin="dense"
                       name="nombre"
                     />
-                    <Select
-                      label="Provincia"
-                      required
-                      fullWidth
-                      size="small"
-                      color="secondary"
-                      id="textfields"
+                    <FormControl fullWidth
                       margin="dense"
-                      name="codprovincia"
-                      onChange={handleInputPerValue}
-                    >
-                      {provincias.map((item, i) => (
-                        <MenuItem key={i} value={item.id}>
-                          {item.nombreprovincia}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      size="small"
+                      color="secondary">
+                    <InputLabel id="prov">Provincia</InputLabel>
+                      <Select
+                        label="Provincia"
+                        required
+                        fullWidth
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        name="codprovincia"
+                        onChange={handleInputPerValue}
+                      >
+                        {provincias.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombreprovincia}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                     <TextField
                       fullWidth
                       label="Direccion"
@@ -254,6 +262,11 @@ const AddForm = () => {
                       margin="dense"
                       name="movil"
                     />
+                    <FormControl fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary">
+                    <InputLabel id="prov">Forma de pago</InputLabel>
                     <Select
                       label="Forma de Pago"
                       required
@@ -261,7 +274,6 @@ const AddForm = () => {
                       size="small"
                       color="secondary"
                       id="textfields"
-                      margin="dense"
                       name="codformapago"
                       onChange={handleInputPerValue}
                     >
@@ -271,6 +283,7 @@ const AddForm = () => {
                         </MenuItem>
                       ))}
                     </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
                     <TextField
@@ -324,8 +337,9 @@ const AddForm = () => {
                       name="web"
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
+                  <Grid item xs={12} sm={6} md={6} sx={{mt:4}}>
                     <Button
+                      fullWidth
                       id="btnClick"
                       size="medium"
                       color="secondary"
@@ -333,9 +347,12 @@ const AddForm = () => {
                       variant="contained"
                       onClick={handleClickClientePer}
                     >
-                      <span>&nbsp;&nbsp;{!nuevo ? "Editar" : "Registrar"}</span>
+                      <span>{!nuevo ? "Editar" : "Registrar"}</span>
                     </Button>
+                  </Grid>
+                    <Grid item xs={12} sm={6} md={6} sx={{mt:4}}>
                     <Button
+                      fullWidth
                       id="btnClick"
                       size="medium"
                       color="error"
@@ -343,7 +360,7 @@ const AddForm = () => {
                       variant="contained"
                       onClick={handleClose}
                     >
-                      <span>&nbsp;&nbsp;Cancelar</span>
+                      <span>Cancelar</span>
                     </Button>
                   </Grid>
                 </Grid>
@@ -351,7 +368,7 @@ const AddForm = () => {
             </TabPanel>
             <TabPanel value="2">
               <form>
-                <Grid content spacing={2}>
+                <Grid container spacing={1}>
                   <Grid item xs={12} sm={6} md={6}>
                     <TextField
                       fullWidth
@@ -373,23 +390,28 @@ const AddForm = () => {
                       margin="dense"
                       name="estructurajuridica"
                     />
-                    <Select
-                      label="Provincia"
-                      required
-                      fullWidth
-                      size="small"
-                      color="secondary"
-                      id="textfields"
+                    <FormControl fullWidth
                       margin="dense"
-                      name="codprovincia"
-                      onChange={handleInputPerValue}
-                    >
-                      {provincias.map((item, i) => (
-                        <MenuItem key={i} value={item.id}>
-                          {item.nombreprovincia}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      size="small"
+                      color="secondary">
+                    <InputLabel id="prov">Provincia</InputLabel>
+                      <Select
+                        label="Provincia"
+                        required
+                        fullWidth
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        name="codprovincia"
+                        onChange={handleInputPerValue}
+                      >
+                        {provincias.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombreprovincia}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                     <TextField
                       fullWidth
                       label="Direccion"
@@ -420,6 +442,11 @@ const AddForm = () => {
                       margin="dense"
                       name="movil"
                     />
+                    <FormControl fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary">
+                    <InputLabel id="prov">Forma de pago</InputLabel>
                     <Select
                       label="Forma de Pago"
                       required
@@ -427,7 +454,6 @@ const AddForm = () => {
                       size="small"
                       color="secondary"
                       id="textfields"
-                      margin="dense"
                       name="codformapago"
                       onChange={handleInputPerValue}
                     >
@@ -437,6 +463,7 @@ const AddForm = () => {
                         </MenuItem>
                       ))}
                     </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
                     <TextField
@@ -500,8 +527,9 @@ const AddForm = () => {
                       name="web"
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
+                  <Grid item xs={12} sm={6} md={6} sx={{mt:4}}>
                     <Button
+                      fullWidth
                       id="btnClick"
                       size="medium"
                       color="secondary"
@@ -509,9 +537,12 @@ const AddForm = () => {
                       variant="contained"
                       onClick={handleClickClienteEmp}
                     >
-                      <span>&nbsp;&nbsp;{!nuevo ? "Editar" : "Registrar"}</span>
+                      <span>{!nuevo ? "Editar" : "Registrar"}</span>
                     </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} sx={{mt:4}}>
                     <Button
+                      fullWidth
                       id="btnClick"
                       size="medium"
                       color="error"
@@ -519,7 +550,7 @@ const AddForm = () => {
                       variant="contained"
                       onClick={handleClose}
                     >
-                      <span>&nbsp;&nbsp;Cancelar</span>
+                      <span>Cancelar</span>
                     </Button>
                   </Grid>
                 </Grid>
