@@ -15,6 +15,10 @@ import MenuItem from '@mui/material/MenuItem';
 
 
 export const Tabla = (props) => {
+
+    const handleClick = () => {
+        console.log('click')
+    }
     return(
         <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -31,7 +35,7 @@ export const Tabla = (props) => {
                 </TableHead>
                 <TableBody>
                 {props.data.map((row,i) => (
-                    <TableRow key={i}>
+                    <TableRow key={i} onClick={handleClick} value={row.codigo}>
                     <TableCell component="th" scope="row">
                         {i+1}
                     </TableCell>
@@ -41,9 +45,6 @@ export const Tabla = (props) => {
                     <TableCell align="right">{row.persona ? row.persona.telefono : row.empresa.telefono}</TableCell>
                     <TableCell align="right">{row.protein}</TableCell>
                     <TableCell align="right">
-                        <IconButton aria-label="delete" size="small" color="primary">
-                            <VisibilityIcon fontSize="inherit" />
-                        </IconButton>
                         <IconButton aria-label="delete" size="small" color="success">
                             <EditIcon fontSize="inherit" />
                         </IconButton>

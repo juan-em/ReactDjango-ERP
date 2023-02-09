@@ -122,8 +122,6 @@ const AddForm = () => {
       codformapago: event.target.value,
     });
   };
-
-  console.log(inputCliente);
   const handleClickClienteEmp = async () => {
     try {
       if (!nuevo) {
@@ -350,10 +348,10 @@ const AddForm = () => {
               </form>
             </TabPanel>
             <TabPanel value="2">
-              <form>
-                <Grid content spacing={2}>
+            <form>
+                <Grid container spacing={2}>
                   <Grid item xs={12} sm={6} md={6}>
-                    <TextField
+                  <TextField
                       fullWidth
                       label="Nombre"
                       required
@@ -439,7 +437,7 @@ const AddForm = () => {
                     </Select>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
-                    <TextField
+                  <TextField
                       fullWidth
                       label="RUC"
                       required
@@ -507,7 +505,7 @@ const AddForm = () => {
                       color="secondary"
                       className="navbar-btn-single"
                       variant="contained"
-                      onClick={handleClickClienteEmp}
+                      onClick={handleClickClientePer}
                     >
                       <span>&nbsp;&nbsp;{!nuevo ? "Editar" : "Registrar"}</span>
                     </Button>
@@ -533,3 +531,4 @@ const AddForm = () => {
 };
 
 export default AddForm;
+

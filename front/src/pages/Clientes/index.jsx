@@ -68,6 +68,10 @@ const Clientes = () => {
     clientes
   );
 
+  useEffect(() => {
+    getClientes()
+  }),[];
+
   return (
     <section>
       <div className="container">
