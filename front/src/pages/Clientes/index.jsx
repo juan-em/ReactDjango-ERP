@@ -17,10 +17,10 @@ import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
 
 //Componentes
-import { useState, useEffect, useContext } from 'react';
-import ClientesContext from "../../services/clientes";
 import { Tabla } from "./complements";
 import { getProvincias } from "../../services/mantenimiento";
+import ClientesContext from "../../services/clientes";
+import { useState, useEffect, useContext } from 'react';
 
 
 function createData(
@@ -46,7 +46,7 @@ const Clientes = () =>{
     const {clientes, getClientes, searcher} = useContext(ClientesContext)
     const [provincias,setProvincias] = useState([])
     useEffect(()=>{
-        getProvincias(setProvincias);
+        getProvincias(setProvincias)
         getClientes()
     },[])
     

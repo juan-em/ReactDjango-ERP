@@ -1,19 +1,21 @@
 import axios from "axios"
 import { createContext , useState  } from "react";
+import Clientes from "../pages/Clientes";
 
 const ClientesContext = createContext()
 
 
-export const ClientesProvider = ({children}) => {
+export const ClientesProvider = () => {
 
     const URL = "http://localhost:8000/api/clientes/"
     let [clientes , setClientes] = useState([]);
 
     //Get all clients
     const getClientes = async () =>{
-        const res_per = await axios.get(`${URL}per/`)
-        const res_emp = await axios.get(`${URL}emp/`)
+        const res_per = await axios.get(`${URL}per/`).catch((error)=>console.log({error})) 
+        const res_emp = await axios.get(`${URL}emp/`).catch((error)=>console.log({error})) 
         setClientes(res_per.data.content.concat(res_emp.data.content))
+        return {clientesPersonas: res_per.data, clientesEmpresas:res_emp.data}
     }
 
     //Searcher
@@ -60,7 +62,7 @@ export const ClientesProvider = ({children}) => {
 
     return(
         <ClientesContext.Provider value={contextData}>
-            {children}
+            <Clientes/>
         </ClientesContext.Provider>
     )
 }

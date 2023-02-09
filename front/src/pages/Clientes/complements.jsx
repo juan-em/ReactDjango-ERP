@@ -14,7 +14,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import MenuItem from '@mui/material/MenuItem';
 
 
-export const Tabla = (props) => {
+export const Tabla = ({data}) => {
     return(
         <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -30,7 +30,7 @@ export const Tabla = (props) => {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {props.data.map((row,i) => (
+                {data.map((row,i) => (
                     <TableRow key={i}>
                     <TableCell component="th" scope="row">
                         {i+1}

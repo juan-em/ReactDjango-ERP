@@ -4,14 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Main from "../layout/main";
 import Comerciales from "../pages/Comerciales";
-import Clientes from "../pages/Clientes";
+import Test from "../services/test";
 
 //SERVICES
-import { ProveedoresProvider } from "../services/proveedores";
 import { ClientesProvider } from "../services/clientes";
 
-
-// LAYOUTS
 
 const Router = () =>{
     return(
@@ -20,7 +17,8 @@ const Router = () =>{
                 <Route element={<Main />}>
                     <Route path="/" element={<Home />}/>
                     <Route path="/comerciales" element={<Comerciales />}/>
-                    <Route path="/comerciales/clientes" element={<ClientesProvider><Clientes /></ClientesProvider>}/>
+                    <Route path="/comerciales/clientes" element={<ClientesProvider/>}/>
+                    <Route path="/test" element={<Test/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>
