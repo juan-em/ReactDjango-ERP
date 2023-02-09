@@ -42,8 +42,6 @@ export const putProvincia = async (id,payload) => {
     }
 }
 
-
-
 export const post_putProvincia = async (e) => {
     e.preventDefault()
     const {nombreprovincia,} = e.target
