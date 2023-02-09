@@ -47,6 +47,12 @@ const Router = () => {
               <Provincias/>
             }
           />
+          <Route
+            path="/mantenimientos/provincias/editar/:id"
+            element={
+              <Provincias/>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

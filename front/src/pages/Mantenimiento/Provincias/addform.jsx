@@ -23,20 +23,19 @@ import { post_putProvincia } from "../../../services/mantenimiento";
 import Swal from "sweetalert2";
 
 
-const AddForm = () => {
-  const [nuevo, setNuevo] = useState(true);
+const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
+  
 
-  const [openModal, setOpenModal] = useState(false);
   const handleOpenPost = () => {
     setOpenModal(true);
   };
-  const handleOpenPut = () => {
-    setOpenModal(true);
-    setNuevo(false);
-  };
-  const handleClose = () => setOpenModal(false);
 
-  const envio = async(e) => {
+  const handleClose = () => {
+    if(item.id)setItem({})
+    setOpenModal(false)
+  };
+
+  const handlePostPutProvincia = async(e) => {
     try {
       await post_putProvincia(e)
       Swal.fire({
@@ -44,6 +43,10 @@ const AddForm = () => {
         title: "Ok",
         text: "Se registro el Cliente",
       });
+      if(item.id)setItem({})
+      setRenderizar(!renderizar)
+      render.current = true
+      
     }
     catch(error){
       Swal.fire({
@@ -53,10 +56,7 @@ const AddForm = () => {
       });
     }
     setOpenModal(false)
-
   }
-
-
 
   return (
     <>
@@ -74,12 +74,14 @@ const AddForm = () => {
             <CloseIcon fontSize="large" />
           </IconButton>
           <Typography sx={{ fontSize: 40 }} color="text.secondary" gutterBottom>
-            {!nuevo ? "Editar Provincia" : "Nueva Provincia"}
+            {item.id ? "Editar Provincia" : "Nueva Provincia"}
           </Typography>
         </DialogTitle>
         <DialogContent>
           <TabContext centered>
-              <form onSubmit={envio}>
+              <form onSubmit={handlePostPutProvincia}>
+                {item.id?<input type="hidden" name="cod" value={item.id}/>:''
+                }
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6} md={6}>
                     <TextField
@@ -91,9 +93,10 @@ const AddForm = () => {
                       id="textfields"
                       margin="dense"
                       name="nombreprovincia"
+                      defaultValue={item.id ? item.nombreprovincia:''}
                     />
                   </Grid>
-                
+
                   <Grid item xs={12} sm={12} md={12}>
                     <Button
                       id="btnClick"
@@ -104,7 +107,7 @@ const AddForm = () => {
                       type="submit"
                       
                     >
-                      <span>&nbsp;&nbsp;{!nuevo ? "Editar" : "Registrar"}</span>
+                      <span>&nbsp;&nbsp;{item.id ? "Editar" : "Registrar"}</span>
                     </Button>
                     <Button
                       id="btnClick"

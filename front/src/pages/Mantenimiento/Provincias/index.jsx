@@ -26,26 +26,18 @@ import AddForm from "./addform";
 import { useRef } from "react";
 
 const Provincias = () => {
-  //Listado de provincias
-  const render = useRef(true) //una sola vez el useEffect
-  const [provincias, setProvincias] = useState([]);
-  useEffect(()=>{
-    if (render.current){
-      render.current = false
-      getProvincias(setProvincias);
-    }
-  },[])
-  
-  //Buscador
+
+  const [openModal, setOpenModal] = useState(false);
+  const [item, setItem] = useState({});
+
+  const render = useRef(true)
+  const [renderizar,setRenderizar] = useState(true)
   const[fields, setFields] = useState({})
   const handlerSearcher = (e) =>{
     const {name, value} = e.target
     setFields({...fields,[name]:value})
   }
   
-  let provinciasEncontradas = searcherProvincias(fields, provincias)
-
-
   return (
     <section>
       <div className="container">
@@ -116,11 +108,13 @@ const Provincias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <AddForm />
+            <AddForm render={render} renderizar={renderizar} setRenderizar={setRenderizar}
+                     openModal={openModal} setOpenModal={setOpenModal} item={item} setItem={setItem}/>
           </Grid>
         </Grid>
 
-        <Tabla data={provinciasEncontradas} />
+        <Tabla fields={fields} render={render} renderizar={renderizar} setRenderizar={setRenderizar} setOpenModal={setOpenModal}
+          setItem={setItem}/>
       </div>
     </section>
   );

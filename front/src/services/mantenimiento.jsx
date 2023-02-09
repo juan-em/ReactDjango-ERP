@@ -33,6 +33,14 @@ export const postProvincia = async (payload) => {
         return error
     }
 }
+export const putProvincia = async (id,payload) => {
+    try{
+        const res = await axios.put(`${URL_PROVINCIAS}${id}/`,payload)
+        return res.data
+    }catch(error){
+        return error
+    }
+}
 
 
 
@@ -42,22 +50,19 @@ export const post_putProvincia = async (e) => {
     const payload = {
         [nombreprovincia.name]:nombreprovincia.value
     }
-    if (!e.target.cod) {
-        return await postProvincia(payload)
+    try{
+        if (!e.target.cod) {
+            return await postProvincia(payload)
+        } else {
+            let id = e.target.cod.value
+            return await putProvincia(id,payload)
+        }
     }
-    // e.preventDefault()
-    // let res = await axios.post(URL_PROVINCIAS,
-    //     {
-    //         nombreprovincia:e.target.nombreprovincia.value,
-    //     }
-    // ).catch((error)=>console.error(error))
-    // console.log(res.data)
-    // return res.data
+    catch(error){return error}
 }
-export const putProvincia = () => {return
-}
+
 export const deleteProvincia = async(id) => {
-    let res = await axios.delete(`${URL_PROVINCIAS}${id}`).catch((error)=>console.log({error}))
+    let res = await axios.delete(`${URL_PROVINCIAS}${id}/`).catch((error)=>console.log({error}))
     console.log(res.data)
     return res.data
 }
