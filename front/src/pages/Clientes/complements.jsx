@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MenuItem from '@mui/material/MenuItem';
-
+import { styled, useTheme, alpha } from '@mui/material/styles';
 
 export const Tabla = (props) => {
 
@@ -22,9 +22,11 @@ export const Tabla = (props) => {
     return(
         <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead style={{color:'#8D4C32'}}>
-                <TableRow>
-                    <TableCell>Item</TableCell>
+                <TableHead sx={{backgroundColor:alpha('#633256', 0.20), '&:hover': {
+                backgroundColor: alpha('#633256', 0.25),
+            },}}>
+                <TableRow >
+                    <TableCell >Item</TableCell>
                     <TableCell align="right">Código</TableCell>
                     <TableCell align="right">Nombre</TableCell>
                     <TableCell align="right">RUC</TableCell>
