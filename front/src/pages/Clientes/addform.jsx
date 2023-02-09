@@ -158,451 +158,427 @@ const AddForm = (props) => {
   }, [props.open]);
 
   return (
-    <Dialog
-      open={props.open}
-      onClose={handleClose}
-      style={{ backgroundColor: "transparent" }}
-    >
-      <DialogTitle>
-        <IconButton aria-label="delete" size="small" onClick={handleClose}>
-          <CloseIcon fontSize="large" />
-        </IconButton>
-        <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-          {!props.id ? "Editar Cliente" : "Nuevo Cliente"}
-        </Typography>
-      </DialogTitle>
-      <DialogContent>
-        {item.lenght &&
-          item.map((item) => (
-            <TabContext value={value} centered>
-              <TabList
-                onChange={handleChange}
-                textColor="secondary"
-                indicatorColor="secondary"
-              >
-                <Tab label="Persona" value="1" />
-                <Tab label="Empresa" value="2" />
-              </TabList>
-              <TabPanel value="1" color="secondary">
-                <form>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <TextField
-                        fullWidth
-                        label="Nombre"
+    <>
+      <IconButton
+        aria-label="delete"
+        color="secondary"
+        size="large"
+        onClick={handleOpenPost}
+      >
+        <AddCircleIcon fontSize="large" />
+      </IconButton>
+      <Dialog open={openModal}>
+        <DialogTitle>
+          <IconButton aria-label="delete" size="small" onClick={handleClose}>
+            <CloseIcon fontSize="large" />
+          </IconButton>
+          <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
+            {!nuevo ? "Editar Cliente" : "Nuevo Cliente"}
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <TabContext value={value} centered>
+            <TabList
+              onChange={handleChange}
+              textColor="secondary"
+              indicatorColor="secondary"
+            >
+              <Tab label="Persona" value="1" />
+              <Tab label="Empresa" value="2" />
+            </TabList>
+            <TabPanel value="1" color="secondary">
+              <form>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <TextField
+                      fullWidth
+                      label="Nombre"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="nombre"
+                      onChange={handleInputPerValue}
+                    />
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                    >
+                      <InputLabel id="prov">Provincia</InputLabel>
+                      <Select
+                        label="Provincia"
                         required
+                        fullWidth
                         size="small"
                         color="secondary"
                         id="textfields"
-                        margin="dense"
-                        name="nombre"
+                        name="codprovincia"
                         onChange={handleInputPerValue}
-                        // value={item}
-                      />
-                      <FormControl
-                        fullWidth
-                        margin="dense"
-                        size="small"
-                        color="secondary"
                       >
-                        <InputLabel id="prov">Provincia</InputLabel>
-                        <Select
-                          label="Provincia"
-                          defaultValue=""
-                          required
-                          fullWidth
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          name="codprovincia"
-                          onChange={handleInputPerValue}
-                          value={cliente.persona.codprovincia}
-                        >
-                          {provincias.map((item, i) => (
-                            <MenuItem key={i} value={item.id}>
-                              {item.nombreprovincia}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                      <TextField
-                        fullWidth
-                        label="Direccion"
+                        {provincias.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombreprovincia}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <TextField
+                      fullWidth
+                      label="Direccion"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="direccion"
+                      onChange={handleInputPerValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Cuenta Bancaria"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="cuentabancaria"
+                      onChange={handleInputPerValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Movil"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="movil"
+                      onChange={handleInputPerValue}
+                    />
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                    >
+                      <InputLabel id="prov">Forma de pago</InputLabel>
+                      <Select
+                        label="Forma de Pago"
                         required
+                        fullWidth
                         size="small"
                         color="secondary"
                         id="textfields"
-                        margin="dense"
-                        name="direccion"
+                        name="codformapago"
                         onChange={handleInputPerValue}
-                        // value={cliente.persona.direccion}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Cuenta Bancaria"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="cuentabancaria"
-                        onChange={handleInputPerValue}
-                        // value={cliente.persona.cuentabancaria}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Movil"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="movil"
-                        onChange={handleInputPerValue}
-                        // value={cliente.persona.movil}
-                      />
-                      <FormControl
-                        fullWidth
-                        margin="dense"
-                        size="small"
-                        color="secondary"
                       >
-                        <InputLabel id="prov">Forma de pago</InputLabel>
-                        <Select
-                          label="Forma de Pago"
-                          defaultValue=""
-                          required
-                          fullWidth
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          name="codformapago"
-                          onChange={handleInputPerValue}
-                          // value={cliente.codformapago}
-                        >
-                          {formPagos.map((item, i) => (
-                            <MenuItem key={i} value={item.id}>
-                              {item.nombrefp}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <TextField
-                        fullWidth
-                        label="DNI"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="dni"
-                        onChange={handleInputPerValue}
-                        // value={cliente.persona.dni}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Localidad"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="localidad"
-                        onChange={handleInputPerValue}
-                        // value={cliente.persona.localidad}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Codigo Postal"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="codpostal"
-                        onChange={handleInputPerValue}
-                        // value={cliente.persona.codpostal}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Telefono"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="telefono"
-                        onChange={handleInputPerValue}
-                        // value={cliente.persona.telefono}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Web"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="web"
-                        onChange={handleInputPerValue}
-                        // value={cliente.persona.web}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                      <Button
-                        fullWidth
-                        id="btnClick"
-                        size="medium"
-                        color="secondary"
-                        className="navbar-btn-single"
-                        variant="contained"
-                        onClick={handleClickClientePer}
-                      >
-                        <span>{!props.id ? "Editar" : "Registrar"}</span>
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                      <Button
-                        fullWidth
-                        id="btnClick"
-                        size="medium"
-                        color="error"
-                        className="navbar-btn-single"
-                        variant="contained"
-                        onClick={handleClose}
-                      >
-                        <span>Cancelar</span>
-                      </Button>
-                    </Grid>
+                        <MenuItem value={""}>-----</MenuItem>
+                        {formPagos.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombrefp}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Grid>
-                </form>
-              </TabPanel>
-              <TabPanel value="2">
-                <form>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <TextField
-                        fullWidth
-                        label="Nombre"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="nombre"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.nombre}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Estructura"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="estructurajuridica"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.estructurajuridica}
-                      />
-                      <FormControl
-                        fullWidth
-                        margin="dense"
-                        size="small"
-                        color="secondary"
-                      >
-                        <InputLabel id="prov">Provincia</InputLabel>
-                        <Select
-                          label="Provincia"
-                          defaultValue=""
-                          required
-                          fullWidth
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          name="codprovincia"
-                          onChange={handleInputEmpValue}
-                          // value={cliente.empresa.codprovincia}
-                        >
-                          {provincias.map((item, i) => (
-                            <MenuItem key={i} value={item.id}>
-                              {item.nombreprovincia}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                      <TextField
-                        fullWidth
-                        label="Direccion"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="direccion"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.direccion}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Cuenta Bancaria"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="cuentabancaria"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.cuentabancaria}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Movil"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="movil"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.movil}
-                      />
-                      <FormControl
-                        fullWidth
-                        margin="dense"
-                        size="small"
-                        color="secondary"
-                      >
-                        <InputLabel id="prov">Forma de pago</InputLabel>
-                        <Select
-                          label="Forma de Pago"
-                          defaultValue=""
-                          required
-                          fullWidth
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          name="codformapago"
-                          onChange={handleInputEmpValue}
-                          // value={cliente.codformapago}
-                        >
-                          {formPagos.map((item, i) => (
-                            <MenuItem key={i} value={item.id}>
-                              {item.nombrefp}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <TextField
-                        fullWidth
-                        label="RUC"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="ruc"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.ruc}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Tipo de Empresa"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="tipo"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.tipo}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Localidad"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="localidad"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.localidad}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Codigo Postal"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="codpostal"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.codpostal}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Telefono"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="telefono"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.telefono}
-                      />
-                      <TextField
-                        fullWidth
-                        label="Web"
-                        required
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        name="web"
-                        onChange={handleInputEmpValue}
-                        // value={cliente.empresa.web}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                      <Button
-                        fullWidth
-                        id="btnClick"
-                        size="medium"
-                        color="secondary"
-                        className="navbar-btn-single"
-                        variant="contained"
-                        onClick={handleClickClienteEmp}
-                      >
-                        <span>{!props.id ? "Editar" : "Registrar"}</span>
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                      <Button
-                        fullWidth
-                        id="btnClick"
-                        size="medium"
-                        color="error"
-                        className="navbar-btn-single"
-                        variant="contained"
-                        onClick={handleClose}
-                      >
-                        <span>Cancelar</span>
-                      </Button>
-                    </Grid>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <TextField
+                      fullWidth
+                      label="DNI"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="dni"
+                      onChange={handleInputPerValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Localidad"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="localidad"
+                      onChange={handleInputPerValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Codigo Postal"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="codpostal"
+                      onChange={handleInputPerValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Telefono"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="telefono"
+                      onChange={handleInputPerValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Web"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="web"
+                      onChange={handleInputPerValue}
+                    />
                   </Grid>
-                </form>
-              </TabPanel>
-            </TabContext>
-          ))}
-      </DialogContent>
-    </Dialog>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                    <Button
+                      fullWidth
+                      id="btnClick"
+                      size="medium"
+                      color="secondary"
+                      className="navbar-btn-single"
+                      variant="contained"
+                      onClick={handleClickClientePer}
+                    >
+                      <span>{!nuevo ? "Editar" : "Registrar"}</span>
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                    <Button
+                      fullWidth
+                      id="btnClick"
+                      size="medium"
+                      color="error"
+                      className="navbar-btn-single"
+                      variant="contained"
+                      onClick={handleClose}
+                    >
+                      <span>Cancelar</span>
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </TabPanel>
+            <TabPanel value="2">
+              <form>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <TextField
+                      fullWidth
+                      label="Nombre"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="nombre"
+                      onChange={handleInputEmpValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Estructura"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="estructurajuridica"
+                      onChange={handleInputEmpValue}
+                    />
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                    >
+                      <InputLabel id="prov">Provincia</InputLabel>
+                      <Select
+                        label="Provincia"
+                        required
+                        fullWidth
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        name="codprovincia"
+                        onChange={handleInputEmpValue}
+                      >
+                        {provincias.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombreprovincia}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <TextField
+                      fullWidth
+                      label="Direccion"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="direccion"
+                      onChange={handleInputEmpValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Cuenta Bancaria"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="cuentabancaria"
+                      onChange={handleInputEmpValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Movil"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="movil"
+                      onChange={handleInputEmpValue}
+                    />
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                    >
+                      <InputLabel id="prov">Forma de pago</InputLabel>
+                      <Select
+                        label="Forma de Pago"
+                        required
+                        fullWidth
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        name="codformapago"
+                        onChange={handleInputEmpValue}
+                      >
+                        {formPagos.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombrefp}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <TextField
+                      fullWidth
+                      label="RUC"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="ruc"
+                      onChange={handleInputEmpValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Tipo de Empresa"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="tipo"
+                      onChange={handleInputEmpValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Localidad"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="localidad"
+                      onChange={handleInputEmpValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Codigo Postal"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="codpostal"
+                      onChange={handleInputEmpValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Telefono"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="telefono"
+                      onChange={handleInputEmpValue}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Web"
+                      required
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="web"
+                      onChange={handleInputEmpValue}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                    <Button
+                      fullWidth
+                      id="btnClick"
+                      size="medium"
+                      color="secondary"
+                      className="navbar-btn-single"
+                      variant="contained"
+                      onClick={handleClickClienteEmp}
+                    >
+                      <span>{!nuevo ? "Editar" : "Registrar"}</span>
+                    </Button>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                    <Button
+                      fullWidth
+                      id="btnClick"
+                      size="medium"
+                      color="error"
+                      className="navbar-btn-single"
+                      variant="contained"
+                      onClick={handleClose}
+                    >
+                      <span>Cancelar</span>
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </TabPanel>
+          </TabContext>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

@@ -59,7 +59,7 @@ export const menuItems = [
         {name:'Libro Diario',icon: <BookmarkIcon/>,url:'#proveedor'}] },
 
     { url: "#about", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
-    item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'#cliente'},
+    item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
         {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'#proveedor'},
         {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'#proveedor'},
         {name:'Almacenes',icon: <AddBusinessIcon/>,url:'#proveedor'},
