@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     Paper, List, ListItem, ListItemText, ListItemAvatar, Avatar,
     Accordion, AccordionSummary, AccordionDetails
@@ -20,20 +21,24 @@ import WebhookIcon from '@mui/icons-material/Webhook';
 
 const VerCliente = () => {
     
-    const items = [
-        {icon:<NumbersIcon />, primary:"Código", secondary:"codigocliente"},
-        {icon:<DriveFileRenameOutlineIcon />, primary:"Nombre", secondary:"nombre"},
-        {icon:<FingerprintIcon />, primary:"RUC o DNI", secondary:"ruc o dni"},
-        {icon:<DeckIcon />, primary:"Provincia", secondary:"nombre"},
-        {icon:<HomeWorkIcon />, primary:"Localidad", secondary:"nombre"},
-        {icon:<MyLocationIcon />, primary:"Dirección", secondary:"nombre"},
-        {icon:<PinIcon />, primary:"Código Postal", secondary:"nombre"},
-        {icon:<KeyIcon />, primary:"Cuenta Bancaria", secondary:"nombre"},
-        {icon:<LocalPhoneIcon />, primary:"Teléfono", secondary:"telefono"},
-        {icon:<PhoneAndroidIcon />, primary:"Móvil", secondary:"telefono"},
-        {icon:<AttachMoneyIcon />, primary:"Forma de Pago", secondary:"forma de pago"},
-        {icon:<WebhookIcon />, primary:"Empresa", secondary:"empresa si o no"}
-    ];
+    const [itemsPer, setItemsPer] = useState([
+        {icon:<NumbersIcon />, primary:"Código", secondary:""},
+        {icon:<DriveFileRenameOutlineIcon />, primary:"Nombre", secondary:""},
+        {icon:<FingerprintIcon />, primary:"RUC o DNI", secondary:""},
+        {icon:<DeckIcon />, primary:"Provincia", secondary:""},
+        {icon:<HomeWorkIcon />, primary:"Localidad", secondary:""},
+        {icon:<MyLocationIcon />, primary:"Dirección", secondary:""},
+        {icon:<PinIcon />, primary:"Código Postal", secondary:""},
+        {icon:<KeyIcon />, primary:"Cuenta Bancaria", secondary:""},
+        {icon:<LocalPhoneIcon />, primary:"Teléfono", secondary:""},
+        {icon:<PhoneAndroidIcon />, primary:"Móvil", secondary:""},
+        {icon:<AttachMoneyIcon />, primary:"Forma de Pago", secondary:""},
+        {icon:<WebhookIcon />, primary:"Empresa", secondary:""}
+    ]);
+
+    
+
+     
 
     return (
         <section>
@@ -52,7 +57,7 @@ const VerCliente = () => {
                     <AccordionDetails>
                         <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
 
-                            {items.map((i) => (
+                            {itemsPer.map((i) => (
                                 <ListItem>
                                 <ListItemAvatar>
                                 <Avatar>
