@@ -1,4 +1,5 @@
 import axios from "axios"
+import Swal from "sweetalert2"
 
 //URLS
 const URL = "http://localhost:8000/api/mantenimientos/"
@@ -10,25 +11,48 @@ const URL_FORMAPAGO = `${URL}formapago/`
 const URL_CATART = `${URL}categoriaarticulos/`
 
 //PROVINCIAS
-export const getProvincias = async(set) => {
-    const res = await axios.get(URL_PROVINCIAS).catch((error)=>console.log(error.response)) 
-    set(res.data)
-    return res.data
+export const getProvincias = (set) => {
+    axios.get(URL_PROVINCIAS)
+     .then(res=>{
+        if(res.status==200)set(res.data)
+        })
+     .catch((error)=>console.log(error))
 }
-export const getProvincia = async(id,set) => {
-    const res = await axios.get(`${URL_PROVINCIAS}${id}`).catch((error)=>console.log(error.response)) 
-    set(res.data)
-    return res.data
+export const getProvincia = (id,set) => {
+    axios.get(`${URL_PROVINCIAS}${id}`)
+     .then(res=>{
+        if(res.status==200)set(res.data)
+        })
+     .catch((error)=>console.log(error))
 }
-export const postProvincia = async(e) => {
+export const postProvincia = async (payload) => {
+    try{
+        const res = await axios.post(URL_PROVINCIAS,payload)
+        return res.data
+    }catch(error){
+        return error
+    }
+}
+
+
+
+export const post_putProvincia = async (e) => {
     e.preventDefault()
-    let res = await axios.post(URL_PROVINCIAS,
-        {
-            nombreprovincia:e.target.nombreprovincia.value,
-        }
-    ).catch((error)=>console.error(error))
-    console.log(res.data)
-    return res.data
+    const {nombreprovincia,} = e.target
+    const payload = {
+        [nombreprovincia.name]:nombreprovincia.value
+    }
+    if (!e.target.cod) {
+        return await postProvincia(payload)
+    }
+    // e.preventDefault()
+    // let res = await axios.post(URL_PROVINCIAS,
+    //     {
+    //         nombreprovincia:e.target.nombreprovincia.value,
+    //     }
+    // ).catch((error)=>console.error(error))
+    // console.log(res.data)
+    // return res.data
 }
 export const putProvincia = () => {return
 }
@@ -37,14 +61,15 @@ export const deleteProvincia = async(id) => {
     console.log(res.data)
     return res.data
 }
-const handler = async (e, payload)=> {
-    let {name, value} = e.target
-    payload = {...payload, [name]:value}
-    let res = await axios.post(URL_PROVINCIAS,payload).catch((error)=>console.error(error))
-    console.log(res.data)
-    return res.data
 
+export const searcherProvincias = (fields, list) =>{
+    let resultData = list
+    resultData = fields.nombreprovincia ? 
+                 resultData.filter(item=>item.nombreprovincia.toString().includes(fields.nombreprovincia.toString())) 
+                 :resultData
+    return resultData
 }
+
 
 
 
@@ -175,3 +200,15 @@ export const deleteCatArticulos = async (id)=>{
 }
 
 
+
+
+// FORMA PAGO   
+export const getFormaPago = async(set) => {
+    try {
+        const res = await axios.get(URL_FORMAPAGO)
+        set(res.data)
+        return res.data
+    }catch(error){
+        console.log(error)
+    }
+}

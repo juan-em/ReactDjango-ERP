@@ -51,8 +51,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://127.0.0.1:5173'
 )
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

@@ -1,5 +1,3 @@
-
-
 //para la tabla
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -25,9 +23,6 @@ export const Tabla = ({data}) => {
                     <TableCell>Item</TableCell>
                     <TableCell align="right">Código</TableCell>
                     <TableCell align="right">Nombre</TableCell>
-                    <TableCell align="right">RUC</TableCell>
-                    <TableCell align="right">Teléfono</TableCell>
-                    <TableCell align="right">Empresa</TableCell>
                     <TableCell align="right">Acciones</TableCell>
                 </TableRow>
                 </TableHead>
@@ -37,11 +32,8 @@ export const Tabla = ({data}) => {
                     <TableCell component="th" scope="row">
                         {i+1}
                     </TableCell>
-                    <TableCell align="right">{row.codigo}</TableCell>
-                    <TableCell align="right">{row.persona ? row.persona.nombre : row.empresa.nombre}</TableCell>
-                    <TableCell align="right">{row.persona ? row.persona.dni : row.empresa.ruc}</TableCell>
-                    <TableCell align="right">{row.persona ? row.persona.telefono : row.empresa.telefono}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="right">{row.id}</TableCell>
+                    <TableCell align="right">{row.nombreprovincia}</TableCell>
                     <TableCell align="right">
                         <IconButton aria-label="delete" size="small" color="primary">
                             <VisibilityIcon fontSize="inherit" />

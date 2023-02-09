@@ -24,6 +24,7 @@ export const openedMixin = (theme) => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
     }),
+    backgroundColor: '#EDECEF',
     overflowX: 'hidden',
 });
 
@@ -33,6 +34,8 @@ export const closedMixin = (theme) => ({
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
+    paddingTop:20,
+    backgroundColor: '#EDECEF',
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(8)} + 1px)`,

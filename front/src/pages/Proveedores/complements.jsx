@@ -1,5 +1,3 @@
-
-
 //para la tabla
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -16,7 +14,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import MenuItem from '@mui/material/MenuItem';
 
 
-export const Tabla = ({data}) => {
+export const Tabla = (props) => {
     return(
         <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -32,7 +30,7 @@ export const Tabla = ({data}) => {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {data.map((row,i) => (
+                {props.data.map((row,i) => (
                     <TableRow key={i}>
                     <TableCell component="th" scope="row">
                         {i+1}

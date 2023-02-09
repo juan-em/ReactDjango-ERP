@@ -69,13 +69,14 @@ const Navbar = () => {
 
   return (
     <section>
-<<<<<<< HEAD
-        <div className="topnav" id="myTopnav">
-=======
       <div className="topnav" id="myTopnav">
->>>>>>> d0e0d66f01f40035b3e20fe3f6bb912893618e35
+<<<<<<< HEAD
         <Grid container spacing={1}>
           <Grid item xs={0} sm={2} md={2}>
+=======
+        <Grid container spacing={0}>
+            <Grid item xs={0} sm={7} md={8} lg={11}>
+>>>>>>> f954dae2dee9b5e29b0fe9d045b282699aa0518c
               <MiniDrawer/>
           </Grid>
 
@@ -86,7 +87,7 @@ const Navbar = () => {
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Search…"
+                  placeholder="Buscar…"
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </Search>
@@ -94,36 +95,36 @@ const Navbar = () => {
           </Grid>
 
           <div className="cuenta">
-            <Grid item xs={12} sm={2} md={1}>
-              <Box sx={{ flexGrow: 1 }}>
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 2.3 }}>
-                    <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1474904200416-6b2b7926f26f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: '45px' }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
+          <Grid item xs={12} sm={5} md={4} lg={1}>
+            <Box sx={{ flexGrow: 1 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 2.3 }}>
+                <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1474904200416-6b2b7926f26f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
             </Grid>
           </div>
 

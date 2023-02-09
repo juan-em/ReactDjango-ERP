@@ -26,15 +26,16 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import AlbumIcon from '@mui/icons-material/Album';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
-
+import EngineeringIcon from '@mui/icons-material/Engineering';
 
 export const menuItems = [
     { url: "/", icon: <HomeIcon/>, name: "Inicio",
     item:[] },
 
     { url: "#comerciales", icon: <HandshakeIcon/>, name: "Inter. Comer.",
-    item:[{name:'Clientes',icon: <SwitchAccountIcon/>,url:'/comerciales/clientes'},
-        {name:'Proveedores',icon: <SupportAgentIcon/>,url:'#proveedor'}] },
+    item:[{name:'Clientes',icon: <SwitchAccountIcon/>,url:'/clientes'},
+        {name:'Proveedores',icon: <SupportAgentIcon/>,url:'/proveedores'},
+        {name:'Trabajadores',icon: <EngineeringIcon/>,url:'/trabajadores'}] },
 
     { url: "#contact", icon: <Inventory2Icon/>, name: "Productos",
     item:[{name:'Productos',icon: <ArtTrackIcon/>,url:'#cliente'},
@@ -58,7 +59,7 @@ export const menuItems = [
         {name:'Libro Diario',icon: <BookmarkIcon/>,url:'#proveedor'}] },
 
     { url: "#about", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
-    item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'#cliente'},
+    item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
         {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'#proveedor'},
         {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'#proveedor'},
         {name:'Almacenes',icon: <AddBusinessIcon/>,url:'#proveedor'},

@@ -8,9 +8,6 @@ import { Fragment } from 'react';
 import { purple } from '@mui/material/colors';
 
 const CustomCard = ({nombre, url, icono}) => {
-
-    
-
     return (
         <Card>
             <CardActionArea>
@@ -20,9 +17,7 @@ const CustomCard = ({nombre, url, icono}) => {
                             <icono sx={{ fontSize: "60px", color: purple[900] }}/>
                         </Grid>
                         <Grid item xs={12} sm={8} md={8}>
-                            <Typography sx={{ fontSize: 30 }} color="text.secondary">
-                                {nombre}
-                            </Typography>
+                            {nombre}
                         </Grid>
                     </Grid>
                 </Link>

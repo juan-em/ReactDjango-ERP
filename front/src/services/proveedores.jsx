@@ -6,7 +6,7 @@ const ProveedoresContext = createContext()
 
 export const ProveedoresProvider = ({children}) => {
 
-    const URL = "http://localhost:8000/api/proveedores/"
+    const URL = "http://locsalhost:8000/api/proveedores/"
     let [proveedores , setProveedores] = useState([]);
     let [proveedor , setProveedor] = useState({});
 
@@ -56,3 +56,23 @@ export const ProveedoresProvider = ({children}) => {
 
 
 export default ProveedoresContext;
+
+export const postProveedoresper = async (prov) => {
+    try {
+      const response = await axios.post(`${URL}per/`, prov);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
+  
+  export const postProveedoresemp = async (prov) => {
+    try {
+      const response = await axios.post(`${URL}emp/`, prov);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  };
