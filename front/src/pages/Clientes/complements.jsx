@@ -14,15 +14,21 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MenuItem from '@mui/material/MenuItem';
+import { styled, useTheme, alpha } from '@mui/material/styles';
 
+export const Tabla = (props) => {
 
-export const Tabla = ({data}) => {
+    const handleClick = () => {
+        console.log('click')
+    }
     return(
         <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead style={{color:'#8D4C32'}}>
-                <TableRow>
-                    <TableCell>Item</TableCell>
+                <TableHead sx={{backgroundColor:alpha('#633256', 0.20), '&:hover': {
+                backgroundColor: alpha('#633256', 0.25),
+            },}}>
+                <TableRow >
+                    <TableCell >Item</TableCell>
                     <TableCell align="right">Código</TableCell>
                     <TableCell align="right">Nombre</TableCell>
                     <TableCell align="right">RUC</TableCell>
@@ -32,8 +38,8 @@ export const Tabla = ({data}) => {
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {data.map((row,i) => (
-                    <TableRow key={i}>
+                {props.data.map((row,i) => (
+                    <TableRow key={i} onClick={handleClick} value={row.codigo}>
                     <TableCell component="th" scope="row">
                         {i+1}
                     </TableCell>
@@ -43,9 +49,6 @@ export const Tabla = ({data}) => {
                     <TableCell align="right">{row.persona ? row.persona.telefono : row.empresa.telefono}</TableCell>
                     <TableCell align="right">{row.protein}</TableCell>
                     <TableCell align="right">
-                        <IconButton aria-label="delete" size="small" color="primary">
-                            <VisibilityIcon fontSize="inherit" />
-                        </IconButton>
                         <IconButton aria-label="delete" size="small" color="success">
                             <EditIcon fontSize="inherit" />
                         </IconButton>
