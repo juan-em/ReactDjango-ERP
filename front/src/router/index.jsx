@@ -11,10 +11,11 @@ import Main from "../layout/main";
 import Proveedores from "../pages/Proveedores";
 import Clientes from "../pages/Clientes";
 
-// SERVICES
-import { ProveedoresProvider } from "../services/proveedores";
+//SERVICES
 import { ClientesProvider } from "../services/clientes";
+import { ProveedoresProvider } from "../services/Proveedores";
 import AddForm from "../pages/Clientes/addform";
+import Provincias from "../pages/Mantenimiento/Provincias";
 
 // LAYOUTS
 

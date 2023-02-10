@@ -41,9 +41,9 @@ const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
                     </ListItemButton>
                 </Link>
             </ListItem>
-            {item.map((i) => (
-                <Collapse in={open} timeout="auto">
-                    <Link to={i.url} style={{ textDecoration:'none', color:'#777777 ' }}>
+            {item.map((i,index) => (
+                <Collapse key={index} in={open} timeout="auto">
+                    <Link to={i.url} style={{ textDecoration:'none', color:'#777777 '}}>
                     <List component="div" disablePadding>
                         <ListItemButton sx={{ pl: 4 }}>
                             <ListItemIcon>
