@@ -42,7 +42,7 @@ export const menuItems = [
         {name:'Articulos',icon: <AlbumIcon/>,url:'#proveedor'}] },
 
     { url: "#about", icon: <AttachMoneyIcon/>, name: "Ventas",
-    item:[{name:'Venta',icon: <SellIcon/>,url:'#cliente'},
+    item:[{name:'Venta',icon: <SellIcon/>,url:'/ventas/venta'},
         {name:'Facturas',icon: <ArticleIcon/>,url:'#proveedor'},
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 
@@ -60,7 +60,7 @@ export const menuItems = [
 
     { url: "#about", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
     item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
-        {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'#proveedor'},
+        {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'/mantenimientos/formaspago'},
         {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'#proveedor'},
         {name:'Almacenes',icon: <AddBusinessIcon/>,url:'#proveedor'},
         {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'#proveedor'},

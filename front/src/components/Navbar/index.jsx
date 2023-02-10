@@ -70,13 +70,8 @@ const Navbar = () => {
   return (
     <section>
       <div className="topnav" id="myTopnav">
-<<<<<<< HEAD
-        <Grid container spacing={1}>
-          <Grid item xs={0} sm={2} md={2}>
-=======
         <Grid container spacing={0}>
             <Grid item xs={0} sm={7} md={8} lg={11}>
->>>>>>> f954dae2dee9b5e29b0fe9d045b282699aa0518c
               <MiniDrawer/>
           </Grid>
 
