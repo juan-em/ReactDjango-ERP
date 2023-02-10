@@ -51,10 +51,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3000',
+# )
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
