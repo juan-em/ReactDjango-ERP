@@ -14,11 +14,13 @@ import {
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
 import ClientesContext from "../../services/clientes";
+import { deleteClienteper, deleteClienteemp } from "../../services/clientes";
 
-import AddForm from "./addform";
+import Swal from "sweetalert2";
 
 export const Tabla = ({
   fields,
@@ -32,6 +34,9 @@ export const Tabla = ({
 }) => {
   const { clientes, setClientes, getClientes, searcher } =
     useContext(ClientesContext);
+
+  const [viewItem, setViewItem] = useState('')
+
   useEffect(() => {
     if (render.current) {
       render.current = false;
@@ -45,8 +50,47 @@ export const Tabla = ({
   const handlePut = (row) => {
     setItem(row);
     setOpenModal(true);
-    !row.persona ? setValue("2") : setValue("1")
+    !row.persona ? setValue("2") : setValue("1");
     console.log(value);
+  };
+
+  const handleView = (row) => {
+    setItem(row);
+  }
+
+
+
+  const handleDelete = async (id, row) => {
+    try {
+      if (row.persona) {
+        let res = await deleteClienteper(id);
+        render.current = true;
+        setRenderizar(!renderizar);
+        Swal.fire({
+          icon: "success",
+          title: "Ok",
+          text: "Se elimino el Cliente",
+        });
+        return res;
+      } else {
+        let res = await deleteClienteemp(id);
+        render.current = true;
+        setRenderizar(!renderizar);
+        Swal.fire({
+          icon: "success",
+          title: "Ok",
+          text: "Se elimino el Cliente",
+        });
+        return res;
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
+      return error;
+    }
   };
 
   return (
@@ -91,12 +135,25 @@ export const Tabla = ({
                 <IconButton
                   aria-label="delete"
                   size="small"
+                  color="primary"
+                  onClick={() => handleView(row)}
+                >
+                  <VisibilityIcon fontSize="inherit" />
+                </IconButton>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
                   color="success"
                   onClick={() => handlePut(row)}
                 >
                   <EditIcon fontSize="inherit" />
                 </IconButton>
-                <IconButton aria-label="delete" size="small" color="error">
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={() => handleDelete(row.id, row)}
+                >
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
               </TableCell>

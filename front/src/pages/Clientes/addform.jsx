@@ -55,8 +55,6 @@ const AddForm = ({
     setOpenModal(false);
   };
 
-  console.log(value);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -101,7 +99,9 @@ const AddForm = ({
       ...inputsPer,
       [name]: value,
     });
+  };
 
+  const handleInputClientePer = (event) => {
     setInputCliente({
       persona: inputsPer,
       codformapago: event.target.value,
@@ -110,12 +110,13 @@ const AddForm = ({
 
   const handleInputEmpValue = (event) => {
     const { value, name } = event.target;
-
     setInputsEmp({
       ...inputsEmp,
       [name]: value,
     });
+  };
 
+  const handleInputClienteEmp = (event) => {
     setInputCliente({
       empresa: inputsEmp,
       codformapago: event.target.value,
@@ -126,7 +127,7 @@ const AddForm = ({
     try {
       !item.id
         ? await postClienteemp(inputCliente)
-        : await putClienteemp(inputCliente);
+        : await putClienteemp(item.id, inputCliente);
 
       Swal.fire({
         icon: "success",
@@ -149,7 +150,7 @@ const AddForm = ({
     try {
       !item.id
         ? await postClienteper(inputCliente)
-        : await putClienteper(inputCliente);
+        : await putClienteper(item.id, inputCliente);
 
       Swal.fire({
         icon: "success",
@@ -168,8 +169,9 @@ const AddForm = ({
     }
     setOpenModal(false);
   };
-
-  console.log(item);
+  // console.log(inputCliente);
+  // console.log(inputsPer);
+  
 
   useEffect(() => {
     getProvincias(setProvincias);
@@ -207,11 +209,6 @@ const AddForm = ({
             </TabList>
             <TabPanel value="1" color="secondary">
               <form>
-                {item.id ? (
-                  <input type="hidden" name="cod" value={item.id} />
-                ) : (
-                  ""
-                )}
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={6} md={6}>
                     <TextField
@@ -224,7 +221,11 @@ const AddForm = ({
                       margin="dense"
                       name="nombre"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona && item.persona ? item.persona.nombre : ""}
+                      defaultValue={
+                        item.id && item.persona
+                          ? item.persona.nombre
+                          : ""
+                      }
                     />
                     <FormControl
                       fullWidth
@@ -242,7 +243,11 @@ const AddForm = ({
                         id="textfields"
                         name="codprovincia"
                         onChange={handleInputPerValue}
-                        defaultValue={item.id && item.persona ? item.persona.codprovincia : ""}
+                        defaultValue={
+                          item.id && item.persona
+                            ? item.persona.codprovincia
+                            : ""
+                        }
                       >
                         {provincias.map((item, i) => (
                           <MenuItem key={i} value={item.id}>
@@ -261,7 +266,9 @@ const AddForm = ({
                       margin="dense"
                       name="direccion"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona ? item.persona.direccion : ""}
+                      defaultValue={
+                        item.id && item.persona ? item.persona.direccion : ""
+                      }
                     />
                     <TextField
                       fullWidth
@@ -273,7 +280,11 @@ const AddForm = ({
                       margin="dense"
                       name="cuentabancaria"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona ? item.persona.cuentabancaria : ""}
+                      defaultValue={
+                        item.id && item.persona
+                          ? item.persona.cuentabancaria
+                          : ""
+                      }
                     />
                     <TextField
                       label="Movil"
@@ -284,7 +295,9 @@ const AddForm = ({
                       margin="dense"
                       name="movil"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona ? item.persona.movil : ""}
+                      defaultValue={
+                        item.id && item.persona ? item.persona.movil : ""
+                      }
                     />
                     <FormControl
                       fullWidth
@@ -301,10 +314,9 @@ const AddForm = ({
                         color="secondary"
                         id="textfields"
                         name="codformapago"
-                        onChange={handleInputPerValue}
-                        defaultValue={item.id && item.persona ? item.codformapago : ""}
+                        onChange={handleInputClientePer}
+                        value=""
                       >
-                        <MenuItem value={""}>-----</MenuItem>
                         {formPagos.map((item, i) => (
                           <MenuItem key={i} value={item.id}>
                             {item.nombrefp}
@@ -324,7 +336,9 @@ const AddForm = ({
                       margin="dense"
                       name="dni"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona ? item.persona.dni : ""}
+                      defaultValue={
+                        item.id && item.persona ? item.persona.dni : ""
+                      }
                     />
                     <TextField
                       fullWidth
@@ -336,7 +350,9 @@ const AddForm = ({
                       margin="dense"
                       name="localidad"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona ? item.persona.localidad : ""}
+                      defaultValue={
+                        item.id && item.persona ? item.persona.localidad : ""
+                      }
                     />
                     <TextField
                       fullWidth
@@ -348,7 +364,9 @@ const AddForm = ({
                       margin="dense"
                       name="codpostal"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona ? item.persona.codpostal : ""}
+                      defaultValue={
+                        item.id && item.persona ? item.persona.codpostal : ""
+                      }
                     />
                     <TextField
                       fullWidth
@@ -360,7 +378,9 @@ const AddForm = ({
                       margin="dense"
                       name="telefono"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona ? item.persona.telefono : ""}
+                      defaultValue={
+                        item.id && item.persona ? item.persona.telefono : ""
+                      }
                     />
                     <TextField
                       fullWidth
@@ -372,7 +392,9 @@ const AddForm = ({
                       margin="dense"
                       name="web"
                       onChange={handleInputPerValue}
-                      defaultValue={item.id && item.persona ? item.persona.web : ""}
+                      defaultValue={
+                        item.id && item.persona ? item.persona.web : ""
+                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
@@ -385,7 +407,7 @@ const AddForm = ({
                       variant="contained"
                       onClick={handleClickClientePer}
                     >
-                      <span>{!item.id ? "Editar" : "Registrar"}</span>
+                      <span>{item.id ? "Editar" : "Registrar"}</span>
                     </Button>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
@@ -418,7 +440,9 @@ const AddForm = ({
                       margin="dense"
                       name="nombre"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.id && item.empresa ? item.empresa.nombre:''}
+                      defaultValue={
+                        item.id && item.empresa ? item.empresa.nombre : ""
+                      }
                     />
                     <TextField
                       fullWidth
@@ -430,7 +454,11 @@ const AddForm = ({
                       margin="dense"
                       name="estructurajuridica"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.id && item.empresa ? item.empresa.estructurajuridica:''}
+                      defaultValue={
+                        item.id && item.empresa
+                          ? item.empresa.estructurajuridica
+                          : ""
+                      }
                     />
                     <FormControl
                       fullWidth
@@ -448,10 +476,14 @@ const AddForm = ({
                         id="textfields"
                         name="codprovincia"
                         onChange={handleInputEmpValue}
-                        defaultValue={item.id && item.empresa ? item.empresa.codprovincia:''}
+                        defaultValue={
+                          item.id && item.empresa
+                            ? item.empresa.codprovincia
+                            : ""
+                        }
                       >
                         {provincias.map((item, i) => (
-                          <MenuItem key={i} value={item.id}>
+                          <MenuItem key={i} defaultValue={item.id}>
                             {item.nombreprovincia}
                           </MenuItem>
                         ))}
@@ -467,7 +499,9 @@ const AddForm = ({
                       margin="dense"
                       name="direccion"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.id && item.empresa ? item.empresa.direccion:''}
+                      defaultValue={
+                        item.id && item.empresa ? item.empresa.direccion : ""
+                      }
                     />
                     <TextField
                       fullWidth
@@ -479,7 +513,11 @@ const AddForm = ({
                       margin="dense"
                       name="cuentabancaria"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.id && item.empresa ? item.empresa.cuentabancaria:''}
+                      defaultValue={
+                        item.id && item.empresa
+                          ? item.empresa.cuentabancaria
+                          : ""
+                      }
                     />
                     <TextField
                       fullWidth
@@ -491,7 +529,7 @@ const AddForm = ({
                       margin="dense"
                       name="movil"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.empresa ? item.empresa.movil:''}
+                      defaultValue={item.empresa ? item.empresa.movil : ""}
                     />
                     <FormControl
                       fullWidth
@@ -508,11 +546,11 @@ const AddForm = ({
                         color="secondary"
                         id="textfields"
                         name="codformapago"
-                        onChange={handleInputEmpValue}
-                        // defaultValue={item.id && item.persona ? item.codformapago:''}
+                        onChange={handleInputClienteEmp}
+                        value=""
                       >
                         {formPagos.map((item, i) => (
-                          <MenuItem key={i} value={item.id}>
+                          <MenuItem key={i} defaultValue={item.id}>
                             {item.nombrefp}
                           </MenuItem>
                         ))}
@@ -530,7 +568,7 @@ const AddForm = ({
                       margin="dense"
                       name="ruc"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.empresa ? item.empresa.ruc:''}
+                      defaultValue={item.empresa ? item.empresa.ruc : ""}
                     />
                     <TextField
                       fullWidth
@@ -542,7 +580,7 @@ const AddForm = ({
                       margin="dense"
                       name="tipo"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.empresa ? item.empresa.tipo:''}
+                      defaultValue={item.empresa ? item.empresa.tipo : ""}
                     />
                     <TextField
                       fullWidth
@@ -554,7 +592,7 @@ const AddForm = ({
                       margin="dense"
                       name="localidad"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.empresa ? item.empresa.localidad:''}
+                      defaultValue={item.empresa ? item.empresa.localidad : ""}
                     />
                     <TextField
                       fullWidth
@@ -566,7 +604,7 @@ const AddForm = ({
                       margin="dense"
                       name="codpostal"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.empresa ? item.empresa.codpostal:''}
+                      defaultValue={item.empresa ? item.empresa.codpostal : ""}
                     />
                     <TextField
                       fullWidth
@@ -578,7 +616,7 @@ const AddForm = ({
                       margin="dense"
                       name="telefono"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.empresa ? item.empresa.telefono:''}
+                      defaultValue={item.empresa ? item.empresa.telefono : ""}
                     />
                     <TextField
                       fullWidth
@@ -590,7 +628,7 @@ const AddForm = ({
                       margin="dense"
                       name="web"
                       onChange={handleInputEmpValue}
-                      defaultValue={item.empresa ? item.empresa.web:''}
+                      defaultValue={item.empresa ? item.empresa.web : ""}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
@@ -603,7 +641,7 @@ const AddForm = ({
                       variant="contained"
                       onClick={handleClickClienteEmp}
                     >
-                      <span>{!item.id ? "Editar" : "Registrar"}</span>
+                      <span>{item.id ? "Editar" : "Registrar"}</span>
                     </Button>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>

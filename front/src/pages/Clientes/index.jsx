@@ -67,6 +67,8 @@ const Clientes = () => {
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
 
+  // console.log(item)
+
   return (
     <section>
       <div className="container">
@@ -216,7 +218,7 @@ const Clientes = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={5}>
-            <VerCliente/>
+            <VerCliente item={item}/>
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
             <AddForm
