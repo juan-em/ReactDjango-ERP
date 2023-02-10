@@ -73,7 +73,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
             <CloseIcon fontSize="large" />
           </IconButton>
-          <Typography sx={{ fontSize: 40 }} color="text.secondary" gutterBottom>
+          <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             {item.id ? "Editar Provincia" : "Nueva Provincia"}
           </Typography>
         </DialogTitle>
@@ -82,8 +82,8 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
               <form onSubmit={handlePostPutProvincia}>
                 {item.id?<input type="hidden" name="cod" value={item.id}/>:''
                 }
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={6}>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12} md={12}>
                     <TextField
                       fullWidth
                       label="Nombre"
@@ -97,8 +97,9 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                     />
                   </Grid>
 
-                  <Grid item xs={12} sm={12} md={12}>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
+                      fullWidth
                       id="btnClick"
                       size="medium"
                       color="secondary"
@@ -107,9 +108,12 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       type="submit"
                       
                     >
-                      <span>&nbsp;&nbsp;{item.id ? "Editar" : "Registrar"}</span>
+                      <span>{item.id ? "Editar" : "Registrar"}</span>
                     </Button>
+                    </Grid>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
+                      fullWidth
                       id="btnClick"
                       size="medium"
                       color="error"
@@ -117,7 +121,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       variant="contained"
                       onClick={handleClose}
                     >
-                      <span>&nbsp;&nbsp;Cancelar</span>
+                      <span>Cancelar</span>
                     </Button>
                   </Grid>
                 </Grid>

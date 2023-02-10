@@ -28,20 +28,10 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import WebhookIcon from "@mui/icons-material/Webhook";
 import { Box } from "@mui/system";
 
-const VerCliente = () => {
+const VerProvincia = () => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
-    { icon: <FingerprintIcon />, primary: "RUC o DNI", secondary: "" },
-    { icon: <DeckIcon />, primary: "Provincia", secondary: "" },
-    { icon: <HomeWorkIcon />, primary: "Localidad", secondary: "" },
-    { icon: <MyLocationIcon />, primary: "Dirección", secondary: "" },
-    { icon: <PinIcon />, primary: "Código Postal", secondary: "" },
-    { icon: <KeyIcon />, primary: "Cuenta Bancaria", secondary: "" },
-    { icon: <LocalPhoneIcon />, primary: "Teléfono", secondary: "" },
-    { icon: <PhoneAndroidIcon />, primary: "Móvil", secondary: "" },
-    { icon: <AttachMoneyIcon />, primary: "Forma de Pago", secondary: "" },
-    { icon: <WebhookIcon />, primary: "Empresa", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
   ]);
 
   useEffect(()=>{
@@ -68,7 +58,7 @@ const VerCliente = () => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Cliente seleccionado
+            Provincia seleccionada
           </AccordionSummary>
           <AccordionDetails>
             <List
@@ -97,4 +87,4 @@ const VerCliente = () => {
   );
 };
 
-export default VerCliente;
+export default VerProvincia;

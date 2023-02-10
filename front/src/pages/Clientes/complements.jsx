@@ -40,6 +40,7 @@ export const Tabla = ({
   }, [renderizar]);
 
   let data = clientes;
+  console.log(data);
 
   const handlePut = (row) => {
     setItem(row);

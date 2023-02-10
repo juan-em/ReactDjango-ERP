@@ -17,7 +17,7 @@ import { searcherProvincias, getProvincias, deleteProvincia } from '../../../ser
 import { useRef, useState,useEffect } from 'react';
 import { Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import { alpha } from "@mui/material/styles";
 
 export const Tabla = ({fields,render,renderizar,setRenderizar,setOpenModal, setItem}) => {
 
@@ -51,7 +51,13 @@ export const Tabla = ({fields,render,renderizar,setRenderizar,setOpenModal, setI
     return(
         <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead style={{color:'#8D4C32'}}>
+                <TableHead sx={{
+                    backgroundColor: alpha("#633256", 0.2),
+                    "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25),
+                    },
+                }}
+                >
                 <TableRow>
                     <TableCell>Item</TableCell>
                     <TableCell align="right">Código</TableCell>

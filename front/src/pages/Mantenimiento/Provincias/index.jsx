@@ -1,6 +1,6 @@
-
 import "./index.css";
 import "../../../fonts/poppins.ttf";
+import { alpha } from "@mui/material/styles";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -10,12 +10,16 @@ import Avatar from "@mui/material/Avatar";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NumbersIcon from "@mui/icons-material/Numbers";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {
   Paper,
   Grid,
   TextField,
-  Button
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 
 //Componentes
@@ -24,6 +28,7 @@ import { Tabla } from "./complements";
 import { getProvincias, searcherProvincias } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
+import VerProvincia from "./verprovincia";
 
 const Provincias = () => {
 
@@ -43,8 +48,21 @@ const Provincias = () => {
       <div className="container">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={6}>
-            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 5 }}>
-              Buscar Provincia <br />
+            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 0 , 
+            backgroundColor: alpha('#8D4C32', 0.20),
+            '&:hover': {
+                backgroundColor: alpha('#8D4C32', 0.25),
+            },
+            }}>
+              <Accordion sx={{ p:5 }}>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    >
+                    Buscar Provincia
+                </AccordionSummary>
+                <AccordionDetails>
               <TextField
                 fullWidth
                 label="Nombre"
@@ -57,57 +75,27 @@ const Provincias = () => {
                 onChange={handlerSearcher}
               />
               <br />
-              <Button
-                fullWidth
-                id="textfields"
-                color="secondary"
-                variant="contained"
-              >
-                Buscar
-              </Button>
+              <Grid container spacing={1} sx={{mt:2}}>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Button fullWidth id="textfields" color="secondary" variant="contained">
+                        Buscar
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                      <Button fullWidth id="textfields" color="primary" variant="contained">
+                        Limpiar
+                      </Button>
+                    </Grid>
+                  </Grid>
+
+                </AccordionDetails>
+              </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 5 }}>
-              Cliente seleccionado
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: 360,
-                  bgcolor: "background.paper",
-                }}
-              >
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <NumbersIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Código" secondary="codigocliente" />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <AttachMoneyIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Forma de pago" secondary="formapago" />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <HomeWorkIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Empresa"
-                    secondary="empresa checkbox"
-                  />
-                </ListItem>
-              </List>
-            </Paper>
+          <Grid item xs={12} sm={12} md={5}>
+            <VerProvincia/>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
             <AddForm render={render} renderizar={renderizar} setRenderizar={setRenderizar}
                      openModal={openModal} setOpenModal={setOpenModal} item={item} setItem={setItem}/>
           </Grid>
