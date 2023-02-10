@@ -13,7 +13,7 @@ import Clientes from "../pages/Clientes";
 
 //SERVICES
 import { ClientesProvider } from "../services/clientes";
-import { ProveedoresProvider } from "../services/Proveedores";
+import { ProveedoresProvider } from "../services/proveedores";
 import AddForm from "../pages/Clientes/addform";
 import Provincias from "../pages/Mantenimiento/Provincias";
 
@@ -53,6 +53,19 @@ const Router = () => {
                   <ProveedoresProvider>
                     <Proveedores />
                   </ProveedoresProvider>
+                }
+              />
+
+              <Route
+                path="/mantenimientos/provincias"
+                element={
+                  <Provincias/>
+                }
+              />
+              <Route
+                path="/mantenimientos/provincias/editar/:id"
+                element={
+                  <Provincias/>
                 }
               />
             </Route>
