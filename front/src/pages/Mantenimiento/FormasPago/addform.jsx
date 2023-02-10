@@ -18,7 +18,7 @@ import CloseIcon from "@mui/icons-material/Close";
 //componentes
 import { post_putProvincia } from "../../../services/mantenimiento";
 
-
+//LAS INTERFACES AUN SE MANEJAN CON PROVINCIAS
 
 import Swal from "sweetalert2";
 
@@ -41,7 +41,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la provincia",
+        text: "Se registró la forma de pago",
       });
       if(item.id)setItem({})
       setRenderizar(!renderizar)
@@ -74,7 +74,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
             <CloseIcon fontSize="large" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Provincia" : "Nueva Provincia"}
+            {item.id ? "Editar Forma de pago" : "Nueva Forma de Pago"}
           </Typography>
         </DialogTitle>
         <DialogContent>

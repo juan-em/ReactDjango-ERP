@@ -48,7 +48,7 @@ const VerCliente = ({ item }) => {
  
   const seti = () => {
     itemsPer.forEach((i)=>{
-      if (!item.id){
+      if (item.id){
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -123,7 +123,7 @@ const VerCliente = ({ item }) => {
           },
         }}
       >
-        <Accordion sx={{ p: 5 }}>
+        <Accordion sx={{ p:5 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
