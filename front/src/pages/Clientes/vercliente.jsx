@@ -45,7 +45,7 @@ const VerCliente = () => {
   ]);
 
   useEffect(()=>{
-
+    
   },[])
 
   return (

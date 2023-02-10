@@ -43,7 +43,7 @@ export const ClientesProvider = () => {
             if (fields.per_emp == "persona") return item.persona
             else if (fields.per_emp == "empresa") return item.empresa
         }) : resultData
-
+        console.log(resultData)
         return resultData
     }
 
