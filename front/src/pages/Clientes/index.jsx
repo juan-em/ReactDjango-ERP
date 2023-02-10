@@ -28,8 +28,14 @@ import {
   FormLabel,
   RadioGroup,
   Dialog,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import Radio from "@mui/material/Radio";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { styled, useTheme, alpha } from "@mui/material/styles";
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
@@ -38,32 +44,30 @@ import { Tabla } from "./complements";
 import { getProvincias } from "../../services/mantenimiento";
 import AddForm from "./addform";
 import { borderRight } from "@mui/system";
+import { useRef } from "react";
 
-
+import VerCliente from "./vercliente";
 
 const Clientes = () => {
-  
+  const [openModal, setOpenModal] = useState(false);
+  const [item, setItem] = useState({});
+  const [value, setValue] = useState("");
+
   //Listado de clientes y provincias
   const { clientes, getClientes, searcher } = useContext(ClientesContext);
   const [provincias, setProvincias] = useState([]);
-  useEffect(()=>{
-    getProvincias(setProvincias)
-    getClientes()
-},[])
-// console.log({provincias})
-// console.log({clientes})
+
   //Buscador
-  const [id, setId] = useState("");
-  const [ruc, setRuc] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [provincia, setProvincia] = useState("");
-  const [localidad, setLocalidad] = useState("");
-  const [per_emp, setPer_Emp] = useState("");
-  let cliente_encontrados = searcher(
-    { id, ruc, nombre, telefono, provincia, localidad, per_emp },
-    clientes
-  );
+  const handlerSearcher = (e) => {
+    const { name, value } = e.target;
+    setFields({ ...fields, [name]: value });
+  };
+
+  const render = useRef(true);
+  const [renderizar, setRenderizar] = useState(true);
+  const [fields, setFields] = useState({});
+
+  // console.log(item)
 
   return (
     <section>
@@ -79,9 +83,8 @@ const Clientes = () => {
                 size="small"
                 color="secondary"
                 margin="dense"
-                value={id}
                 id="textfields"
-                onChange={(e) => setId(e.target.value)}
+                onChange={handlerSearcher}
               />
               <TextField
                 fullWidth
@@ -90,9 +93,8 @@ const Clientes = () => {
                 size="small"
                 color="secondary"
                 margin="dense"
-                value={ruc}
                 id="textfields"
-                onChange={(e) => setRuc(e.target.value)}
+                onChange={handlerSearcher}
               />
               <TextField
                 fullWidth
@@ -101,9 +103,8 @@ const Clientes = () => {
                 size="small"
                 color="secondary"
                 margin="dense"
-                value={nombre}
                 id="textfields"
-                onChange={(e) => setNombre(e.target.value)}
+                onChange={handlerSearcher}
               />
               <TextField
                 fullWidth
@@ -112,9 +113,8 @@ const Clientes = () => {
                 size="small"
                 color="secondary"
                 margin="dense"
-                value={telefono}
                 id="textfields"
-                onChange={(e) => setTelefono(e.target.value)}
+                onChange={handlerSearcher}
               />
               <FormControl
                 fullWidth
@@ -127,9 +127,9 @@ const Clientes = () => {
                   label="Provincia"
                   size="small"
                   color="secondary"
-                  value={provincia}
                   id="textfields"
-                  onChange={(e) => setProvincia(e.target.value)}
+                  onChange={handlerSearcher}
+                  defaultValue=""
                 >
                   <MenuItem value="">
                     <em>all</em>
@@ -148,9 +148,8 @@ const Clientes = () => {
                 size="small"
                 color="secondary"
                 margin="dense"
-                value={localidad}
                 id="textfields"
-                onChange={(e) => setLocalidad(e.target.value)}
+                onChange={handlerSearcher}
               />
               <FormControl>
                 <FormLabel
@@ -163,7 +162,7 @@ const Clientes = () => {
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="row-radio-buttons-group"
-                  onChange={(e) => setPer_Emp(e.target.value)}
+                  onChange={handlerSearcher}
                 >
                   <FormControlLabel
                     disableTypography
@@ -200,51 +199,33 @@ const Clientes = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 5 }}>
-              Cliente seleccionado
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: 360,
-                  bgcolor: "background.paper",
-                }}
-              >
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <NumbersIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Código" secondary="codigocliente" />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <AttachMoneyIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary="Forma de pago" secondary="formapago" />
-                </ListItem>
-                <ListItem>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <HomeWorkIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary="Empresa"
-                    secondary="empresa checkbox"
-                  />
-                </ListItem>
-              </List>
-            </Paper>
+            <VerCliente item={item}/>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <AddForm />
+            <AddForm
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              item={item}
+              setItem={setItem}
+              value={value}
+              setValue={setValue}
+            />
           </Grid>
         </Grid>
 
-        <Tabla data={cliente_encontrados} />
+        <Tabla
+          fields={fields}
+          render={render}
+          renderizar={renderizar}
+          setRenderizar={setRenderizar}
+          setOpenModal={setOpenModal}
+          value={value}
+          setValue={setValue}
+          setItem={setItem}
+        />
       </div>
     </section>
   );
