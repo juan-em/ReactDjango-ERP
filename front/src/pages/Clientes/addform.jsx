@@ -95,18 +95,22 @@ const AddForm = ({
 
   const handleInputPerValue = (event) => {
     const { value, name } = event.target;
-    setInputsPer({
-      ...inputsPer,
-      [name]: value,
-    });
+    if (event.target.name !== codformapago){
+      setInputsPer({
+        ...inputsPer,
+        [name]: value,
+      });
+    } else {
+      setInputCliente({
+        persona: inputsPer,
+        codformapago: event.target.value,
+      });
+    }
   };
 
-  const handleInputClientePer = (event) => {
-    setInputCliente({
-      persona: inputsPer,
-      codformapago: event.target.value,
-    });
-  };
+  // const handleInputClientePer = (event) => {
+    
+  // };
 
   const handleInputEmpValue = (event) => {
     const { value, name } = event.target;
@@ -314,7 +318,7 @@ const AddForm = ({
                         color="secondary"
                         id="textfields"
                         name="codformapago"
-                        onChange={handleInputClientePer}
+                        onChange={handleInputPerValue}
                         value=""
                       >
                         {formPagos.map((item, i) => (
