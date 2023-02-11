@@ -31,11 +31,13 @@ export const Tabla = ({
   setItem,
   value,
   setValue,
+  clienteId,
+  setClienteId,
 }) => {
   const { clientes, setClientes, getClientes, searcher } =
     useContext(ClientesContext);
 
-  const [viewItem, setViewItem] = useState('')
+  const [viewItem, setViewItem] = useState("");
 
   useEffect(() => {
     if (render.current) {
@@ -55,9 +57,9 @@ export const Tabla = ({
 
   const handleView = (row) => {
     setItem(row);
-  }
-
-
+    // console.log(row)
+    // setClienteId(id)
+  };
 
   const handleDelete = async (id, row) => {
     try {

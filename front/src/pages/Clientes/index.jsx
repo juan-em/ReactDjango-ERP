@@ -52,6 +52,7 @@ const Clientes = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [value, setValue] = useState("");
+  const [clienteId, setClienteId] = useState("");
 
   //Listado de clientes y provincias
   const { clientes, getClientes, searcher } = useContext(ClientesContext);
@@ -199,7 +200,11 @@ const Clientes = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerCliente item={item}/>
+            <VerCliente
+              item={item}
+              clienteId={clienteId}
+              setClienteId={setClienteId}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
             <AddForm
@@ -225,6 +230,8 @@ const Clientes = () => {
           value={value}
           setValue={setValue}
           setItem={setItem}
+          clienteId={clienteId}
+          setClienteId={setClienteId}
         />
       </div>
     </section>

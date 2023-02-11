@@ -45,69 +45,100 @@ const VerCliente = ({ item }) => {
     { icon: <AttachMoneyIcon />, primary: "Forma de Pago", secondary: "" },
   ]);
 
- 
-  const seti = () => {
-    itemsPer.forEach((i)=>{
-      if (!item.id){
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: 'intentelo nuevamente',
-        });
+  const setiEstate = () => {
+    itemsPer.forEach((i) => {
+      if (!item.id) {
+        console.log("no item");
       }
-      if (item.persona){
-        if (i['primary'] === 'Codigo'){
-          i['secondary'] = item.codigo
-        } else if (i['primary'] === 'Nombre'){
-          i['secondary'] = item.persona.nombre
-        } else if (i['primary'] === 'RUC o DNI'){
-          i['secondary'] = item.persona.dni
-        } else if (i['primary'] === 'Provincia'){
-          i['secondary'] = item.persona.codprovincia
-        } else if (i['primary'] === 'Localidad'){
-          i['secondary'] = item.persona.localidad
-        } else if (i['primary'] === 'Dirección'){
-          i['secondary'] = item.persona.direccion
-        } else if (i['primary'] === 'Código Postal'){
-          i['secondary'] = item.persona.codpostal
-        } else if (i['primary'] === 'Cuenta Bancaria'){
-          i['secondary'] = item.persona.cuentabancaria
-        } else if (i['primary'] === 'Teléfono'){
-          i['secondary'] = item.persona.telefono
-        } else if (i['primary'] === 'Móvil'){
-          i['secondary'] = item.persona.movil
-        }else if (i['primary'] === 'Forma de Pago'){
-          i['secondary'] = item.codformapago
-        }
-      } else if (item.empresa){
-        if (i['primary'] === 'Codigo'){
-          i['secondary'] = item.codigo
-        } else if (i['primary'] === 'Nombre'){
-          i['secondary'] = item.empresa.nombre
-        } else if (i['primary'] === 'RUC o DNI'){
-          i['secondary'] = item.empresa.ruc
-        } else if (i['primary'] === 'Provincia'){
-          i['secondary'] = item.empresa.codprovincia
-        } else if (i['primary'] === 'Localidad'){
-          i['secondary'] = item.empresa.localidad
-        } else if (i['primary'] === 'Dirección'){
-          i['secondary'] = item.empresa.direccion
-        } else if (i['primary'] === 'Código Postal'){
-          i['secondary'] = item.empresa.codpostal
-        } else if (i['primary'] === 'Cuenta Bancaria'){
-          i['secondary'] = item.empresa.cuentabancaria
-        } else if (i['primary'] === 'Teléfono'){
-          i['secondary'] = item.empresa.telefono
-        } else if (i['primary'] === 'Móvil'){
-          i['secondary'] = item.empresa.movil
-        }else if (i['primary'] === 'Forma de Pago'){
-          i['secondary'] = item.codformapago
-        }
-      }
-    })
-  }
+    });
+  };
 
-  useEffect(() => {seti()});
+  const seti = () => {
+    const array = [];
+    const newItem = itemsPer.map((i) => {
+      if (!item.id) {
+        console.log("no item");
+      } else {
+        console.log(item);
+        if (i["primary"] === "Código") {
+          return {
+            ...i,
+            secondary: item.codigo,
+          };
+        } else if (i["primary"] === "Nombre") {
+          return {
+            ...i,
+            secondary: item.persona ? item.persona.nombre : item.empresa.nombre,
+          };
+        } else if (i["primary"] === "RUC o DNI") {
+          return {
+            ...i,
+            secondary: item.persona ? item.persona.dni : item.empresa.ruc,
+          };
+        } else if (i["primary"] === "Provincia") {
+          return {
+            ...i,
+            secondary: item.persona
+            ? item.persona.codprovincia
+            : item.empresa.codprovincia
+          }
+        } else if (i["primary"] === "Localidad") {
+          return {
+            ...i,
+            secondary: item.persona
+            ? item.persona.localidad
+            : item.empresa.localidad
+          }
+        } else if (i["primary"] === "Dirección") {
+          return {
+            ...i,
+            secondary: item.persona
+            ? item.persona.direccion
+            : item.empresa.direccion
+          }
+        } else if (i["primary"] === "Código Postal") {
+          return {
+            ...i,
+            secondary:item.persona
+            ? item.persona.codpostal
+            : item.empresa.codpostal
+          }
+        } else if (i["primary"] === "Cuenta Bancaria") {
+          return {
+            ...i,
+            secondary: item.persona
+            ? item.persona.cuentabancaria
+            : item.empresa.cuentabancaria
+          }
+        } else if (i["primary"] === "Teléfono") {
+          return {
+            ...i,
+            secondary: item.persona
+            ? item.persona.telefono
+            : item.empresa.telefono
+          }
+        } else if (i["primary"] === "Móvil") {
+          return {
+            ...i,
+            secondary: item.persona
+            ? item.persona.movil
+            : item.empresa.movil
+          }
+        } else if (i["primary"] === "Forma de Pago") {
+          return {
+            ...i,
+            secondary:item.codformapago
+          }
+        }
+      }
+    });
+    console.log(newItem);
+    setItemsPer(newItem)
+  };
+
+  useEffect(() => {
+    seti();
+  }, [item]);
 
   return (
     <section>

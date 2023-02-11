@@ -140,19 +140,7 @@ export const putClienteemp = async (id, data) => {
   }
 };
 
-// export const postPutClientePer = async (e) => {
-//   e.preventDefault();
-//   const { item } = e.target;
-//   const payload = {
-//     [item.name]: item.value,
-//   };
-//   try {
-//     const respone = await postClienteemp(payload);
-//   } catch (error) {
-//     console.log(error);
-//     return error;
-//   }
-// };
+
 
 export const deleteClienteper = async (id, data) => {
   try {
@@ -177,3 +165,27 @@ export const deleteClienteemp = async (id, data) => {
     return error;
   }
 };
+
+export const getOneClientePer = async (id, data) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/clientes/mod/per/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
+
+export const getOneClienteEmp = async (id, data) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/clientes/mod/emp/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
