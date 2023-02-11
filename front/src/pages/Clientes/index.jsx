@@ -51,6 +51,7 @@ import VerCliente from "./vercliente";
 const Clientes = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
+  const [putItem, setPutItem] = useState({});
   const [value, setValue] = useState("");
   const [clienteId, setClienteId] = useState("");
 
@@ -230,6 +231,7 @@ const Clientes = () => {
           value={value}
           setValue={setValue}
           setItem={setItem}
+          setPutItem={setPutItem}
           clienteId={clienteId}
           setClienteId={setClienteId}
         />

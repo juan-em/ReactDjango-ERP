@@ -29,6 +29,7 @@ export const Tabla = ({
   setRenderizar,
   setOpenModal,
   setItem,
+  setPutItem,
   value,
   setValue,
   clienteId,
@@ -57,7 +58,7 @@ export const Tabla = ({
 
   const handleView = (row) => {
     setItem(row);
-    // console.log(row)
+    // console.log()
     // setClienteId(id)
   };
 
