@@ -60,9 +60,9 @@ export const Tabla = ({fields,render,renderizar,setRenderizar,setOpenModal, setI
                 >
                 <TableRow>
                     <TableCell sx={{ color: "#633256" , fontFamily:'inherit' , fontStyle: "italic"}}>Item</TableCell>
-                    <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Código</TableCell>
-                    <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Nombre</TableCell>
-                    <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Acciones</TableCell>
+                    <TableCell sx={{ color: "#633256" , fontFamily:'inherit'}} align="right">Código</TableCell>
+                    <TableCell sx={{ color: "#633256" , fontFamily:'inherit'}} align="right">Nombre</TableCell>
+                    <TableCell sx={{ color: "#633256" , fontFamily:'inherit'}} align="right">Acciones</TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>

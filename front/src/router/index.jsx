@@ -11,6 +11,8 @@ import { ClientesProvider } from "../services/clientes";
 import { ProveedoresProvider } from "../services/Proveedores";
 import AddForm from "../pages/Clientes/addform";
 import Provincias from "../pages/Mantenimiento/Provincias";
+import FormasPago from "../pages/Mantenimiento/FormasPago";
+import Venta from "../pages/Ventas/Venta";
 
 // LAYOUTS
 
@@ -42,6 +44,12 @@ const Router = () => {
             }
           />
           <Route
+            path="/ventas/venta"
+            element={
+              <Venta/>
+            }
+          />
+          <Route
             path="/mantenimientos/provincias"
             element={
               <Provincias/>
@@ -51,6 +59,18 @@ const Router = () => {
             path="/mantenimientos/provincias/editar/:id"
             element={
               <Provincias/>
+            }
+          />
+          <Route
+            path="/mantenimientos/formaspago"
+            element={
+              <FormasPago/>
+            }
+          />
+          <Route
+            path="/mantenimientos/formaspago/editar/:id"
+            element={
+              <FormasPago/>
             }
           />
         </Route>

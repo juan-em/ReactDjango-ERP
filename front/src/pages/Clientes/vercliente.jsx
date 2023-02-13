@@ -28,7 +28,9 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import WebhookIcon from "@mui/icons-material/Webhook";
 import { Box } from "@mui/system";
 
-const VerCliente = () => {
+import Swal from "sweetalert2";
+
+const VerCliente = ({ item }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
@@ -41,12 +43,71 @@ const VerCliente = () => {
     { icon: <LocalPhoneIcon />, primary: "Teléfono", secondary: "" },
     { icon: <PhoneAndroidIcon />, primary: "Móvil", secondary: "" },
     { icon: <AttachMoneyIcon />, primary: "Forma de Pago", secondary: "" },
-    { icon: <WebhookIcon />, primary: "Empresa", secondary: "" },
   ]);
 
-  useEffect(()=>{
-    
-  },[])
+ 
+  const seti = () => {
+    itemsPer.forEach((i)=>{
+      if (item.id){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: 'intentelo nuevamente',
+        });
+      }
+      if (item.persona){
+        if (i['primary'] === 'Codigo'){
+          i['secondary'] = item.codigo
+        } else if (i['primary'] === 'Nombre'){
+          i['secondary'] = item.persona.nombre
+        } else if (i['primary'] === 'RUC o DNI'){
+          i['secondary'] = item.persona.dni
+        } else if (i['primary'] === 'Provincia'){
+          i['secondary'] = item.persona.codprovincia
+        } else if (i['primary'] === 'Localidad'){
+          i['secondary'] = item.persona.localidad
+        } else if (i['primary'] === 'Dirección'){
+          i['secondary'] = item.persona.direccion
+        } else if (i['primary'] === 'Código Postal'){
+          i['secondary'] = item.persona.codpostal
+        } else if (i['primary'] === 'Cuenta Bancaria'){
+          i['secondary'] = item.persona.cuentabancaria
+        } else if (i['primary'] === 'Teléfono'){
+          i['secondary'] = item.persona.telefono
+        } else if (i['primary'] === 'Móvil'){
+          i['secondary'] = item.persona.movil
+        }else if (i['primary'] === 'Forma de Pago'){
+          i['secondary'] = item.codformapago
+        }
+      } else if (item.empresa){
+        if (i['primary'] === 'Codigo'){
+          i['secondary'] = item.codigo
+        } else if (i['primary'] === 'Nombre'){
+          i['secondary'] = item.empresa.nombre
+        } else if (i['primary'] === 'RUC o DNI'){
+          i['secondary'] = item.empresa.ruc
+        } else if (i['primary'] === 'Provincia'){
+          i['secondary'] = item.empresa.codprovincia
+        } else if (i['primary'] === 'Localidad'){
+          i['secondary'] = item.empresa.localidad
+        } else if (i['primary'] === 'Dirección'){
+          i['secondary'] = item.empresa.direccion
+        } else if (i['primary'] === 'Código Postal'){
+          i['secondary'] = item.empresa.codpostal
+        } else if (i['primary'] === 'Cuenta Bancaria'){
+          i['secondary'] = item.empresa.cuentabancaria
+        } else if (i['primary'] === 'Teléfono'){
+          i['secondary'] = item.empresa.telefono
+        } else if (i['primary'] === 'Móvil'){
+          i['secondary'] = item.empresa.movil
+        }else if (i['primary'] === 'Forma de Pago'){
+          i['secondary'] = item.codformapago
+        }
+      }
+    })
+  }
+
+  useEffect(() => {seti()});
 
   return (
     <section>
@@ -62,7 +123,7 @@ const VerCliente = () => {
           },
         }}
       >
-        <Accordion sx={{ p: 5 }}>
+        <Accordion sx={{ p:5 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -76,17 +137,17 @@ const VerCliente = () => {
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                    <Grid item xs={12} sm={6} md={6}>
-                      <ListItem>
-                        <ListItemAvatar>
-                          <Avatar>{i.icon}</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={i.primary}
-                          secondary={i.secondary}
-                        />
-                      </ListItem>
-                    </Grid>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>{i.icon}</Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={i.primary}
+                        secondary={i.secondary}
+                      />
+                    </ListItem>
+                  </Grid>
                 ))}
               </Grid>
             </List>
