@@ -1,4 +1,4 @@
-import Menu from "../../components/Menu";
+import { useState, useEffect, useContext, useRef } from "react";
 import "./index.css";
 import "../../fonts/poppins.ttf";
 
@@ -6,75 +6,72 @@ import {
   Paper,
   Grid,
   TextField,
-  Checkbox,
   InputLabel,
   MenuItem,
   FormControl,
   FormControlLabel,
   Select,
-  Modal,
   Button,
-  IconButton,
-  Typography,
   FormLabel,
   RadioGroup,
-  Dialog, Accordion, AccordionSummary, AccordionDetails
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import Radio from "@mui/material/Radio";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { styled, useTheme, alpha } from '@mui/material/styles';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { alpha } from "@mui/material/styles";
 
 //Componentes
-import { useState, useEffect, useContext } from "react";
-import ClientesContext from "../../services/clientes";
 import { Tabla } from "./complements";
-import { getProvincias } from "../../services/mantenimiento";
 import AddForm from "./addform";
-import { borderRight } from "@mui/system";
 import VerProveedor from "./verproveedor";
 
-const Proveedores = () =>{
-    //Listado de clientes y provincias
-    /*
-    const {clientes, getClientes, searcher} = useContext(ClientesContext)
-    const [provincias,setProvincias] = useState([])
-    useEffect(()=>{
-        getProvincias(setProvincias);
-        getClientes()
-    },[])
-    */
+const Proveedores = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const [item, setItem] = useState({});
+  const [putItem, setPutItem] = useState({});
+  const [value, setValue] = useState("");
 
-    //Buscador
-    //const { clientes, getClientes, searcher } = useContext(ClientesContext);
-    const [provincias, setProvincias] = useState([]);
-    //Buscador
-    const [id, setId] = useState("");
-    const [ruc, setRuc] = useState("");
-    const [nombre, setNombre] = useState("");
-    const [telefono, setTelefono] = useState("");
-    const [provincia, setProvincia] = useState("");
-    const [localidad, setLocalidad] = useState("");
-    const [per_emp, setPer_Emp] = useState("");
-    //let cliente_encontrados = searcher({id,ruc,nombre,telefono,provincia,localidad,per_emp},clientes)
+  //Listado de proveedores y provincias
+  const [provincias, setProvincias] = useState([]);
+  const [proveedores, setProveedores] = useState([])
 
-    return(
-        <section>
-            <div className="container">
-            <Grid container spacing={4}>
+  const render = useRef(true);
+  const [renderizar, setRenderizar] = useState(true);
+  const [fields, setFields] = useState({});
+
+  //Buscador
+  const handlerSearcher = (e) => {
+    const { name, value } = e.target;
+    setFields({ ...fields, [name]: value });
+  };
+
+
+  return (
+    <section>
+      <div className="container">
+        <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={6}>
-            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 0 , 
-            backgroundColor: alpha('#8D4C32', 0.20),
-            '&:hover': {
-                backgroundColor: alpha('#8D4C32', 0.25),
-            },
-            }}>
-              <Accordion sx={{ p:5 }}>
+            <Paper
+              elevation={10}
+              className="paper"
+              sx={{
+                mt: 4,
+                p: 0,
+                backgroundColor: alpha("#8D4C32", 0.2),
+                "&:hover": {
+                  backgroundColor: alpha("#8D4C32", 0.25),
+                },
+              }}
+            >
+              <Accordion sx={{ p: 5 }}>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                    >
-                    Buscar Proveedor
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  Buscar Proveedor
                 </AccordionSummary>
                 <AccordionDetails>
                   <TextField
@@ -84,9 +81,8 @@ const Proveedores = () =>{
                     size="small"
                     color="secondary"
                     margin="dense"
-                    value={id}
                     id="textfields"
-                    onChange={(e) => setId(e.target.value)}
+                    onChange={handlerSearcher}
                   />
                   <TextField
                     fullWidth
@@ -95,9 +91,8 @@ const Proveedores = () =>{
                     size="small"
                     color="secondary"
                     margin="dense"
-                    value={ruc}
                     id="textfields"
-                    onChange={(e) => setRuc(e.target.value)}
+                    onChange={handlerSearcher}
                   />
                   <TextField
                     fullWidth
@@ -106,9 +101,8 @@ const Proveedores = () =>{
                     size="small"
                     color="secondary"
                     margin="dense"
-                    value={nombre}
                     id="textfields"
-                    onChange={(e) => setNombre(e.target.value)}
+                    onChange={handlerSearcher}
                   />
                   <TextField
                     fullWidth
@@ -117,9 +111,8 @@ const Proveedores = () =>{
                     size="small"
                     color="secondary"
                     margin="dense"
-                    value={telefono}
                     id="textfields"
-                    onChange={(e) => setTelefono(e.target.value)}
+                    onChange={handlerSearcher}
                   />
                   <FormControl
                     fullWidth
@@ -132,13 +125,10 @@ const Proveedores = () =>{
                       label="Provincia"
                       size="small"
                       color="secondary"
-                      value={provincia}
                       id="textfields"
-                      onChange={(e) => setProvincia(e.target.value)}
+                      onChange={handlerSearcher}
+                      defaultValue=''
                     >
-                      <MenuItem value="">
-                        <em>all</em>
-                      </MenuItem>
                       {provincias.map((item, i) => (
                         <MenuItem key={i} value={item.id}>
                           {item.nombreprovincia}
@@ -153,9 +143,8 @@ const Proveedores = () =>{
                     size="small"
                     color="secondary"
                     margin="dense"
-                    value={localidad}
                     id="textfields"
-                    onChange={(e) => setLocalidad(e.target.value)}
+                    onChange={handlerSearcher}
                   />
                   <FormControl>
                     <FormLabel
@@ -168,7 +157,7 @@ const Proveedores = () =>{
                       row
                       aria-labelledby="demo-row-radio-buttons-group-label"
                       name="row-radio-buttons-group"
-                      onChange={(e) => setPer_Emp(e.target.value)}
+                      onChange={handlerSearcher}
                     >
                       <FormControlLabel
                         disableTypography
@@ -194,36 +183,64 @@ const Proveedores = () =>{
                     </RadioGroup>
                   </FormControl>
                   <br />
-                  <Grid container spacing={1} sx={{mt:2}}>
+                  <Grid container spacing={1} sx={{ mt: 2 }}>
                     <Grid item xs={12} sm={12} md={6}>
-                      <Button fullWidth id="textfields" color="secondary" variant="contained">
+                      <Button
+                        fullWidth
+                        id="textfields"
+                        color="secondary"
+                        variant="contained"
+                      >
                         Buscar
                       </Button>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                      <Button fullWidth id="textfields" color="primary" variant="contained">
+                      <Button
+                        fullWidth
+                        id="textfields"
+                        color="primary"
+                        variant="contained"
+                      >
                         Limpiar
                       </Button>
                     </Grid>
                   </Grid>
-
                 </AccordionDetails>
               </Accordion>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={5}>
-            <VerProveedor/>
+            <VerProveedor 
+              item={item}/>
           </Grid>
-          <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
-              <AddForm />            
+          <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
+            <AddForm 
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              item={item}
+              setItem={setItem}
+              value={value}
+              setValue={setValue}/>
           </Grid>
         </Grid>
-                  
-                    {/*<Tabla data={cliente_encontrados} />*/}
-                            
-            </div>
-        </section>
-  )
-}
+
+        <Tabla
+          fields={fields}
+          render={render}
+          renderizar={renderizar}
+          setRenderizar={setRenderizar}
+          setOpenModal={setOpenModal}
+          value={value}
+          setValue={setValue}
+          setItem={setItem}
+          setPutItem={setPutItem}
+        />
+      </div>
+    </section>
+  );
+};
 
 export default Proveedores;

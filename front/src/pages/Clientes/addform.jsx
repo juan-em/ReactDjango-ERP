@@ -16,9 +16,9 @@ import {
   collapseClasses,
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
+
 //iconos
 import CloseIcon from "@mui/icons-material/Close";
-import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -103,7 +103,9 @@ const AddForm = ({
 
   const handleInputClientePer = (event) => {
     setInputCliente({
-      persona: inputsPer,
+      persona: {
+        ...inputsPer
+      },
       codformapago: event.target.value,
     });
   };
@@ -118,7 +120,9 @@ const AddForm = ({
 
   const handleInputClienteEmp = (event) => {
     setInputCliente({
-      empresa: inputsEmp,
+      empresa: {
+        ...inputsEmp
+      },
       codformapago: event.target.value,
     });
   };
@@ -171,7 +175,6 @@ const AddForm = ({
   };
   // console.log(inputCliente);
   // console.log(inputsPer);
-  
 
   useEffect(() => {
     getProvincias(setProvincias);
@@ -222,9 +225,7 @@ const AddForm = ({
                       name="nombre"
                       onChange={handleInputPerValue}
                       defaultValue={
-                        item.id && item.persona
-                          ? item.persona.nombre
-                          : ""
+                        item.id && item.persona ? item.persona.nombre : ""
                       }
                     />
                     <FormControl
@@ -249,8 +250,8 @@ const AddForm = ({
                             : ""
                         }
                       >
-                        {provincias.map((item, i) => (
-                          <MenuItem key={i} value={item.id}>
+                        {provincias.map((item) => (
+                          <MenuItem key={item.id} value={item.id}>
                             {item.nombreprovincia}
                           </MenuItem>
                         ))}
@@ -307,7 +308,7 @@ const AddForm = ({
                     >
                       <InputLabel id="prov">Forma de pago</InputLabel>
                       <Select
-                        label="Forma de Pago"
+                        label="Provincia"
                         required
                         fullWidth
                         size="small"
@@ -315,10 +316,10 @@ const AddForm = ({
                         id="textfields"
                         name="codformapago"
                         onChange={handleInputClientePer}
-                        value=""
+                        defaultValue={""}
                       >
-                        {formPagos.map((item, i) => (
-                          <MenuItem key={i} value={item.id}>
+                        {formPagos.map((item) => (
+                          <MenuItem key={item.id} value={item.id}>
                             {item.nombrefp}
                           </MenuItem>
                         ))}
@@ -482,8 +483,8 @@ const AddForm = ({
                             : ""
                         }
                       >
-                        {provincias.map((item, i) => (
-                          <MenuItem key={i} defaultValue={item.id}>
+                        {provincias.map((item) => (
+                          <MenuItem key={item.id} value={item.id}>
                             {item.nombreprovincia}
                           </MenuItem>
                         ))}
@@ -539,7 +540,7 @@ const AddForm = ({
                     >
                       <InputLabel id="prov">Forma de pago</InputLabel>
                       <Select
-                        label="Forma de Pago"
+                        label="Provincia"
                         required
                         fullWidth
                         size="small"
@@ -547,10 +548,10 @@ const AddForm = ({
                         id="textfields"
                         name="codformapago"
                         onChange={handleInputClienteEmp}
-                        value=""
+                        defaultValue={""}
                       >
-                        {formPagos.map((item, i) => (
-                          <MenuItem key={i} defaultValue={item.id}>
+                        {formPagos.map((item) => (
+                          <MenuItem key={item.id} value={item.id}>
                             {item.nombrefp}
                           </MenuItem>
                         ))}
