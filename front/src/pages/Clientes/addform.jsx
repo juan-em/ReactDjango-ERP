@@ -16,9 +16,9 @@ import {
   collapseClasses,
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
+
 //iconos
 import CloseIcon from "@mui/icons-material/Close";
-import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -103,7 +103,9 @@ const AddForm = ({
 
   const handleInputClientePer = (event) => {
     setInputCliente({
-      persona: inputsPer,
+      persona: {
+        ...inputsPer
+      },
       codformapago: event.target.value,
     });
   };
@@ -118,7 +120,9 @@ const AddForm = ({
 
   const handleInputClienteEmp = (event) => {
     setInputCliente({
-      empresa: inputsEmp,
+      empresa: {
+        ...inputsEmp
+      },
       codformapago: event.target.value,
     });
   };
@@ -311,12 +315,8 @@ const AddForm = ({
                         color="secondary"
                         id="textfields"
                         name="codformapago"
-                        onChange={handleInputPerValue}
-                        defaultValue={
-                          item.id && item.persona
-                            ? item.codformapago
-                            : ""
-                        }
+                        onChange={handleInputClientePer}
+                        defaultValue={""}
                       >
                         {formPagos.map((item) => (
                           <MenuItem key={item.id} value={item.id}>
@@ -547,12 +547,8 @@ const AddForm = ({
                         color="secondary"
                         id="textfields"
                         name="codformapago"
-                        onChange={handleInputEmpValue}
-                        defaultValue={
-                          item.id && item.empresa
-                            ? item.codformapago
-                            : ""
-                        }
+                        onChange={handleInputClienteEmp}
+                        defaultValue={""}
                       >
                         {formPagos.map((item) => (
                           <MenuItem key={item.id} value={item.id}>

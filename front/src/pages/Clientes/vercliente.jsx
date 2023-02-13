@@ -122,14 +122,11 @@ const VerCliente = ({ item }) => {
         }
       }
     });
-    console.log(newItem);
-    console.log(itemsPer)
     setItemsPer(newItem)
   };
 
   useEffect(() => {
     seti();
-    // console.log(itemsPer);
   }, [item]);
 
   return (

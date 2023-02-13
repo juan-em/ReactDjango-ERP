@@ -8,7 +8,6 @@ import Clientes from "../pages/Clientes";
 
 //SERVICES
 import { ClientesProvider } from "../services/clientes";
-import { ProveedoresProvider } from "../services/Proveedores";
 import AddForm from "../pages/Clientes/addform";
 import Provincias from "../pages/Mantenimiento/Provincias";
 
@@ -28,30 +27,12 @@ const Router = () => {
               </ClientesProvider>
             }
           />
-          <Route
-            path="/clientes/add"
-            element={<AddForm
-            />}
-          />
-          <Route
-            path="/proveedores"
-            element={
-              <ProveedoresProvider>
-                <Proveedores />
-              </ProveedoresProvider>
-            }
-          />
-          <Route
-            path="/mantenimientos/provincias"
-            element={
-              <Provincias/>
-            }
-          />
+          <Route path="/clientes/add" element={<AddForm />} />
+          <Route path="/proveedores" element={<Proveedores />} />
+          <Route path="/mantenimientos/provincias" element={<Provincias />} />
           <Route
             path="/mantenimientos/provincias/editar/:id"
-            element={
-              <Provincias/>
-            }
+            element={<Provincias />}
           />
         </Route>
       </Routes>

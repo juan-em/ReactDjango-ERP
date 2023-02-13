@@ -53,13 +53,10 @@ export const Tabla = ({
     setItem(row);
     setOpenModal(true);
     !row.persona ? setValue("2") : setValue("1");
-    console.log(value);
   };
 
   const handleView = (row) => {
     setItem(row);
-    // console.log()
-    // setClienteId(id)
   };
 
   const handleDelete = async (id, row) => {

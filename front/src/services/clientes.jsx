@@ -93,7 +93,6 @@ export const ClientesProvider = () => {
 export default ClientesContext;
 
 export const postClienteper = async (data) => {
-  console.log(data);
   try {
     const response = await axios.post(
       "http://localhost:8000/api/clientes/per/",
@@ -109,7 +108,10 @@ export const postClienteper = async (data) => {
 
 export const postClienteemp = async (data) => {
   try {
-    const response = await axios.post(`${URL}emp/`, data);
+    const response = await axios.post(
+      "http://localhost:8000/api/clientes/emp/",
+      data
+    );
     return response.data;
   } catch (error) {
     console.log(error);
@@ -118,6 +120,7 @@ export const postClienteemp = async (data) => {
 };
 
 export const putClienteper = async (id, data) => {
+  console.log(data);
   try {
     const response = await axios.put(
       `http://localhost:8000/api/clientes/mod/per/${id}`,
@@ -132,15 +135,16 @@ export const putClienteper = async (id, data) => {
 
 export const putClienteemp = async (id, data) => {
   try {
-    const response = await axios.put(`${URL}/mod/emp/${id}/`, data);
+    const response = await axios.put(
+      `http://localhost:8000/api/clientes/mod/emp/${id}`,
+      data
+    );
     return response.data;
   } catch (error) {
     console.log(error);
     return error;
   }
 };
-
-
 
 export const deleteClienteper = async (id, data) => {
   try {
@@ -173,10 +177,10 @@ export const getOneClientePer = async (id, data) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error)
-    return error
+    console.log(error);
+    return error;
   }
-}
+};
 
 export const getOneClienteEmp = async (id, data) => {
   try {
@@ -185,7 +189,7 @@ export const getOneClienteEmp = async (id, data) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error)
-    return error
+    console.log(error);
+    return error;
   }
-}
+};
