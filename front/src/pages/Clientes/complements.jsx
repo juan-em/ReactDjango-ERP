@@ -48,6 +48,7 @@ export const Tabla = ({
   }, [renderizar]);
 
   let data = clientes;
+  console.log(data);
 
   const handlePut = (row) => {
     setItem(row);
@@ -104,13 +105,13 @@ export const Tabla = ({
           }}
         >
           <TableRow>
-            <TableCell>Item</TableCell>
-            <TableCell align="right">Código</TableCell>
-            <TableCell align="right">Nombre</TableCell>
-            <TableCell align="right">RUC</TableCell>
-            <TableCell align="right">Teléfono</TableCell>
-            <TableCell align="right">Empresa</TableCell>
-            <TableCell align="right">Acciones</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' , fontStyle: "italic"}}>Item</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Código</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Nombre</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">RUC</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Teléfono</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Empresa</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

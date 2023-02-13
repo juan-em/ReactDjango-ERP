@@ -46,11 +46,12 @@ const VerCliente = ({ item }) => {
   ]);
 
   const seti = () => {
+  
     const newItem = itemsPer.map((i) => {
       if (!item.id) {
         return {
           ...i
-        }
+          }
       } else {
         if (i.primary === "Código") {
           return {
@@ -143,7 +144,7 @@ const VerCliente = ({ item }) => {
           },
         }}
       >
-        <Accordion sx={{ p: 5 }}>
+        <Accordion sx={{ p:5 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
