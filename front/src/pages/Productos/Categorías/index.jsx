@@ -12,6 +12,19 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+
+
+
+
+
+
+//AUN TRABAJA CON PROVINCIAS, PERO EL FRONTEND ESTÁ ACOMODADO CON CATEGORÍAS
+
+
+
+
+
+
 import { Paper, Grid, TextField, Button,   Accordion,
   AccordionSummary,
   AccordionDetails } from "@mui/material";
@@ -25,9 +38,9 @@ import {
 } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerProvincia from "./verprovincia";
+import VerCategoria from "./vercategoria";
 
-const Provincias = () => {
+const Categorias = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
 
@@ -56,7 +69,7 @@ const Provincias = () => {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                     >
-                    Buscar Provincia
+                    Buscar Categoria
                 </AccordionSummary>
                 <AccordionDetails>
               <TextField
@@ -89,7 +102,7 @@ const Provincias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerProvincia/>
+            <VerCategoria/>
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
             <AddForm
@@ -116,4 +129,4 @@ const Provincias = () => {
     </section>
   );
 };
-export default Provincias;
+export default Categorias;

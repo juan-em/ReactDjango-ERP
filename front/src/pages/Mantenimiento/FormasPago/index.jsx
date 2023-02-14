@@ -47,7 +47,7 @@ const FormasPago = () => {
     <section>
       <div className="container">
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={5}>
             <Paper elevation={10} className="paper" sx={{ mt: 4, p: 0 , 
             backgroundColor: alpha('#8D4C32', 0.20),
             '&:hover': {
@@ -92,7 +92,7 @@ const FormasPago = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={6}>
             <VerFormaPago/>
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
