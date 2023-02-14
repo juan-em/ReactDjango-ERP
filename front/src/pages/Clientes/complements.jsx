@@ -29,6 +29,7 @@ export const Tabla = ({
   setRenderizar,
   setOpenModal,
   setItem,
+  setItemView,
   setPutItem,
   value,
   setValue,
@@ -57,7 +58,7 @@ export const Tabla = ({
   };
 
   const handleView = (row) => {
-    setItem(row);
+    setItemView(row);
   };
 
   const handleDelete = async (id, row) => {

@@ -13,8 +13,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import MenuItem from "@mui/material/MenuItem";
-import { getProveedores } from "../../services/Proveedores";
+import { getProveedores, delProveedoresEmp, delProveedoresPer } from "../../services/Proveedores";
 
+import Swal from "sweetalert2";
 
 export const Tabla = ({
   fields,
@@ -23,6 +24,8 @@ export const Tabla = ({
   setRenderizar,
   setOpenModal,
   setItem,
+  setItemView,
+  setValue,
 }) => {
   const [proveedor, setProveedor] = useState([]);
 
@@ -34,6 +37,49 @@ export const Tabla = ({
   }, [renderizar]);
 
   let data = proveedor
+
+  const handlePut = (row) => {
+    setItem(row);
+    setOpenModal(true);
+    !row.persona ? setValue("2") : setValue("1");
+  };
+
+  const handleView = (row) => {
+    setItemView(row);
+  };
+
+  const handleDelete = async (id, row) => {
+    try {
+      if (row.persona) {
+        let res = await delProveedoresPer(id);
+        render.current = true;
+        setRenderizar(!renderizar);
+        Swal.fire({
+          icon: "success",
+          title: "Ok",
+          text: "Se elimino el Proveedor",
+        });
+        return res;
+      } else {
+        let res = await delProveedoresPer(id);
+        render.current = true;
+        setRenderizar(!renderizar);
+        Swal.fire({
+          icon: "success",
+          title: "Ok",
+          text: "Se elimino el Proveedor",
+        });
+        return res;
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
+      return error;
+    }
+  };
 
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
@@ -60,20 +106,35 @@ export const Tabla = ({
                 {row.persona ? row.persona.nombre : row.empresa.nombre}
               </TableCell>
               <TableCell align="right">
-                {row.persona ? row.persona.dni : row.empresa.ruc}
+                {row.persona ? row.persona.dni : row.ruc}
               </TableCell>
               <TableCell align="right">
                 {row.persona ? row.persona.telefono : row.empresa.telefono}
               </TableCell>
               <TableCell align="right">{row.protein}</TableCell>
               <TableCell align="right">
-                <IconButton aria-label="delete" size="small" color="primary">
+              <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="primary"
+                  onClick={() => handleView(row)}
+                >
                   <VisibilityIcon fontSize="inherit" />
                 </IconButton>
-                <IconButton aria-label="delete" size="small" color="success">
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="success"
+                  onClick={() => handlePut(row)}
+                >
                   <EditIcon fontSize="inherit" />
                 </IconButton>
-                <IconButton aria-label="delete" size="small" color="error">
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="error"
+                  onClick={() => handleDelete(row.id, row)}
+                >
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
               </TableCell>
