@@ -71,7 +71,7 @@ const AddForm = ({
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registro el Cliente",
+        text: "Se registro el proveedor",
       });
       if (item.id) setItem({});
       setRenderizar(!renderizar);
@@ -131,7 +131,7 @@ const AddForm = ({
             <CloseIcon fontSize="large" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Cliente" : "Nuevo Cliente"}
+            {item.id ? "Editar Proveedor" : "Nuevo Proveedor"}
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -216,6 +216,7 @@ const AddForm = ({
                           }
                         />
                         <TextField
+                          fullWidth
                           label="Movil"
                           required
                           size="small"

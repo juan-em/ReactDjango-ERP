@@ -166,7 +166,7 @@ const VerProveedor = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Cliente seleccionado
+            Proveedor seleccionado
           </AccordionSummary>
           <AccordionDetails>
             <List

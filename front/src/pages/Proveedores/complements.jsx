@@ -7,7 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
+import { alpha } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -84,15 +84,22 @@ export const Tabla = ({
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead style={{ color: "#8D4C32" }}>
+        <TableHead
+          sx={{
+            backgroundColor: alpha("#633256", 0.2),
+            "&:hover": {
+              backgroundColor: alpha("#633256", 0.25),
+            },
+          }}
+        >
           <TableRow>
-            <TableCell>Item</TableCell>
-            <TableCell align="right">Código</TableCell>
-            <TableCell align="right">Nombre</TableCell>
-            <TableCell align="right">RUC</TableCell>
-            <TableCell align="right">Teléfono</TableCell>
-            <TableCell align="right">Empresa</TableCell>
-            <TableCell align="right">Acciones</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' , fontStyle: "italic"}}>Item</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Código</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Nombre</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">RUC</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Teléfono</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Empresa</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

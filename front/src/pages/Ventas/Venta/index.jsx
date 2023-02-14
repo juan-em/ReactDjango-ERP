@@ -150,7 +150,26 @@ const Venta = () => {
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={8}>
-                        8
+                        <Grid container spacing={1}>
+                          <Grid item xs={12} sm={12} md={8}>
+                            <TextField
+                            fullWidth
+                            label="RUC CLIENTE"
+                            type="number"
+                            size="small"
+                            color="secondary"
+                            margin="dense"
+                            name="nombreprovincia"
+                            id="textfields"
+                            />
+                            <Grid item xs={12} sm={12} md={2}>
+                              boton 1
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={2}>
+                              boton 2
+                            </Grid>
+                          </Grid>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Paper>

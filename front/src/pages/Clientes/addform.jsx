@@ -220,6 +220,7 @@ const AddForm = ({
                           }
                         />
                         <TextField
+                          fullWidth
                           label="Movil"
                           required
                           size="small"
