@@ -12,31 +12,37 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import { Paper, Grid, TextField, Button } from "@mui/material";
+import {
+  Paper,
+  Grid,
+  TextField,
+  Button,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
-import {
-  getProvincias,
-  searcherProvincias,
-} from "../../../services/mantenimiento";
+import { getProvincias, searcherProvincias } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerProvincia from "./verprovincia";
+import VerFormaPago from "./verformapago";
 
-const Provincias = () => {
+const FormasPago = () => {
+
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
 
-  const render = useRef(true);
-  const [renderizar, setRenderizar] = useState(true);
-  const [fields, setFields] = useState({});
-  const handlerSearcher = (e) => {
-    const { name, value } = e.target;
-    setFields({ ...fields, [name]: value });
-  };
-
+  const render = useRef(true)
+  const [renderizar,setRenderizar] = useState(true)
+  const[fields, setFields] = useState({})
+  const handlerSearcher = (e) =>{
+    const {name, value} = e.target
+    setFields({...fields,[name]:value})
+  }
+  
   return (
     <section>
       <div className="container">
@@ -54,7 +60,7 @@ const Provincias = () => {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                     >
-                    Buscar Provincia
+                    Buscar Forma de Pago
                 </AccordionSummary>
                 <AccordionDetails>
               <TextField
@@ -87,31 +93,18 @@ const Provincias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={5}>
-            <VerProvincia/>
+            <VerFormaPago/>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <AddForm
-              render={render}
-              renderizar={renderizar}
-              setRenderizar={setRenderizar}
-              openModal={openModal}
-              setOpenModal={setOpenModal}
-              item={item}
-              setItem={setItem}
-            />
+          <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
+            <AddForm render={render} renderizar={renderizar} setRenderizar={setRenderizar}
+                     openModal={openModal} setOpenModal={setOpenModal} item={item} setItem={setItem}/>
           </Grid>
         </Grid>
 
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          setItem={setItem}
-        />
+        <Tabla fields={fields} render={render} renderizar={renderizar} setRenderizar={setRenderizar} setOpenModal={setOpenModal}
+          setItem={setItem}/>
       </div>
     </section>
   );
 };
-export default Provincias;
+export default FormasPago;

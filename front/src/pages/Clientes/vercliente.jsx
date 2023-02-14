@@ -46,6 +46,7 @@ const VerCliente = ({ itemView }) => {
   ]);
 
   const seti = () => {
+  
     const newItem = itemsPer.map((i) => {
       if (!itemView.id) {
         return {
