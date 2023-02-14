@@ -38,20 +38,21 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
 //Componentes
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import ClientesContext from "../../services/clientes";
 import { Tabla } from "./complements";
 import { getProvincias } from "../../services/mantenimiento";
 import AddForm from "./addform";
 import { borderRight } from "@mui/system";
-import { useRef } from "react";
 
 import VerCliente from "./vercliente";
 
 const Clientes = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
+  const [putItem, setPutItem] = useState({});
   const [value, setValue] = useState("");
+  const [clienteId, setClienteId] = useState("");
 
   //Listado de clientes y provincias
   const { clientes, getClientes, searcher } = useContext(ClientesContext);
@@ -217,8 +218,12 @@ const Clientes = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={5}>
-            <VerCliente item={item}/>
+          <Grid item xs={12} sm={12} md={6}>
+            <VerCliente
+              item={item}
+              clienteId={clienteId}
+              setClienteId={setClienteId}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
             <AddForm
@@ -244,6 +249,9 @@ const Clientes = () => {
           value={value}
           setValue={setValue}
           setItem={setItem}
+          setPutItem={setPutItem}
+          clienteId={clienteId}
+          setClienteId={setClienteId}
         />
       </div>
     </section>

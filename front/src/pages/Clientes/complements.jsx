@@ -29,13 +29,16 @@ export const Tabla = ({
   setRenderizar,
   setOpenModal,
   setItem,
+  setPutItem,
   value,
   setValue,
+  clienteId,
+  setClienteId,
 }) => {
   const { clientes, setClientes, getClientes, searcher } =
     useContext(ClientesContext);
 
-  const [viewItem, setViewItem] = useState('')
+  const [viewItem, setViewItem] = useState("");
 
   useEffect(() => {
     if (render.current) {
@@ -51,14 +54,11 @@ export const Tabla = ({
     setItem(row);
     setOpenModal(true);
     !row.persona ? setValue("2") : setValue("1");
-    console.log(value);
   };
 
   const handleView = (row) => {
     setItem(row);
-  }
-
-
+  };
 
   const handleDelete = async (id, row) => {
     try {
