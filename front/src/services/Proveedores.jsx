@@ -18,7 +18,7 @@ export const getProveedores = async (set) => {
 
 export const postProveedoresPer = async (prov) => {
   try {
-    const response = await axios.post(`${URL}per/`, prov);
+    const response = await axios.post(`${URL}per`, prov);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -28,7 +28,7 @@ export const postProveedoresPer = async (prov) => {
 
 export const postProveedoresEmp = async (prov) => {
   try {
-    const response = await axios.post(`${URL}emp/`, prov);
+    const response = await axios.post(`${URL}emp`, prov);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -56,9 +56,9 @@ export const putProveedoresEmp = async (prov, id) => {
   }
 };
 
-export const delProveedoresPer = async (prov, id) => {
+export const delProveedoresPer = async (id) => {
   try {
-    const response = await axios.del(`${URL}per/${id}`, prov);
+    const response = await axios.delete(`${URL}per/${id}`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -66,9 +66,9 @@ export const delProveedoresPer = async (prov, id) => {
   }
 };
 
-export const delProveedoresEmp = async (prov, id) => {
+export const delProveedoresEmp = async (id) => {
   try {
-    const response = await axios.del(`${URL}emp/${id}`, prov);
+    const response = await axios.delete(`${URL}emp/${id}`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -76,22 +76,6 @@ export const delProveedoresEmp = async (prov, id) => {
   }
 };
 
-// export const post_putProveedor = async (e) => {
-//   e.preventDefault()
-//   const {item,} = e.target
-//   const payload = {
-//       [item.name]:item.value
-//   }
-//   try{
-//       if (!e.target.cod) {
-//           return await postProvincia(payload)
-//       } else {
-//           let id = e.target.cod.value
-//           return await putProvincia(id,payload)
-//       }
-//   }
-//   catch(error){return error}
-// }
 
 export const searcher = (fields, list) => {
   let resultData = list;

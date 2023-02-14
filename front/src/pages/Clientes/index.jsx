@@ -50,6 +50,7 @@ import VerCliente from "./vercliente";
 const Clientes = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
+  const [itemView, setItemView] = useState({});
   const [putItem, setPutItem] = useState({});
   const [value, setValue] = useState("");
   const [clienteId, setClienteId] = useState("");
@@ -219,11 +220,7 @@ const Clientes = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerCliente
-              item={item}
-              clienteId={clienteId}
-              setClienteId={setClienteId}
-            />
+            <VerCliente itemView={itemView} />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
             <AddForm
@@ -249,6 +246,7 @@ const Clientes = () => {
           value={value}
           setValue={setValue}
           setItem={setItem}
+          setItemView={setItemView}
           setPutItem={setPutItem}
           clienteId={clienteId}
           setClienteId={setClienteId}
