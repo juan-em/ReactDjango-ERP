@@ -30,7 +30,7 @@ import { Box } from "@mui/system";
 
 import Swal from "sweetalert2";
 
-const VerCliente = ({ item }) => {
+const VerCliente = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
@@ -47,102 +47,91 @@ const VerCliente = ({ item }) => {
 
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      if (!item.id) {
+      if (!itemView.id) {
         return {
-          ...i
-        }
+          ...i,
+        };
       } else {
         if (i.primary === "Código") {
           return {
             ...i,
-            secondary: item.codigo,
+            secondary: itemView.codigo,
           };
         } else if (i.primary === "Nombre") {
           return {
             ...i,
-            secondary: item.persona ? item.persona.nombre : item.empresa.nombre,
+            secondary: itemView.persona ? itemView.persona.nombre : itemView.empresa.nombre,
           };
         } else if (i.primary === "RUC o DNI") {
           return {
             ...i,
-            secondary: item.persona ? item.persona.dni : item.empresa.ruc,
+            secondary: itemView.persona ? itemView.persona.dni : itemView.empresa.ruc,
           };
         } else if (i.primary === "Provincia") {
           return {
             ...i,
-            secondary: item.persona
-              ? item.persona.codprovincia
-              : item.empresa.codprovincia,
+            secondary: itemView.persona
+              ? itemView.persona.codprovincia
+              : itemView.empresa.codprovincia,
           };
         } else if (i.primary === "Localidad") {
           return {
             ...i,
-            secondary: item.persona
-              ? item.persona.localidad
-              : item.empresa.localidad,
+            secondary: itemView.persona
+              ? itemView.persona.localidad
+              : itemView.empresa.localidad,
           };
         } else if (i.primary === "Dirección") {
           return {
             ...i,
-            secondary: item.persona
-              ? item.persona.direccion
-              : item.empresa.direccion,
+            secondary: itemView.persona
+              ? itemView.persona.direccion
+              : itemView.empresa.direccion,
           };
         } else if (i.primary === "Código Postal") {
           return {
             ...i,
-            secondary: item.persona
-              ? item.persona.codpostal
-              : item.empresa.codpostal,
+            secondary: itemView.persona
+              ? itemView.persona.codpostal
+              : itemView.empresa.codpostal,
           };
         } else if (i.primary === "Cuenta Bancaria") {
           return {
             ...i,
-            secondary: item.persona
-              ? item.persona.cuentabancaria
-              : item.empresa.cuentabancaria,
+            secondary: itemView.persona
+              ? itemView.persona.cuentabancaria
+              : itemView.empresa.cuentabancaria,
           };
         } else if (i.primary === "Teléfono") {
           return {
             ...i,
-            secondary: item.persona
-              ? item.persona.telefono
-              : item.empresa.telefono,
+            secondary: itemView.persona
+              ? itemView.persona.telefono
+              : itemView.empresa.telefono,
           };
         } else if (i.primary === "Móvil") {
           return {
             ...i,
-            secondary: item.persona ? item.persona.movil : item.empresa.movil,
+            secondary: itemView.persona ? itemView.persona.movil : itemView.empresa.movil,
           };
         } else if (i.primary === "Forma de Pago") {
           return {
             ...i,
-            secondary: item.codformapago,
+            secondary: itemView.codformapago,
           };
         }
       }
     });
-    setItemsPer(newItem)
+    setItemsPer(newItem);
   };
 
   useEffect(() => {
     seti();
-  }, [item]);
+  }, [itemView]);
 
   return (
     <section>
-      <Paper
-        elevation={10}
-        className="paper"
-        sx={{
-          mt: 4,
-          p: 0,
-          backgroundColor: alpha("#8D4C32", 0.2),
-          "&:hover": {
-            backgroundColor: alpha("#8D4C32", 0.25),
-          },
-        }}
-      >
+      <Paper elevation={10} className="paper" sx={{ mt: 4, p: 0 }}>
         <Accordion sx={{ p: 5 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -159,14 +148,14 @@ const VerCliente = ({ item }) => {
                 {itemsPer.map((i) => (
                   <Grid item xs={12} sm={6} md={6}>
                     <ListItem>
-                        <ListItemAvatar>
-                          <Avatar>{i.icon}</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={i.primary}
-                          secondary={i.secondary}
-                        />
-                      </ListItem>
+                      <ListItemAvatar>
+                        <Avatar>{i.icon}</Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={i.primary}
+                        secondary={i.secondary}
+                      />
+                    </ListItem>
                   </Grid>
                 ))}
               </Grid>
