@@ -451,3 +451,183 @@ class Produccion_detalle(models.Model):
     produccion = models.ForeignKey(Produccion, on_delete=models.CASCADE, null=True)
     cod_producto = models.ForeignKey(Venta_clie_detalle, on_delete=models.CASCADE, null=True)
     estdo_produccion_prod = models.CharField(max_length=100, choices=PROCESOSPROD, default=NINGUNO)
+
+
+##############################################################################################
+#-------------------------PROPUESTA DE ESQUEMATIZACIÓN RESPECTO A ALMACENES------------------#
+##############################################################################################
+
+#Unidades
+class Unidad(models.Model):
+    nombre = models.CharField(max_length=100)
+    valor = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return self.nombre
+
+#Areas a las cuales puede pertenecer un trabajador
+class Areas(models.Model):
+    NO_CLASIFICADO = 'NO_CLASIFICADO'
+    PERSONAL = 'PERSONAL'
+    TESORERIA = 'TESORERÍA'
+    ADMINISTRACION = 'ADMINISTRACIÓN'
+    PRODUCCION = 'PRODUCCIÓN'
+    LOGISTICA = 'LOGÍSTICA'
+    VENTAS = 'VENTAS'
+    MANTENIMIENTO = 'MANTENIMIENTO'
+    MARKETING = 'MARKETING'
+
+    AREAS = [
+        (NO_CLASIFICADO,'NO_CLASIFICADO'),
+        (PERSONAL,'PERSONAL'),
+        (TESORERIA,'TESORERÍA'),
+        (ADMINISTRACION,'ADMINISTRACIÓN'),
+        (PRODUCCION,'PRODUCCIÓN'),
+        (LOGISTICA,'LOGÍSTICA'),
+        (VENTAS,'VENTAS'),
+        (MANTENIMIENTO,'MANTENIMIENTO'),
+        (MARKETING,'MARKETING'),
+
+    ]
+    nombre = models.CharField(max_length=100, choices=AREAS, default=NO_CLASIFICADO)
+    def __str__(self):
+        return self.nombre
+
+
+#Entidades principales ###########################################
+class Articulo (models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100, default='-')
+    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
+    marca = models.CharField(max_length=100, default='-')
+
+    class Meta:
+        abstract = True
+
+class MateriaPrima(Articulo):
+
+    NO_CLASIFICADO = 'no clasificado'
+    TELAS = 'telas'
+    HILOS = 'hilos'
+
+    MateriaPrimaTypes = [
+        (NO_CLASIFICADO,'no clasificado'),
+        (TELAS, 'telas'),
+        (HILOS, 'hilos'),
+    ]
+   
+    tipo = models.CharField(max_length=100,choices=MateriaPrimaTypes,default=NO_CLASIFICADO)
+    def __str__(self):
+        return self.nombre
+
+class Insumos(Articulo):
+
+    NO_CLASIFICADO = 'no clasificado'
+    TINTES = 'tintes'
+
+    InsumosTypes = [
+        (NO_CLASIFICADO,'no clasificado'),
+        (TINTES, 'tintes')
+    ]
+
+    tipo = models.CharField(max_length=100,choices=InsumosTypes,default=NO_CLASIFICADO)
+    def __str__(self):
+        return self.nombre
+
+class ProductosEconomato(Articulo):
+
+    NO_CLASIFICADO = 'no clasificado'
+    UTILIES_ESCRITORIO = 'utiles de escritorio'
+
+    InsumosTypes = [
+        (NO_CLASIFICADO,'no clasificado'),
+        (UTILIES_ESCRITORIO, 'utiles de escritorio')
+    ]
+
+    tipo = models.CharField(max_length=100,choices=InsumosTypes,default=NO_CLASIFICADO)
+    def __str__(self):
+        return self.nombre
+
+
+#Tabla para el almacenes en físico
+class Almacenes(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=400, default='-')
+    ubicacion = models.CharField(max_length=400, default='-')
+    borrado = models.BooleanField(default=False, null=True)
+    def __str__(self):
+        return self.nombre
+
+
+#ALMACENES ###########################################
+class AlmaceneArticulo(models.Model):
+    almacen = models.ForeignKey(Almacenes, on_delete=models.CASCADE)
+    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=0)
+    ubicacion = models.CharField(max_length=300, default='-') #por ejemplo alguna estantería
+    observaciones = models.CharField(max_length=500, default='-')
+
+    class Meta:
+        abstract = True
+
+class AlmacenMateriaPrima (AlmaceneArticulo):
+    materia_prima = models.ForeignKey(MateriaPrima, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.pk
+
+class AlmacenInsumos (AlmaceneArticulo):
+    insumos = models.ForeignKey(Insumos, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.pk
+
+class AlmacenEconomato (AlmaceneArticulo):
+    productos_economato = models.ForeignKey(ProductosEconomato, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.pk
+
+class AlmacenProductosTerminados (AlmaceneArticulo):
+    productos_terminados = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.pk
+
+#Salidas de almacen ###########################################
+class Salidas (models.Model):
+    almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
+    fecha = models.DateField(auto_now_add=True)
+    descripcion = models.CharField(max_length=300)
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE) #quien autorizo la salida
+    class Meta:
+        abstract = True
+
+# Salidas de una area para otra
+class SalidaRequerimientoSalida(Salidas):
+    requerimiento = models.ForeignKey() #modelo del requerimiento de salida
+    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return self.pk
+    
+class SalidaVenta(Salidas):
+    venta = models.ForeignKey(Venta_clie, on_delete=models.CASCADE) #modelo del requerimiento de salida
+    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return self.pk
+
+
+
+#Entradas Almacen ###########################################
+class Entradas (models.Model):
+    almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
+    fecha = models.DateField(auto_now_add=True)
+    descripcion = models.CharField(max_length=300)
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE) #quien autorizo la salida
+    class Meta:
+        abstract = True
+
+class EntradaCompra(Salidas):
+    compra = models.ForeignKey(Compra_prov, on_delete=models.CASCADE) #modelo del requerimiento de salida
+    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return self.pk
