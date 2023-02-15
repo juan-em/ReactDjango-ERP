@@ -162,24 +162,62 @@ export const getFormasPago = async(set) => {
     set(res.data)
     return res.data
 }
-export const postFormaPago = async(e) => {
+export const getFormaPago = async(set) => {
+    try {
+        const res = await axios.get(URL_FORMAPAGO)
+        set(res.data)
+        return res.data
+    }catch(error){
+        console.log(error)
+    }
+}
+export const postFormaPago = async (payload) => {
+    try{
+        const res = await axios.post(URL_FORMAPAGO,payload)
+        return res.data
+    }catch(error){
+        return error
+    }
+}
+export const putFormaPago = async (id,payload) => {
+    try{
+        const res = await axios.put(`${URL_FORMAPAGO}${id}/`,payload)
+        return res.data
+    }catch(error){
+        return error
+    }
+}
+
+export const post_putFormaPago = async (e) => {
     e.preventDefault()
-    let res = await axios.post(URL_FORMAPAGO,
-        {
-            nombrefp:e.target.nombrefp.value,
+    const {nombrefp,} = e.target
+    const payload = {
+        [nombrefp.name]:nombrefp.value
+    }
+    try{
+        if (!e.target.cod) {
+            return await postFormaPago(payload)
+        } else {
+            let id = e.target.cod.value
+            return await putFormaPago(id,payload)
         }
-    ).catch((error)=>console.error(error))
-    console.log(res.data)
-    return res.data
+    }
+    catch(error){return error}
 }
-export const putFormaPago = () => {return
-}
+
 export const deleteFormaPago = async (id)=>{
     let res = await axios.delete(`${URL_FORMAPAGO}${id}`).catch((error)=>console.log({error}))
     console.log(res.data)
     return res.data
 }
 
+export const searcherFormaPago = (fields, list) =>{
+    let resultData = list
+    resultData = fields.nombrefp ? 
+                 resultData.filter(item=>item.nombrefp.toString().includes(fields.nombrefp.toString())) 
+                 :resultData
+    return resultData
+}
 
 //CATEGORIAS ARTÍCULOS
 export const getCatArticulos = async(set) => {
@@ -208,12 +246,4 @@ export const deleteCatArticulos = async (id)=>{
 
 
 // FORMA PAGO   
-export const getFormaPago = async(set) => {
-    try {
-        const res = await axios.get(URL_FORMAPAGO)
-        set(res.data)
-        return res.data
-    }catch(error){
-        console.log(error)
-    }
-}
+

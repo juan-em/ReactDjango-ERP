@@ -13,32 +13,34 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MenuItem from '@mui/material/MenuItem';
 
-import { searcherProvincias, getProvincias, deleteProvincia } from '../../../services/mantenimiento';
+import { searcherFormaPago, getFormasPago, deleteFormaPago } from '../../../services/mantenimiento';
 import { useRef, useState,useEffect } from 'react';
 import { Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { alpha } from "@mui/material/styles";
 
-export const Tabla = ({fields,render,renderizar,setRenderizar,setOpenModal, setItem}) => {
+export const Tabla = ({fields,render,renderizar,setRenderizar,setOpenModal, setItem, setItemView}) => {
 
-    const [provincias, setProvincias] = useState([]);
+    const [formaspago, setFormaPago] = useState([]);
     useEffect(()=>{
         if (render.current){
         render.current = false
-        getProvincias(setProvincias);
+        getFormasPago(setFormaPago);
         }
     },[renderizar])
 
-    let data = searcherProvincias(fields, provincias)
+    let data = searcherFormaPago(fields, formaspago)
 
     const handlePut = (row) =>{
         setItem(row)
         setOpenModal(true)
     }
-
+    const handleView = (row) => {
+        setItemView(row);
+      };
     const handleDelete = async (id) =>{
         try{
-            let res = await deleteProvincia(id)
+            let res = await deleteFormaPago(id)
             render.current = true
             setRenderizar(!renderizar)
             return res
@@ -72,9 +74,9 @@ export const Tabla = ({fields,render,renderizar,setRenderizar,setOpenModal, setI
                         {i+1}
                     </TableCell>
                     <TableCell align="right">{row.id}</TableCell>
-                    <TableCell align="right">{row.nombreprovincia}</TableCell>
+                    <TableCell align="right">{row.nombrefp}</TableCell>
                     <TableCell align="right" component="th" scope="row">
-                        <IconButton aria-label="delete" size="small" color="primary">
+                        <IconButton onClick={() => handleView(row)} aria-label="delete" size="small" color="primary">
                             <VisibilityIcon fontSize="inherit" />
                         </IconButton>
                         <IconButton onClick={() => handlePut(row)} aria-label="delete" size="small" color="success">

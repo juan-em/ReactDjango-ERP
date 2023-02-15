@@ -16,10 +16,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 
 //componentes
-import { post_putProvincia } from "../../../services/mantenimiento";
-
-//LAS INTERFACES AUN SE MANEJAN CON PROVINCIAS
-
+import { post_putFormaPago } from "../../../services/mantenimiento";
 import Swal from "sweetalert2";
 
 
@@ -35,9 +32,9 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
     setOpenModal(false)
   };
 
-  const handlePostPutProvincia = async(e) => {
+  const handlePostPutFormaPago = async(e) => {
     try {
-      await post_putProvincia(e)
+      await post_putFormaPago(e)
       Swal.fire({
         icon: "success",
         title: "Ok",
@@ -79,7 +76,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
         </DialogTitle>
         <DialogContent>
           <TabContext centered>
-              <form onSubmit={handlePostPutProvincia}>
+              <form onSubmit={handlePostPutFormaPago}>
                 {item.id?<input type="hidden" name="cod" value={item.id}/>:''
                 }
                 <Grid container spacing={1}>
@@ -92,8 +89,8 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       color="secondary"
                       id="textfields"
                       margin="dense"
-                      name="nombreprovincia"
-                      defaultValue={item.id ? item.nombreprovincia:''}
+                      name="nombrefp"
+                      defaultValue={item.id ? item.nombrefp:''}
                     />
                   </Grid>
 

@@ -36,7 +36,6 @@ import VerProvincia from "./verprovincia";
 const Provincias = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
-
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
@@ -44,6 +43,7 @@ const Provincias = () => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
   };
+  const [itemView, setItemView] = useState({});
   const handleClean = () => {
     searchform.reset();
   };
@@ -86,7 +86,6 @@ const Provincias = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
-                    <br />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -108,7 +107,7 @@ const Provincias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerProvincia />
+            <VerProvincia itemView={itemView}/>
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -130,6 +129,7 @@ const Provincias = () => {
           setRenderizar={setRenderizar}
           setOpenModal={setOpenModal}
           setItem={setItem}
+          setItemView={setItemView}
         />
       </div>
     </section>

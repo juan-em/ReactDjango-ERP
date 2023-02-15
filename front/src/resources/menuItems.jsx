@@ -62,7 +62,7 @@ export const menuItems = [
 
     { url: "#about", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
     item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
-        {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'/mantenimientos/formaspago'},
+        {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'/mantenimientos/formapago'},
         {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'#proveedor'},
         {name:'Almacenes',icon: <AddBusinessIcon/>,url:'#proveedor'},
         {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'#proveedor'},
