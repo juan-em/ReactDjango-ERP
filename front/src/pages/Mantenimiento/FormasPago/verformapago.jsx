@@ -28,15 +28,39 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import WebhookIcon from "@mui/icons-material/Webhook";
 import { Box } from "@mui/system";
 
-const VerFormaPago = () => {
+const VerFormaPago = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
   ]);
 
-  useEffect(()=>{
-    
-  },[])
+  const seti = () => {
+  
+    const newItem = itemsPer.map((i) => {
+      if (!itemView.id) {
+        return {
+          ...i,
+        };
+      } else {
+        if (i.primary === "Código") {
+          return {
+            ...i,
+            secondary: itemView.id,
+          };
+        } else if (i.primary === "Nombre") {
+          return {
+            ...i,
+            secondary: itemView.nombrefp,
+          };
+        } 
+      }
+    });
+    setItemsPer(newItem);
+  };
+
+  useEffect(() => {
+    seti();
+  }, [itemView]);
 
   return (
     <section>

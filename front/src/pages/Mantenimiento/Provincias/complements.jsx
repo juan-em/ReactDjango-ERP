@@ -29,6 +29,7 @@ export const Tabla = ({
   setRenderizar,
   setOpenModal,
   setItem,
+  setItemView
 }) => {
   const [provincias, setProvincias] = useState([]);
   useEffect(() => {
@@ -44,7 +45,9 @@ export const Tabla = ({
     setItem(row);
     setOpenModal(true);
   };
-
+  const handleView = (row) => {
+    setItemView(row);
+  };
   const handleDelete = async (id) => {
     try {
       let res = await deleteProvincia(id);
@@ -83,7 +86,9 @@ export const Tabla = ({
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">{row.nombreprovincia}</TableCell>
               <TableCell align="right" component="th" scope="row">
-                <IconButton aria-label="delete" size="small" color="primary">
+                <IconButton 
+                  onClick={() => handleView(row)}
+                  aria-label="delete" size="small" color="primary">
                   <VisibilityIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton
