@@ -12,9 +12,15 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import { Paper, Grid, TextField, Button,   Accordion,
+import {
+  Paper,
+  Grid,
+  TextField,
+  Button,
+  Accordion,
   AccordionSummary,
-  AccordionDetails } from "@mui/material";
+  AccordionDetails,
+} from "@mui/material";
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
@@ -38,52 +44,64 @@ const Provincias = () => {
     setFields({ ...fields, [name]: value });
   };
   const [itemView, setItemView] = useState({});
+  const handleClean = () => {
+    searchform.reset();
+  };
 
   return (
     <section>
       <div className="container">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={5}>
-            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 0 , 
-            backgroundColor: alpha('#8D4C32', 0.20),
-            '&:hover': {
-                backgroundColor: alpha('#8D4C32', 0.25),
-            },
-            }}>
-              <Accordion sx={{ p:5 }}>
+            <Paper
+              elevation={10}
+              className="paper"
+              sx={{
+                mt: 4,
+                p: 0,
+                backgroundColor: alpha("#8D4C32", 0.2),
+                "&:hover": {
+                  backgroundColor: alpha("#8D4C32", 0.25),
+                },
+              }}
+            >
+              <Accordion sx={{ p: 5 }}>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                    >
-                    Buscar Provincia
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  Buscar Provincia
                 </AccordionSummary>
                 <AccordionDetails>
-              <TextField
-                fullWidth
-                label="Nombre"
-                type="text"
-                size="small"
-                color="secondary"
-                margin="dense"
-                name="nombreprovincia"
-                id="textfields"
-                onChange={handlerSearcher}
-              />
-              <br />
-              <Grid container spacing={1} sx={{mt:2}}>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Button fullWidth id="textfields" color="secondary" variant="contained">
-                        Buscar
-                      </Button>
+                  <form id="searchform">
+                    <TextField
+                      fullWidth
+                      label="Nombre"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="nombreprovincia"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                    <Grid container spacing={1} sx={{ mt: 2 }}>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <Button
+                          fullWidth
+                          id="textfields"
+                          color="primary"
+                          variant="contained"
+                          type="reset"
+                          value="limpiar"
+                          onClick={handleClean}
+                        >
+                          Limpiar
+                        </Button>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Button fullWidth id="textfields" color="primary" variant="contained">
-                        Limpiar
-                      </Button>
-                    </Grid>
-                  </Grid>
-
+                  </form>
                 </AccordionDetails>
               </Accordion>
             </Paper>
@@ -91,7 +109,7 @@ const Provincias = () => {
           <Grid item xs={12} sm={12} md={6}>
             <VerProvincia itemView={itemView}/>
           </Grid>
-          <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
+          <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
               render={render}
               renderizar={renderizar}

@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 //para la tabla
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -13,7 +13,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import MenuItem from "@mui/material/MenuItem";
-import { getProveedores, delProveedoresEmp, delProveedoresPer } from "../../services/Proveedores";
+import { getProveedores, delProveedoresEmp, delProveedoresPer, searcher } from "../../services/Proveedores";
 
 import Swal from "sweetalert2";
 
@@ -36,7 +36,7 @@ export const Tabla = ({
     }
   }, [renderizar]);
 
-  let data = proveedor
+  let data = searcher(fields, proveedor)
 
   const handlePut = (row) => {
     setItem(row);
@@ -113,7 +113,7 @@ export const Tabla = ({
                 {row.persona ? row.persona.nombre : row.empresa.nombre}
               </TableCell>
               <TableCell align="right">
-                {row.persona ? row.persona.dni : row.ruc}
+                {row.ruc}
               </TableCell>
               <TableCell align="right">
                 {row.persona ? row.persona.telefono : row.empresa.telefono}

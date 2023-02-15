@@ -17,29 +17,23 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import ClientesContext from "../../services/clientes";
+import {getClientes, searcher} from "../../services/clientes";
 import { deleteClienteper, deleteClienteemp } from "../../services/clientes";
 
 import Swal from "sweetalert2";
 
 export const Tabla = ({
-  fields,
   render,
   renderizar,
   setRenderizar,
   setOpenModal,
   setItem,
   setItemView,
-  setPutItem,
-  value,
   setValue,
-  clienteId,
-  setClienteId,
+  fields
 }) => {
-  const { clientes, setClientes, getClientes, searcher } =
-    useContext(ClientesContext);
 
-  const [viewItem, setViewItem] = useState("");
+  const [clientes, setClientes] = useState([]);
 
   useEffect(() => {
     if (render.current) {
@@ -48,8 +42,7 @@ export const Tabla = ({
     }
   }, [renderizar]);
 
-  let data = clientes;
-  console.log(data);
+  let data = searcher(fields, clientes);
 
   const handlePut = (row) => {
     setItem(row);
@@ -116,7 +109,8 @@ export const Tabla = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row, i) => (
+          {data.length > 0 &&
+          data.map((row, i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
                 {i + 1}

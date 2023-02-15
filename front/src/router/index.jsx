@@ -7,7 +7,6 @@ import Proveedores from "../pages/Proveedores";
 import Clientes from "../pages/Clientes";
 
 //SERVICES
-import { ClientesProvider } from "../services/clientes";
 import AddForm from "../pages/Clientes/addform";
 import Provincias from "../pages/Mantenimiento/Provincias";
 import FormasPago from "../pages/Mantenimiento/FormasPago";
@@ -26,9 +25,7 @@ const Router = () => {
           <Route
             path="/clientes"
             element={
-              <ClientesProvider>
-                <Clientes />
-              </ClientesProvider>
+              <Clientes />
             }
           />
           <Route path="/clientes/add" element={<AddForm />} />

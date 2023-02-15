@@ -42,6 +42,9 @@ const FormasPago = () => {
     setFields({ ...fields, [name]: value });
   };
   const [itemView, setItemView] = useState({});
+  const handleClean = () => {
+    searchform.reset();
+  };
   
   return (
     <section>
@@ -63,31 +66,34 @@ const FormasPago = () => {
                     Buscar Forma de Pago
                 </AccordionSummary>
                 <AccordionDetails>
-              <TextField
-                fullWidth
-                label="Nombre"
-                type="text"
-                size="small"
-                color="secondary"
-                margin="dense"
-                name="nombrefp"
-                id="textfields"
-                onChange={handlerSearcher}
-              />
-              <br />
-              <Grid container spacing={1} sx={{mt:2}}>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Button fullWidth id="textfields" color="secondary" variant="contained">
-                        Buscar
-                      </Button>
+                  <form id="searchform">
+                    <TextField
+                      fullWidth
+                      label="Nombre"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="nombrefp"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                    <Grid container spacing={1} sx={{mt:2}}>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <Button
+                          fullWidth
+                          id="textfields"
+                          color="primary"
+                          variant="contained"
+                          type="reset"
+                          value="limpiar"
+                          onClick={handleClean}
+                        >
+                          Limpiar
+                        </Button>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Button fullWidth id="textfields" color="primary" variant="contained">
-                        Limpiar
-                      </Button>
-                    </Grid>
-                  </Grid>
-
+                  </form>
                 </AccordionDetails>
               </Accordion>
             </Paper>
