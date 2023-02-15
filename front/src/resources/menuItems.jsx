@@ -27,6 +27,7 @@ import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import AlbumIcon from '@mui/icons-material/Album';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import EngineeringIcon from '@mui/icons-material/Engineering';
+import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 
 export const menuItems = [
     { url: "/", icon: <HomeIcon/>, name: "Inicio",
@@ -38,8 +39,9 @@ export const menuItems = [
         {name:'Trabajadores',icon: <EngineeringIcon/>,url:'/trabajadores'}] },
 
     { url: "#contact", icon: <Inventory2Icon/>, name: "Productos",
-    item:[{name:'Productos',icon: <ArtTrackIcon/>,url:'#cliente'},
-        {name:'Articulos',icon: <AlbumIcon/>,url:'#proveedor'}] },
+    item:[{name:'Categorías',icon: <AutoAwesomeMosaicIcon/>,url:'/productos/categorias'},
+        {name:'Productos',icon: <ArtTrackIcon/>,url:'#cliente'},
+        {name:'Articulos',icon: <AlbumIcon/>,url:'/productos/articulos'}] },
 
     { url: "#about", icon: <AttachMoneyIcon/>, name: "Ventas",
     item:[{name:'Venta',icon: <SellIcon/>,url:'/ventas/venta'},

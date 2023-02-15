@@ -32,10 +32,11 @@ const Proveedores = () => {
   const [item, setItem] = useState({});
   const [putItem, setPutItem] = useState({});
   const [value, setValue] = useState("");
+  const [itemView, setItemView] = useState({})
 
   //Listado de proveedores y provincias
   const [provincias, setProvincias] = useState([]);
-  const [proveedores, setProveedores] = useState([])
+  const [proveedores, setProveedores] = useState([]);
 
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
@@ -47,174 +48,166 @@ const Proveedores = () => {
     setFields({ ...fields, [name]: value });
   };
 
-
   return (
     <section>
       <div className="container">
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={6}>
-            <Paper
-              elevation={10}
-              className="paper"
-              sx={{
-                mt: 4,
-                p: 0,
-                backgroundColor: alpha("#8D4C32", 0.2),
-                "&:hover": {
-                  backgroundColor: alpha("#8D4C32", 0.25),
-                },
-              }}
-            >
-              <Accordion sx={{ p: 5 }}>
+          <Grid item xs={12} sm={12} md={5}>
+            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 0 , 
+            backgroundColor: alpha('#8D4C32', 0.20),
+            '&:hover': {
+                backgroundColor: alpha('#8D4C32', 0.25),
+            },
+            }}>
+              <Accordion sx={{ p:5 }}>
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  Buscar Proveedor
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    >
+                    Buscar Proveedor
                 </AccordionSummary>
                 <AccordionDetails>
-                  <TextField
-                    fullWidth
-                    label="Código"
-                    type="number"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
-                    id="textfields"
-                    onChange={handlerSearcher}
+              <TextField
+                fullWidth
+                label="Código"
+                type="number"
+                size="small"
+                color="secondary"
+                margin="dense"
+                id="textfields"
+                onChange={handlerSearcher}
+              />
+              <TextField
+                fullWidth
+                label="RUC/DNI"
+                type="number"
+                size="small"
+                color="secondary"
+                margin="dense"
+                id="textfields"
+                onChange={handlerSearcher}
+              />
+              <TextField
+                fullWidth
+                label="Nombre"
+                type="text"
+                size="small"
+                color="secondary"
+                margin="dense"
+                id="textfields"
+                onChange={handlerSearcher}
+              />
+              <TextField
+                fullWidth
+                label="Teléfono"
+                type="number"
+                size="small"
+                color="secondary"
+                margin="dense"
+                id="textfields"
+                onChange={handlerSearcher}
+              />
+              <FormControl
+                fullWidth
+                margin="dense"
+                size="small"
+                color="secondary"
+              >
+                <InputLabel>Provincia</InputLabel>
+                <Select
+                  label="Provincia"
+                  size="small"
+                  color="secondary"
+                  id="textfields"
+                  onChange={handlerSearcher}
+                  defaultValue=""
+                >
+                  {provincias.map((item, i) => (
+                    <MenuItem key={i} value={item.id}>
+                      {item.nombreprovincia}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                label="Localidad"
+                type="text"
+                size="small"
+                color="secondary"
+                margin="dense"
+                id="textfields"
+                onChange={handlerSearcher}
+              />
+              <FormControl>
+                <FormLabel
+                  id="demo-row-radio-buttons-group-label"
+                  color="secondary"
+                >
+                  Tipo
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  onChange={handlerSearcher}
+                >
+                  <FormControlLabel
+                    disableTypography
+                    labelPlacement="start"
+                    value=""
+                    control={<Radio color="secondary" />}
+                    label="all"
                   />
-                  <TextField
-                    fullWidth
-                    label="RUC/DNI"
-                    type="number"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
-                    id="textfields"
-                    onChange={handlerSearcher}
+                  <FormControlLabel
+                    disableTypography
+                    labelPlacement="start"
+                    value="persona"
+                    control={<Radio color="secondary" />}
+                    label="persona"
                   />
-                  <TextField
-                    fullWidth
-                    label="Nombre"
-                    type="text"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
-                    id="textfields"
-                    onChange={handlerSearcher}
+                  <FormControlLabel
+                    disableTypography
+                    labelPlacement="start"
+                    value="empresa"
+                    control={<Radio color="secondary" />}
+                    label="empresa"
                   />
-                  <TextField
+                </RadioGroup>
+              </FormControl>
+              <br />
+              <Grid container spacing={1} sx={{ mt: 2 }}>
+                <Grid item xs={12} sm={12} md={6}>
+                  <Button
                     fullWidth
-                    label="Teléfono"
-                    type="number"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
                     id="textfields"
-                    onChange={handlerSearcher}
-                  />
-                  <FormControl
-                    fullWidth
-                    margin="dense"
-                    size="small"
                     color="secondary"
+                    variant="contained"
                   >
-                    <InputLabel>Provincia</InputLabel>
-                    <Select
-                      label="Provincia"
-                      size="small"
-                      color="secondary"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                      defaultValue=''
-                    >
-                      {provincias.map((item, i) => (
-                        <MenuItem key={i} value={item.id}>
-                          {item.nombreprovincia}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <TextField
+                    Buscar
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6}>
+                  <Button
                     fullWidth
-                    label="Localidad"
-                    type="text"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
                     id="textfields"
-                    onChange={handlerSearcher}
-                  />
-                  <FormControl>
-                    <FormLabel
-                      id="demo-row-radio-buttons-group-label"
-                      color="secondary"
-                    >
-                      Tipo
-                    </FormLabel>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
-                      onChange={handlerSearcher}
-                    >
-                      <FormControlLabel
-                        disableTypography
-                        labelPlacement="start"
-                        value=""
-                        control={<Radio color="secondary" />}
-                        label="all"
-                      />
-                      <FormControlLabel
-                        disableTypography
-                        labelPlacement="start"
-                        value="persona"
-                        control={<Radio color="secondary" />}
-                        label="persona"
-                      />
-                      <FormControlLabel
-                        disableTypography
-                        labelPlacement="start"
-                        value="empresa"
-                        control={<Radio color="secondary" />}
-                        label="empresa"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                  <br />
-                  <Grid container spacing={1} sx={{ mt: 2 }}>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Button
-                        fullWidth
-                        id="textfields"
-                        color="secondary"
-                        variant="contained"
-                      >
-                        Buscar
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Button
-                        fullWidth
-                        id="textfields"
-                        color="primary"
-                        variant="contained"
-                      >
-                        Limpiar
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </AccordionDetails>
+                    color="primary"
+                    variant="contained"
+                  >
+                    Limpiar
+                  </Button>
+                </Grid>
+              </Grid>
+              </AccordionDetails>
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={5}>
-            <VerProveedor 
-              item={item}/>
+          <Grid item xs={12} sm={12} md={6}>
+            <VerProveedor itemView={itemView} />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
-            <AddForm 
+            <AddForm
               render={render}
               renderizar={renderizar}
               setRenderizar={setRenderizar}
@@ -223,7 +216,8 @@ const Proveedores = () => {
               item={item}
               setItem={setItem}
               value={value}
-              setValue={setValue}/>
+              setValue={setValue}
+            />
           </Grid>
         </Grid>
 
@@ -236,6 +230,7 @@ const Proveedores = () => {
           value={value}
           setValue={setValue}
           setItem={setItem}
+          setItemView={setItemView}
           setPutItem={setPutItem}
         />
       </div>
