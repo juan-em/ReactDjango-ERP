@@ -18,7 +18,6 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const VerProvincia = ({ itemView }) => {
-const VerProvincia = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }

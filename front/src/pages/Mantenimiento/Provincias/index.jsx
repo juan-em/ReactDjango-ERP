@@ -42,7 +42,6 @@ const Provincias = () => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
   };
-  const [itemView, setItemView] = useState({});
   const handleClean = () => {
     searchform.reset();
   };
