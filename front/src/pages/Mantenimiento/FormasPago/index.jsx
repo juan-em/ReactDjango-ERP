@@ -120,6 +120,15 @@ const Provincias = () => {
           setItem={setItem}
           setItemView={setItemView}
         />
+        <Tabla
+          fields={fields}
+          render={render}
+          renderizar={renderizar}
+          setRenderizar={setRenderizar}
+          setOpenModal={setOpenModal}
+          setItem={setItem}
+          setItemView={setItemView}
+        />
       </div>
     </section>
   );

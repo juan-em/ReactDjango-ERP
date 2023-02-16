@@ -42,6 +42,7 @@ const Provincias = () => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
   };
+  const [itemView, setItemView] = useState({});
   const handleClean = () => {
     searchform.reset();
   };
@@ -84,7 +85,6 @@ const Provincias = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
-                    <br />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button

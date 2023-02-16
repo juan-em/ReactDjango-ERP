@@ -35,7 +35,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
     setOpenModal(false)
   };
 
-  const handlePostPutProvincia = async(e) => {
+  const handlePostPutFormaPago = async(e) => {
     try {
       const {nombrefp,} = e.target
       await post_put(e, nombrefp, URL)
@@ -80,7 +80,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
         </DialogTitle>
         <DialogContent>
           <TabContext centered>
-              <form onSubmit={handlePostPutProvincia}>
+              <form onSubmit={handlePostPutFormaPago}>
                 {item.id?<input type="hidden" name="cod" value={item.id}/>:''
                 }
                 <Grid container spacing={1}>
