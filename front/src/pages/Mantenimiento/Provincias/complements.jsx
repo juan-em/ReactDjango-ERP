@@ -15,12 +15,8 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import {
-  searcherProvincias,
-  getProvincias,
-  deleteProvincia,
-} from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
+import { get, searcherprov, post_put, del } from "../../../services/mantenimiento";
 
 export const Tabla = ({
   fields,
@@ -29,28 +25,32 @@ export const Tabla = ({
   setRenderizar,
   setOpenModal,
   setItem,
-  setItemView
+  setItemView,
 }) => {
+  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
   const [provincias, setProvincias] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      getProvincias(setProvincias);
+      get(setProvincias, URL);
     }
   }, [renderizar]);
 
-  let data = searcherProvincias(fields, provincias);
+  let data = searcherprov(fields, provincias);
 
   const handlePut = (row) => {
     setItem(row);
     setOpenModal(true);
   };
+
   const handleView = (row) => {
+    console.log(row);
     setItemView(row);
   };
+
   const handleDelete = async (id) => {
     try {
-      let res = await deleteProvincia(id);
+      let res = await del(id, URL);
       render.current = true;
       setRenderizar(!renderizar);
       return res;
@@ -62,7 +62,7 @@ export const Tabla = ({
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-      <TableHead
+        <TableHead
           sx={{
             backgroundColor: alpha("#633256", 0.2),
             "&:hover": {
@@ -71,10 +71,33 @@ export const Tabla = ({
           }}
         >
           <TableRow>
-            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' , fontStyle: "italic"}}>Item</TableCell>
-            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Código</TableCell>
-            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Nombre</TableCell>
-            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Acciones</TableCell>
+            <TableCell
+              sx={{
+                color: "#633256",
+                fontFamily: "inherit",
+                fontStyle: "italic",
+              }}
+            >
+              Item
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Código
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Nombre
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Acciones
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -86,10 +109,11 @@ export const Tabla = ({
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">{row.nombreprovincia}</TableCell>
               <TableCell align="right" component="th" scope="row">
-                <IconButton 
-                  onClick={() => handleView(row)}
-                  aria-label="delete" size="small" color="primary">
-                  <VisibilityIcon fontSize="inherit" />
+                <IconButton aria-label="delete" size="small" color="primary">
+                  <VisibilityIcon
+                    fontSize="inherit"
+                    onClick={() => handleView(row)}
+                  />
                 </IconButton>
                 <IconButton
                   onClick={() => handlePut(row)}

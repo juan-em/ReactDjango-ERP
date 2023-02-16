@@ -25,10 +25,7 @@ import {
 //Componentes
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
-import {
-  getProvincias,
-  searcherProvincias,
-} from "../../../services/mantenimiento";
+
 import AddForm from "./addform";
 import { useRef } from "react";
 import VerProvincia from "./verprovincia";
@@ -36,6 +33,8 @@ import VerProvincia from "./verprovincia";
 const Provincias = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
+  const [itemView, setItemView] = useState({})
+
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
@@ -82,7 +81,7 @@ const Provincias = () => {
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombreprovincia"
+                      name="nombre"
                       id="textfields"
                       onChange={handlerSearcher}
                     />

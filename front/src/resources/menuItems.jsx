@@ -39,8 +39,7 @@ export const menuItems = [
         {name:'Trabajadores',icon: <EngineeringIcon/>,url:'/trabajadores'}] },
 
     { url: "#contact", icon: <Inventory2Icon/>, name: "Productos",
-    item:[{name:'Categorías',icon: <AutoAwesomeMosaicIcon/>,url:'/productos/categorias'},
-        {name:'Productos',icon: <ArtTrackIcon/>,url:'#cliente'},
+    item:[{name:'Productos',icon: <ArtTrackIcon/>,url:'#cliente'},
         {name:'Articulos',icon: <AlbumIcon/>,url:'/productos/articulos'}] },
 
     { url: "#about", icon: <AttachMoneyIcon/>, name: "Ventas",
@@ -62,12 +61,12 @@ export const menuItems = [
 
     { url: "#about", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
     item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
-        {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'/mantenimientos/formapago'},
-        {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'#proveedor'},
+        {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'/mantenimientos/formaspago'},
+        {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'/mantenimientos/entidades'},
         {name:'Almacenes',icon: <AddBusinessIcon/>,url:'#proveedor'},
-        {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'#proveedor'},
-        {name:'Embalajes',icon: <ArchiveIcon/>,url:'#proveedor'},
-        {name:'Categorias',icon: <FolderCopyIcon/>,url:'#proveedor'}] },
+        {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'/mantenimientos/impuestos'},
+        {name:'Embalajes',icon: <ArchiveIcon/>,url:'/mantenimientos/embalajes'},
+        {name:'Categorías',icon: <AutoAwesomeMosaicIcon/>,url:'/mantenimientos/categorias'},]},
 
     { url: "#about", icon: <PrecisionManufacturingIcon/>, name: "Servicios",
     item:[{name:'Servicios',icon: <ElectricalServicesIcon/>,url:'#cliente'}] },

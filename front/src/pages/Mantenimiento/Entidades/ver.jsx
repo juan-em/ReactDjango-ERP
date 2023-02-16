@@ -16,18 +16,19 @@ import { alpha } from "@mui/material/styles";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Swal from "sweetalert2";
 
-const VerProvincia = ({ itemView }) => {
-const VerProvincia = ({ itemView }) => {
+const VerCategoria = (itemView) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
   ]);
 
+console.log(itemView.itemView.id)
   const seti = () => {
-  console.log(itemView)
     const newItem = itemsPer.map((i) => {
-      if (!itemView.id) {
+      console.log(itemView.id)
+      if (!itemView.itemView.id) {
         return {
           ...i,
         };
@@ -35,12 +36,13 @@ const VerProvincia = ({ itemView }) => {
         if (i.primary === "Código") {
           return {
             ...i,
-            secondary: itemView.id,
+            secondary: itemView.itemView.id,
           };
         } else if (i.primary === "Nombre") {
+          console.log(i)
           return {
             ...i,
-            secondary: itemView.nombreprovincia,
+            secondary: itemView.itemView.nombreentidad,
           };
         } 
       }
@@ -48,9 +50,10 @@ const VerProvincia = ({ itemView }) => {
     setItemsPer(newItem);
   };
 
-  useEffect(() => {
-    seti();
-  }, [itemView]);
+  useEffect(()=>{
+    seti()
+    console.log(itemsPer)
+  },[itemView])
 
   return (
     <section>
@@ -72,7 +75,7 @@ const VerProvincia = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Provincia seleccionada
+            Categoría seleccionada
           </AccordionSummary>
           <AccordionDetails>
             <List
@@ -80,7 +83,7 @@ const VerProvincia = ({ itemView }) => {
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
                       <ListItem>
                         <ListItemAvatar>
                           <Avatar>{i.icon}</Avatar>
@@ -101,4 +104,4 @@ const VerProvincia = ({ itemView }) => {
   );
 };
 
-export default VerProvincia;
+export default VerCategoria;

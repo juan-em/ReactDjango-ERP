@@ -20,9 +20,9 @@ import { Tabla } from "./complements";
 import { get, searcher } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerCategoria from "./vercategoria";
+import VerCategoria from "./ver";
 
-const Articulos = () => {
+const Entidades = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -61,7 +61,7 @@ const Articulos = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoria
+                  Buscar Entidades
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -124,4 +124,4 @@ const Articulos = () => {
     </section>
   );
 };
-export default Articulos;
+export default Entidades;

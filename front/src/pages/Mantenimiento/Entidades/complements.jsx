@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
+import { get, searcherent, post_put, del } from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
 
 export const Tabla = ({
@@ -27,16 +27,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
-  const [categoria, setCategoria] = useState([]);
+  const URL = "http://localhost:8000/api/mantenimientos/entidades/";
+  const [entidades, setEntidades] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setCategoria, URL);
+      get(setEntidades, URL);
     }
   }, [renderizar]);
 
-  let data = searcher(fields, categoria);
+  let data = searcherent(fields, entidades);
 
   const handlePut = (row) => {
     setItem(row);
@@ -107,7 +107,7 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.nombre}</TableCell>
+              <TableCell align="right">{row.nombreentidad}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon

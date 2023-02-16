@@ -25,7 +25,7 @@ import { alpha } from "@mui/material/styles";
 //Componentes
 import { useState, useRef, useEffect } from "react";
 import { Tabla } from "./complements";
-import { getProvincias } from "../../services/mantenimiento";
+import { get } from "../../services/mantenimiento";
 import AddForm from "./addform";
 
 import VerCliente from "./vercliente";
@@ -56,7 +56,8 @@ const Clientes = () => {
   }
 
   useEffect(() => {
-    getProvincias(setProvincias);
+    const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+    get(setProvincias, URL);
   }, []);
 
   return (
