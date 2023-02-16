@@ -14,7 +14,7 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
-# @permission_classes([IsAuthenticated]) #It's important to add a decorator if we want to restrict some routes to the user
+@permission_classes([IsAuthenticated]) #It's important to add a decorator if we want to restrict some routes to the user
 class ProvinciasViewSet(viewsets.ModelViewSet):
     queryset = Provincias.objects.all()
     serializer_class = ProviciasSerializer
