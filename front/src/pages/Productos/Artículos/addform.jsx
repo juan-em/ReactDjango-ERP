@@ -82,7 +82,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
   ];
 
   //para el input de fecha
-  const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
+  const [value, setValue] = useState(dayjs(new Date()));
 
   const handleChange = (newValue) => {
     setValue(newValue);
