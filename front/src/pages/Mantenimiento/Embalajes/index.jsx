@@ -22,7 +22,8 @@ import AddForm from "./addform";
 import { useRef } from "react";
 import VerCategoria from "./vercategoria";
 
-const Articulos = () => {
+const Embalajes = () => {
+  const URL = "http://localhost:8000/api/mantenimientos/embalajes/";
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -61,7 +62,7 @@ const Articulos = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoria
+                  Buscar Embalajes
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -124,4 +125,4 @@ const Articulos = () => {
     </section>
   );
 };
-export default Articulos;
+export default Embalajes;

@@ -16,13 +16,16 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 
 //componentes
-import { post_putFormaPago } from "../../../services/mantenimiento";
+import { get, searcher, post_put, del } from "../../../services/mantenimiento";
+
+
+
 import Swal from "sweetalert2";
 
 
 const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
   
-
+  const URL = "http://localhost:8000/api/mantenimientos/formapago/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -34,11 +37,12 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
 
   const handlePostPutFormaPago = async(e) => {
     try {
-      await post_putFormaPago(e)
+      const {nombrefp,} = e.target
+      await post_put(e, nombrefp, URL)
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la forma de pago",
+        text: "Se registró la Forma de Pago",
       });
       if(item.id)setItem({})
       setRenderizar(!renderizar)
@@ -71,7 +75,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
             <CloseIcon fontSize="large" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Forma de pago" : "Nueva Forma de Pago"}
+            {item.id ? "Editar Provincia" : "Nueva Provincia"}
           </Typography>
         </DialogTitle>
         <DialogContent>

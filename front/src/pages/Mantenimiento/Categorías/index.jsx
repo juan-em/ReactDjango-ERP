@@ -22,7 +22,7 @@ import AddForm from "./addform";
 import { useRef } from "react";
 import VerCategoria from "./vercategoria";
 
-const Articulos = () => {
+const Categorias = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -124,4 +124,4 @@ const Articulos = () => {
     </section>
   );
 };
-export default Articulos;
+export default Categorias;

@@ -13,31 +13,22 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 //icons
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import FingerprintIcon from "@mui/icons-material/Fingerprint";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DeckIcon from "@mui/icons-material/Deck";
-import MyLocationIcon from "@mui/icons-material/MyLocation";
-import PinIcon from "@mui/icons-material/Pin";
-import KeyIcon from "@mui/icons-material/Key";
-import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import WebhookIcon from "@mui/icons-material/Webhook";
-import { Box } from "@mui/system";
+import Swal from "sweetalert2";
 
-const VerFormaPago = ({ itemView }) => {
+const VerCategoria = (itemView) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Valor", secondary: "" }
   ]);
 
+console.log(itemView.itemView.id)
   const seti = () => {
-  
     const newItem = itemsPer.map((i) => {
-      if (!itemView.id) {
+      if (!itemView.itemView.id) {
         return {
           ...i,
         };
@@ -45,12 +36,19 @@ const VerFormaPago = ({ itemView }) => {
         if (i.primary === "Código") {
           return {
             ...i,
-            secondary: itemView.id,
+            secondary: itemView.itemView.id,
           };
         } else if (i.primary === "Nombre") {
+          console.log(i)
           return {
             ...i,
-            secondary: itemView.nombrefp,
+            secondary: itemView.itemView.nombre,
+          };
+        } else if (i.primary === "Valor") {
+          console.log(i)
+          return {
+            ...i,
+            secondary: itemView.itemView.valor,
           };
         } 
       }
@@ -58,9 +56,9 @@ const VerFormaPago = ({ itemView }) => {
     setItemsPer(newItem);
   };
 
-  useEffect(() => {
-    seti();
-  }, [itemView]);
+  useEffect(()=>{
+    seti()
+  },[itemView])
 
   return (
     <section>
@@ -82,7 +80,7 @@ const VerFormaPago = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Forma de pago seleccionada
+            Impuesto seleccionado
           </AccordionSummary>
           <AccordionDetails>
             <List
@@ -90,7 +88,7 @@ const VerFormaPago = ({ itemView }) => {
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
                       <ListItem>
                         <ListItemAvatar>
                           <Avatar>{i.icon}</Avatar>
@@ -111,4 +109,4 @@ const VerFormaPago = ({ itemView }) => {
   );
 };
 
-export default VerFormaPago;
+export default VerCategoria;

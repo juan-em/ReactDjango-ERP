@@ -29,7 +29,7 @@ import {
   putClienteper,
 } from "../../services/clientes";
 
-import { getProvincias, getFormaPago } from "../../services/mantenimiento";
+import { get } from "../../services/mantenimiento";
 
 import Swal from "sweetalert2";
 
@@ -115,8 +115,10 @@ const AddForm = ({
   };
 
   useEffect(() => {
-    getProvincias(setProvincias);
-    getFormaPago(setFormPago);
+    const URLP = "http://localhost:8000/api/mantenimientos/provincias/";
+    const URLF = "http://localhost:8000/api/mantenimientos/formapago/";
+    get(setProvincias, URLP);
+    get(setFormPago, URLF);
   }, []);
 
   return (
@@ -266,7 +268,7 @@ const AddForm = ({
                           color="secondary"
                           id="textfields"
                           margin="dense"
-                          name="dni"
+                          name="persona.dni"
                           onChange={handleChange}
                           value={values.persona ? values.persona.dni : ""}
                         />
@@ -278,7 +280,7 @@ const AddForm = ({
                           color="secondary"
                           id="textfields"
                           margin="dense"
-                          name="localidad"
+                          name="persona.localidad"
                           onChange={handleChange}
                           value={values.persona ? values.persona.localidad : ""}
                         />
@@ -290,7 +292,7 @@ const AddForm = ({
                           color="secondary"
                           id="textfields"
                           margin="dense"
-                          name="codpostal"
+                          name="persona.codpostal"
                           onChange={handleChange}
                           value={values.persona ? values.persona.codpostal : ""}
                         />
@@ -302,7 +304,7 @@ const AddForm = ({
                           color="secondary"
                           id="textfields"
                           margin="dense"
-                          name="telefono"
+                          name="persona.telefono"
                           onChange={handleChange}
                           value={values.persona ? values.persona.telefono : ""}
                         />
@@ -314,7 +316,7 @@ const AddForm = ({
                           color="secondary"
                           id="textfields"
                           margin="dense"
-                          name="web"
+                          name="persona.web"
                           onChange={handleChange}
                           value={values.persona ? values.persona.web : ""}
                         />

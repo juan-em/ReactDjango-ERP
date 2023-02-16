@@ -23,7 +23,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { alpha } from "@mui/material/styles";
 
 //Componentes
-import { getProvincias } from "../../services/mantenimiento";
+import { get } from "../../services/mantenimiento";
 import { Tabla } from "./complements";
 import AddForm from "./addform";
 import VerProveedor from "./verproveedor";
@@ -53,7 +53,8 @@ const Proveedores = () => {
   };
 
   useEffect(() => {
-    getProvincias(setProvincias);
+    const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+    get(setProvincias, URL);
   }, []);
 
   return (
