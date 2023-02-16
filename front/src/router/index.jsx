@@ -5,6 +5,9 @@ import { AuthProvider } from "../context/AuthProvider";
 import Login from "../api/Login";
 import RequireAuth from "../components/Authorization/RequireAuth";
 
+// LOGIN PERSISTENCE
+import PersistLogin from "../components/Authorization/PersistLogin";
+
 // PAGES
 import Home from "../pages/Home";
 import Main from "../layout/main";
@@ -29,51 +32,39 @@ const Router = () => {
           {/* Rutas publicas */}
           <Route path="/login" element={<Login />} />
           
-          {/* Rutas protegidas */}
-          <Route element={<RequireAuth/>}>
-            <Route path="/" element={<Home />} />
-              <Route
-                path="/clientes"
-                element={
-                  <ClientesProvider>
-                    <Clientes />
-                  </ClientesProvider>
-                }
-              />
+          {/* Rutas privadas */}
+          <Route element={<PersistLogin/>}>
+            <Route element={<RequireAuth/>}>
+              <Route path="/" element={<Home />} />
+                <Route
+                  path="/clientes"
+                  element={
+                    <ClientesProvider>
+                      <Clientes />
+                    </ClientesProvider>
+                  }
+                />
 
-              <Route
-                path="/clientes/add"
-                element={<AddForm
-                />}
-              />
+                <Route path="/clientes/add" element={<AddForm/>}/>
 
-              <Route
-                path="/proveedores"
-                element={
-                  <ProveedoresProvider>
-                    <Proveedores />
-                  </ProveedoresProvider>
-                }
-              />
+                <Route
+                  path="/proveedores"
+                  element={
+                    <ProveedoresProvider>
+                      <Proveedores />
+                    </ProveedoresProvider>
+                  }
+                />
 
-              <Route
-                path="/mantenimientos/provincias"
-                element={
-                  <Provincias/>
-                }
-              />
-              <Route
-                path="/mantenimientos/provincias/editar/:id"
-                element={
-                  <Provincias/>
-                }
-              />
+                <Route path="/mantenimientos/provincias" element={<Provincias/>}/>
+                
+                <Route path="/mantenimientos/provincias/editar/:id" element={<Provincias/>}/>
             </Route>
           </Route>
 
-          
+        </Route>
 
-      </Routes>
+    </Routes>
     </AuthProvider>     
     </BrowserRouter>
   );

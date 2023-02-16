@@ -39,8 +39,9 @@ const Login = () => {
 
             console.log(JSON.stringify(response?.data))
 
+            const refresh = response?.data?.refresh
             const access = response?.data?.access
-            setAuth({user, password, access})
+            setAuth({user, password, access, refresh})
 
             setUser('')
             setPassword('')

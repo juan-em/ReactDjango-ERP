@@ -7,7 +7,8 @@ export default axios.create({
 })
 
 export const axiosPrivate = axios.create({
-    baseURL: BASE_URL,
+    baseURL: BASE_URL, 
+    //Attaching interceptors
     headers: { 'Content-Type':'applicaction/json'},
     withCredentials: true
 })
