@@ -8,13 +8,13 @@ class ProveedorPersonaSerializer(WritableNestedModelSerializer):
     persona = PersonaSerializer()
     class Meta:
         model = Proveedores
-        fields = '__all__'
+        fields = ['id', 'persona', 'empresa','ruc', 'borrado', 'codigo']
 
 class ProveedorEmpresaSerializer(WritableNestedModelSerializer):
     empresa = EmpresaSerializer()
     class Meta:
         model = Proveedores
-        fields = '__all__'
+        fields = ['id', 'persona', 'empresa','ruc', 'borrado', 'codigo']
     
 # class ProveedoresSerializer(serializers.ModelSerializer):
 #     persona = PersonaSerializer(required=False)

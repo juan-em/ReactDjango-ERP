@@ -12,7 +12,7 @@ class ClientePersonaSerilizer(WritableNestedModelSerializer):
     persona = PersonaSerializer()
     class Meta:
         model = Clientes
-        fields = ['id','persona','codformapago','borrado']
+        fields = ['id','persona','codformapago','borrado','codigo']
     
 
 
@@ -20,7 +20,7 @@ class ClienteEmpresaSerilizer(WritableNestedModelSerializer):
     empresa = EmpresaSerializer()
     class Meta:
         model = Clientes
-        fields = ['id','empresa','codformapago','borrado'] 
+        fields = ['id','empresa','codformapago','borrado','codigo'] 
  
 
         
