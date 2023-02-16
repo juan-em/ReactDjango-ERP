@@ -27,16 +27,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
-  const [categoria, setCategoria] = useState([]);
+  const URL = "http://localhost:8000/api/mantenimientos/embalajes/";
+  const [embalaje, setEmbalaje] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setCategoria, URL);
+      get(setEmbalaje, URL);
     }
   }, [renderizar]);
 
-  let data = searcher(fields, categoria);
+  let data = searcher(fields, embalaje);
 
   const handlePut = (row) => {
     setItem(row);

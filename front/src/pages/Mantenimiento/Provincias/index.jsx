@@ -25,10 +25,7 @@ import {
 //Componentes
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
-import {
-  getProvincias,
-  searcherProvincias,
-} from "../../../services/mantenimiento";
+
 import AddForm from "./addform";
 import { useRef } from "react";
 import VerProvincia from "./verprovincia";
@@ -36,6 +33,7 @@ import VerProvincia from "./verprovincia";
 const Provincias = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
+  const [itemView, setItemView] = useState({})
 
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
@@ -82,7 +80,7 @@ const Provincias = () => {
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombreprovincia"
+                      name="nombre"
                       id="textfields"
                       onChange={handlerSearcher}
                     />
@@ -108,7 +106,7 @@ const Provincias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerProvincia />
+            <VerProvincia itemView={itemView}/>
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -130,6 +128,7 @@ const Provincias = () => {
           setRenderizar={setRenderizar}
           setOpenModal={setOpenModal}
           setItem={setItem}
+          setItemView={setItemView}
         />
       </div>
     </section>

@@ -11,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
@@ -27,16 +26,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
-  const [categoria, setCategoria] = useState([]);
+  const URL = "http://localhost:8000/api/mantenimientos/impuestos/";
+  const [impuestos, setImpuestos] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setCategoria, URL);
+      get(setImpuestos, URL);
     }
   }, [renderizar]);
 
-  let data = searcher(fields, categoria);
+  let data = searcher(fields, impuestos);
 
   const handlePut = (row) => {
     setItem(row);
