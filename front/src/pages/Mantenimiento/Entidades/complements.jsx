@@ -15,7 +15,12 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import { get, searcherent, post_put, del } from "../../../services/mantenimiento";
+import {
+  get,
+  searcherent,
+  post_put,
+  del,
+} from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
 
 export const Tabla = ({
@@ -44,7 +49,6 @@ export const Tabla = ({
   };
 
   const handleView = (row) => {
-    console.log(row)
     setItemView(row);
   };
 
@@ -109,11 +113,13 @@ export const Tabla = ({
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">{row.nombreentidad}</TableCell>
               <TableCell align="right" component="th" scope="row">
-                <IconButton aria-label="delete" size="small" color="primary">
-                  <VisibilityIcon
-                    fontSize="inherit"
-                    onClick={() => handleView(row)}
-                  />
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="primary"
+                  onClick={() => handleView(row)}
+                >
+                  <VisibilityIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton
                   onClick={() => handlePut(row)}

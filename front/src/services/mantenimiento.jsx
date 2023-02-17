@@ -23,11 +23,9 @@ export const getInd = (id, set, url) => {
 
 export const post_put = async (e, item, url) => {
   e.preventDefault();
-  console.log(item);
   const payload = {
     [item.name]: item.value,
   };
-  console.log(payload)
   try {
     if (!e.target.cod) {
       try {
@@ -54,7 +52,6 @@ export const del = async (id, url) => {
   let res = await axios
     .delete(`${url}${id}/`)
     .catch((error) => console.log({ error }));
-  console.log(res.data);
   return res.data;
 };
 
@@ -109,7 +106,6 @@ export const postIm = async (data, url) => {
   };
   
   export const putIm = async (data, url) => {
-    console.log(data);
     try {
       const response = await axios.put(url, data);
       return response.data;

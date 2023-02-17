@@ -24,10 +24,8 @@ const VerCategoria = (itemView) => {
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
   ]);
 
-console.log(itemView.itemView.id)
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      console.log(itemView.id)
       if (!itemView.itemView.id) {
         return {
           ...i,
@@ -39,7 +37,6 @@ console.log(itemView.itemView.id)
             secondary: itemView.itemView.id,
           };
         } else if (i.primary === "Nombre") {
-          console.log(i)
           return {
             ...i,
             secondary: itemView.itemView.nombre,
@@ -52,7 +49,6 @@ console.log(itemView.itemView.id)
 
   useEffect(()=>{
     seti()
-    console.log(itemsPer)
   },[itemView])
 
   return (
@@ -83,7 +79,7 @@ console.log(itemView.itemView.id)
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                    <Grid key={i.primary} item xs={12} sm={6} md={6} lg={6}>
                       <ListItem>
                         <ListItemAvatar>
                           <Avatar>{i.icon}</Avatar>

@@ -108,14 +108,14 @@ const MenuNavbar = ({ content }) => {
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
-                <DrawerHeader disableTypography style={{ background: '#EDECEF' }}>
+                <DrawerHeader style={{ background: '#EDECEF' }}>
                     <Button sx={{fontSize:30}} onClick={handleDrawerClose}>
                         <h1 className="logo">ALPACA</h1>
                     </Button>
                 </DrawerHeader>
-                <List disableTypography style={{ background: '#EDECEF' }}>
+                <List style={{ background: '#EDECEF' }}>
                     {menuItems.map((item, index) => (
-                        <CustomListItem disableTypography id="items" key={item.name} name={item.name} url={item.url} icons={item.icon} item={item.item} bigOpen={open}/>
+                        <CustomListItem id="items" key={item.name} name={item.name} url={item.url} icons={item.icon} item={item.item} bigOpen={open}/>
                     ))}
                 </List>
                 

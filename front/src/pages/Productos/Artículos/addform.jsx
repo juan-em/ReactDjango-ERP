@@ -36,7 +36,6 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
   };
 
   const handlePostPut = async(e) => {
-    console.log(e)
     try {
       const {nombre,} = e.target
       await post_put(e, nombre, URL)

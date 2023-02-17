@@ -87,7 +87,6 @@ const AddForm = ({
   };
 
   const empSubmit = async (val) => {
-    console.log(val);
     try {
       !item.id
         ? await postProveedoresEmp(val)
