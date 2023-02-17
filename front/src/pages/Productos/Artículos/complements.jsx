@@ -44,7 +44,6 @@ export const Tabla = ({
   };
 
   const handleView = (row) => {
-    console.log(row)
     setItemView(row);
   };
 

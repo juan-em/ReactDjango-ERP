@@ -29,6 +29,7 @@ import { get } from "../../services/mantenimiento";
 import AddForm from "./addform";
 
 import VerCliente from "./vercliente";
+import { Box } from "@mui/system";
 
 const Clientes = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -47,13 +48,12 @@ const Clientes = () => {
   //Buscador
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
-    console.log(e.target.name);
     setFields({ ...fields, [name]: value });
   };
 
   const handleClean = () => {
-    searchform.reset()
-  }
+    searchform.reset();
+  };
 
   useEffect(() => {
     const URL = "http://localhost:8000/api/mantenimientos/provincias/";
@@ -67,7 +67,7 @@ const Clientes = () => {
           <Grid item xs={12} sm={12} md={5}>
             <Paper
               elevation={10}
-              className="paper"
+              className="paper-container"
               sx={{
                 mt: 4,
                 p: 0,
@@ -178,22 +178,19 @@ const Clientes = () => {
                         name="radio"
                         onChange={handlerSearcher}
                       >
-                        <FormControlLabel
-                          disableTypography
+                        <FormControlLabel                        
                           labelPlacement="start"
                           value=""
                           control={<Radio color="secondary" />}
                           label="all"
                         />
                         <FormControlLabel
-                          disableTypography
                           labelPlacement="start"
                           value="persona"
                           control={<Radio color="secondary" />}
                           label="persona"
                         />
                         <FormControlLabel
-                          disableTypography
                           labelPlacement="start"
                           value="empresa"
                           control={<Radio color="secondary" />}
@@ -235,22 +232,27 @@ const Clientes = () => {
               setValue={setValue}
             />
           </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <Box sx={{ overflow: "auto" }}>
+              <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+                <Tabla
+                  fields={fields}
+                  render={render}
+                  renderizar={renderizar}
+                  setRenderizar={setRenderizar}
+                  setOpenModal={setOpenModal}
+                  value={value}
+                  setValue={setValue}
+                  setItem={setItem}
+                  setItemView={setItemView}
+                  setPutItem={setPutItem}
+                  clienteId={clienteId}
+                  setClienteId={setClienteId}
+                />
+              </Box>
+            </Box>
+          </Grid>
         </Grid>
-
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          value={value}
-          setValue={setValue}
-          setItem={setItem}
-          setItemView={setItemView}
-          setPutItem={setPutItem}
-          clienteId={clienteId}
-          setClienteId={setClienteId}
-        />
       </div>
     </Container>
   );

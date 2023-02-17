@@ -151,7 +151,6 @@ const VerProveedor = ({ itemView }) => {
     setItemsPer(newItem);
   };
 
-  console.log(itemsPer);
 
   useEffect(() => {
     seti();
@@ -174,7 +173,7 @@ const VerProveedor = ({ itemView }) => {
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                  <Grid item xs={12} sm={6} md={6}>
+                  <Grid key={i.primary} item xs={12} sm={6} md={6}>
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>{i.icon}</Avatar>
