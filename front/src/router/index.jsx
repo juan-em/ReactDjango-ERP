@@ -15,8 +15,6 @@ import Proveedores from "../pages/Proveedores";
 import Clientes from "../pages/Clientes";
 
 //SERVICES
-import { ClientesProvider } from "../services/clientes";
-import { ProveedoresProvider } from "../services/proveedores";
 import AddForm from "../pages/Clientes/addform";
 import Provincias from "../pages/Mantenimiento/Provincias";
 import FormasPago from "../pages/Mantenimiento/FormasPago";
@@ -36,36 +34,30 @@ const Router = () => {
     <Routes>
         <Route element={<Main />}>
           
-          {/* Rutas publicas */}
+          {/* Public routes */}
           <Route path="/login" element={<Login />} />
           
-          {/* Rutas privadas */}
+          {/* Private routes */}
           <Route element={<PersistLogin/>}>
             <Route element={<RequireAuth/>}>
               <Route path="/" element={<Home />} />
-                <Route
-                  path="/clientes"
-                  element={
-                    <ClientesProvider>
-                      <Clientes />
-                    </ClientesProvider>
-                  }
-                />
+              
+              {/* Clientes */}
+              <Route path="/clientes" element={<Clientes />} />
+              <Route path="/clientes/add" element={<AddForm />} />
+              
+              {/* Proveedores */}
+              <Route path="/proveedores" element={<Proveedores />} />
+              <Route path="/productos/articulos" element={<Articulos />} />
 
-                <Route path="/clientes/add" element={<AddForm/>}/>
-
-                <Route
-                  path="/proveedores"
-                  element={
-                    <ProveedoresProvider>
-                      <Proveedores />
-                    </ProveedoresProvider>
-                  }
-                />
-
-                <Route path="/mantenimientos/provincias" element={<Provincias/>}/>
-                
-                <Route path="/mantenimientos/provincias/editar/:id" element={<Provincias/>}/>
+              {/* Otros */}
+              <Route path="/mantenimientos/provincias" element={<Provincias />} />
+              <Route path="/mantenimientos/categorias" element={<Categorias />} />
+              <Route path="/mantenimientos/embalajes" element={<Embalajes />} />
+              <Route path="/mantenimientos/formaspago" element={<FormasPago />} />
+              <Route path="/mantenimientos/entidades" element={<Entidades />} />
+              <Route path="/mantenimientos/impuestos" element={<Impuestos />} />
+              <Route path="/ventas/venta" element={<Venta />} />
             </Route>
           </Route>
 
