@@ -36,7 +36,7 @@ const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
                         >
                             {icons}
                         </ListItemIcon>
-                        <ListItemText disableTypography id="items" primary={name} style={{ color: '#454545 ' }} sx={{ opacity: bigOpen ? 1 : 0 , marginLeft:2 }} />
+                        <ListItemText id="items" primary={name} style={{ color: '#454545 ' }} sx={{ opacity: bigOpen ? 1 : 0 , marginLeft:2 }} />
 
                     </ListItemButton>
                 </Link>
@@ -49,7 +49,7 @@ const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
                             <ListItemIcon>
                                 {i.icon}
                             </ListItemIcon>
-                            <ListItemText disableTypography id="items" primary={i.name}/>
+                            <ListItemText id="items" primary={i.name}/>
                         </ListItemButton>
                     </List></Link>
                 </Collapse>

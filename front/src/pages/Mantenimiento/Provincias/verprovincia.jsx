@@ -24,7 +24,6 @@ const VerProvincia = ({ itemView }) => {
   ]);
 
   const seti = () => {
-  console.log(itemView)
     const newItem = itemsPer.map((i) => {
       if (!itemView.id) {
         return {
@@ -79,7 +78,7 @@ const VerProvincia = ({ itemView }) => {
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid key={i.primary} item xs={12} sm={6} md={6}>
                       <ListItem>
                         <ListItemAvatar>
                           <Avatar>{i.icon}</Avatar>

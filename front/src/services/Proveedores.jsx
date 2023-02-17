@@ -78,13 +78,11 @@ export const delProveedoresEmp = async (id) => {
 
 export const searcher = (fields, list) => {
   let resultData = list;
-  console.log(resultData);
   resultData = fields.codigo
     ? resultData.filter(
         (item) => item.codigo.toString() === fields.codigo.toString()
       )
     : resultData;
-  console.log(resultData);
   resultData = fields.ruc
     ? resultData.filter((item) => {
         return item.ruc.toString() === fields.ruc.toString();

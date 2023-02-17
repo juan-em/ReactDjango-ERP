@@ -12,6 +12,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Box
 } from "@mui/material";
 
 //Componentes
@@ -96,7 +97,7 @@ const Categorias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerCategoria itemView={itemView}/>
+            <VerCategoria itemView={itemView} />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -110,16 +111,19 @@ const Categorias = () => {
             />
           </Grid>
         </Grid>
-
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          setItem={setItem}
-          setItemView={setItemView}
-        />
+        <Box sx={{ overflow: "auto" }}>
+          <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+            <Tabla
+              fields={fields}
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+              setOpenModal={setOpenModal}
+              setItem={setItem}
+              setItemView={setItemView}
+            />
+          </Box>
+        </Box>
       </div>
     </section>
   );
