@@ -1,23 +1,82 @@
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.exceptions import APIException, AuthenticationFailed
 
-#Create your views here
+from .authentication import *
+from rest_framework.authentication import get_authorization_header
 
-#Custom token claims
-##What these classes do is serialize a group of customized values once
-##we get the access-token. These values correspond to the auth_user table.
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
+from .serializers import *
+from api_models.models import User
 
-        # Add custom claims
-        # 'auth_user' fields
-        token['username'] = user.username
-        # ...
+class RegisterAPIView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        return token
+        serializer.save()
 
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+        return Response(serializer.data)
 
+class LoginAPIView(APIView):
+    def post(self, request):
+        user = User.objects.filter(email = request.data['email']).first()
+
+        if not user:
+            raise APIException('Invalid credentials')
+        
+        if not user.check_password(request.data['password']):
+            raise APIException('Invalid credentials') 
+        
+        access_token = create_access_token(user.id)
+        refresh_token = create_refresh_token(user.id)
+
+        response = Response()
+        response.set_cookie(key='refreshToken', value=refresh_token, httponly=True)
+        response.data = {
+            'accessToken':access_token
+        }
+
+        return response
+    
+class UserAPIView(APIView):
+    def get(self, request):
+        authorization = get_authorization_header(request).split()
+
+        if authorization and len(authorization) == 2:
+            token = authorization[1].decode('utf-8')
+            id = decode_access_token(token)
+
+            user = User.objects.filter(pk=id).first()
+
+            return Response(UserSerializer(user).data)
+        
+        raise AuthenticationFailed('unauthenticated')
+    
+class RefreshAPIView(APIView):
+    def get(self, request):
+        refresh_token = request.COOKIES.get('refreshToken')
+        id = decode_refresh_token(refresh_token)
+
+        access_token = create_access_token(id)
+
+        refresh_token = create_refresh_token(id)
+
+        response = Response()
+        response.set_cookie(key='refreshToken', value=refresh_token, httponly=True)
+
+        response.data = {
+            'accessToken':access_token
+        }
+
+        return response
+
+class LogoutAPIView(APIView):
+    def get(self, _):
+        response = Response()
+        response.delete_cookie(key="refreshToken")
+        
+        response.data = {
+            "message":"logout is successful"
+        }
+
+        return response

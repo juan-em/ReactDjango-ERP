@@ -1,18 +1,18 @@
 from django.urls import path, include
 
-from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-)
-
-from . views import MyTokenObtainPairView
+#Import de la vista para la autenticacion
+from . views import *
 
 #Import de todas las urls de las aplicaciones del proyecto
 from api_mantenimientos.urls import *
 
 urlpatterns = [
     #Autenticacion de usuario
-    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', RegisterAPIView.as_view()),
+    path('login/', LoginAPIView.as_view()),
+    path('logout/', LogoutAPIView.as_view()),
+    path('user/', UserAPIView.as_view()),
+    path('refresh/', RefreshAPIView.as_view()),
 
     #Cliente
     path('clientes/', include('api_clientes.urls')),
