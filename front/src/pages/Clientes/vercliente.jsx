@@ -28,7 +28,9 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import WebhookIcon from "@mui/icons-material/Webhook";
 import { Box } from "@mui/system";
 
-const VerCliente = () => {
+import Swal from "sweetalert2";
+
+const VerCliente = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
@@ -41,27 +43,96 @@ const VerCliente = () => {
     { icon: <LocalPhoneIcon />, primary: "Teléfono", secondary: "" },
     { icon: <PhoneAndroidIcon />, primary: "Móvil", secondary: "" },
     { icon: <AttachMoneyIcon />, primary: "Forma de Pago", secondary: "" },
-    { icon: <WebhookIcon />, primary: "Empresa", secondary: "" },
   ]);
 
-  useEffect(()=>{
-    
-  },[])
+  const seti = () => {
+  
+    const newItem = itemsPer.map((i) => {
+      if (!itemView.id) {
+        return {
+          ...i,
+        };
+      } else {
+        if (i.primary === "Código") {
+          return {
+            ...i,
+            secondary: itemView.codigo,
+          };
+        } else if (i.primary === "Nombre") {
+          return {
+            ...i,
+            secondary: itemView.persona ? itemView.persona.nombre : itemView.empresa.nombre,
+          };
+        } else if (i.primary === "RUC o DNI") {
+          return {
+            ...i,
+            secondary: itemView.persona ? itemView.persona.dni : itemView.empresa.ruc,
+          };
+        } else if (i.primary === "Provincia") {
+          return {
+            ...i,
+            secondary: itemView.persona
+              ? itemView.persona.codprovincia
+              : itemView.empresa.codprovincia,
+          };
+        } else if (i.primary === "Localidad") {
+          return {
+            ...i,
+            secondary: itemView.persona
+              ? itemView.persona.localidad
+              : itemView.empresa.localidad,
+          };
+        } else if (i.primary === "Dirección") {
+          return {
+            ...i,
+            secondary: itemView.persona
+              ? itemView.persona.direccion
+              : itemView.empresa.direccion,
+          };
+        } else if (i.primary === "Código Postal") {
+          return {
+            ...i,
+            secondary: itemView.persona
+              ? itemView.persona.codpostal
+              : itemView.empresa.codpostal,
+          };
+        } else if (i.primary === "Cuenta Bancaria") {
+          return {
+            ...i,
+            secondary: itemView.persona
+              ? itemView.persona.cuentabancaria
+              : itemView.empresa.cuentabancaria,
+          };
+        } else if (i.primary === "Teléfono") {
+          return {
+            ...i,
+            secondary: itemView.persona
+              ? itemView.persona.telefono
+              : itemView.empresa.telefono,
+          };
+        } else if (i.primary === "Móvil") {
+          return {
+            ...i,
+            secondary: itemView.persona ? itemView.persona.movil : itemView.empresa.movil,
+          };
+        } else if (i.primary === "Forma de Pago") {
+          return {
+            ...i,
+            secondary: itemView.codformapago,
+          };
+        }
+      }
+    });
+    setItemsPer(newItem);
+  };
+
+  useEffect(() => {
+    seti();
+  }, [itemView]);
 
   return (
     <section>
-      <Paper
-        elevation={10}
-        className="paper"
-        sx={{
-          mt: 4,
-          p: 0,
-          backgroundColor: alpha("#8D4C32", 0.2),
-          "&:hover": {
-            backgroundColor: alpha("#8D4C32", 0.25),
-          },
-        }}
-      >
+      <Paper elevation={10} className="paper" sx={{ mt: 4, p: 0 }}>
         <Accordion sx={{ p: 5 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -76,17 +147,17 @@ const VerCliente = () => {
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                    <Grid item xs={12} sm={6} md={6}>
-                      <ListItem>
-                        <ListItemAvatar>
-                          <Avatar>{i.icon}</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={i.primary}
-                          secondary={i.secondary}
-                        />
-                      </ListItem>
-                    </Grid>
+                  <Grid item xs={12} sm={6} md={6}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>{i.icon}</Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={i.primary}
+                        secondary={i.secondary}
+                      />
+                    </ListItem>
+                  </Grid>
                 ))}
               </Grid>
             </List>

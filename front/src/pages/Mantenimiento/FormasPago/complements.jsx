@@ -16,7 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
 import { useState, useEffect } from "react";
-import { get, searcherprov, post_put, del } from "../../../services/mantenimiento";
+import { get, searcherform, post_put, del } from "../../../services/mantenimiento";
 
 export const Tabla = ({
   fields,
@@ -27,16 +27,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
-  const [provincias, setProvincias] = useState([]);
+  const URL = "http://localhost:8000/api/mantenimientos/formapago/";
+  const [formaPago, setFormaPago] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setProvincias, URL);
+      get(setFormaPago, URL);
     }
   }, [renderizar]);
 
-  let data = searcherprov(fields, provincias);
+  let data = searcherform(fields, formaPago);
 
   const handlePut = (row) => {
     setItem(row);
@@ -107,7 +107,7 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
+              <TableCell align="right">{row.nombrefp}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon

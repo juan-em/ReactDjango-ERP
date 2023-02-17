@@ -15,8 +15,8 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
+import { get, searcherent, post_put, del } from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
-import { get, searcherprov, post_put, del } from "../../../services/mantenimiento";
 
 export const Tabla = ({
   fields,
@@ -27,16 +27,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
-  const [provincias, setProvincias] = useState([]);
+  const URL = "http://localhost:8000/api/mantenimientos/entidades/";
+  const [entidades, setEntidades] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setProvincias, URL);
+      get(setEntidades, URL);
     }
   }, [renderizar]);
 
-  let data = searcherprov(fields, provincias);
+  let data = searcherent(fields, entidades);
 
   const handlePut = (row) => {
     setItem(row);
@@ -44,7 +44,7 @@ export const Tabla = ({
   };
 
   const handleView = (row) => {
-    console.log(row);
+    console.log(row)
     setItemView(row);
   };
 
@@ -107,7 +107,7 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
+              <TableCell align="right">{row.nombreentidad}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon

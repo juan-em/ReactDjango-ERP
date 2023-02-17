@@ -27,6 +27,7 @@ import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import AlbumIcon from '@mui/icons-material/Album';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import EngineeringIcon from '@mui/icons-material/Engineering';
+import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 
 export const menuItems = [
     { url: "/", icon: <HomeIcon/>, name: "Inicio",
@@ -39,10 +40,10 @@ export const menuItems = [
 
     { url: "#contact", icon: <Inventory2Icon/>, name: "Productos",
     item:[{name:'Productos',icon: <ArtTrackIcon/>,url:'#cliente'},
-        {name:'Articulos',icon: <AlbumIcon/>,url:'#proveedor'}] },
+        {name:'Articulos',icon: <AlbumIcon/>,url:'/productos/articulos'}] },
 
     { url: "#about", icon: <AttachMoneyIcon/>, name: "Ventas",
-    item:[{name:'Venta',icon: <SellIcon/>,url:'#cliente'},
+    item:[{name:'Venta',icon: <SellIcon/>,url:'/ventas/venta'},
         {name:'Facturas',icon: <ArticleIcon/>,url:'#proveedor'},
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 
@@ -60,12 +61,12 @@ export const menuItems = [
 
     { url: "#about", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
     item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
-        {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'#proveedor'},
-        {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'#proveedor'},
+        {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'/mantenimientos/formaspago'},
+        {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'/mantenimientos/entidades'},
         {name:'Almacenes',icon: <AddBusinessIcon/>,url:'#proveedor'},
-        {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'#proveedor'},
-        {name:'Embalajes',icon: <ArchiveIcon/>,url:'#proveedor'},
-        {name:'Categorias',icon: <FolderCopyIcon/>,url:'#proveedor'}] },
+        {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'/mantenimientos/impuestos'},
+        {name:'Embalajes',icon: <ArchiveIcon/>,url:'/mantenimientos/embalajes'},
+        {name:'Categorías',icon: <AutoAwesomeMosaicIcon/>,url:'/mantenimientos/categorias'},]},
 
     { url: "#about", icon: <PrecisionManufacturingIcon/>, name: "Servicios",
     item:[{name:'Servicios',icon: <ElectricalServicesIcon/>,url:'#cliente'}] },

@@ -1,15 +1,5 @@
-import "./index.css";
-import "../../../fonts/poppins.ttf";
-import { alpha } from "@mui/material/styles";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import NumbersIcon from "@mui/icons-material/Numbers";
+import { alpha } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {
@@ -69,7 +59,7 @@ const Provincias = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Provincia
+                  Buscar Forma de Pago
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -84,6 +74,7 @@ const Provincias = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
+                    <br />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button

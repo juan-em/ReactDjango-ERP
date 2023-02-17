@@ -25,7 +25,7 @@ import Swal from "sweetalert2";
 
 const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
   
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+  const URL = "http://localhost:8000/api/mantenimientos/formapago/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -35,14 +35,14 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
     setOpenModal(false)
   };
 
-  const handlePostPutProvincia = async(e) => {
+  const handlePostPutFormaPago = async(e) => {
     try {
-      const {nombreprovincia,} = e.target
-      await post_put(e, nombreprovincia, URL)
+      const {nombrefp,} = e.target
+      await post_put(e, nombrefp, URL)
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la provincia",
+        text: "Se registró la Forma de Pago",
       });
       if(item.id)setItem({})
       setRenderizar(!renderizar)
@@ -80,7 +80,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
         </DialogTitle>
         <DialogContent>
           <TabContext centered>
-              <form onSubmit={handlePostPutProvincia}>
+              <form onSubmit={handlePostPutFormaPago}>
                 {item.id?<input type="hidden" name="cod" value={item.id}/>:''
                 }
                 <Grid container spacing={1}>
@@ -93,8 +93,8 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       color="secondary"
                       id="textfields"
                       margin="dense"
-                      name="nombreprovincia"
-                      defaultValue={item.id ? item.nombreprovincia:''}
+                      name="nombrefp"
+                      defaultValue={item.id ? item.nombrefp:''}
                     />
                   </Grid>
 

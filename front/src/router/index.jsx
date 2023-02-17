@@ -19,6 +19,13 @@ import { ClientesProvider } from "../services/clientes";
 import { ProveedoresProvider } from "../services/proveedores";
 import AddForm from "../pages/Clientes/addform";
 import Provincias from "../pages/Mantenimiento/Provincias";
+import FormasPago from "../pages/Mantenimiento/FormasPago";
+import Venta from "../pages/Ventas/Venta";
+import Categorias from "../pages/Mantenimiento/Categorías";
+import Articulos from "../pages/Productos/Artículos";
+import Embalajes from "../pages/Mantenimiento/Embalajes";
+import Entidades from "../pages/Mantenimiento/Entidades";
+import Impuestos from "../pages/Mantenimiento/Impuestos";
 
 // LAYOUTS
 
