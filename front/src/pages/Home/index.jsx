@@ -6,7 +6,6 @@ import Provincias from "../../components/Provincias";
 import useRefreshToken from "../../hooks/useRefreshToken";
 
 const Home = () =>{
-  // let refresh = useRefreshToken() 
 
     const itemData = [
         {
@@ -37,12 +36,6 @@ const Home = () =>{
     return(
 
           <Container class="container">
-            
-            <Provincias />
-            <br />
-
-            {/* <button onClick={() => refresh()}>Refresh</button> */}
-            
               <Grid container spacing={1}>
                   {itemData.map((item,i) => (
                       <Grid item xs={12} sm={6} md={4} key={i}>

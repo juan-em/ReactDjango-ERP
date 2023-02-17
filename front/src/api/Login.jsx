@@ -4,7 +4,7 @@ import useAuth from "../hooks/useAuth"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 
 import axios from "./axios"
-const LOGIN_URL = 'api/token/'
+const LOGIN_URL = 'api/login/'
 
 const Login = () => {
     const { setAuth } = useAuth()
@@ -16,7 +16,7 @@ const Login = () => {
     const userRef = useRef()
     const errRef = useRef()
 
-    const [user, setUser] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
 
@@ -26,31 +26,31 @@ const Login = () => {
 
     useEffect(() => {
         setErrorMessage('');
-    }, [user, password])
+    }, [email, password])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         
         try{
-            const response = await axios.post(LOGIN_URL, JSON.stringify({username: user, password: password}), {
+            const response = await axios.post(LOGIN_URL, JSON.stringify({email: email, password: password}), {
                 headers: { 'Content-Type':'application/json' },
                 withCredentials: true
             })
 
             console.log(JSON.stringify(response?.data))
 
-            const refresh = response?.data?.refresh
-            const access = response?.data?.access
-            setAuth({user, password, access, refresh})
+            const access = response?.data?.accessToken
+            setAuth({email, password, access})
 
-            setUser('')
+            setEmail('')
             setPassword('')
             navigate(from, {replace:true})
         } catch(err) {
             if(!err?.response){
                 setErrorMessage('No server response')
+                console.log(err)
             } else if (err.response?.status === 400) {
-                setErrorMessage('Missing username or password')
+                setErrorMessage('Missing email or password')
             } else if (err.response?.status === 401){
                 setErrorMessage('Unauthorized')
             } else {
@@ -66,14 +66,14 @@ const Login = () => {
             <p ref={errRef} className={errorMessage ? "Error message" : "offscreen"} aria-live="assertive">{errorMessage}</p>
             <h1>Sign in</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username: </label>
+                <label htmlFor="email">Email: </label>
                 <input 
                     type="text" 
-                    id="username"
+                    id="email"
                     ref={userRef}
                     autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                     required 
                 />
                 <label htmlFor="password">Password: </label>
