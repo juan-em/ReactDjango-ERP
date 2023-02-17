@@ -1,5 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// AUTHORIZATION
+import { AuthProvider } from "../context/AuthProvider";
+import Login from "../api/Login";
+import RequireAuth from "../components/Authorization/RequireAuth";
+
+// LOGIN PERSISTENCE
+import PersistLogin from "../components/Authorization/PersistLogin";
+
 // PAGES
 import Home from "../pages/Home";
 import Main from "../layout/main";
@@ -22,28 +30,41 @@ import Impuestos from "../pages/Mantenimiento/Impuestos";
 const Router = () => {
   return (
     <BrowserRouter>
-      <Routes>
+    <AuthProvider>
+    <Routes>
         <Route element={<Main />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/clientes" element={<Clientes />} />
-          {/*  */}
-          <Route path="/clientes/add" element={<AddForm />} />
-          <Route path="/proveedores" element={<Proveedores />} />
-          {/*  */}
-          <Route path="/productos/articulos" element={<Articulos />} />
-          {/*  */}
-          <Route path="/mantenimientos/provincias" element={<Provincias />} />
-          <Route path="/mantenimientos/categorias" element={<Categorias />} />
-          <Route path="/mantenimientos/embalajes" element={<Embalajes />} />
-          <Route path="/mantenimientos/formaspago" element={<FormasPago />} />
-          <Route path="/mantenimientos/entidades" element={<Entidades />} />
-          <Route path="/mantenimientos/impuestos" element={<Impuestos />} />
           
+          {/* Public routes */}
+          <Route path="/login" element={<Login />} />
+          
+          {/* Private routes */}
+          <Route element={<PersistLogin/>}>
+            <Route element={<RequireAuth/>}>
+              <Route path="/" element={<Home />} />
+              
+              {/* Clientes */}
+              <Route path="/clientes" element={<Clientes />} />
+              <Route path="/clientes/add" element={<AddForm />} />
+              
+              {/* Proveedores */}
+              <Route path="/proveedores" element={<Proveedores />} />
+              <Route path="/productos/articulos" element={<Articulos />} />
 
-          {/*  */}
-          <Route path="/ventas/venta" element={<Venta />} />
+              {/* Otros */}
+              <Route path="/mantenimientos/provincias" element={<Provincias />} />
+              <Route path="/mantenimientos/categorias" element={<Categorias />} />
+              <Route path="/mantenimientos/embalajes" element={<Embalajes />} />
+              <Route path="/mantenimientos/formaspago" element={<FormasPago />} />
+              <Route path="/mantenimientos/entidades" element={<Entidades />} />
+              <Route path="/mantenimientos/impuestos" element={<Impuestos />} />
+              <Route path="/ventas/venta" element={<Venta />} />
+            </Route>
+          </Route>
+
         </Route>
-      </Routes>
+
+    </Routes>
+    </AuthProvider>     
     </BrowserRouter>
   );
 };
