@@ -1,4 +1,3 @@
-
 import { alpha } from "@mui/material/styles";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -10,6 +9,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Box
 } from "@mui/material";
 
 //Componentes
@@ -23,7 +23,7 @@ import VerProvincia from "./verprovincia";
 const Provincias = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
-  const [itemView, setItemView] = useState({})
+  const [itemView, setItemView] = useState({});
 
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
@@ -96,7 +96,7 @@ const Provincias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerProvincia itemView={itemView}/>
+            <VerProvincia itemView={itemView} />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -110,16 +110,19 @@ const Provincias = () => {
             />
           </Grid>
         </Grid>
-
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          setItem={setItem}
-          setItemView={setItemView}
-        />
+        <Box sx={{ overflow: "auto" }}>
+          <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+            <Tabla
+              fields={fields}
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+              setOpenModal={setOpenModal}
+              setItem={setItem}
+              setItemView={setItemView}
+            />
+          </Box>
+        </Box>
       </div>
     </section>
   );

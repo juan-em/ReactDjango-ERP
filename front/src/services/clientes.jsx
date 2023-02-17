@@ -17,13 +17,11 @@ export const getClientes = async (set) => {
 
 export const searcher = (fields, list) => {
   let resultData = list;
-  console.log(resultData);
   resultData = fields.codigo
     ? resultData.filter(
         (item) => item.codigo.toString() === fields.codigo.toString()
       )
     : resultData;
-  console.log(resultData);
   resultData = fields.dni
     ? resultData.filter((item) => {
         if (item.persona)
@@ -95,7 +93,6 @@ export const postClienteemp = async (data) => {
 };
 
 export const putClienteper = async (id, data) => {
-  console.log(data);
   try {
     const response = await axios.put(
       `http://localhost:8000/api/clientes/mod/per/${id}`,

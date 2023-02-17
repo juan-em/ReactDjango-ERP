@@ -17,6 +17,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Box,
 } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -176,21 +177,18 @@ const Proveedores = () => {
                         onChange={handlerSearcher}
                       >
                         <FormControlLabel
-                          disableTypography
                           labelPlacement="start"
                           value=""
                           control={<Radio color="secondary" />}
                           label="all"
                         />
                         <FormControlLabel
-                          disableTypography
                           labelPlacement="start"
                           value="persona"
                           control={<Radio color="secondary" />}
                           label="persona"
                         />
                         <FormControlLabel
-                          disableTypography
                           labelPlacement="start"
                           value="empresa"
                           control={<Radio color="secondary" />}
@@ -236,19 +234,22 @@ const Proveedores = () => {
             />
           </Grid>
         </Grid>
-
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          value={value}
-          setValue={setValue}
-          setItem={setItem}
-          setItemView={setItemView}
-          setPutItem={setPutItem}
-        />
+        <Box sx={{ overflow: "auto" }}>
+          <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+            <Tabla
+              fields={fields}
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+              setOpenModal={setOpenModal}
+              value={value}
+              setValue={setValue}
+              setItem={setItem}
+              setItemView={setItemView}
+              setPutItem={setPutItem}
+            />
+          </Box>
+        </Box>
       </div>
     </section>
   );
