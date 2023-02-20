@@ -55,6 +55,7 @@ export const del = async (id, url) => {
   return res.data;
 };
 
+// Busqueda general
 export const searcher = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
@@ -65,6 +66,7 @@ export const searcher = (fields, list) => {
   return resultData;
 };
 
+// Provincias 
 export const searcherprov = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
@@ -75,6 +77,7 @@ export const searcherprov = (fields, list) => {
   return resultData;
 };
 
+// Forma de pago
 export const searcherform = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
@@ -85,6 +88,7 @@ export const searcherform = (fields, list) => {
   return resultData;
 };
 
+// Entidad
 export const searcherent = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
@@ -96,21 +100,64 @@ export const searcherent = (fields, list) => {
 };
 
 export const postIm = async (data, url) => {
-    try {
-      const response = await axios.post(url, data);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
-  
-  export const putIm = async (data, url) => {
-    try {
-      const response = await axios.put(url, data);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  };
+  try {
+    const response = await axios.post(url, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const putIm = async (data, url) => {
+  try {
+    const response = await axios.put(url, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+// Almacen
+const URLAL = 'http://localhost:8000/api/mantenimientos/almacenes/';
+export const postAlmacen = async (data) => {
+  try {
+    const response = await axios.post(URLAL, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const putAlmacen = async (data, id) => {
+  console.log(id)
+  try {
+    const response = await axios.put(`http://localhost:8000/api/mantenimientos/almacenes/${id}/`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const searcherAlmacen = (fields, list) => {
+  let resultData = list;
+  resultData = fields.nombre
+    ? resultData.filter((item) =>
+        item.nombre.toString().includes(fields.nombre.toString())
+      )
+    : resultData;
+    resultData = fields.ubicacion
+    ? resultData.filter((item) =>
+        item.ubicacion.toString().includes(fields.ubicacion.toString())
+      )
+    : resultData;
+    resultData = fields.abreviacion
+    ? resultData.filter((item) =>
+        item.abreviacion.toString().includes(fields.abreviacion.toString())
+      )
+    : resultData;
+  return resultData;
+};
