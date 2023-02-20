@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
-from api_models.models import Formapago, Provincias, Entidades, Impuestos, Embalajes, Categoria
+from api_models.models import (
+    Formapago, Provincias, 
+    Entidades, Impuestos, 
+    Embalajes, Categoria, 
+    Almacen, Areas, Unidad)
 
 class ProviciasSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,3 +35,18 @@ class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
         fields = ['id', 'nombre']
+
+class AlmacenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Almacen
+        fields = ['id', 'nombre', 'descripcion', 'ubicacion', 'abreviacion']
+
+class AreasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Areas
+        fields = ['id', 'nombre','abreviacion']
+
+class UnidadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Unidad
+        fields = ['id', 'nombre','valor']

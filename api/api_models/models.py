@@ -34,11 +34,15 @@ class Entidades(models.Model):
 
 class Almacen(models.Model):
     nombre = models.CharField(max_length=100)
+    abreviacion = models.CharField(max_length=20, blank=True, null=True)
     descripcion = models.CharField(max_length=400, default='-')
     ubicacion = models.CharField(max_length=400, default='-')
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
-        return self.nombre
+        if not self.abreviacion:
+            return self.nombre
+        return self.abreviacion
+    
 
 class Impuestos(models.Model):
     nombre = models.CharField(max_length=100)
@@ -52,6 +56,12 @@ class Embalajes(models.Model):
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.nombre
+
+class Areas(models.Model):
+    nombre = models.CharField(max_length=100, default='UNDEFINED')
+    abreviacion = models.CharField(max_length=20, blank=True, null=True)
+    def __str__(self):
+        return self.nombre.upper()
 
 #####################
 #MODELOS GENERALES PERSONA Y EMPRESA
@@ -344,6 +354,11 @@ class Libro_diario(models.Model):
 
 #################
 #TRABAJADOR
+def get_default_area():
+    """ get a default value for action status; create new status if not available """
+    return Areas.objects.get_or_create(nombre="No definida")[0].pk
+
+
 class Trabajador(models.Model):
     INTERNO = 'Interno'
     CONTRATISTA = 'Contratista'
@@ -356,8 +371,8 @@ class Trabajador(models.Model):
     ]
 
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, null=True, blank=True)
     tipo_trabajador = models.CharField(max_length=30, choices=TIPOS, default=NINGUNO)
+    area = models.ForeignKey(Areas, on_delete=models.CASCADE, default=get_default_area)
     borrado = models.CharField(max_length=1, default=0)
 
     def __str__(self):
@@ -468,69 +483,58 @@ class Unidad(models.Model):
         return self.nombre
 
 #Areas a las cuales puede pertenecer un trabajador
-class Areas(models.Model):
-    NO_CLASIFICADO = 'NO_CLASIFICADO'
-    PERSONAL = 'PERSONAL'
-    TESORERIA = 'TESORERÍA'
-    ADMINISTRACION = 'ADMINISTRACIÓN'
-    PRODUCCION = 'PRODUCCIÓN'
-    LOGISTICA = 'LOGÍSTICA'
-    VENTAS = 'VENTAS'
-    MANTENIMIENTO = 'MANTENIMIENTO'
-    MARKETING = 'MARKETING'
 
-    AREAS = [
-        (NO_CLASIFICADO,'NO_CLASIFICADO'),
-        (PERSONAL,'PERSONAL'),
-        (TESORERIA,'TESORERÍA'),
-        (ADMINISTRACION,'ADMINISTRACIÓN'),
-        (PRODUCCION,'PRODUCCIÓN'),
-        (LOGISTICA,'LOGÍSTICA'),
-        (VENTAS,'VENTAS'),
-        (MANTENIMIENTO,'MANTENIMIENTO'),
-        (MARKETING,'MARKETING'),
-
-    ]
-    nombre = models.CharField(max_length=100, choices=AREAS, default=NO_CLASIFICADO)
-    def __str__(self):
-        return self.nombre
 
 
 #Entidades principales ###########################################
-class Articulo (models.Model):
+class Articulo (models.Model): 
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=100, default='-')
-    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
+    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True, blank=True)
     marca = models.CharField(max_length=100, default='-')
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField(default=0)
-    precio_compra = models.FloatField(validators=[MinValueValidator(0.0)],default=0.0)
-    fecha_alta = models.DateField()
-    embalaje = models.ForeignKey(Embalajes, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
+    borrado = models.BooleanField(default=False, null=True)
     imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
 
     def __str__(self):
         return self.nombre
+    
+    @property
+    def nombre_proveedor(self):
+        if self.proveedor.persona:
+            return f'{self.proveedor.persona.nombre}'
+        else:
+            return f'{self.proveedor.empresa.nombre}'
 
-#ALMACENES ###########################################
-class ArticulosEnAlmacen (models.Model):
-    almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
-    articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
-    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
+class ArticuloVariante(models.Model):
+    nombre = models.CharField(max_length=100, default='-')
+    articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE, null=True, related_name='variantes')
+    precio_unitario = models.FloatField(validators=[MinValueValidator(0.0)],default=0.0)
+    embalaje = models.ForeignKey(Embalajes, on_delete=models.CASCADE, null=True, blank=True)
     cantidad = models.PositiveIntegerField(default=0)
-    precio_unitario = models.FloatField(validators=[MinValueValidator(0.0)])
     ubicacion = models.CharField(max_length=300, default='-') #por ejemplo alguna estantería
-    observaciones = models.CharField(max_length=500, default='-')
+    almacen = models.ForeignKey(Almacen, on_delete=models.SET_NULL, null=True, blank=True)
+    descripcion = models.CharField(max_length=500, default='-')
+
 
     def __str__(self):
-        return f" Almacen: {self.almacen.nombre}, Artículo: {self.articulo.nombre}"
+        return self.articulo.nombre +'-'+ self.nombre
+
+#ALMACENES ###########################################
+# class ArticulosEnAlmacen (models.Model):
+#     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
+#     articulo_variante = models.ForeignKey(Articulo, on_delete=models.CASCADE)
+#     cantidad = models.PositiveIntegerField(default=0)
+#     ubicacion = models.CharField(max_length=300, default='-') #por ejemplo alguna estantería
+#     observaciones = models.CharField(max_length=500, default='-')
+
+#     def __str__(self):
+#         return f"Almacen: {self.almacen.nombre}, Artículo: {self.articulo_variante.nombre}"
 
 
 class AlmacenProductosTerminados (models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
     productos_terminados = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=0)
     ubicacion = models.CharField(max_length=300, default='-') #por ejemplo alguna estantería
     observaciones = models.CharField(max_length=500, default='-')
@@ -558,14 +562,14 @@ class RequerimientoSalida(models.Model):
     fecha_solicitud = models.DateField(auto_now_add=True)
     fecha_entrega = models.DateField()
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
-    unidad_solicitada = models.ForeignKey(Unidad, on_delete=models.CASCADE)
+    unidad_solicitada = models.ForeignKey(Unidad, on_delete=models.CASCADE,related_name='unidad_solicitante')
     cantidad_solicitada = models.PositiveIntegerField(default=0)
-    unidad_solicitada = models.ForeignKey(Unidad, on_delete=models.CASCADE)
-    cantidad_solicitada = models.PositiveIntegerField(default=0)
-    area_solicitante = models.ForeignKey(Areas, on_delete=models.CASCADE)
-    area_entrega = models.ForeignKey(Areas, on_delete=models.CASCADE)
-    trabajador_solicitante = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    trabajador_entrega = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
+    unidad_recibida = models.ForeignKey(Unidad, on_delete=models.CASCADE, related_name='unidad_recibida')
+    cantidad_recibida = models.PositiveIntegerField(default=0)
+    area_solicitante = models.ForeignKey(Areas, on_delete=models.CASCADE,related_name='area_solicitante')
+    area_entrega = models.ForeignKey(Areas, on_delete=models.CASCADE, related_name='area_entrega')
+    trabajador_solicitante = models.ForeignKey(Trabajador, on_delete=models.CASCADE,related_name='trabajador_solicitante')
+    trabajador_entrega = models.ForeignKey(Trabajador, on_delete=models.CASCADE,related_name='trabajador_entrega')
     estado = models.CharField(max_length=100, choices=ESTADO, default=INCOMPLETO)
 
     def __str__(self):
@@ -588,21 +592,65 @@ class SalidaVenta(Salidas):
     def __str__(self):
         return self.pk
 
+### Refactorizando Compras
+class Compra(models.Model):
+    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
+    estado = models.BooleanField(null=True, blank=True, default=False)
+    detalle_entrega = models.TextField(null=True, blank=True)
+    totalCompra = models.FloatField(default=0, null=True)
+    imagen_fac_compra = CloudinaryField('imagen_fac_compra', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
+    descuento = models.FloatField(default=0, null=True)
+    def __str__(self):
+        return 'C-'+str(self.pk)
 
+    @property
+    def nombre_proveedor(self):
+        if self.proveedor.persona:
+            return f'{self.proveedor.persona.nombre}'
+        else:
+            return f'{self.proveedor.empresa.nombre}'
+
+
+class CompraDetalle(models.Model):
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=True,related_name='detalle_compra')
+    articulo = models.ForeignKey(ArticuloVariante, on_delete=models.CASCADE, null=True)
+    unidad = models.ForeignKey(Unidad, on_delete=models.SET_NULL, null=True, blank=True)
+    cantidad = models.IntegerField(default=0)
+    precio_unitario = models.FloatField(default=0)
+    dscto_unitario = models.FloatField(null=True, default=0, blank=True)
+    remision_hecha = models.BooleanField(null=True, blank=True, default=False)
+    
+    def __str__(self):
+        return 'C-'+str(self.compra.pk)+'-D'+str(self.pk)
+
+class RemisionCompra(models.Model):
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, related_name='remision_compra')
+    
+
+    def __str__(self):
+        return 'RC-'+str(self.pk)
+
+class RemisionDetalleCompra(models.Model):
+    remision_compra = models.ForeignKey(RemisionCompra, on_delete=models.CASCADE, related_name='remision_compra_detalle')
+    compra_detalle = models.ForeignKey(CompraDetalle, on_delete=models.CASCADE, null=True)
+    fecha = models.DateField(auto_now_add=True)
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return 'RCD-'+str(self.pk)
 
 #Entradas Almacen ###########################################
-class Entradas (models.Model):
-    almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
-    fecha = models.DateField(auto_now_add=True)
-    descripcion = models.CharField(max_length=300)
-    trabajador_entrega = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
-    trabajador_recibido = models.ForeignKey(Trabajador, on_delete=models.CASCADE) 
+class EntradaAlmacen (models.Model):
+    fecha = models.DateTimeField(auto_now_add=True)
+    descripcion = models.CharField(max_length=300, default='-')
+    estado = models.BooleanField(null=True, blank=True, default=False)
+    trabajador_receptor = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True ,related_name='trabajador_receptor') 
     class Meta:
         abstract = True
 
-class EntradaCompra(Salidas):
-    compra = models.ForeignKey(Compra_prov, on_delete=models.CASCADE) #modelo del requerimiento de salida
-    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
-    cantidad = models.PositiveIntegerField(default=0)
+class EntradaAlmacenCompra(EntradaAlmacen):
+    remision = models.ForeignKey(RemisionDetalleCompra, on_delete=models.CASCADE)
     def __str__(self):
         return self.pk
+
+

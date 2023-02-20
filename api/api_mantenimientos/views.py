@@ -6,7 +6,8 @@ from api_models.models import (
     Entidades, 
     Impuestos, 
     Embalajes, 
-    Categoria
+    Categoria,
+    Almacen
 )
 from api_mantenimientos.serializers import *
 from rest_framework import viewsets
@@ -43,3 +44,15 @@ class FormaPagoViewSet(viewsets.ModelViewSet):
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
+
+class AlmacenViewSet(viewsets.ModelViewSet):
+    queryset = Almacen.objects.all()
+    serializer_class = AlmacenSerializer
+
+class AreaViewSet(viewsets.ModelViewSet):
+    queryset = Areas.objects.all()
+    serializer_class = AreasSerializer
+
+class UnidadViewSet(viewsets.ModelViewSet):
+    queryset = Unidad.objects.all()
+    serializer_class = AreasSerializer

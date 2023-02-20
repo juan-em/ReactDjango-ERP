@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'api_proveedores',
     'api_clientes',
     'api_productos',
+    'api_articulos',
+    'api_compras',
     'corsheaders',
     'cloudinary',
     'rest_framework',
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'test'
 ]
 
 
