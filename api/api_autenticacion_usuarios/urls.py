@@ -29,9 +29,6 @@ urlpatterns = [
     #Articulos
     path('articulos/', include('api_articulos.urls')),
 
-    #Articulos
+    #Compras
     path('compras/', include('api_compras.urls')),
-
-    #Productos
-    path('test/', include('test.urls')),
 ]
