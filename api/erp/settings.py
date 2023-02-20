@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'api_autenticacion_usuarios',
     'api_clientes',
     'api_productos',
+    'api_articulos',
+    'api_compras',
     'corsheaders',
     'cloudinary',
     'rest_framework',

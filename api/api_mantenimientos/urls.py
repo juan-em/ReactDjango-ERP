@@ -10,5 +10,7 @@ router.register('impuestos', ImpuestosViewSet, 'impuesto')
 router.register('embalajes', EmbalajesViewSet, 'embalaje')
 router.register('formapago', FormaPagoViewSet, 'formapago')
 router.register('categoriaarticulos', CategoriaViewSet, 'categoriaarticulos')
+router.register('almacenes', AlmacenViewSet, 'almacen')
+router.register('areas', AreaViewSet, 'area')
 
 router_mantenimiento = router.urls
