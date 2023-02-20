@@ -1,131 +1,217 @@
-import { useState } from 'react';
-import { useTheme } from '@mui/material/styles';
+import { useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import {
-    Box, IconButton, Typography, Menu, Avatar, Tooltip,
-    MenuItem, Grid, Toolbar, List, CssBaseline, Button
-} from '@mui/material'
+  Box,
+  IconButton,
+  Menu,
+  Avatar,
+  Tooltip,
+  MenuItem,
+  Grid,
+  Toolbar,
+  List,
+  CssBaseline,
+  Drawer,
+  AppBar,
+  Divider,
+} from "@mui/material";
 
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 
-import './index.css'
+import "./index.css";
 
-import { DrawerHeader, AppBar, Drawer } from './extra.jsx'
-import { SearchIconWrapper, StyledInputBase, Search } from './extra.jsx';
-import CustomListItem from './listitem';
-import {menuItems} from '../../resources/menuItems'
+import { DrawerHeader } from "./extra.jsx";
+import { SearchIconWrapper, StyledInputBase, Search } from "./extra.jsx";
+import CustomListItem from "./listitem";
+import { menuItems } from "../../resources/menuItems";
 
+const outSettings = ["Iniciar", "Registrarme"];
+const inSettings = ["Perfil", "Logout"];
+const drawerWidth = 240;
+const MenuNavbar = ({ content }, props) => {
+  const theme = useTheme();
 
-const outSettings = ['Iniciar', 'Registrarme'];
-const inSettings = ['Perfil', 'Logout'];
-const MenuNavbar = ({ content }) => {
-    const theme = useTheme();
-    const [open, setOpen] = useState(false);
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-    const [anchorElUser, setAnchorElUser] = useState(null);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
+  const [open, setOpen] = useState(false);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-    return (
-        <Box sx={{ display: 'flex' }} className='topnavbar'>
-            <CssBaseline />
-            <AppBar position="fixed" open={open} style={{ background: '#EDECEF' }}>
-                <Toolbar>
-                    <IconButton
-                        color="#000"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{
-                            fontSize:30,
-                            margin: 1,
-                            ...(open && { display: 'none' }),
-                        }}
-                    >
-                        <h1 className="logo">ALPACA</h1>
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const drawer = (
+    <div style={{ background: "#EDECEF", height: "100vh" }}>
+      <DrawerHeader>
+        <h1 className="logo">ALPACA</h1>
+        <Divider />
+      </DrawerHeader>
+      <List style={{ background: "#EDECEF" }}>
+        {menuItems.map((item, index) => (
+          <CustomListItem
+            onClick={handleDrawerOpen}
+            id="items"
+            key={item.name}
+            name={item.name}
+            url={item.url}
+            icons={item.icon}
+            item={item.item}
+            bigOpen={open}
+          />
+        ))}
+      </List>
+    </div>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { sm: "calc(100% - 240px)" },
+          ml: { sm: `${drawerWidth}px` },
+          background: "#EDECEF",
+        }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
+            <MenuIcon style={{ color: "black" }} />
+          </IconButton>
+          <Grid container>
+            <Grid item xs={1} sm={9} md={10} lg={11}>
+              <div className="buscar">
+                <Search>
+                  <SearchIconWrapper>
+                    <SearchIcon />
+                  </SearchIconWrapper>
+                  <StyledInputBase
+                    placeholder="Buscar…"
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                </Search>
+              </div>
+            </Grid>
+            <div className="cuenta">
+              <Grid item xs={11} sm={2} md={1}>
+                <Box sx={{ flexGrow: 1 }}>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 2.3 }}>
+                      <Avatar
+                        alt="Remy Sharp"
+                        src="https://images.unsplash.com/photo-1474904200416-6b2b7926f26f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                      />
                     </IconButton>
-                    <Grid container>
-                        <Grid item xs={1} sm={9} md={10} lg={11}>
-                            <div className="buscar">
-                                <Search>
-                                    <SearchIconWrapper>
-                                        <SearchIcon />
-                                    </SearchIconWrapper>
-                                    <StyledInputBase
-                                        placeholder="Buscar…"
-                                        inputProps={{ 'aria-label': 'search' }}
-                                    />
-                                </Search>
-                            </div>
-                        </Grid>
-                        <div className="cuenta">
-                            <Grid item xs={11} sm={2} md={1}>
-                                <Box sx={{ flexGrow: 1 }}>
-                                    <Tooltip title="Open settings">
-                                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 2.3 }}>
-                                            <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1474904200416-6b2b7926f26f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Menu
-                                        sx={{ mt: '45px' }}
-                                        id="menu-appbar"
-                                        anchorEl={anchorElUser}
-                                        anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        keepMounted
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        open={Boolean(anchorElUser)}
-                                        onClose={handleCloseUserMenu}
-                                    >
-                                        {inSettings.map((setting) => (
-                                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                                {setting}
-                                            </MenuItem>
-                                        ))}
-                                    </Menu>
-                                </Box>
-                            </Grid>
-                        </div>
-                    </Grid>
-                </Toolbar>
-            </AppBar>
-            <Drawer variant="permanent" open={open}>
-                <DrawerHeader style={{ background: '#EDECEF' }}>
-                    <Button sx={{fontSize:30}} onClick={handleDrawerClose}>
-                        <h1 className="logo">ALPACA</h1>
-                    </Button>
-                </DrawerHeader>
-                <List style={{ background: '#EDECEF' }}>
-                    {menuItems.map((item, index) => (
-                        <CustomListItem id="items" key={item.name} name={item.name} url={item.url} icons={item.icon} item={item.item} bigOpen={open}/>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {inSettings.map((setting) => (
+                      <MenuItem
+                        key={setting}
+                        onClick={handleCloseUserMenu}
+                        style={{ color: "0000" }}
+                      >
+                        {setting}
+                      </MenuItem>
                     ))}
-                </List>
-                
-            </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 5 }}>
-                <DrawerHeader />
-                {content}
-            </Box>
-        </Box>
-    );
-}
+                  </Menu>
+                </Box>
+              </Grid>
+            </div>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
+        <DrawerHeader />
+        {content}
+      </Box>
+    </Box>
+  );
+};
 
 export default MenuNavbar;
