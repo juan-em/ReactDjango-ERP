@@ -25,4 +25,10 @@ urlpatterns = [
 
     #Mantenimiento
     path('mantenimientos/', include((router_mantenimiento, 'api_mantenimientos'))),
+
+    #Articulos
+    path('articulos/', include('api_articulos.urls')),
+
+    #Compras
+    path('compras/', include('api_compras.urls')),
 ]
