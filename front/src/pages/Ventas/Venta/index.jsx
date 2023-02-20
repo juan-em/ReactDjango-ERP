@@ -128,8 +128,7 @@ const Venta = () => {
                     id="textfields"
                     onClick={handleReset}>Nueva Venta</Button>
                   }>
-                    <AlertTitle>Success</AlertTitle>
-                    This is a success alert — <strong>check it out!</strong>
+                    <AlertTitle>Se logró registrar la venta</AlertTitle>
                   </Alert>
                 </Fragment>
               ) : activeStep +1 === 1 ? (
