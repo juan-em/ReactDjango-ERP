@@ -1,14 +1,9 @@
-import { alpha } from "@mui/material/styles";
+import { alpha} from "@mui/material/styles";
 import { useState , Fragment } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import './index.css';
 
 import {
   Paper,
@@ -18,16 +13,30 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Badge,
+  ButtonGroup, Divider, Card, CardMedia, CardContent, CardActions, CardHeader, IconButton,
+  SnackbarContent, Alert, AlertTitle
 } from "@mui/material";
 
 //Componentes
-
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
+
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import MailIcon from '@mui/icons-material/Mail';
+import SearchIcon from '@mui/icons-material/Search';
+import { blue } from "@mui/material/colors";
+import Paso1 from "./paso1";
+import Paso2 from "./paso2";
 
 const steps = ['Registro', 'Agregar producto'];
 
@@ -83,29 +92,29 @@ const Venta = () => {
 
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={12}>
-            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 5 , 
-            backgroundColor: alpha('#8D4C32', 0.20),
-            '&:hover': {
-                backgroundColor: alpha('#8D4C32', 0.25),
-            },
-            }}>
-              NUEVA VENTA
-
-
-              <Stepper activeStep={activeStep} sx={{ p: 5}}>
+            <Typography fontFamily={"inherit"} align={'center'}
+            sx={{ mt: 3, p: 3 , 
+              backgroundColor: alpha('#985024', 0.20),
+              '&:hover': {
+                  backgroundColor: alpha('#985024', 0.25),
+              },
+              }}>
+              Nueva Venta
+            </Typography>
+              <Stepper activeStep={activeStep} sx={{ p: 5 }}>
                 {steps.map((label, index) => {
                   const stepProps = {};
                   const labelProps = {};
                   if (isStepOptional(index)) {
                     labelProps.optional = (
-                      <Typography variant="caption">Optional</Typography>
+                      <Typography variant="caption" fontFamily={"inherit"}>Optional</Typography>
                     );
                   }
                   if (isStepSkipped(index)) {
                     stepProps.completed = false;
                   }
                   return (
-                    <Step key={label} {...stepProps}>
+                    <Step key={label} {...stepProps} >
                       <StepLabel {...labelProps}>{label}</StepLabel>
                     </Step>
                   );
@@ -113,95 +122,65 @@ const Venta = () => {
               </Stepper>
               {activeStep === steps.length ? (
                 <Fragment>
-                  <Typography sx={{ mt: 2, mb: 1, pr: 5, pl: 5 }}>
-                    Se registró tu venta
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                  <Alert severity="success" action={
+                    <Button 
+                    variant="contained"
+                    id="textfields"
+                    onClick={handleReset}>Nueva Venta</Button>
+                  }>
+                    <AlertTitle>Se logró registrar la venta</AlertTitle>
+                  </Alert>
+                </Fragment>
+              ) : activeStep +1 === 1 ? (
+                <Fragment>
+                  <Paso1/>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Box sx={{ flex: '1 1 auto' }} />
-                    <Button onClick={handleReset}>Volver a registrar una venta</Button>
+                    {isStepOptional(activeStep) && (
+                      <Button onClick={handleSkip} sx={{ mr: 1 }}>
+                        Saltar
+                      </Button>
+                    )}
+                    <Button onClick={handleNext}
+                      id="textfields"
+                      variant="contained" color="secondary">
+                      {activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
+                    </Button>
                   </Box>
                 </Fragment>
-              ) : (
+                
+              ):(
                 <Fragment>
-                  <Typography sx={{ mt: 2, mb: 1 }}>PASO {activeStep + 1}</Typography>
-                  <Paper sx={{pr: 5, pl: 5}}>
-                    <Grid container spacing={4}>
-                      <Grid item xs={12} sm={12} md={4}>
-                        <TextField
-                          fullWidth
-                          label="Fecha"
-                          type="date"
-                          size="small"
-                          color="secondary"
-                          margin="dense"
-                          name="nombreprovincia"
-                          id="textfields"
-                        />
-                        <TextField
-                          fullWidth
-                          disabled
-                          label="IGV"
-                          type="number"
-                          size="small"
-                          color="secondary"
-                          margin="dense"
-                          name="nombreprovincia"
-                          id="textfields"
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={8}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={12} sm={12} md={8}>
-                            <TextField
-                            fullWidth
-                            label="RUC CLIENTE"
-                            type="number"
-                            size="small"
-                            color="secondary"
-                            margin="dense"
-                            name="nombreprovincia"
-                            id="textfields"
-                            />
-                            <Grid item xs={12} sm={12} md={2}>
-                              boton 1
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={2}>
-                              boton 2
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Paper>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                  <Paso2/>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Button
                       color="inherit"
                       disabled={activeStep === 0}
                       onClick={handleBack}
                       sx={{ mr: 1 }}
+                      id="textfields"
+                      variant="contained"
                     >
-                      Back
+                      Volver
                     </Button>
                     <Box sx={{ flex: '1 1 auto' }} />
                     {isStepOptional(activeStep) && (
-                      <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                        Skip
+                      <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }} id="textfields"
+                      variant="contained">
+                        Saltar
                       </Button>
                     )}
 
-                    <Button onClick={handleNext}>
+                    <Button onClick={handleNext} id="textfields"
+                      variant="contained" color="secondary">
                       {activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
                     </Button>
                   </Box>
                 </Fragment>
-              )}
-
-
-
-            </Paper>
+              )
+            }
           </Grid>
         </Grid>
-            aca tabla
       </div>
     </section>
   );
