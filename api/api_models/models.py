@@ -2,7 +2,9 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from cloudinary.models import CloudinaryField
 
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 #CHOICES
 CHOICES_YES_NO = (("Sí", "Sí"),
@@ -15,17 +17,18 @@ CHOICES_PRIM_INS = [
 ]
 
 # USER AUTHENTICATION
-class User(AbstractUser):
-    name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255, unique=True)
-    password = models.CharField(max_length=255)
+class Profile_User(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    first_name = None
-    last_name = None
-    username = None
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile_User.objects.create(user=instance)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile_user.save()
+        
 
 # MODELOS
 class Provincias(models.Model):

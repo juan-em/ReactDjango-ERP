@@ -30,9 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# User model for authentication
-AUTH_USER_MODEL = 'api_models.User'
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -57,10 +54,9 @@ INSTALLED_APPS = [
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://127.0.0.1:5173'
-)
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
