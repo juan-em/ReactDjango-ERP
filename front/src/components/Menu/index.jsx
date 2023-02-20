@@ -13,7 +13,7 @@ import {
   CssBaseline,
   Drawer,
   AppBar,
-  Divider
+  Divider,
 } from "@mui/material";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -59,7 +59,7 @@ const MenuNavbar = ({ content }, props) => {
   };
 
   const drawer = (
-    <div style={{ background: "#EDECEF", height:"100vh" }}>
+    <div style={{ background: "#EDECEF", height: "100vh" }}>
       <DrawerHeader>
         <h1 className="logo">ALPACA</h1>
         <Divider />
@@ -103,7 +103,7 @@ const MenuNavbar = ({ content }, props) => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon style={{ color: 'black' }} />
+            <MenuIcon style={{ color: "black" }} />
           </IconButton>
           <Grid container>
             <Grid item xs={1} sm={9} md={10} lg={11}>
@@ -199,7 +199,14 @@ const MenuNavbar = ({ content }, props) => {
           {drawer}
         </Drawer>
       </Box>
-      <Box component="main">
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
         <DrawerHeader />
         {content}
       </Box>
