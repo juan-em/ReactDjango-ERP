@@ -2,51 +2,30 @@ import "./index.css";
 import "../../../fonts/poppins.ttf";
 import { alpha } from "@mui/material/styles";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import NumbersIcon from "@mui/icons-material/Numbers";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-
-
-
-
-
-
-//AUN TRABAJA CON PROVINCIAS, PERO EL FRONTEND ESTÁ ACOMODADO CON PRODUCTOS
-
-
-
-
-
-
-import { Paper, Grid, TextField, Button,   Accordion,
+import {
+  Paper,
+  Grid,
+  TextField,
+  Button,
+  Accordion,
   AccordionSummary,
   AccordionDetails,
-  FormControl,
-  Select,
-  InputLabel,
-  MenuItem } from "@mui/material";
+} from "@mui/material";
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
-import {
-  getProvincias,
-  searcherProvincias,
-} from "../../../services/mantenimiento";
+import { get, searcher } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerArticulo from "./verarticulo";
+import VerCategoria from "./vercategoria";
 
 const Articulos = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
+  const [itemView, setItemView] = useState({});
 
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
@@ -55,166 +34,71 @@ const Articulos = () => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
   };
+  const handleClean = () => {
+    searchform.reset();
+  };
 
   return (
     <section>
       <div className="container">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={5}>
-            <Paper elevation={10} className="paper" sx={{ mt: 4, p: 0 , 
-            backgroundColor: alpha('#8D4C32', 0.20),
-            '&:hover': {
-                backgroundColor: alpha('#8D4C32', 0.25),
-            },
-            }}>
-              <Accordion sx={{ p:5 }}>
+            <Paper
+              elevation={10}
+              className="paper"
+              sx={{
+                mt: 4,
+                p: 0,
+                backgroundColor: alpha("#8D4C32", 0.2),
+                "&:hover": {
+                  backgroundColor: alpha("#8D4C32", 0.25),
+                },
+              }}
+            >
+              <Accordion sx={{ p: 5 }}>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                    >
-                    Buscar Artículo
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  Buscar Categoria
                 </AccordionSummary>
                 <AccordionDetails>
-                  <TextField
-                    fullWidth
-                    label="Código"
-                    type="text"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
-                    name="codigoarticulo"
-                    id="textfields"
-                    onChange={handlerSearcher}
-                  />
-                  <TextField
-                    fullWidth
-                    label="Nombre"
-                    type="text"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
-                    name="nombreprovincia"
-                    id="textfields"
-                    onChange={handlerSearcher}
-                  />
-                  <FormControl
-                    fullWidth
-                    margin="dense"
-                    size="small"
-                    color="secondary"
-                    >
-                    <InputLabel>Categoría</InputLabel>
-                    <Select
-                      label="Categoría"
+                  <form id="searchform">
+                    <TextField
+                      fullWidth
+                      label="Nombre"
+                      type="text"
                       size="small"
                       color="secondary"
+                      margin="dense"
+                      name="nombre"
                       id="textfields"
                       onChange={handlerSearcher}
-                      defaultValue=""
-                    >
-                      <MenuItem value="">
-                        <em>all</em>
-                      </MenuItem>
-                      {/*provincias.map((item, i) => (
-                        <MenuItem key={i} value={item.id}>
-                          {item.nombreprovincia}
-                        </MenuItem>
-                      ))*/}
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    fullWidth
-                    label="Descripción"
-                    type="text"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
-                    name="nombreprovincia"
-                    id="textfields"
-                    onChange={handlerSearcher}
-                  />
-                  <TextField
-                    fullWidth
-                    label="Tipo"
-                    type="text"
-                    size="small"
-                    color="secondary"
-                    margin="dense"
-                    name="nombreprovincia"
-                    id="textfields"
-                    onChange={handlerSearcher}
-                  />
-                  <FormControl
-                    fullWidth
-                    margin="dense"
-                    size="small"
-                    color="secondary"
-                    >
-                    <InputLabel>Proveedor</InputLabel>
-                    <Select
-                      label="Proveedor"
-                      size="small"
-                      color="secondary"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                      defaultValue=""
-                    >
-                      <MenuItem value="">
-                        <em>all</em>
-                      </MenuItem>
-                      {/*provincias.map((item, i) => (
-                        <MenuItem key={i} value={item.id}>
-                          {item.nombreprovincia}
-                        </MenuItem>
-                      ))*/}
-                    </Select>
-                  </FormControl>
-                  <FormControl
-                    fullWidth
-                    margin="dense"
-                    size="small"
-                    color="secondary"
-                    >
-                    <InputLabel>Ubicación</InputLabel>
-                    <Select
-                      label="Ubicación"
-                      size="small"
-                      color="secondary"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                      defaultValue=""
-                    >
-                      <MenuItem value="">
-                        <em>all</em>
-                      </MenuItem>
-                      {/*provincias.map((item, i) => (
-                        <MenuItem key={i} value={item.id}>
-                          {item.nombreprovincia}
-                        </MenuItem>
-                      ))*/}
-                    </Select>
-                  </FormControl>
-                  <Grid container spacing={1} sx={{mt:2}}>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Button fullWidth id="textfields" color="secondary" variant="contained">
-                        Buscar
-                      </Button>
+                    />
+                    <br />
+                    <Grid container spacing={1} sx={{ mt: 2 }}>
+                      <Grid item xs={12} sm={12} md={12}>
+                        <Button
+                          fullWidth
+                          id="textfields"
+                          color="primary"
+                          variant="contained"
+                          onClick={handleClean}
+                        >
+                          Limpiar
+                        </Button>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                      <Button fullWidth id="textfields" color="primary" variant="contained">
-                        Limpiar
-                      </Button>
-                    </Grid>
-                  </Grid>
+                  </form>
                 </AccordionDetails>
               </Accordion>
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerArticulo/>
+            <VerCategoria itemView={itemView}/>
           </Grid>
-          <Grid item xs={12} sm={12} md={1} sx={{mt:4}}>
+          <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
               render={render}
               renderizar={renderizar}
@@ -234,6 +118,7 @@ const Articulos = () => {
           setRenderizar={setRenderizar}
           setOpenModal={setOpenModal}
           setItem={setItem}
+          setItemView={setItemView}
         />
       </div>
     </section>

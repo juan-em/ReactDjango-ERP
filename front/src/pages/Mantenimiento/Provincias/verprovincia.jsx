@@ -13,30 +13,42 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 //icons
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import FingerprintIcon from "@mui/icons-material/Fingerprint";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DeckIcon from "@mui/icons-material/Deck";
-import MyLocationIcon from "@mui/icons-material/MyLocation";
-import PinIcon from "@mui/icons-material/Pin";
-import KeyIcon from "@mui/icons-material/Key";
-import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import WebhookIcon from "@mui/icons-material/Webhook";
-import { Box } from "@mui/system";
 
-const VerProvincia = () => {
+const VerProvincia = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
   ]);
 
-  useEffect(()=>{
-    
-  },[])
+  const seti = () => {
+    const newItem = itemsPer.map((i) => {
+      if (!itemView.id) {
+        return {
+          ...i,
+        };
+      } else {
+        if (i.primary === "Código") {
+          return {
+            ...i,
+            secondary: itemView.id,
+          };
+        } else if (i.primary === "Nombre") {
+          return {
+            ...i,
+            secondary: itemView.nombreprovincia,
+          };
+        } 
+      }
+    });
+    setItemsPer(newItem);
+  };
+
+  useEffect(() => {
+    seti();
+  }, [itemView]);
 
   return (
     <section>
@@ -66,7 +78,7 @@ const VerProvincia = () => {
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid key={i.primary} item xs={12} sm={6} md={6}>
                       <ListItem>
                         <ListItemAvatar>
                           <Avatar>{i.icon}</Avatar>

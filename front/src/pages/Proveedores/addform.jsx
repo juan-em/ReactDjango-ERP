@@ -23,7 +23,7 @@ import { Formik } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-import { getProvincias } from "../../services/mantenimiento";
+import { get } from "../../services/mantenimiento";
 
 import {
   postProveedoresEmp,
@@ -87,7 +87,6 @@ const AddForm = ({
   };
 
   const empSubmit = async (val) => {
-    console.log(val);
     try {
       !item.id
         ? await postProveedoresEmp(val)
@@ -112,7 +111,8 @@ const AddForm = ({
   };
 
   useEffect(() => {
-    getProvincias(setProvincias);
+    const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+    get(setProvincias, URL);
   }, []);
 
   return (

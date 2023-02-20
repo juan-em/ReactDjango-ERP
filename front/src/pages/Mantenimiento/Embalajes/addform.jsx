@@ -16,7 +16,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 
 //componentes
-import { post_putProvincia } from "../../../services/mantenimiento";
+import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 
 
 
@@ -25,7 +25,7 @@ import Swal from "sweetalert2";
 
 const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
   
-
+  const URL = "http://localhost:8000/api/mantenimientos/embalajes/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -35,13 +35,14 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
     setOpenModal(false)
   };
 
-  const handlePostPutProvincia = async(e) => {
+  const handlePostPut = async(e) => {
     try {
-      await post_putProvincia(e)
+      const {nombre,} = e.target
+      await post_put(e, nombre, URL)
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la categoría",
+        text: "Se registró el embalaje",
       });
       if(item.id)setItem({})
       setRenderizar(!renderizar)
@@ -74,12 +75,12 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
             <CloseIcon fontSize="large" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Categoría" : "Nueva Categoría"}
+            {item.id ? "Editar Embalaje" : "Nuevo Embalaje"}
           </Typography>
         </DialogTitle>
         <DialogContent>
           <TabContext centered>
-              <form onSubmit={handlePostPutProvincia}>
+              <form onSubmit={handlePostPut}>
                 {item.id?<input type="hidden" name="cod" value={item.id}/>:''
                 }
                 <Grid container spacing={1}>
@@ -92,8 +93,8 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       color="secondary"
                       id="textfields"
                       margin="dense"
-                      name="nombreprovincia"
-                      defaultValue={item.id ? item.nombreprovincia:''}
+                      name="nombre"
+                      defaultValue={item.id ? item.nombre:''}
                     />
                   </Grid>
 

@@ -76,42 +76,32 @@ export const delProveedoresEmp = async (id) => {
   }
 };
 
-
 export const searcher = (fields, list) => {
   let resultData = list;
-
-  resultData = fields.id
-    ? resultData.filter((item) => item.id.toString() === fields.id.toString())
+  resultData = fields.codigo
+    ? resultData.filter(
+        (item) => item.codigo.toString() === fields.codigo.toString()
+      )
     : resultData;
   resultData = fields.ruc
     ? resultData.filter((item) => {
-        if (item.persona)
-          return item.persona.dni.toString().includes(fields.ruc.toString());
-        else return item.empresa.ruc.toString().includes(fields.ruc.toString());
+        return item.ruc.toString() === fields.ruc.toString();
       })
     : resultData;
   resultData = fields.nombre
     ? resultData.filter((item) => {
         if (item.persona)
-          return item.persona.nombre
-            .toLowerCase()
-            .includes(fields.nombre.toLocaleLowerCase());
+          return item.persona.nombre === fields.nombre.toString()
         else
-          return item.empresa.nombre
-            .toString()
-            .includes(fields.nombre.toString());
+          return item.empresa.nombre === fields.nombre.toString()
       })
     : resultData;
   resultData = fields.telefono
     ? resultData.filter((item) => {
         if (item.persona)
-          return item.persona.telefono
-            .toString()
-            .includes(fields.telefono.toString());
+          return item.persona.telefono.toString() === fields.telefono.toString()
         else
-          return item.empresa.telefono
-            .toString()
-            .includes(fields.telefono.toString());
+          return item.empresa.telefono.toString() === fields.telefono.toString()
       })
     : resultData;
   resultData = fields.provincia
@@ -120,13 +110,16 @@ export const searcher = (fields, list) => {
         else return item.empresa.codprovincia == fields.provincia;
       })
     : resultData;
-  resultData =
-    fields.per_emp != ""
-      ? resultData.filter((item) => {
-          if (fields.per_emp == "persona") return item.persona;
-          else if (fields.per_emp == "empresa") return item.empresa;
-        })
-      : resultData;
-  console.log(resultData);
+  if (fields.radio === "persona") {
+    resultData.filter((item) => {
+      return item.empresa === null;
+    });
+  } else if (fields.radio === "empresa") {
+    resultData.filter((item) => {
+      return item.persona === null;
+    });
+  } else {
+    return resultData;
+  }
   return resultData;
 };

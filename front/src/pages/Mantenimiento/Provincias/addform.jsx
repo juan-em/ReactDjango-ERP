@@ -16,7 +16,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 
 //componentes
-import { post_putProvincia } from "../../../services/mantenimiento";
+import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 
 
 
@@ -25,7 +25,7 @@ import Swal from "sweetalert2";
 
 const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
   
-
+  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -37,7 +37,8 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
 
   const handlePostPutProvincia = async(e) => {
     try {
-      await post_putProvincia(e)
+      const {nombreprovincia,} = e.target
+      await post_put(e, nombreprovincia, URL)
       Swal.fire({
         icon: "success",
         title: "Ok",
