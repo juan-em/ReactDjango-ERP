@@ -166,62 +166,72 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 
-################
-#ARTICULO
-
-class Articulos(models.Model):
-    nombre = models.CharField(max_length=20)
-    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
-    descripcion = models.CharField(max_length=5000)
-    impuesto = models.ForeignKey(Impuestos, on_delete=models.CASCADE)
-    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
-    ubicacion = models.ForeignKey(Almacen, on_delete=models.CASCADE)
-    stock = models.PositiveIntegerField(default=0)
-    stock_minimo = models.PositiveIntegerField(default=0)
-    aviso_minimo = models.CharField(max_length=3,choices=CHOICES_YES_NO)
-    fecha_alta = models.DateField()
-    embalaje = models.ForeignKey(Embalajes, on_delete=models.CASCADE)
-    unidades_por_caja = models.PositiveIntegerField(default=0)
-    observaciones = models.CharField(max_length=500)
-    # Precio al que se compre
-    precio_compra = models.FloatField(validators=[MinValueValidator(0.0)])
-    # Precio al que se vende (igv)
-    precio_venta = models.FloatField(validators=[MinValueValidator(0.0)])
-    # Precio del producto sin descuentos ni impuestos
-    precio_bruto = models.FloatField(validators=[MinValueValidator(0.0)])
-    imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
-    # Insumo o Materia Prima
-    tipo = models.CharField(max_length=50, choices=CHOICES_PRIM_INS, default="Ninguno") 
+###############
+#ARTICULOS
+class Articulo (models.Model): 
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100, default='-')
+    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True, blank=True)
+    marca = models.CharField(max_length=100, default='-')
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
     borrado = models.BooleanField(default=False, null=True)
+    imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
+
     def __str__(self):
         return self.nombre
+    
+    @property
+    def nombre_proveedor(self):
+        if self.proveedor.persona:
+            return f'{self.proveedor.persona.nombre}'
+        else:
+            return f'{self.proveedor.empresa.nombre}'
 
+class ArticuloVariante(models.Model):
+    nombre = models.CharField(max_length=100, default='-')
+    articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE, null=True, related_name='variantes')
+    precio_unitario = models.FloatField(validators=[MinValueValidator(0.0)],default=0.0)
+    embalaje = models.ForeignKey(Embalajes, on_delete=models.CASCADE, null=True, blank=True)
+    cantidad = models.PositiveIntegerField(default=0)
+    ubicacion = models.CharField(max_length=300, default='-') #por ejemplo alguna estantería
+    almacen = models.ForeignKey(Almacen, on_delete=models.SET_NULL, null=True, blank=True)
+    descripcion = models.CharField(max_length=500, default='-')
+
+
+    def __str__(self):
+        return self.articulo.nombre +'-'+ self.nombre
 
 #################
 #PRODUCTO
+
+class Categoria_producto(models.Model):
+    nombre = models.CharField(max_length=100)
+    borrado = models.BooleanField(default=False, null=True)
+    def __str__(self):
+        return self.nombre
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     cantidad = models.IntegerField(default=0)
     descripcion_producto = models.TextField(null=True, blank=True)
-    precio_final = models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
-    color=models.TextField(null=True, blank=True)
-    talla=models.TextField(null=True, blank=True)
-    precio_horas_manufactura=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
+    color=models.TextField(null=True, blank=True, default='-')
+    talla=models.TextField(null=True, blank=True, default='-')
+    categoria=models.ForeignKey(Categoria_producto, related_name='categoria_producto', on_delete=models.SET_NULL, null=True)
     horas_manufactura=models.IntegerField(default=0)
-    costos_extra=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
-    precio_inicial=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
+    costo_manufactura=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
+    gastos_generales=models.FloatField(validators=[MinValueValidator(0.0)], default=30.0)
+    precio_final = models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.nombre
 
 class Producto_detalle(models.Model):
     producto = models.ForeignKey(Producto,related_name='producto_detalle', on_delete=models.CASCADE, null=True)
-    articulo = models.ForeignKey(Articulos, on_delete=models.CASCADE, null=True)
+    articulo = models.ForeignKey(ArticuloVariante, on_delete=models.CASCADE, null=True, related_name='variantes')
     cantidad = models.IntegerField(default=0)
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
-        return self.articulo.nombre
+        return self.articulo.articulo.nombre + "-" + self.articulo.nombre
 
 ################
 #FACTURA
@@ -258,34 +268,6 @@ class Venta_clie_detalle(models.Model):
     def __str__(self):
         return "Nombre articulo: {}".format(self.codproducto.nombre)
 
-##############
-#COMPRA
-    
-class Compra_prov(models.Model):
-    compra = models.OneToOneField(Factura, on_delete=models.CASCADE, primary_key=True)
-    codprov = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
-    imagen_fac_compra = CloudinaryField('imagen_fac_compra', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
-    estado = models.BooleanField(null=True, blank=True, default=False)
-    detaller_entrega = models.TextField(null=True, blank=True)
-    def __str__(self):
-        if self.codprov.persona:
-            return "Nombre Proveedor: {}, Orden de compra: {}".format(self.codprov.persona.nombre, self.compra.pk)    
-        else:
-            return "Nombre Proveedor: {}, Orden de compra: {}".format(self.codprov.empresa.nombre, self.compra.pk)
-
-class Compra_prov_detalle(models.Model):
-    compra_prov = models.ForeignKey(Compra_prov, on_delete=models.CASCADE, null=True)
-    codproducto = models.ForeignKey(Articulos, on_delete=models.CASCADE, null=True)
-    cantidad = models.IntegerField()
-    precio = models.FloatField()
-    importe = models.FloatField(null=True)
-    dsctoproducto = models.FloatField(null=True, default=0, blank=True)
-    remision_hecha = models.BooleanField(null=True, blank=True, default=False)
-    
-    def __str__(self):
-        return "Nombre articulo:{}".format(self.codproducto.nombre)
-
-
 ########################
 #REMISION DE VENTAS
 class Remision_venta(models.Model):
@@ -311,63 +293,6 @@ class Remision_venta_detalle(models.Model):
 
     def __str__(self):
         return "Numero de remisión:{}".format(self.codremision.pk)
-
-########################
-#REMISION DE COMPRAS
-class Remision_compra(models.Model):
-    factura_proveedor = models.ForeignKey(Compra_prov, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "Numero de linea:{}".format(self.factura_proveedor)
-
-class Remision_linea_prov(models.Model):
-    codremision = models.ForeignKey(Remision_compra, on_delete=models.CASCADE)
-    codproducto = models.ForeignKey(Compra_prov_detalle, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return "Numero de remisión:{}".format(self.codremision.pk)
-
-
-
-#######################
-# TESORERIA
-class Caja_diaria(models.Model):
-    fecha_apertura = models.DateTimeField(null=True, auto_now_add=True)
-    fecha_cierre = models.DateTimeField(null=True, auto_now_add=True)
-    monto_total_inicial = models.FloatField(null=True, default=0)
-    monto_total_final = models.FloatField(null=True, default=0)
-    total_ventas = models.FloatField(null=True, default=0)
-    total_compras = models.FloatField(null=True, default=0)
-    estado = models.BooleanField(default=False)
-
-    def __str__(self):
-        return "Monto inicial:{}, Monto final:{}, Estado:{}".format(self.monto_total_inicial, self.monto_total_final, self.estado)
-
-class Caja_tipo_pago(models.Model):
-    venta = models.ForeignKey(Venta_clie, on_delete=models.CASCADE, null=True, blank=True)
-    compra = models.ForeignKey(Compra_prov, on_delete=models.CASCADE, null=True, blank=True)
-    tipo_pago = models.ForeignKey(Formapago, on_delete=models.CASCADE, null=True)
-    caja_diaria = models.ForeignKey(Caja_diaria, on_delete=models.CASCADE, null=True)
-    total_tipo_pago = models.FloatField(null=True)
-
-###############
-#LIBRO DIARIO
-class Libro_diario(models.Model):
-    COMPRA = 'Compra'
-    VENTA = 'Venta'
-    NINGUNO = 'Ninguno'
-
-    TIPOS = [
-        (COMPRA, 'Compra'),
-        (VENTA, 'Venta'),
-        (NINGUNO, 'Ninguno')
-    ]
-
-    obtener_factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
-    tipo = models.CharField(max_length=20, choices=TIPOS, default=NINGUNO)
-
-    def __str__(self):
-        return "Factura:{}, Tipo:{}".format(self.factura.id, self.tipo)
 
 #################
 #TRABAJADOR
@@ -501,41 +426,6 @@ class Unidad(models.Model):
 
 #Areas a las cuales puede pertenecer un trabajador
 
-
-
-#Entidades principales ###########################################
-class Articulo (models.Model): 
-    nombre = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=100, default='-')
-    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True, blank=True)
-    marca = models.CharField(max_length=100, default='-')
-    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
-    borrado = models.BooleanField(default=False, null=True)
-    imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
-
-    def __str__(self):
-        return self.nombre
-    
-    @property
-    def nombre_proveedor(self):
-        if self.proveedor.persona:
-            return f'{self.proveedor.persona.nombre}'
-        else:
-            return f'{self.proveedor.empresa.nombre}'
-
-class ArticuloVariante(models.Model):
-    nombre = models.CharField(max_length=100, default='-')
-    articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE, null=True, related_name='variantes')
-    precio_unitario = models.FloatField(validators=[MinValueValidator(0.0)],default=0.0)
-    embalaje = models.ForeignKey(Embalajes, on_delete=models.CASCADE, null=True, blank=True)
-    cantidad = models.PositiveIntegerField(default=0)
-    ubicacion = models.CharField(max_length=300, default='-') #por ejemplo alguna estantería
-    almacen = models.ForeignKey(Almacen, on_delete=models.SET_NULL, null=True, blank=True)
-    descripcion = models.CharField(max_length=500, default='-')
-
-
-    def __str__(self):
-        return self.articulo.nombre +'-'+ self.nombre
 
 #ALMACENES ###########################################
 # class ArticulosEnAlmacen (models.Model):
@@ -671,3 +561,42 @@ class EntradaAlmacenCompra(EntradaAlmacen):
         return self.pk
 
 
+#######################
+# TESORERIA
+class Caja_diaria(models.Model):
+    fecha_apertura = models.DateTimeField(null=True, auto_now_add=True)
+    fecha_cierre = models.DateTimeField(null=True, auto_now_add=True)
+    monto_total_inicial = models.FloatField(null=True, default=0)
+    monto_total_final = models.FloatField(null=True, default=0)
+    total_ventas = models.FloatField(null=True, default=0)
+    total_compras = models.FloatField(null=True, default=0)
+    estado = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Monto inicial:{}, Monto final:{}, Estado:{}".format(self.monto_total_inicial, self.monto_total_final, self.estado)
+
+class Caja_tipo_pago(models.Model):
+    venta = models.ForeignKey(Venta_clie, on_delete=models.CASCADE, null=True, blank=True)
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=True, blank=True)
+    tipo_pago = models.ForeignKey(Formapago, on_delete=models.CASCADE, null=True)
+    caja_diaria = models.ForeignKey(Caja_diaria, on_delete=models.CASCADE, null=True)
+    total_tipo_pago = models.FloatField(null=True)
+
+###############
+#LIBRO DIARIO
+class Libro_diario(models.Model):
+    COMPRA = 'Compra'
+    VENTA = 'Venta'
+    NINGUNO = 'Ninguno'
+
+    TIPOS = [
+        (COMPRA, 'Compra'),
+        (VENTA, 'Venta'),
+        (NINGUNO, 'Ninguno')
+    ]
+
+    obtener_factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
+    tipo = models.CharField(max_length=20, choices=TIPOS, default=NINGUNO)
+
+    def __str__(self):
+        return "Factura:{}, Tipo:{}".format(self.factura.id, self.tipo)
