@@ -26,6 +26,7 @@ import Articulos from "../pages/Productos/Artículos";
 import Embalajes from "../pages/Mantenimiento/Embalajes";
 import Entidades from "../pages/Mantenimiento/Entidades";
 import Impuestos from "../pages/Mantenimiento/Impuestos";
+import Almacenes from "../pages/Mantenimiento/Almacenes";
 
 // LAYOUTS
 
@@ -60,6 +61,9 @@ const Router = () => {
               <Route path="/mantenimientos/formaspago" element={<FormasPago />} />
               <Route path="/mantenimientos/entidades" element={<Entidades />} />
               <Route path="/mantenimientos/impuestos" element={<Impuestos />} />
+              <Route path="/mantenimientos/almacenes" element={<Almacenes />} />
+
+              {/* Venta */}
               <Route path="/ventas/venta" element={<Venta />} />
               <Route path="/compras/compra" element={<Compra />} />
             </Route>
