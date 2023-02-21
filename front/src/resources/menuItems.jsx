@@ -48,7 +48,7 @@ export const menuItems = [
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 
     { url: "#about", icon: <ReceiptIcon/>, name: "Compras",
-    item:[{name:'Compra',icon: <ShopIcon/>,url:'#cliente'},
+    item:[{name:'Compra',icon: <ShopIcon/>,url:'/compras/compra'},
         {name:'Factura',icon: <ArticleIcon/>,url:'#proveedor'},
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 

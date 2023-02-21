@@ -20,6 +20,7 @@ import AddForm from "../pages/Clientes/addform";
 import Provincias from "../pages/Mantenimiento/Provincias";
 import FormasPago from "../pages/Mantenimiento/FormasPago";
 import Venta from "../pages/Ventas/Venta";
+import Compra from "../pages/Compras/Compra";
 import Categorias from "../pages/Mantenimiento/Categorías";
 import Articulos from "../pages/Productos/Artículos";
 import Embalajes from "../pages/Mantenimiento/Embalajes";
@@ -60,6 +61,7 @@ const Router = () => {
               <Route path="/mantenimientos/entidades" element={<Entidades />} />
               <Route path="/mantenimientos/impuestos" element={<Impuestos />} />
               <Route path="/ventas/venta" element={<Venta />} />
+              <Route path="/compras/compra" element={<Compra />} />
             </Route>
           </Route>
 
