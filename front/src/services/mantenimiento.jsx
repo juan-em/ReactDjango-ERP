@@ -132,7 +132,6 @@ export const postAlmacen = async (data) => {
 };
 
 export const putAlmacen = async (data, id) => {
-  console.log(id)
   try {
     const response = await axios.put(`http://localhost:8000/api/mantenimientos/almacenes/${id}/`, data);
     return response.data;
