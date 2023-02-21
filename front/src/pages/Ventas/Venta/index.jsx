@@ -94,9 +94,9 @@ const Venta = () => {
           <Grid item xs={12} sm={12} md={12}>
             <Typography fontFamily={"inherit"} align={'center'}
             sx={{ mt: 3, p: 3 , 
-              backgroundColor: alpha('#985024', 0.20),
+              backgroundColor: alpha('#633256', 0.20),
               '&:hover': {
-                  backgroundColor: alpha('#985024', 0.25),
+                  backgroundColor: alpha('#633256', 0.25),
               },
               }}>
               Nueva Venta
@@ -122,10 +122,13 @@ const Venta = () => {
               </Stepper>
               {activeStep === steps.length ? (
                 <Fragment>
-                  <Alert severity="success" action={
+                  <Alert severity="success" 
+                  sx={{ p:3, m:5}}
+                  action={
                     <Button 
                     variant="contained"
                     id="textfields"
+                    color="secondary"
                     onClick={handleReset}>Nueva Venta</Button>
                   }>
                     <AlertTitle>Se logró registrar la venta</AlertTitle>

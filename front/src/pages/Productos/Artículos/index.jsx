@@ -12,6 +12,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Autocomplete
 } from "@mui/material";
 
 //Componentes
@@ -20,7 +21,9 @@ import { Tabla } from "./complements";
 import { get, searcher } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerCategoria from "./vercategoria";
+import VerCategoria from "./verarticulo";
+import VerArticulo from "./verarticulo";
+import { Container } from "@mui/system";
 
 const Articulos = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -38,16 +41,27 @@ const Articulos = () => {
     searchform.reset();
   };
 
+  const top100Films = [
+    { label: 'The Shawshank Redemption', year: 1994 },
+    { label: 'The Godfather', year: 1972 },
+    { label: 'The Godfather: Part II', year: 1974 },
+    { label: 'The Dark Knight', year: 2008 },
+    { label: '12 Angry Men', year: 1957 },
+    { label: "Schindler's List", year: 1993 },
+    { label: 'Pulp Fiction', year: 1994 },
+  ];
   return (
     <section>
       <div className="container">
         <Grid container spacing={4}>
+        
           <Grid item xs={12} sm={12} md={5}>
+            
             <Paper
               elevation={10}
               className="paper"
               sx={{
-                mt: 4,
+                mt: 3,
                 p: 0,
                 backgroundColor: alpha("#8D4C32", 0.2),
                 "&:hover": {
@@ -61,10 +75,21 @@ const Articulos = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoria
+                  Buscar artículos
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
+                    <TextField
+                      fullWidth
+                      label="Código"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="nombre"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
                     <TextField
                       fullWidth
                       label="Nombre"
@@ -76,7 +101,35 @@ const Articulos = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
-                    <br />
+                    <Autocomplete
+                      disablePortal
+                      options={top100Films}
+                      size="small"
+                      id="textfields"
+                      renderInput={(params) => <TextField {...params} label="Proveedor" margin="dense" color="secondary" fullWidth />}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Marca"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="nombre"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Categoría"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="nombre"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -94,10 +147,12 @@ const Articulos = () => {
                 </AccordionDetails>
               </Accordion>
             </Paper>
+            
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerCategoria itemView={itemView}/>
+            <VerArticulo itemView={itemView}/>
           </Grid>
+          
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
               render={render}
@@ -111,6 +166,16 @@ const Articulos = () => {
           </Grid>
         </Grid>
 
+        <Grid item xs={12} sm={12} md={12} sx={{ mt: 4 }}>
+          <Autocomplete
+            disablePortal
+            options={top100Films}
+            size="small"
+            id="textfields"
+            renderInput={(params) => <TextField {...params} label="Almacén" margin="dense" color="secondary" fullWidth />}
+          />
+        </Grid>
+
         <Tabla
           fields={fields}
           render={render}
@@ -120,7 +185,9 @@ const Articulos = () => {
           setItem={setItem}
           setItemView={setItemView}
         />
+        
       </div>
+      
     </section>
   );
 };
