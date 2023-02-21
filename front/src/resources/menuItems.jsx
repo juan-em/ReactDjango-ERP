@@ -23,7 +23,6 @@ import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
-import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import AlbumIcon from '@mui/icons-material/Album';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import EngineeringIcon from '@mui/icons-material/Engineering';
@@ -48,7 +47,7 @@ export const menuItems = [
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 
     { url: "#about", icon: <ReceiptIcon/>, name: "Compras",
-    item:[{name:'Compra',icon: <ShopIcon/>,url:'#cliente'},
+    item:[{name:'Compra',icon: <ShopIcon/>,url:'/compras/compra'},
         {name:'Factura',icon: <ArticleIcon/>,url:'#proveedor'},
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 
@@ -63,7 +62,7 @@ export const menuItems = [
     item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
         {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'/mantenimientos/formaspago'},
         {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'/mantenimientos/entidades'},
-        {name:'Almacenes',icon: <AddBusinessIcon/>,url:'#proveedor'},
+        {name:'Almacenes',icon: <AddBusinessIcon/>,url:'/mantenimientos/almacenes'},
         {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'/mantenimientos/impuestos'},
         {name:'Embalajes',icon: <ArchiveIcon/>,url:'/mantenimientos/embalajes'},
         {name:'Categorías',icon: <AutoAwesomeMosaicIcon/>,url:'/mantenimientos/categorias'},]},

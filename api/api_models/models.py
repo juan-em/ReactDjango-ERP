@@ -611,6 +611,7 @@ class SalidaVenta(Salidas):
 
 ### Refactorizando Compras
 class Compra(models.Model):
+    fecha = models.DateField(null=True)
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
     detalle_entrega = models.TextField(null=True, blank=True)

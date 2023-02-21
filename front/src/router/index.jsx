@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // AUTHORIZATION
 import { AuthProvider } from "../context/AuthProvider";
-import Login from "../api/Login";
+import Login from "../components/Authorization/Login";
+import Register from "../components/Authorization/Register";
 import RequireAuth from "../components/Authorization/RequireAuth";
 
 // LOGIN PERSISTENCE
@@ -19,11 +20,13 @@ import AddForm from "../pages/Clientes/addform";
 import Provincias from "../pages/Mantenimiento/Provincias";
 import FormasPago from "../pages/Mantenimiento/FormasPago";
 import Venta from "../pages/Ventas/Venta";
+import Compra from "../pages/Compras/Compra";
 import Categorias from "../pages/Mantenimiento/Categorías";
 import Articulos from "../pages/Productos/Artículos";
 import Embalajes from "../pages/Mantenimiento/Embalajes";
 import Entidades from "../pages/Mantenimiento/Entidades";
 import Impuestos from "../pages/Mantenimiento/Impuestos";
+import Almacenes from "../pages/Mantenimiento/Almacenes";
 
 // LAYOUTS
 
@@ -36,6 +39,7 @@ const Router = () => {
           
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           
           {/* Private routes */}
           <Route element={<PersistLogin/>}>
@@ -57,7 +61,11 @@ const Router = () => {
               <Route path="/mantenimientos/formaspago" element={<FormasPago />} />
               <Route path="/mantenimientos/entidades" element={<Entidades />} />
               <Route path="/mantenimientos/impuestos" element={<Impuestos />} />
+              <Route path="/mantenimientos/almacenes" element={<Almacenes />} />
+
+              {/* Venta */}
               <Route path="/ventas/venta" element={<Venta />} />
+              <Route path="/compras/compra" element={<Compra />} />
             </Route>
           </Route>
 
