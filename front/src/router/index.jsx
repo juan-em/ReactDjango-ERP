@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // AUTHORIZATION
 import { AuthProvider } from "../context/AuthProvider";
-import Login from "../api/Login";
+import Login from "../components/Authorization/Login";
+import Register from "../components/Authorization/Register";
 import RequireAuth from "../components/Authorization/RequireAuth";
 
 // LOGIN PERSISTENCE
@@ -36,6 +37,7 @@ const Router = () => {
           
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           
           {/* Private routes */}
           <Route element={<PersistLogin/>}>

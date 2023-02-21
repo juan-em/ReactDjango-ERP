@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react"
-import useAuth from "../hooks/useAuth"
+import useAuth from "../../hooks/useAuth"
 
 import { Link, useNavigate, useLocation } from "react-router-dom"
 
-import axios from "./axios"
+import axios from "../../api/axios"
 const LOGIN_URL = 'api/login/'
 
 const Login = () => {
@@ -89,8 +89,7 @@ const Login = () => {
             <p>
                 Need an Account? <br />
                 <span className="line">
-                    {/* Future router */}
-                    <a href="#">Sing up</a>
+                    <Link to="/register">Sign up</Link>
                 </span>
             </p>
         </div>
