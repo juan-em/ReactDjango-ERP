@@ -91,6 +91,7 @@ class ProductoDetailView(APIView):
         }    
         return Response(context)
 
+# @permission_classes([IsAuthenticated])
 class Producto_varianteView(APIView):
     
     def post(self, request):
@@ -113,6 +114,7 @@ class Producto_varianteView(APIView):
                 'message': 'Internal server error'
             }) 
 
+# @permission_classes([IsAuthenticated])
 class Producto_varianteDetailView(APIView):
 
     def patch(self, request, id):
