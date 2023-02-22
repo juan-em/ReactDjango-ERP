@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { alpha } from "@mui/material/styles";
 import {
   TextField,
   Button,
@@ -8,57 +9,39 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Tab,
-  Autocomplete
+  Tab, Box,
+  Autocomplete, Modal
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
-
+import './index.css';
 //componentes
 import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 
 
-
+//para la tabla
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import Swal from "sweetalert2";
 
-
-const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
-  
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
-  const handleOpenPost = () => {
-    setOpenModal(true);
+const AddFormVariantes = ({ openModal, setOpenModal}) => {
+    const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
   };
-
   const handleClose = () => {
-    if(item.id)setItem({})
-    setOpenModal(false)
+    setOpen(false);
   };
-
-  const handlePostPut = async(e) => {
-    try {
-      const {nombre,} = e.target
-      await post_put(e, nombre, URL)
-      Swal.fire({
-        icon: "success",
-        title: "Ok",
-        text: "Se registró la categoría",
-      });
-      if(item.id)setItem({})
-      setRenderizar(!renderizar)
-      render.current = true
-      
-    }
-    catch(error){
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${error}`,
-      });
-    }
-    setOpenModal(false)
-  }
 
   const top100Films = [
     { label: 'The Shawshank Redemption', year: 1994 },
@@ -72,44 +55,21 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
 
   return (
     <>
-      <IconButton
-        aria-label="delete"
+        <Button 
         color="secondary"
-        size="large"
-        onClick={handleOpenPost}
-      >
-        <AddCircleIcon fontSize="large" />
-      </IconButton>
-      <Dialog open={openModal}>
-        <DialogTitle>
-          <IconButton aria-label="delete" size="small" onClick={handleClose}>
-            <CloseIcon fontSize="large" />
-          </IconButton>
-          <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Artículo" : "Nuevo Artículo"}
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-          <TabContext centered>
-              <form onSubmit={handlePostPut}>
-                {item.id?<input type="hidden" name="cod" value={item.id}/>:''
-                }
+        variant="contained"
+        onClick={handleOpen}>Añadir</Button>
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="parent-modal-title"
+            aria-describedby="parent-modal-description">
+                
+            <Box maxWidth={'md'} sx={{ position: 'absolute', top: '50%', left: '50%', backgroundColor:'white' , transform: 'translate(-50%, -50%)', p:5}}>
+            <h2 id="parent-modal-title">Nueva variante</h2>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={5}>
-                    <Button
-                      sx={{height:'100%'}}
-                      fullWidth
-                      component="label"
-                      id="textfields"
-                      size="small"
-                      color="primary"
-                      variant="outlined">
-                        <input hidden accept="image/*" multiple type="file" />
-                      Subir Imagen
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={7}>
-                  <TextField
+                  <Grid item xs={12} sm={12} md={6}>
+                    <TextField
                       fullWidth
                       label="Nombre"
                       required
@@ -118,11 +78,45 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       id="textfields"
                       margin="dense"
                       name="nombre"
-                      defaultValue={item.id ? item.nombre:''}
                     />
                     <TextField
                       fullWidth
-                      label="Descripción"
+                      label="Precio unitario"
+                      required
+                      type="number"
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="nombre"
+                      inputProps={{
+                        step: "0.1"
+                      }}
+                    />
+                    <Autocomplete
+                      disablePortal
+                      options={top100Films}
+                      size="small"
+                      id="textfields"
+                      renderInput={(params) => <TextField {...params} label="Embalaje" margin="dense" color="secondary" fullWidth />}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Cantidad"
+                      required
+                      type="number"
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      name="nombre"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={6}>
+                  
+                    <TextField
+                      fullWidth
+                      label="Ubicación"
                       type="text"
                       size="small"
                       color="secondary"
@@ -135,21 +129,11 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       options={top100Films}
                       size="small"
                       id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Proveedor" margin="dense" color="secondary" fullWidth />}
+                      renderInput={(params) => <TextField {...params} label="Almacén" margin="dense" color="secondary" fullWidth />}
                     />
                     <TextField
                       fullWidth
-                      label="Marca"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                    />
-                    <TextField
-                      fullWidth
-                      label="Categoría"
+                      label="Descripción"
                       type="text"
                       size="small"
                       color="secondary"
@@ -167,7 +151,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       className="navbar-btn-single"
                       variant="contained"
                       type="submit">
-                      <span>{item.id ? "Editar" : "Registrar"}</span>
+                      <span>Registrar</span>
                     </Button>
                     </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
@@ -184,12 +168,10 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                     </Button>
                   </Grid>
                 </Grid>
-              </form>
-          </TabContext>
-        </DialogContent>
-      </Dialog>
+            </Box>
+        </Modal>
     </>
   );
 };
 
-export default AddForm;
+export default AddFormVariantes;

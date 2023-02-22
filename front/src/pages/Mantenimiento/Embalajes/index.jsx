@@ -125,15 +125,6 @@ const Embalajes = () => {
             />
           </Box>
         </Box>
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          setItem={setItem}
-          setItemView={setItemView}
-        />
       </div>
     </section>
   );

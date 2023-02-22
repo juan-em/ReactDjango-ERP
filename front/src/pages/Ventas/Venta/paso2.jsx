@@ -48,10 +48,10 @@ const Paso2 = () => {
                     <Grid item xs={12} sm={12} md={7}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={6} lg={4}>
-                        <Card  sx={{ 
-                            backgroundColor: alpha('#985024', 0.20),
+                        <Card elevation={0} sx={{ 
+                            backgroundColor: alpha('#633256', 0.20),
                             '&:hover': {
-                                backgroundColor: alpha('#985024', 0.25),
+                                backgroundColor: alpha('#633256', 0.25),
                             },
                             }}>
                             <CardHeader

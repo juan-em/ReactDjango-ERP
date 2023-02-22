@@ -94,6 +94,12 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
+              Valor
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
               Acciones
             </TableCell>
           </TableRow>
@@ -106,6 +112,7 @@ export const Tabla = ({
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
+              <TableCell align="right">{row.valor }</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"
