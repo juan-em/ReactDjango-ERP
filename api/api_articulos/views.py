@@ -73,6 +73,15 @@ class ArticuloDetailView(APIView):
 
 
 class ArticuloVarianteView(APIView):
+
+    def get(self, request):
+        data = ArticuloVariante.objects.all()
+        serializer = ArticuloVarianteSerializer(data, many=True)
+        context = {
+            'status':True,
+            'content':serializer.data
+        }        
+        return Response(context)
     
     def post(self, request):
         serializer = ArticuloVarianteSerializer(data=request.data)
