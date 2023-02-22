@@ -4,7 +4,7 @@ from api_models.models import (
     Formapago, Provincias, 
     Entidades, Impuestos, 
     Embalajes, Categoria, 
-    Almacen, Areas, Unidad)
+    Almacen, Areas, Unidad, Categoria_producto)
 
 class ProviciasSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,3 +50,8 @@ class UnidadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Unidad
         fields = ['id', 'nombre','valor']
+
+class Categoria_productoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Unidad
+        fields = ['id', 'nombre']

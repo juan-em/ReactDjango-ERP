@@ -21,15 +21,23 @@ class ArticulosView(APIView):
         return Response(context)
 
     def post (self, request):
-        serializer = ArticuloSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        context = {
-                'data':'OK',
-                'status':status.HTTP_201_CREATED,
-                'content':serializer.data
-        }
-        return Response(context)
+        try:
+            serializer = ArticuloSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            context = {
+                    'data':'OK',
+                    'status':status.HTTP_201_CREATED,
+                    'content':serializer.data
+            }
+            return Response(context)
+        except Exception as Error:
+            print(Error)
+            return Response({
+                'status': False,
+                'content': 'Error',
+                'message': 'Internal server error'
+            }) 
 
 class ArticuloDetailView(APIView):
     def get(self, request, id):
@@ -73,6 +81,15 @@ class ArticuloDetailView(APIView):
 
 
 class ArticuloVarianteView(APIView):
+
+    def get(self, request):
+        data = ArticuloVariante.objects.all()
+        serializer = ArticuloVarianteSerializer(data, many=True)
+        context = {
+            'status':True,
+            'content':serializer.data
+        }        
+        return Response(context)
     
     def post(self, request):
         serializer = ArticuloVarianteSerializer(data=request.data)
