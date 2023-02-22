@@ -8,6 +8,20 @@ class ArticuloVarianteSerializer(serializers.ModelSerializer):
         model = ArticuloVariante
         fields = '__all__'
 
+    def to_representation(self, instance):
+        return{
+            'nombre':instance.nombre,
+            'articulo':instance.articulo.nombre,
+            'categoria':instance.articulo.categoria.id if instance.articulo.categoria else None,
+            'precio_unitario':instance.precio_unitario,
+            'embalaje': instance.embalaje.id if instance.embalaje else None,
+            'cantidad': instance.cantidad,
+            'ubicacion': instance.ubicacion,
+            'almacen': instance.almacen.id if instance.almacen else None,
+            'descripcion': instance.descripcion,
+            'imagen': instance.articulo.imagen.url
+        }
+
 
 class AVSerializer(serializers.ModelSerializer):
     class Meta:

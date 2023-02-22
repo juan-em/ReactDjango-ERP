@@ -2,8 +2,28 @@ import { Paper } from "@mui/material"
 import {Grid} from "@mui/material"
 import {Button, TextField} from "@mui/material"
 import {FormControl, InputLabel, Select, MenuItem} from "@mui/material"
+import { useState, useEffect } from "react"
 
-const SearcherArticulos = () => {
+import { get } from "../../../services/mantenimiento"
+
+
+const SearcherArticulos = ({fields, setFields}) => {
+
+  const[categorias, setCategorias] = useState([])
+  const[almacenes, setAlmacenes] = useState([])
+
+  const handlerSearcher = (e) => {
+    const { name, value } = e.target;
+    setFields({ ...fields, [name]: value });
+  };
+
+  useEffect(() => {
+    const URL_C = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
+    const URL_M = "http://localhost:8000/api/mantenimientos/almacenes/";
+    get(setCategorias, URL_C)
+    get(setAlmacenes, URL_M);
+  }, []);
+
   return (
     <section>
         <Paper
@@ -27,6 +47,7 @@ const SearcherArticulos = () => {
                     margin="dense"
                     name="nombre"
                     id="textfields"
+                    onChange={handlerSearcher}
 
                 />
                 </Grid>
@@ -45,10 +66,16 @@ const SearcherArticulos = () => {
                     id="textfields"
                     defaultValue=""
                     name="categoria"
+                    onChange={handlerSearcher}
                     >
-                    <MenuItem key={1} value={1}>
-                    item 1
+                    <MenuItem value="">
+                    all
                     </MenuItem>
+                    {categorias.map((item, i) => (
+                        <MenuItem key={1} value={item.id}>
+                        {item.nombre}
+                        </MenuItem>
+                    ))}
                     </Select>
                 </FormControl> 
                 </Grid>
@@ -68,10 +95,16 @@ const SearcherArticulos = () => {
                     id="textfields"
                     defaultValue=""
                     name="almacen"
+                    onChange={handlerSearcher}
                     >
-                    <MenuItem key={1} value={1}>
-                    item 2
+                    <MenuItem value="">
+                    all
                     </MenuItem>
+                    {almacenes.map((item, i) => (
+                        <MenuItem key={1} value={item.id}>
+                        {item.nombre}
+                        </MenuItem>
+                    ))}
                     </Select>
                 </FormControl> 
                 </Grid>
