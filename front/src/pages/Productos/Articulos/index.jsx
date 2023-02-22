@@ -12,10 +12,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem
+  Autocomplete
 } from "@mui/material";
 
 //Componentes
@@ -24,7 +21,9 @@ import { Tabla } from "./complements";
 import { get, searcher } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerCategoria from "./ver";
+import VerCategoria from "./verarticulo";
+import VerArticulo from "./verarticulo";
+import { Container } from "@mui/system";
 
 const Articulos = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -34,7 +33,6 @@ const Articulos = () => {
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
-  const [categoria, setCategoria] = useState([]);
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
@@ -43,21 +41,27 @@ const Articulos = () => {
     searchform.reset();
   };
 
-  useEffect(() => {
-    const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
-    get(setCategoria, URL);
-  }, []);
-
+  const top100Films = [
+    { label: 'The Shawshank Redemption', year: 1994 },
+    { label: 'The Godfather', year: 1972 },
+    { label: 'The Godfather: Part II', year: 1974 },
+    { label: 'The Dark Knight', year: 2008 },
+    { label: '12 Angry Men', year: 1957 },
+    { label: "Schindler's List", year: 1993 },
+    { label: 'Pulp Fiction', year: 1994 },
+  ];
   return (
     <section>
       <div className="container">
         <Grid container spacing={4}>
+        
           <Grid item xs={12} sm={12} md={5}>
+            
             <Paper
               elevation={10}
               className="paper"
               sx={{
-                mt: 4,
+                mt: 3,
                 p: 0,
                 backgroundColor: alpha("#8D4C32", 0.2),
                 "&:hover": {
@@ -71,13 +75,13 @@ const Articulos = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoria
+                  Buscar artículos
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
                     <TextField
                       fullWidth
-                      label="Nombre"
+                      label="Código"
                       type="text"
                       size="small"
                       color="secondary"
@@ -93,34 +97,39 @@ const Articulos = () => {
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="cantidad"
+                      name="nombre"
                       id="textfields"
                       onChange={handlerSearcher}
                     />
-                    <FormControl
+                    <Autocomplete
+                      disablePortal
+                      options={top100Films}
+                      size="small"
+                      id="textfields"
+                      renderInput={(params) => <TextField {...params} label="Proveedor" margin="dense" color="secondary" fullWidth />}
+                    />
+                    <TextField
                       fullWidth
-                      margin="dense"
+                      label="Marca"
+                      type="text"
                       size="small"
                       color="secondary"
-                    >
-                      <InputLabel>Provincia</InputLabel>
-                      <Select
-                        label="Provincia"
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        onChange={handlerSearcher}
-                        defaultValue=""
-                        name="categoria"
-                      >
-                        {categoria.map((item, i) => (
-                          <MenuItem key={i} value={item.id}>
-                            {item.nombre}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <br />
+                      margin="dense"
+                      name="nombre"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Categoría"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="nombre"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -138,10 +147,12 @@ const Articulos = () => {
                 </AccordionDetails>
               </Accordion>
             </Paper>
+            
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerCategoria itemView={itemView}/>
+            <VerArticulo itemView={itemView}/>
           </Grid>
+          
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
               render={render}
@@ -155,6 +166,16 @@ const Articulos = () => {
           </Grid>
         </Grid>
 
+        <Grid item xs={12} sm={12} md={12} sx={{ mt: 4 }}>
+          <Autocomplete
+            disablePortal
+            options={top100Films}
+            size="small"
+            id="textfields"
+            renderInput={(params) => <TextField {...params} label="Almacén" margin="dense" color="secondary" fullWidth />}
+          />
+        </Grid>
+
         <Tabla
           fields={fields}
           render={render}
@@ -164,7 +185,9 @@ const Articulos = () => {
           setItem={setItem}
           setItemView={setItemView}
         />
+        
       </div>
+      
     </section>
   );
 };
