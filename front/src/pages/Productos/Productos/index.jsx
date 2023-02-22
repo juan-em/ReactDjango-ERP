@@ -12,6 +12,10 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from "@mui/material";
 
 //Componentes
@@ -20,9 +24,9 @@ import { Tabla } from "./complements";
 import { get, searcher } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerCategoria from "./vercategoria";
+import Ver from './ver'
 
-const Articulos = () => {
+const Productos = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -30,6 +34,7 @@ const Articulos = () => {
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
+  const [categoria, setCategoria] = useState([]);
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
@@ -37,6 +42,11 @@ const Articulos = () => {
   const handleClean = () => {
     searchform.reset();
   };
+
+  useEffect(() => {
+    const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
+    get(setCategoria, URL);
+  }, []);
 
   return (
     <section>
@@ -76,6 +86,40 @@ const Articulos = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
+                    <TextField
+                      fullWidth
+                      label="Nombre"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="cantidad"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                    >
+                      <InputLabel>Provincia</InputLabel>
+                      <Select
+                        label="Provincia"
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        onChange={handlerSearcher}
+                        defaultValue=""
+                        name="categoria"
+                      >
+                        {categoria.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombre}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                     <br />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
@@ -96,7 +140,7 @@ const Articulos = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerCategoria itemView={itemView}/>
+            <Ver itemView={itemView}/>
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -124,4 +168,4 @@ const Articulos = () => {
     </section>
   );
 };
-export default Articulos;
+export default Productos;

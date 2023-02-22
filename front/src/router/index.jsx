@@ -21,11 +21,12 @@ import Provincias from "../pages/Mantenimiento/Provincias";
 import FormasPago from "../pages/Mantenimiento/FormasPago";
 import Venta from "../pages/Ventas/Venta";
 import Categorias from "../pages/Mantenimiento/Categorías";
-import Articulos from "../pages/Productos/Artículos";
+import Articulos from "../pages/Productos/Articulos";
 import Embalajes from "../pages/Mantenimiento/Embalajes";
 import Entidades from "../pages/Mantenimiento/Entidades";
 import Impuestos from "../pages/Mantenimiento/Impuestos";
 import Almacenes from "../pages/Mantenimiento/Almacenes";
+import Productos from "../pages/Productos/Productos";
 
 // LAYOUTS
 
@@ -51,7 +52,10 @@ const Router = () => {
               
               {/* Proveedores */}
               <Route path="/proveedores" element={<Proveedores />} />
+              
+              {/* Articulos y Productos */}
               <Route path="/productos/articulos" element={<Articulos />} />
+              <Route path="/productos/productos" element={<Productos />} />
 
               {/* Otros */}
               <Route path="/mantenimientos/provincias" element={<Provincias />} />
