@@ -1,5 +1,11 @@
 import { useRef, useEffect, useState} from "react"
-
+import { TextField, Card
+    ,Button, Box, useMediaQuery, Grid, InputLabel, Typography, InputAdornment
+ } from '@mui/material';
+ //iconos
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import PersonIcon from '@mui/icons-material/Person';
+import KeyIcon from '@mui/icons-material/Key';
 import { Link } from "react-router-dom";
 
 import axios from "../../api/axios"
@@ -62,64 +68,138 @@ const Register = () => {
         <>
             {success ? (
                 <section>
-                    <h1>Success!</h1>
-                    <p>
-                        <Link to='/'>Sign In</Link>
-                    </p>
+                    <Grid container spacing={0}>
+                        <Grid item xs={12} sm={12} md={3}>
+
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={5}>
+                            <Card elevation={10} sx={{p:5 , mt:3}}> 
+                                <Typography fontFamily={'inherit'} sx={{ color:'#633256' , fontSize:20, pb:3}} align={'center'}>
+                                    ¡Listo! Ya puedes iniciar sesión
+                                </Typography>
+                                
+                                <Link to='/'>
+                                    <Button
+                                        fullWidth
+                                        id="textfields"
+                                        variant="contained"
+                                        type="submit"
+                                        sx={{ backgroundColor:'#633256' , "&:hover": {backgroundColor: "#633256" }, mt:2, mb:2  }}
+                                    >
+                                        Iniciar sesión
+                                    </Button>
+                                </Link>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={4}>
+                            
+                        </Grid>
+                    </Grid>
                 </section>
             ) : (
                 <section>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Register</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">
-                            Username:
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
-                            required
-                            aria-describedby="uidnote"
-                        />
 
-                        <label htmlFor="email">
-                            Email:
-                        </label>
-                        <input
-                            type="text"
-                            id="email"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                            required
-                            aria-describedby="uidnote"
-                        />
+                    <Grid container spacing={0}>
+                        <Grid item xs={12} sm={12} md={3}>
 
-                        <label htmlFor="password">
-                            Password:
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
-                            required
-                            aria-describedby="pwdnote"
-                        />
-
-                        <button>Sign Up</button>
-                    </form>
-                    <p>
-                        Already registered?<br />
-                        <span className="line">
-                            <Link to="/login">Sign In</Link>
-                        </span>
-                    </p>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={5}>
+                            <Card elevation={10} sx={{p:5 , mt:3}}> 
+                                <Typography fontFamily={'inherit'} sx={{ color:'#633256' , fontSize:20, pb:3}} align={'center'}>
+                                    Registro
+                                </Typography>
+                                <form onSubmit={handleSubmit}>
+                                    <TextField
+                                        fullWidth
+                                        required 
+                                        label={<span>Usuario</span>}
+                                        type="text"
+                                        size="small"
+                                        color="secondary"
+                                        margin="dense"
+                                        id="textfields"
+                                        variant="filled"
+                                        ref={userRef}
+                                        autoComplete="off"
+                                        onChange={(e) => setUser(e.target.value)}
+                                        value={user}
+                                        aria-describedby="uidnote"
+                                        InputProps={{
+                                            endAdornment: (
+                                            <InputAdornment position="end">
+                                                <AlternateEmailIcon/>
+                                            </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        label={<span>E-mail</span>}
+                                        type="text"
+                                        size="small"
+                                        color="secondary"
+                                        margin="dense"
+                                        id="textfields"
+                                        variant="filled"
+                                        ref={userRef}
+                                        autoComplete="off"
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        value={email}
+                                        required
+                                        aria-describedby="uidnote"
+                                        InputProps={{
+                                            endAdornment: (
+                                            <InputAdornment position="end">
+                                                <PersonIcon/>
+                                            </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        label={<span>Contraseña</span>}
+                                        type="password"
+                                        size="small"
+                                        color="secondary"
+                                        margin="dense"
+                                        id="textfields"
+                                        variant="filled"
+                                        onChange={(e) => setPwd(e.target.value)}
+                                        value={pwd}
+                                        required
+                                        aria-describedby="pwdnote"
+                                        InputProps={{
+                                            endAdornment: (
+                                            <InputAdornment position="end">
+                                                <KeyIcon/>
+                                            </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                    <Button
+                                        fullWidth
+                                        id="textfields"
+                                        variant="contained"
+                                        type="submit"
+                                        sx={{ backgroundColor:'#633256' , "&:hover": {backgroundColor: "#633256" }, mt:4, mb:2  }}
+                                    >
+                                        Registro
+                                    </Button>
+                                    
+                                </form>
+                                <p>
+                                    ¿Ya tienes una cuenta? <br />
+                                    <span className="line">
+                                        <Link to="/login">¡Inicia sesión!</Link>
+                                    </span>
+                                </p>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={4}>
+                            
+                        </Grid>
+                    </Grid>
                 </section>
             )}
         </>

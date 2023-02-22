@@ -40,7 +40,7 @@ const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
             >
               {icons}
             </ListItemIcon>
-            <ListItemText primary={name} style={{ color: "#454545 " }} />
+            <ListItemText primary={name} style={{ color: "#454545 " }} disableTypography/>
           </ListItemButton>
         </Link>
       </ListItem>
@@ -53,7 +53,7 @@ const CustomListItem = ({ name, url, icons, item, bigOpen }) => {
             <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemIcon>{i.icon}</ListItemIcon>
-                <ListItemText id="items" primary={i.name} />
+                <ListItemText id="items" primary={i.name} disableTypography />
               </ListItemButton>
             </List>
           </Link>

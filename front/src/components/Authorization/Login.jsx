@@ -1,7 +1,15 @@
 import { useRef, useState, useEffect } from "react"
 import useAuth from "../../hooks/useAuth"
+import { TextField, Card
+    ,Button, Box, useMediaQuery, Grid, InputLabel, Typography, InputAdornment
+ } from '@mui/material';
+
 
 import { Link, useNavigate, useLocation } from "react-router-dom"
+//iconos
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import PersonIcon from '@mui/icons-material/Person';
+import KeyIcon from '@mui/icons-material/Key';
 
 import axios from "../../api/axios"
 const LOGIN_URL = 'api/login/'
@@ -64,36 +72,85 @@ const Login = () => {
     return (
         <div>
             <p ref={errRef} className={errorMessage ? "Error message" : "offscreen"} aria-live="assertive">{errorMessage}</p>
-            <h1>Sign in</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email: </label>
-                <input 
-                    type="text" 
-                    id="email"
-                    ref={userRef}
-                    autoComplete="off"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                    required 
-                />
-                <label htmlFor="password">Password: </label>
-                <input 
-                    type="password" 
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    required 
-                />
-                <button>Sign in</button>
-            </form>
-            <p>
-                Need an Account? <br />
-                <span className="line">
-                    <Link to="/register">Sign up</Link>
-                </span>
-            </p>
+            
+            <Grid container spacing={0}>
+                <Grid item xs={12} sm={12} md={3}>
+
+                </Grid>
+                <Grid item xs={12} sm={12} md={5}>
+                    <Card elevation={10} sx={{p:5 , mt:3}}> 
+                        <Typography fontFamily={'inherit'} sx={{ color:'#633256' , fontSize:20, pb:3}} align={'center'}>
+                            Iniciar sesión
+                        </Typography>
+                        <form onSubmit={handleSubmit}>
+                            <TextField
+                                fullWidth
+                                required 
+                                label={<span>E-mail</span>}
+                                type="text"
+                                size="small"
+                                color="secondary"
+                                margin="dense"
+                                id="textfields"
+                                variant="filled"
+                                ref={userRef}
+                                autoComplete="off"
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={email}
+                                
+                                InputProps={{
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        <PersonIcon/>
+                                      </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            <TextField
+                                fullWidth
+                                label={<span>Contraseña</span>}
+                                type="password"
+                                size="small"
+                                color="secondary"
+                                margin="dense"
+                                id="textfields"
+                                variant="filled"
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={password}
+                                required 
+                                InputProps={{
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        <KeyIcon/>
+                                      </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            <Button
+                                fullWidth
+                                id="textfields"
+                                variant="contained"
+                                type="submit"
+                                sx={{ backgroundColor:'#633256' , "&:hover": {backgroundColor: "#633256" }, mt:4, mb:2  }}
+                            >
+                                Ingresar
+                            </Button>
+                            
+                        </form>
+                        <p>
+                            ¿Necesitas una cuenta? <br />
+                            <span className="line">
+                                <Link to="/register">¡Regístrate!</Link>
+                            </span>
+                        </p>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} sm={12} md={4}>
+                    
+                </Grid>
+            </Grid>
         </div>
     )
 }
 
-export default Login
+export default Login;

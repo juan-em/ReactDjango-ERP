@@ -38,9 +38,9 @@ import { blue } from "@mui/material/colors";
 import Paso1 from "./paso1";
 import Paso2 from "./paso2";
 
-const steps = ['Registro', 'Agregar producto'];
+const steps = ['Registro', 'Agregar Artículo'];
 
-const Venta = () => {
+const Compra = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
@@ -94,12 +94,12 @@ const Venta = () => {
           <Grid item xs={12} sm={12} md={12}>
             <Typography fontFamily={"inherit"} align={'center'}
             sx={{ mt: 3, p: 3 , 
-              backgroundColor: alpha('#633256', 0.20),
+              backgroundColor: alpha('#985024', 0.20),
               '&:hover': {
-                  backgroundColor: alpha('#633256', 0.25),
+                  backgroundColor: alpha('#985024', 0.25),
               },
               }}>
-              Nueva Venta
+              Nueva Compra
             </Typography>
               <Stepper activeStep={activeStep} sx={{ p: 5 }}>
                 {steps.map((label, index) => {
@@ -122,16 +122,13 @@ const Venta = () => {
               </Stepper>
               {activeStep === steps.length ? (
                 <Fragment>
-                  <Alert severity="success" 
-                  sx={{ p:3, m:5}}
-                  action={
+                  <Alert severity="success" action={
                     <Button 
                     variant="contained"
                     id="textfields"
-                    color="secondary"
-                    onClick={handleReset}>Nueva Venta</Button>
+                    onClick={handleReset}>Nueva Compra</Button>
                   }>
-                    <AlertTitle>Se logró registrar la venta</AlertTitle>
+                    <AlertTitle>Se logró registrar la orden de compra</AlertTitle>
                   </Alert>
                 </Fragment>
               ) : activeStep +1 === 1 ? (
@@ -188,4 +185,4 @@ const Venta = () => {
     </section>
   );
 };
-export default Venta;
+export default Compra;

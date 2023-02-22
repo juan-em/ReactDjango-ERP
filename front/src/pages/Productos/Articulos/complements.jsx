@@ -95,6 +95,24 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
+              Categoría
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Marca
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Proveedor
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
               Acciones
             </TableCell>
           </TableRow>
@@ -107,6 +125,9 @@ export const Tabla = ({
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
+              <TableCell align="right">categoria1</TableCell>
+              <TableCell align="right">marca1</TableCell>
+              <TableCell align="right">proveedor</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon
