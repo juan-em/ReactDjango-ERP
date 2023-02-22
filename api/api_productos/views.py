@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 #Import Models
 from api_models.models import (
-   Articulo, ArticuloVariante, Producto, Producto_detalle
+   Articulo, ArticuloVariante, Producto, Producto_detalle, Producto_variante
 )
 # Create your views here.
 
@@ -28,22 +28,6 @@ class ProductoView(APIView):
 
     def post(self, request):
         try:
-            # horas_manufactura = request.data.get('horas_manufactura')
-            # costo_manufactura = request.data.get('costo_manufactura')
-            # gastos_generales = request.data.get('gastos_generales')
-            # precio_final = (costo_manufactura * horas_manufactura) + gastos_generales 
-            # producto_data = {
-            #     'nombre':request.data.get('nombre'),
-            #     'cantidad':request.data.get('cantidad'),
-            #     'descripcion_producto':request.data.get('descripcion_producto'),
-            #     'color':request.data.get('color'),
-            #     'talla':request.data.get('talla'),
-            #     'categoria':request.data.get('categoria'),
-            #     'horas_manufactura':horas_manufactura,
-            #     'costo_manufactura':costo_manufactura,
-            #     'gastos_generales':gastos_generales,
-            #     'precio_final':precio_final
-            # }
             serializer = ProductoSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -75,26 +59,10 @@ class ProductoDetailView(APIView):
             }
         return Response(context)
     
-    def put(self, request, id):
+    def patch(self, request, id):
         try:            
             dataProducto = Producto.objects.filter(borrado=False).get(pk=id)
-            horas_manufactura = request.data.get('horas_manufactura')
-            costo_manufactura = request.data.get('costo_manufactura')
-            gastos_generales = request.data.get('gastos_generales')
-            precio_final = (costo_manufactura * horas_manufactura) + gastos_generales 
-            producto_data = {
-                'nombre':request.data.get('nombre'),
-                'cantidad':request.data.get('cantidad'),
-                'descripcion_producto':request.data.get('descripcion_producto'),
-                'color':request.data.get('color'),
-                'talla':request.data.get('talla'),
-                'categoria':request.data.get('categoria'),
-                'horas_manufactura':horas_manufactura,
-                'costo_manufactura':costo_manufactura,
-                'gastos_generales':gastos_generales,
-                'precio_final':precio_final
-            }
-            serializer = ProductoSerializer(dataProducto, data=producto_data)
+            serializer = ProductoSerializer(dataProducto, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 context = {
@@ -111,8 +79,45 @@ class ProductoDetailView(APIView):
                 'message': 'Internal server error'
             }) 
 
+    
+    def delete(self, request, id):
         dataProducto = Producto.objects.filter(borrado=False).get(pk=id)
-        serializer = ProductoSerializer(dataProducto, data=request.data)
+        serializer = ProductoSerializer(dataProducto)
+        dataProducto.delete()
+        context = {
+            'status':status.HTTP_202_ACCEPTED,
+            'message':'Delete succes',
+            'content':serializer.data
+        }    
+        return Response(context)
+
+class Producto_varianteView(APIView):
+    
+    def post(self, request):
+        try:
+            serializer = ProductoSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                context = {
+                    'data':'OK',
+                    'status':status.HTTP_201_CREATED,
+                    'content':serializer.data
+                }
+                return Response(context)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as Error:
+            print(Error)
+            return Response({
+                'status': False,
+                'content': 'Error',
+                'message': 'Internal server error'
+            }) 
+
+class Producto_varianteDetailView(APIView):
+
+    def patch(self, request, id):
+        dataProducto_variante = Producto_variante.objects.filter(borrado=False).get(pk=id)
+        serializer = Producto_varianteSerializer(dataProducto_variante, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             context = {
@@ -126,11 +131,11 @@ class ProductoDetailView(APIView):
                 'status':status.HTTP_400_BAD_REQUEST
             }
             return Response(context)
-    
+
     def delete(self, request, id):
-        dataProducto = Producto.objects.filter(borrado=False).get(pk=id)
-        serializer = ProductoSerializer(dataProducto)
-        dataProducto.delete()
+        dataProducto_variante = Producto_variante.objects.filter(borrado=False).get(pk=id)
+        serializer = Producto_varianteSerializer(dataProducto_variante)
+        dataProducto_variante.delete()
         context = {
             'status':status.HTTP_202_ACCEPTED,
             'message':'Delete succes',
@@ -140,14 +145,6 @@ class ProductoDetailView(APIView):
 
 # @permission_classes([IsAuthenticated])
 class Producto_detallelView(APIView):
-    def get(self, request):
-        dataProducto_detalle = Producto_detalle.objects.filter(borrado=False)
-        serializer = Producto_detalleSerializer(dataProducto_detalle, many=True)
-        context = {
-            'status':True,
-            'content':serializer.data
-        }        
-        return Response(context)
 
     def post(self, request):
         serializer = Producto_detalleSerializer(data=request.data)
@@ -169,18 +166,10 @@ class Producto_detallelView(APIView):
 
 # @permission_classes([IsAuthenticated])
 class Producto_detalleDetailView(APIView):
-    def get(self, request,id):
-        dataProducto_detalle = Producto_detalle.objects.filter(borrado=False).get(pk=id)
-        serializer = Producto_detalleSerializer(dataProducto_detalle)
-        context = {
-            'status':True,
-            'content':serializer.data
-        }        
-        return Response(context)
 
-    def put(self, request, id):
+    def patch(self, request, id):
         dataProducto_detalle = Producto_detalle.objects.filter(borrado=False).get(pk=id)
-        serializer = Producto_detalleSerializer(dataProducto_detalle)
+        serializer = Producto_detalleSerializer(dataProducto_detalle, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             context = {

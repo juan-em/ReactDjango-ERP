@@ -174,8 +174,8 @@ class Articulo (models.Model):
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True, blank=True)
     marca = models.CharField(max_length=100, default='-')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
-    borrado = models.BooleanField(default=False, null=True)
     imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
+    borrado = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.nombre
@@ -214,24 +214,33 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=100)
     cantidad = models.IntegerField(default=0)
     descripcion_producto = models.TextField(null=True, blank=True)
-    color=models.TextField(null=True, blank=True, default='-')
-    talla=models.TextField(null=True, blank=True, default='-')
     categoria=models.ForeignKey(Categoria_producto, related_name='categoria_producto', on_delete=models.SET_NULL, null=True)
+    imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
+    borrado = models.BooleanField(default=False, null=True)
+    def __str__(self):
+        return self.nombre
+
+class Producto_variante(models.Model):
+    producto = models.ForeignKey(Producto,related_name='producto_variante', on_delete=models.CASCADE, null=True)
+    nombre = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100, null=True, blank=True)
+    color = models.CharField(max_length=100, null=True, blank=True, default='-')
+    talla = models.CharField(max_length=100, null=True, blank=True, default='-')
     horas_manufactura=models.IntegerField(default=0)
     costo_manufactura=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
     gastos_generales=models.FloatField(validators=[MinValueValidator(0.0)], default=30.0)
     precio_final = models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
-        return self.nombre
+        return self.producto.nombre +'-'+ self.nombre
 
 class Producto_detalle(models.Model):
-    producto = models.ForeignKey(Producto,related_name='producto_detalle', on_delete=models.CASCADE, null=True)
+    variante = models.ForeignKey(Producto_variante,related_name='producto_detalle', on_delete=models.CASCADE, null=True)
     articulo = models.ForeignKey(ArticuloVariante, on_delete=models.CASCADE, null=True, related_name='variantes')
     cantidad = models.IntegerField(default=0)
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
-        return self.articulo.articulo.nombre + "-" + self.articulo.nombre
+        return self.variante.producto.nombre + "-" + self.variante.nombre + "-" + self.articulo.nombre
 
 ################
 #FACTURA
