@@ -50,3 +50,7 @@ class AreaViewSet(viewsets.ModelViewSet):
 class UnidadViewSet(viewsets.ModelViewSet):
     queryset = Unidad.objects.all()
     serializer_class = AreasSerializer
+
+class Categoria_productosViewSet(viewsets.ModelViewSet):
+    queryset = Categoria_producto.objects.all()
+    serializer_class = Categoria_productoSerializer
