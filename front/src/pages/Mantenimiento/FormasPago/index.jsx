@@ -80,7 +80,7 @@ const Provincias = () => {
                         <Button
                           fullWidth
                           id="textfields"
-                          color="primary"
+                          color="secondary"
                           variant="contained"
                           type="reset"
                           value="limpiar"

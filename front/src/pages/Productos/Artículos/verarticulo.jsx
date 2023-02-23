@@ -26,6 +26,10 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DescriptionIcon from '@mui/icons-material/Description';
+import PortraitIcon from '@mui/icons-material/Portrait';
+import StyleIcon from '@mui/icons-material/Style';
+import CategoryIcon from '@mui/icons-material/Category';
 import Swal from "sweetalert2";
 import './index.css';
 import Variantes from "./variantes";
@@ -36,10 +40,10 @@ const VerArticulo = (itemView) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
-    { icon: <NumbersIcon />, primary: "Descripción", secondary: "" },
-    { icon: <NumbersIcon />, primary: "Proveedor", secondary: "" },
-    { icon: <NumbersIcon />, primary: "Marca", secondary: "" },
-    { icon: <NumbersIcon />, primary: "Categoría", secondary: "" },
+    { icon: <DescriptionIcon />, primary: "Descripción", secondary: "" },
+    { icon: <PortraitIcon />, primary: "Proveedor", secondary: "" },
+    { icon: <StyleIcon />, primary: "Marca", secondary: "" },
+    { icon: <CategoryIcon />, primary: "Categoría", secondary: "" },
   ]);
 
   const seti = () => {
@@ -94,7 +98,7 @@ const VerArticulo = (itemView) => {
           </AccordionSummary>
           <AccordionDetails>
 
-            <Card sx={{ p:3 }} elevation={0}>
+            <Card sx={{ p:2 }} elevation={0}>
 
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={12} lg={6}>
@@ -110,25 +114,29 @@ const VerArticulo = (itemView) => {
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={6}>
                   <CardContent >
-                  <List>
-                    <Grid container spacing={0}>
-                      {itemsPer.map((i) => (
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <List>
+                      <Grid container spacing={0}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                          {itemsPer.map((i) => (
                             <ListItem>
                               <ListItemAvatar>
-                                <Avatar>{i.icon}</Avatar>
+                                <Avatar sx={{ 
+                                backgroundColor: alpha('#633256', 0.20),
+                                '&:hover': {
+                                    backgroundColor: alpha('#633256', 0.25),
+                                }, color:'#633256'
+                                }}>{i.icon}</Avatar>
                               </ListItemAvatar>
                               <ListItemText
-                                primary={i.primary}
+                                primary={<span>{i.primary}</span>}
                                 secondary={i.secondary}
                               />
                             </ListItem>
-                          </Grid>
-                      ))}
-                    </Grid>
-                  </List>
+                          ))}
+                        </Grid>
+                      </Grid>
+                    </List>
                   </CardContent>
-
                 </Grid>
               </Grid>
 

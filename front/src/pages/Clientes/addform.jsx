@@ -132,7 +132,7 @@ const AddForm = ({
       <Dialog open={openModal}>
         <DialogTitle>
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
-            <CloseIcon fontSize="large" />
+            <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             {item.id ? "Editar Cliente" : "Nuevo Cliente"}
@@ -145,8 +145,8 @@ const AddForm = ({
               textColor="secondary"
               indicatorColor="secondary"
             >
-              <Tab label="Persona" value="1" />
-              <Tab label="Empresa" value="2" />
+              <Tab label={<span>Persona</span>} value="1" />
+              <Tab label={<span>Empresa</span>} value="2" />
             </TabList>
             <TabPanel value="1" color="secondary">
               <Formik initialValues={item} onSubmit={perSubmit}>
@@ -239,7 +239,7 @@ const AddForm = ({
                         >
                           <InputLabel id="prov">Forma de pago</InputLabel>
                           <Select
-                            label="Provincia"
+                            label="Forma de pago"
                             required
                             fullWidth
                             size="small"
