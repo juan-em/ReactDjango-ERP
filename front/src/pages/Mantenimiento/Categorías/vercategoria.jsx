@@ -58,11 +58,7 @@ const VerCategoria = (itemView) => {
         className="paper"
         sx={{
           mt: 4,
-          p: 0,
-          backgroundColor: alpha("#8D4C32", 0.2),
-          "&:hover": {
-            backgroundColor: alpha("#8D4C32", 0.25),
-          },
+          p: 0
         }}
       >
         <Accordion sx={{ p:5 }}>
@@ -82,10 +78,15 @@ const VerCategoria = (itemView) => {
                     <Grid key={i.primary} item xs={12} sm={6} md={6} lg={6}>
                       <ListItem>
                         <ListItemAvatar>
-                          <Avatar>{i.icon}</Avatar>
+                          <Avatar sx={{ 
+                                backgroundColor: alpha('#633256', 0.20),
+                                '&:hover': {
+                                    backgroundColor: alpha('#633256', 0.25),
+                                }, color:'#633256'
+                                }}>{i.icon}</Avatar>
                         </ListItemAvatar>
                         <ListItemText
-                          primary={i.primary}
+                          primary={<span>{i.primary}</span>}
                           secondary={i.secondary}
                         />
                       </ListItem>

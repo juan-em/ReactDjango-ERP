@@ -51,7 +51,34 @@ const Paso1 = () => {
             <div className="container">
                   <Paper sx={{p:5}} elevation={20}>
                     <Grid container spacing={1}>
-                      <Grid item xs={12} sm={12} md={4}>
+                    <Grid item xs={12} sm={12} md={12}>
+                        <Grid container spacing={1}>
+                          <Grid item xs={12} sm={6} md={8}>
+                            <TextField
+                            fullWidth
+                            label={<span>RUC Proveedor</span>}
+                            type="number"
+                            size="small"
+                            color="secondary"
+                            margin="none"
+                            name="nombreprovincia"
+                            id="textfields"
+                            focused
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={3} md={2}>
+                            <Button variant="outlined" fullWidth color="primary" sx={{ height:'100%'}}>
+                              <SearchIcon/>
+                            </Button>
+                          </Grid>
+                          <Grid item xs={12} sm={3} md={2}>
+                            <Button variant="outlined" fullWidth color="secondary" sx={{ height:'100%'}}>
+                              <AddIcon/>
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={6}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DesktopDatePicker
                           label="Fecha"
@@ -65,35 +92,12 @@ const Paso1 = () => {
                             color="secondary"
                             id="textfields"
                             margin="dense"
+                            variant="filled"
                             />}
                           />
                         </LocalizationProvider>
                       </Grid>
-                      <Grid item xs={12} sm={12} md={8}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={12} sm={8} md={8}>
-                            <TextField
-                            fullWidth
-                            label="RUC PROVEEDOR"
-                            type="number"
-                            size="small"
-                            color="secondary"
-                            margin="dense"
-                            name="nombreprovincia"
-                            id="textfields"
-                            />
-                          </Grid>
-                          <Grid item xs={12} sm={2} md={2}>
-                            <Button variant="contained" fullWidth color="primary">
-                              <SearchIcon/>
-                            </Button>
-                          </Grid>
-                          <Grid item xs={12} sm={2} md={2}>
-                            <Button variant="contained" fullWidth color="secondary">
-                              <AddIcon/>
-                            </Button>
-                          </Grid>
-                        </Grid>
+                      <Grid item xs={12} sm={12} md={6}>
                         <TextField
                           fullWidth
                           label="Nombre del proveedor"
@@ -103,6 +107,7 @@ const Paso1 = () => {
                           margin="dense"
                           name="nombreprovincia"
                           id="textfields"
+                          variant="filled"
                         />
                       </Grid>
                     </Grid>

@@ -95,13 +95,13 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Abreviacion
+              Abreviación
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Ubicacion
+              Ubicación
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}

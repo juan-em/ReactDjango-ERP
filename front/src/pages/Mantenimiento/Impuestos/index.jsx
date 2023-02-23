@@ -84,7 +84,7 @@ const Impuestos = () => {
                         <Button
                           fullWidth
                           id="textfields"
-                          color="primary"
+                          color="secondary"
                           variant="contained"
                           onClick={handleClean}
                         >

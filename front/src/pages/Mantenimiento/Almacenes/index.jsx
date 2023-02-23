@@ -62,7 +62,7 @@ const Almacenes = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Almacen
+                  Buscar Almacén
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -79,7 +79,7 @@ const Almacenes = () => {
                     />
                      <TextField
                       fullWidth
-                      label="Ubicacion"
+                      label="Ubicación"
                       type="text"
                       size="small"
                       color="secondary"
@@ -90,7 +90,7 @@ const Almacenes = () => {
                     />
                     <TextField
                      fullWidth
-                     label="Abreviacion"
+                     label="Abreviación"
                      type="text"
                      size="small"
                      color="secondary"
@@ -105,7 +105,7 @@ const Almacenes = () => {
                         <Button
                           fullWidth
                           id="textfields"
-                          color="primary"
+                          color="secondary"
                           variant="contained"
                           onClick={handleClean}
                         >

@@ -62,7 +62,7 @@ const Categorias = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoria
+                  Buscar Categoría
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -83,7 +83,7 @@ const Categorias = () => {
                         <Button
                           fullWidth
                           id="textfields"
-                          color="primary"
+                          color="secondary"
                           variant="contained"
                           onClick={handleClean}
                         >

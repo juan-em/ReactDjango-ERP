@@ -72,7 +72,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       <Dialog open={openModal}>
         <DialogTitle>
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
-            <CloseIcon fontSize="large" />
+            <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             {item.id ? "Editar Categoría" : "Nueva Categoría"}

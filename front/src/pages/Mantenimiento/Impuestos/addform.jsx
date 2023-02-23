@@ -55,7 +55,7 @@ const AddForm = ({
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registro el impuesto",
+        text: "Se registró el impuesto",
       });
       if (item.id) setItem({});
       setRenderizar(!renderizar);
@@ -83,7 +83,7 @@ const AddForm = ({
       <Dialog open={openModal}>
         <DialogTitle>
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
-            <CloseIcon fontSize="large" />
+            <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             {item.id ? "Editar Impuesto" : "Nuevo Impuesto"}
@@ -95,7 +95,7 @@ const AddForm = ({
               {({ values, handleSubmit, handleChange }) => (
                 <form onSubmit={handleSubmit}>
                   <Grid container spacing={1}>
-                    <Grid item xs={12} sm={12} md={12}>
+                    <Grid item xs={12} sm={12} md={6}>
                       <TextField
                         fullWidth
                         label="Nombre"
@@ -108,6 +108,8 @@ const AddForm = ({
                         onChange={handleChange}
                         value={values.nombre}
                       />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
                       <TextField
                         fullWidth
                         label="Valor"
@@ -121,7 +123,6 @@ const AddForm = ({
                         value={values.valor}
                       />
                     </Grid>
-
                     <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                       <Button
                         fullWidth
