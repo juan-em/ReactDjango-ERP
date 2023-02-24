@@ -42,6 +42,7 @@ import SearcherArticulos from "./searcher";
 import axios from "axios";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import  ClickAwayListener from "@mui/material/ClickAwayListener";
+import { ACTION_TYPES } from "./reducerCompra";
 
 const searcher = (fields, list) => {
     let resultData = list;
@@ -72,7 +73,7 @@ const getArticulos = (set, url) => {
     .catch((error) => console.log(error));
 }
 
-const Paso2 = () => {
+const Paso2 = ({state, dispatch}) => {
 
     //para la cuenta
     const [count, setCount] = useState(1);
@@ -104,6 +105,34 @@ const Paso2 = () => {
         setRowIndex(-1);
         setColumnIndex(-1)
     }
+
+    const handleAdd = (item) => {
+        //building the payload
+        let payload = {
+            articulo: item.id,
+            unidad: 1,
+            cantidad: 1,
+            precio_unitario: item.precio_unitario,
+        }
+        var action = {
+            type: ACTION_TYPES.ADD_DETALLE,
+            payload
+        }
+        dispatch(action)
+    }
+
+    const handleRemove = (item) => {
+        let payload = {
+            articulo: item.id,
+        }
+        var action = {
+            type: ACTION_TYPES.REMOVE_DETALLE,
+            payload
+        }
+        dispatch(action)
+    }
+
+    console.log(state.compra)
 
     return (
         <>
@@ -150,18 +179,14 @@ const Paso2 = () => {
                                     <Button fullWidth
                                         color="secondary"
                                         aria-label="reduce"
-                                        onClick={() => {
-                                        setCount(Math.max(count - 1, 0));
-                                        }}
+                                        onClick={()=>handleRemove(item)}
                                     >
                                         <RemoveIcon fontSize="small" />
                                     </Button>
                                     <Button fullWidth
                                         color="secondary"
                                         aria-label="increase"
-                                        onClick={() => {
-                                        setCount(count + 1);
-                                        }}
+                                        onClick={()=>handleAdd(item)}
                                     >
                                         <AddIcon fontSize="small" />
                                     </Button>
@@ -209,8 +234,8 @@ const Paso2 = () => {
                         <Divider/>
                         
                             {rows.map((item, i) => (
-                                <>
-                                <ListItem>
+                                < >
+                                <ListItem key={i}>
                                 <Grid container spacing={1} >
                                     <Grid item xs >
                                     {item.articulo}

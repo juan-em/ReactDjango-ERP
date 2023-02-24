@@ -163,7 +163,7 @@ const Compra = () => {
                 
               ):(
                 <Fragment>
-                  <Paso2/>
+                  <Paso2 state={state} dispatch={dispatch}/>
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Button
                       color="inherit"
