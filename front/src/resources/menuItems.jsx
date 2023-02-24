@@ -27,6 +27,8 @@ import AlbumIcon from '@mui/icons-material/Album';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
+import ClassIcon from '@mui/icons-material/Class';
+import CropIcon from '@mui/icons-material/Crop';
 
 export const menuItems = [
     { url: "/", icon: <HomeIcon/>, name: "Inicio",
@@ -65,7 +67,9 @@ export const menuItems = [
         {name:'Almacenes',icon: <AddBusinessIcon/>,url:'/mantenimientos/almacenes'},
         {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'/mantenimientos/impuestos'},
         {name:'Embalajes',icon: <ArchiveIcon/>,url:'/mantenimientos/embalajes'},
-        {name:'Categorías',icon: <AutoAwesomeMosaicIcon/>,url:'/mantenimientos/categorias'},]},
+        {name:'Áreas',icon: <CropIcon/>,url:'/mantenimientos/areas'},
+        {name:'Cat. Artículos',icon: <AutoAwesomeMosaicIcon/>,url:'/mantenimientos/categorias'},
+        {name:'Cat. Productos',icon: <ClassIcon/>,url:'/mantenimientos/categoriasproductos'},]},
 
     { url: "#about", icon: <PrecisionManufacturingIcon/>, name: "Servicios",
     item:[{name:'Servicios',icon: <ElectricalServicesIcon/>,url:'#cliente'}] },
