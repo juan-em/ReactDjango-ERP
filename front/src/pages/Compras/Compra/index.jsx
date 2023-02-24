@@ -1,5 +1,5 @@
 import { alpha} from "@mui/material/styles";
-import { useState , Fragment } from "react";
+import { useState , Fragment, useReducer } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -40,7 +40,16 @@ import Paso2 from "./paso2";
 
 const steps = ['Registro', 'Agregar Artículo'];
 
+//Registration's Fuctionality
+import { INITIAL_STATE, comprasReducer } from "./reducerCompra";
+
+
 const Compra = () => {
+
+  //Registration's Fuctionality
+  const [state, dispatch] = useReducer(comprasReducer, INITIAL_STATE)
+  
+  //Steps's Functionality
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
@@ -85,6 +94,7 @@ const Compra = () => {
   const handleReset = () => {
     setActiveStep(0);
   };
+
 
   return (
     <section>
@@ -133,7 +143,7 @@ const Compra = () => {
                 </Fragment>
               ) : activeStep +1 === 1 ? (
                 <Fragment>
-                  <Paso1/>
+                  <Paso1 state={state} dispatch={dispatch}/>
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Box sx={{ flex: '1 1 auto' }} />
                     {isStepOptional(activeStep) && (

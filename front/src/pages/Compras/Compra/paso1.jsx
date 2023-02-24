@@ -10,7 +10,7 @@ import {
   Grid,
   TextField,
   Button,
-  Accordion,
+  Autocomplete,
   AccordionSummary,
   AccordionDetails,
   Badge,
@@ -37,14 +37,53 @@ import { blue } from "@mui/material/colors";
 
 const steps = ['Registro', 'Agregar producto'];
 
-const Paso1 = () => {
+import { ACTION_TYPES } from "./reducerCompra";
+import { useEffect } from "react";
+import { getProveedores } from "../../../services/Proveedores";
 
-    //para el input de fecha
-    const [value, setValue] = useState(dayjs(new Date()));
+const Paso1 = ({state, dispatch}) => {
 
+
+    //Registering date and proveedor id in the state
+    const [dataProveedores, setDataProveedores] = useState([])
+    const [prov, setProv] = useState(null)
+    
+    const setDate = (value) => {
+      var event = new Date(value.$d);
+      let date = JSON.stringify(event)
+      date = date.slice(1,-1)
+      let action = {
+        type: ACTION_TYPES.SET_FECHA,
+        payload: date
+      }
+      dispatch(action);
+    }
+
+    const setProveedor = (value) => {
+      let action = {
+        type: ACTION_TYPES.SET_PROVEEDOR,
+        payload: value
+      }
+      dispatch(action);
+    }
+
+
+    const handleProv = (e,val) =>{
+      setProv(val)
+      if (val.id) setProveedor(val.id)
+      return val
+    }
+    
     const handleChange = (newValue) => {
-        setValue(newValue);
+        setDate(newValue)
     };
+
+    
+    useEffect(()=>{
+      getProveedores(setDataProveedores)
+    },[])
+
+    
 
     return (
         <section>
@@ -56,7 +95,7 @@ const Paso1 = () => {
                           <DesktopDatePicker
                           label="Fecha"
                           inputFormat="DD/MM/YYYY"
-                          value={value}
+                          value={state.compra.fecha}
                           onChange={handleChange}
                           renderInput={(params) => <TextField 
                             {...params} 
@@ -72,16 +111,19 @@ const Paso1 = () => {
                       <Grid item xs={12} sm={12} md={8}>
                         <Grid container spacing={1}>
                           <Grid item xs={12} sm={8} md={8}>
-                            <TextField
-                            fullWidth
-                            label="RUC PROVEEDOR"
-                            type="number"
-                            size="small"
-                            color="secondary"
-                            margin="dense"
-                            name="nombreprovincia"
-                            id="textfields"
-                            />
+                              <TextField
+                                disable="true"
+                                fullWidth
+                                label="RUC PROVEEDOR"
+                                type="number"
+                                size="small"
+                                color="secondary"
+                                margin="dense"
+                                name="ruc"
+                                id="textfields"
+                                value={prov ? prov.ruc : ""}
+                              />
+
                           </Grid>
                           <Grid item xs={12} sm={2} md={2}>
                             <Button variant="contained" fullWidth color="primary">
@@ -94,15 +136,31 @@ const Paso1 = () => {
                             </Button>
                           </Grid>
                         </Grid>
-                        <TextField
-                          fullWidth
-                          label="Nombre del proveedor"
-                          defaultValue="Nombre"
-                          size="small"
-                          color="secondary"
-                          margin="dense"
-                          name="nombreprovincia"
-                          id="textfields"
+
+                        <Autocomplete
+                          freeSolo
+                          id="free-solo-2-demo"
+                          disableClearable
+                          options={dataProveedores}
+                          getOptionLabel={(option) => {
+                            if (option.persona) return option.persona.nombre
+                            return option.empresa.nombre
+                          }}
+                          onChange={handleProv}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              fullWidth
+                              type="text"
+                              label="Nombre del proveedor"
+                              size="small"
+                              color="secondary"
+                              margin="dense"
+                              name="proveedor"
+                              id="textfields"
+                              
+                            />
+                          )}
                         />
                       </Grid>
                     </Grid>
