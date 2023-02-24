@@ -10,6 +10,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Grid,
+  Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 //icons
@@ -150,10 +151,15 @@ const VerCliente = ({ itemView }) => {
                   <Grid key={i.primary} item xs={12} sm={6} md={6}>
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar>{i.icon}</Avatar>
+                        <Avatar sx={{ 
+                                backgroundColor: alpha('#633256', 0.20),
+                                '&:hover': {
+                                    backgroundColor: alpha('#633256', 0.25),
+                                }, color:'#633256'
+                                }}>{i.icon}</Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary={i.primary}
+                        primary={<span>{i.primary}</span>}
                         secondary={i.secondary}
                       />
                     </ListItem>

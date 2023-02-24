@@ -104,9 +104,9 @@ const Compra = () => {
           <Grid item xs={12} sm={12} md={12}>
             <Typography fontFamily={"inherit"} align={'center'}
             sx={{ mt: 3, p: 3 , 
-              backgroundColor: alpha('#985024', 0.20),
+              backgroundColor: alpha('#633256', 0.20),
               '&:hover': {
-                  backgroundColor: alpha('#985024', 0.25),
+                  backgroundColor: alpha('#633256', 0.25),
               },
               }}>
               Nueva Compra
@@ -117,7 +117,7 @@ const Compra = () => {
                   const labelProps = {};
                   if (isStepOptional(index)) {
                     labelProps.optional = (
-                      <Typography variant="caption" fontFamily={"inherit"}>Optional</Typography>
+                      <Typography variant="caption" fontFamily={"inherit"}>Opcional</Typography>
                     );
                   }
                   if (isStepSkipped(index)) {
@@ -125,14 +125,16 @@ const Compra = () => {
                   }
                   return (
                     <Step key={label} {...stepProps} >
-                      <StepLabel {...labelProps}>{label}</StepLabel>
+                      <StepLabel {...labelProps}><span>{label}</span></StepLabel>
                     </Step>
                   );
                 })}
               </Stepper>
               {activeStep === steps.length ? (
                 <Fragment>
-                  <Alert severity="success" action={
+                  <Alert severity="success" 
+                  sx={{ p:3, m:5}}
+                  action={
                     <Button 
                     variant="contained"
                     id="textfields"

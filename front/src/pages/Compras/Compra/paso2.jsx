@@ -113,7 +113,7 @@ const Paso2 = () => {
             <div className="container">
             <Paper sx={{p:5}} elevation={20}>
                 <Grid container spacing={1}>
-                    <Grid item xs={12} sm={12} md={7}>
+                    <Grid item xs={12} sm={12} md={12} lg={7}>
                     <Grid container spacing={2}>
                         {data.map((item, i) => (
                             <Grid key={i} item xs={12} sm={6} md={6} lg={4}>
@@ -173,8 +173,8 @@ const Paso2 = () => {
                         ))}
                     </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={5} minWidth="300px">
-                    <List>
+                    <Grid item xs={12} sm={12} md={12} lg={5} minWidth="400px" >
+                    <List sx={{ overflow:'scroll'}}>
                         <ListItem
                         sx={{
                             backgroundColor: "#DF9035"}}>
@@ -201,7 +201,7 @@ const Paso2 = () => {
                             </Grid>
                             <Grid item xs>
                             <Typography align="right" sx={{fontFamily:"inherit" , color:'white'}}>
-                                Elminar
+                                Eliminar
                             </Typography>
                             </Grid>
                         </Grid>
@@ -220,6 +220,8 @@ const Paso2 = () => {
                                     <Typography align="right">
                                     {rowIndex==i && columnIndex==1 ?
                                     <TextField
+                                    size="small"
+                                    color="secondary"
                                     defaultValue={rows[i]["unidad"]}
                                     onChange={(e) => handleChange(i, "unidad", e.target.value)}
                                     // onKeyUp={(e)=>{
@@ -236,6 +238,8 @@ const Paso2 = () => {
                                     <Typography align="right" >
                                     {rowIndex==i && columnIndex==2 ?
                                     <TextField
+                                    size="small"
+                                    color="secondary"
                                     defaultValue={rows[i]["cantidad"]}
                                     onChange={(e) => handleChange(i, "cantidad", e.target.value)}
                                     
@@ -249,6 +253,8 @@ const Paso2 = () => {
                                     <Typography align="right">
                                     {rowIndex==i && columnIndex==3 ?
                                     <TextField
+                                    size="small"
+                                    color="secondary"
                                     defaultValue={rows[i]["precio"]}
                                     onChange={(e) => handleChange(i, "precio", e.target.value)}
                                     

@@ -83,7 +83,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       <Dialog open={openModal}>
         <DialogTitle>
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
-            <CloseIcon fontSize="large" />
+            <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             {item.id ? "Editar Artículo" : "Nuevo Artículo"}
@@ -147,15 +147,12 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       name="nombre"
                       id="textfields"
                     />
-                    <TextField
-                      fullWidth
-                      label="Categoría"
-                      type="text"
+                    <Autocomplete
+                      disablePortal
+                      options={top100Films}
                       size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
                       id="textfields"
+                      renderInput={(params) => <TextField {...params} label="Categoría" margin="dense" color="secondary" fullWidth />}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>

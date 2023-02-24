@@ -107,7 +107,7 @@ const Venta = () => {
                   const labelProps = {};
                   if (isStepOptional(index)) {
                     labelProps.optional = (
-                      <Typography variant="caption" fontFamily={"inherit"}>Optional</Typography>
+                      <Typography variant="caption" fontFamily={"inherit"}>Opcional</Typography>
                     );
                   }
                   if (isStepSkipped(index)) {
@@ -115,7 +115,7 @@ const Venta = () => {
                   }
                   return (
                     <Step key={label} {...stepProps} >
-                      <StepLabel {...labelProps}>{label}</StepLabel>
+                      <StepLabel {...labelProps}><span>{label}</span></StepLabel>
                     </Step>
                   );
                 })}
