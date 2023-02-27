@@ -53,5 +53,5 @@ class UnidadSerializer(serializers.ModelSerializer):
 
 class Categoria_productoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Unidad
+        model = Categoria_producto
         fields = ['id', 'nombre']

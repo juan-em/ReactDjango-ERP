@@ -160,3 +160,40 @@ export const searcherAlmacen = (fields, list) => {
     : resultData;
   return resultData;
 };
+
+// Areas
+const URLAR = 'http://localhost:8000/api/mantenimientos/areas/';
+export const postArea = async (data) => {
+  try {
+    const response = await axios.post(URLAR, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const putArea = async (data, id) => {
+  try {
+    const response = await axios.put(`http://localhost:8000/api/mantenimientos/areas/${id}/`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const searcherArea = (fields, list) => {
+  let resultData = list;
+  resultData = fields.nombre
+    ? resultData.filter((item) =>
+        item.nombre.toString().includes(fields.nombre.toString())
+      )
+    : resultData;
+    resultData = fields.abreviacion
+    ? resultData.filter((item) =>
+        item.abreviacion.toString().includes(fields.abreviacion.toString())
+      )
+    : resultData;
+  return resultData;
+};
