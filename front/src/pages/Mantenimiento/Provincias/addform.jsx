@@ -81,8 +81,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
         <DialogContent>
           <TabContext centered>
               <form onSubmit={handlePostPutProvincia}>
-                {item.id?<input type="hidden" name="cod" value={item.id}/>:''
-                }
+                {item.id && <input type="hidden" name="cod" value={item.id}/>}
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12}>
                     <TextField
