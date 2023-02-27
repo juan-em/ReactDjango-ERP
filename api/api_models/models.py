@@ -510,7 +510,7 @@ class SalidaVenta(Salidas):
 
 ### Refactorizando Compras
 class Compra(models.Model):
-    fecha = models.DateField(null=True)
+    fecha = models.DateTimeField(null=True)
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
     detalle_entrega = models.TextField(null=True, blank=True)
@@ -529,10 +529,10 @@ class Compra(models.Model):
 
 
 class CompraDetalle(models.Model):
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=True,related_name='detalle_compra')
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE,related_name='detalle_compra')
     articulo = models.ForeignKey(ArticuloVariante, on_delete=models.CASCADE, null=True)
-    unidad = models.ForeignKey(Unidad, on_delete=models.SET_NULL, null=True, blank=True)
-    cantidad = models.IntegerField(default=0)
+    unidad = models.PositiveIntegerField(default=1)
+    cantidad = models.PositiveIntegerField(default=0)
     precio_unitario = models.FloatField(default=0)
     dscto_unitario = models.FloatField(null=True, default=0, blank=True)
     remision_hecha = models.BooleanField(null=True, blank=True, default=False)
