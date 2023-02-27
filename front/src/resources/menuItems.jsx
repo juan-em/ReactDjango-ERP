@@ -54,7 +54,7 @@ export const menuItems = [
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 
     { url: "#about", icon: <CategoryIcon/>, name: "Producción",
-    item:[{name:'Produccion',icon: <ProductionQuantityLimitsIcon/>,url:'#cliente'}] },
+    item:[{name:'Produccion',icon: <ProductionQuantityLimitsIcon/>,url:'/produccion/produccion'}] },
 
     { url: "#about", icon: <AutoStoriesIcon/>, name: "Tesorería",
     item:[{name:'Caja Diaria',icon: <PointOfSaleIcon/>,url:'#cliente'},

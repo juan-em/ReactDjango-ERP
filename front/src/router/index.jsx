@@ -29,6 +29,7 @@ import Impuestos from "../pages/Mantenimiento/Impuestos";
 import Almacenes from "../pages/Mantenimiento/Almacenes";
 import CategoriasProductos from "../pages/Mantenimiento/CategoríasProductos";
 import Areas from "../pages/Mantenimiento/Áreas";
+import Produccion from "../pages/Produccion/Produccion";
 
 // LAYOUTS
 
@@ -54,7 +55,12 @@ const Router = () => {
               
               {/* Proveedores */}
               <Route path="/proveedores" element={<Proveedores />} />
+
+              {/* Productos */}
               <Route path="/productos/articulos" element={<Articulos />} />
+
+              {/* Produccion */}
+              <Route path="/produccion/produccion" element={<Produccion />} />
 
               {/* Otros */}
               <Route path="/mantenimientos/provincias" element={<Provincias />} />
