@@ -43,7 +43,6 @@ const Table =({state, dispatch})=> {
         dispatch(action)
     }
 
-    console.log(state.compra)
     return (
         <List sx={{ overflow:'scroll'}}>
             <ListItem
@@ -85,7 +84,7 @@ const Table =({state, dispatch})=> {
                 <div>
                 
                 {rows.map((item, i) => (
-                    <>
+                    <div key={i}>
                     <ListItem key={i}>
                     <Grid container spacing={1} >
                         <Grid item xs >
@@ -154,7 +153,7 @@ const Table =({state, dispatch})=> {
                     </Grid>
                     </ListItem>
                     <Divider/>
-                    </>
+                    </div>
                 ))}
                 </div>                            
             </ClickAwayListener>

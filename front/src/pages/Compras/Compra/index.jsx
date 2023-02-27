@@ -108,7 +108,7 @@ const Compra = () => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Proveedor o articulos no válidos",
+        text: "Proveedor o articulos NO válidos",
       });
     }
     
