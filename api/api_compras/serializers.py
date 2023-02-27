@@ -26,7 +26,7 @@ class CompraSerializer(WritableNestedModelSerializer):
     detalle_compra = CompraDetalleSerializer(many=True)
     class Meta:
         model = Compra
-        fields = ['id', 'proveedor', 'estado', 'detalle_entrega', 'totalCompra', 'imagen_fac_compra', 'descuento', 'detalle_compra']
+        fields = ['id','fecha', 'proveedor', 'estado', 'detalle_entrega', 'totalCompra', 'imagen_fac_compra', 'descuento', 'detalle_compra']
     
     def to_representation(self,instance):
         #Prov Full data

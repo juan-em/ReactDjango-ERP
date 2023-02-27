@@ -1,24 +1,35 @@
+
 const setInitialDate = () => {
     let actualdate = new Date()
     var event = new Date(actualdate);
     return JSON.stringify(event).slice(1,-1)
 }
-const initialDate = setInitialDate()
 
 export const ACTION_TYPES = {
     SET_FECHA: "SET_FECHA",
     SET_PROVEEDOR: "SET_PROVEEDOR",
     ADD_DETALLE: "ADD_DETALLE",
+    LOW_DETALLE: "LOW_DETALLE",
     REMOVE_DETALLE: "REMOVE_DETALLE",
+    RESET_COMPRA: "RESET_COMPRA",
 }
 
 export const INITIAL_STATE = {
     compra: {
-        fecha:initialDate,
-        proveedor:0,
+        fecha:setInitialDate(),
+        proveedor:{persona:{nombre:""}},
         detalle_compra: [],
     }
 }
+
+export const getTotal = (detalle_compra) =>{
+    if (detalle_compra != []){
+        let sum = detalle_compra.reduce((amount, item) => item.precio_unitario*item.cantidad + amount, 0)
+        return sum
+    }
+    return 0
+}
+
 
 export const comprasReducer = (state, action) => {
     switch(action.type) {
@@ -48,28 +59,38 @@ export const comprasReducer = (state, action) => {
                         detalle_compra:[...state.compra.detalle_compra,action.payload]
                     }
                 }
-            // var detalle_compra = [...state.compra.detalle_compra]
-            // var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo);
-            // var index = state.compra.detalle_compra.indexOf(item)
-            // let itemToUpdate = detalle_compra[index]
-            // ---------->alternative
             var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo);
             item.cantidad += .5   
             return  {
                 ...state,
 
             }
-        case ACTION_TYPES.REMOVE_DETALLE:
+        case ACTION_TYPES.LOW_DETALLE:
             var isInCompraDetalle = state.compra.detalle_compra.some((item)=> action.payload.articulo == item.articulo)
             if (isInCompraDetalle) {
-                var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo);
+                var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo)
                 if (item.cantidad > 1){
                     item.cantidad -= .5
                     return  {
-                        ...state,
+                        ...state
                     }
                 }
+                return state
             }
+        case ACTION_TYPES.REMOVE_DETALLE:
+            var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo)
+            var index = state.compra.detalle_compra.indexOf(item)
+            let detalle_compra = state.compra.detalle_compra.splice(index, 1)
+            return{
+                ...state,
+                compra:{
+                    ...state.compra,
+                    detalle_compra:[...detalle_compra]
+                }
+            }
+        
+        case ACTION_TYPES.RESET_COMPRA:
+            return{...INITIAL_STATE}
 
         default:
             return state

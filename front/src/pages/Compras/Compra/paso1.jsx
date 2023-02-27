@@ -1,8 +1,4 @@
-import { alpha } from "@mui/material/styles";
-import { useState , Fragment } from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import { useState } from "react";
 import './index.css';
 
 import {
@@ -11,79 +7,57 @@ import {
   TextField,
   Button,
   Autocomplete,
-  AccordionSummary,
-  AccordionDetails,
-  Badge,
-  ButtonGroup, Divider, Card, CardMedia, CardContent, CardActions, CardHeader, IconButton
 } from "@mui/material";
 
 //Componentes
-import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Typography from '@mui/material/Typography';
-
 import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import MailIcon from '@mui/icons-material/Mail';
 import SearchIcon from '@mui/icons-material/Search';
-import { blue } from "@mui/material/colors";
 
-const steps = ['Registro', 'Agregar producto'];
 
 import { ACTION_TYPES } from "./reducerCompra";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getProveedores } from "../../../services/Proveedores";
 
 const Paso1 = ({state, dispatch}) => {
 
+    const render = useRef(true);
+    const [dataProveedores, setDataProveedores] = useState([])
 
     //Registering date and proveedor id in the state
-    const [dataProveedores, setDataProveedores] = useState([])
-    const [prov, setProv] = useState(null)
-    
-    const setDate = (value) => {
-      var event = new Date(value.$d);
-      let date = JSON.stringify(event)
-      date = date.slice(1,-1)
+    const handleChange =(e, value, ac) => {
       let action = {
-        type: ACTION_TYPES.SET_FECHA,
-        payload: date
+        type: ac,
       }
-      dispatch(action);
-    }
+      switch(ac){
+        case ACTION_TYPES.SET_FECHA:
+          var event = new Date(e.$d);
+          let date = JSON.stringify(event)
+          date = date.slice(1,-1)
+          action.payload = date
+          dispatch(action);
+          break;
 
-    const setProveedor = (value) => {
-      let action = {
-        type: ACTION_TYPES.SET_PROVEEDOR,
-        payload: value
+        case ACTION_TYPES.SET_PROVEEDOR:
+          if (value.id) {
+            action.payload = value
+            dispatch(action)
+          }
+          break;
+        default:
+          console.log("Acción no definida")
       }
-      dispatch(action);
     }
 
-
-    const handleProv = (e,val) =>{
-      setProv(val)
-      if (val.id) setProveedor(val.id)
-      return val
-    }
-    
-    const handleChange = (newValue) => {
-        setDate(newValue)
-    };
-
-    
     useEffect(()=>{
-      getProveedores(setDataProveedores)
+      if (render.current){
+        render.current = false;
+        getProveedores(setDataProveedores)
+      }
     },[])
 
-    
 
     return (
         <section>
@@ -93,19 +67,30 @@ const Paso1 = ({state, dispatch}) => {
                     <Grid item xs={12} sm={12} md={12}>
                         <Grid container spacing={1}>
                           <Grid item xs={12} sm={6} md={8}>
-                            <TextField
-                            fullWidth
-                            label={<span>RUC Proveedor</span>}
-                            type="number"
-                            size="small"
-                            color="secondary"
-                            margin="none"
-                            name="nombreprovincia"
-                            id="textfields"
-                            focused
-                            disable="true"
-                            value={prov ? prov.ruc : ""}
-                            />
+                          <Autocomplete
+                            disableClearable
+                            options={dataProveedores}
+                            getOptionLabel={(option) => {
+                              if (option.persona) return option.persona.nombre
+                              return option.empresa.nombre
+                            }}
+                            onChange={(e, value) => {handleChange(e, value, ACTION_TYPES.SET_PROVEEDOR)}}
+                            value={state.compra.proveedor}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                focused
+                                fullWidth
+                                type="text"
+                                label="Nombre del proveedor"
+                                size="small"
+                                color="secondary"
+                                margin="none"
+                                name="proveedor"
+                                id="textfields"
+                              />
+                            )}
+                          />
                           </Grid>
                           <Grid item xs={12} sm={3} md={2}>
                             <Button variant="outlined" fullWidth color="primary" sx={{ height:'100%'}}>
@@ -123,9 +108,10 @@ const Paso1 = ({state, dispatch}) => {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DesktopDatePicker
                           label="Fecha"
+                          name="fecha"
                           inputFormat="DD/MM/YYYY"
                           value={state.compra.fecha}
-                          onChange={handleChange}
+                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
                           renderInput={(params) => <TextField 
                             {...params} 
                             fullWidth
@@ -139,31 +125,17 @@ const Paso1 = ({state, dispatch}) => {
                         </LocalizationProvider>
                       </Grid>
                       <Grid item xs={12} sm={12} md={6}>
-                        <Autocomplete
-                          freeSolo
-                          id="free-solo-2-demo"
-                          disableClearable
-                          options={dataProveedores}
-                          getOptionLabel={(option) => {
-                            if (option.persona) return option.persona.nombre
-                            return option.empresa.nombre
-                          }}
-                          onChange={handleProv}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              fullWidth
-                              type="text"
-                              label="Nombre del proveedor"
-                              size="small"
-                              color="secondary"
-                              margin="dense"
-                              name="proveedor"
-                              id="textfields"
-                              variant="filled"
-                              
-                            />
-                          )}
+                        <TextField
+                          fullWidth
+                          label={"RUC PROVEEDOR"}
+                          type="number"
+                          size="small"
+                          color="secondary"
+                          margin="dense"
+                          id="textfields"
+                          disable="true"
+                          variant="filled"
+                          value={state.compra.proveedor ? state.compra.proveedor.ruc : ""}
                         />
                       </Grid>
                     </Grid>

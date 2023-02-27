@@ -41,8 +41,9 @@ import Paso2 from "./paso2";
 const steps = ['Registro', 'Agregar Artículo'];
 
 //Registration's Fuctionality
-import { INITIAL_STATE, comprasReducer } from "./reducerCompra";
-
+import { INITIAL_STATE, comprasReducer, ACTION_TYPES} from "./reducerCompra";
+import { RegistroComnpra, BuildCompraPayload } from "../../../services/compras";
+import Swal from "sweetalert2";
 
 const Compra = () => {
 
@@ -61,6 +62,7 @@ const Compra = () => {
     return skipped.has(step);
   };
 
+  
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -92,8 +94,25 @@ const Compra = () => {
   };
 
   const handleReset = () => {
+    dispatch({type: ACTION_TYPES.RESET_COMPRA});
     setActiveStep(0);
   };
+
+
+  const handleRegister = () => {
+    if (Reflect.has(state.compra.proveedor, "id") && state.compra.detalle_compra.length){
+      var payload = BuildCompraPayload(state.compra)
+      RegistroComnpra(payload);
+      handleNext()
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Proveedor o articulos no válidos",
+      });
+    }
+    
+  }
 
 
   return (
@@ -183,10 +202,16 @@ const Compra = () => {
                       </Button>
                     )}
 
+                    {activeStep === steps.length - 1 ? 
+                    <Button onClick={handleRegister} id="textfields"
+                      variant="contained" color="secondary">
+                      Terminar
+                    </Button>
+                    : 
                     <Button onClick={handleNext} id="textfields"
                       variant="contained" color="secondary">
-                      {activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
-                    </Button>
+                      Siguiente
+                    </Button>}
                   </Box>
                 </Fragment>
               )
