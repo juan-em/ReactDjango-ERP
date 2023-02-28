@@ -22,13 +22,17 @@ import FormasPago from "../pages/Mantenimiento/FormasPago";
 import Venta from "../pages/Ventas/Venta";
 import Compra from "../pages/Compras/Compra";
 import Categorias from "../pages/Mantenimiento/Categorías";
-import Articulos from "../pages/Productos/Artículos";
+import Articulos from "../pages/Productos/Articulos";
 import Embalajes from "../pages/Mantenimiento/Embalajes";
 import Entidades from "../pages/Mantenimiento/Entidades";
 import Impuestos from "../pages/Mantenimiento/Impuestos";
 import Almacenes from "../pages/Mantenimiento/Almacenes";
+<<<<<<< HEAD
+import Productos from "../pages/Productos/Productos";
+=======
 import CategoriasProductos from "../pages/Mantenimiento/CategoríasProductos";
 import Areas from "../pages/Mantenimiento/Áreas";
+>>>>>>> d660981111f259fe4a0b0ca10890934d390ef05a
 
 // LAYOUTS
 
@@ -54,7 +58,10 @@ const Router = () => {
               
               {/* Proveedores */}
               <Route path="/proveedores" element={<Proveedores />} />
+              
+              {/* Articulos y Productos */}
               <Route path="/productos/articulos" element={<Articulos />} />
+              <Route path="/productos/productos" element={<Productos />} />
 
               {/* Otros */}
               <Route path="/mantenimientos/provincias" element={<Provincias />} />

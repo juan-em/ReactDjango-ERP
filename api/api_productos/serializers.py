@@ -18,11 +18,13 @@ class Producto_detalleSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         variantes = ArticuloVariante.objects.filter(articulo=instance.articulo.id)
+        articulo = Articulo.objects.filter(pk=instance.articulo.id)
         ser_variantes = AVSerializer(variantes, many=True)
+        ser_articulo = ArticuloSerializer(articulo, many=True)
         return{
             'id':instance.id,
             'cantidad':instance.cantidad,
-            'articulo':ser_variantes.data,
+            'articulo':ser_articulo.data,
             'borrado':instance.borrado,
         }    
 
@@ -78,22 +80,24 @@ class Producto_varianteSerializer(WritableNestedModelSerializer):
     #     }
 
 
+# class ProductoSerializer(serializers.ModelSerializer):
 class ProductoSerializer(WritableNestedModelSerializer):
     producto_variante = Producto_varianteSerializer(many=True)
     class Meta:
         model = Producto
-        fields = ['id', 'nombre', 'cantidad', 'descripcion_producto', 'categoria', 'imagen', 'borrado', 'producto_variante']
+        fields = ['id','codigo', 'nombre', 'cantidad', 'descripcion_producto', 'categoria', 'imagen', 'borrado', 'producto_variante']
 
     def to_representation(self, instance):
         producto_variante = Producto_variante.objects.filter(producto=instance.id)
         ser_producto_variante = Producto_varianteSerializer(producto_variante, many=True)
         return{
             'id': instance.id,
+            'codigo':instance.codigo,
             'nombre' : instance.nombre,
             'cantidad' : instance.cantidad,
             'descripcion_producto' : instance.descripcion_producto,
             'categoria' : instance.categoria.nombre if instance.categoria else None,
-            'imagen' : instance.imagen.url,
+            'imagen' : "http://localhost:8000"+instance.imagen.url,
             'borrado' : instance.borrado,
             'producto_variante': ser_producto_variante.data
         }
