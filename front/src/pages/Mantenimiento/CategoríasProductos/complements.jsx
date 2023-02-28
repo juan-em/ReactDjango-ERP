@@ -15,8 +15,8 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import { get, searcherAlmacen, del } from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
+import {get, searcher, post_put, del } from "../../../services/mantenimiento";
 
 export const Tabla = ({
   fields,
@@ -27,16 +27,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/almacenes/";
-  const [almacen, setAlmacen] = useState([]);
+  const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
+  const [categoria_productos, setCategoriaProductos] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setAlmacen, URL);
+      get(setCategoriaProductos, URL);
     }
   }, [renderizar]);
 
-  let data = searcherAlmacen(fields, almacen);
+  let data = searcher(fields, categoria_productos);
 
   const handlePut = (row) => {
     setItem(row);
@@ -95,18 +95,6 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Abreviación
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Ubicación
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
               Acciones
             </TableCell>
           </TableRow>
@@ -119,8 +107,6 @@ export const Tabla = ({
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
-              <TableCell align="right">{row.abreviacion}</TableCell>
-              <TableCell align="right">{row.ubicacion }</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"

@@ -10,6 +10,7 @@ class ArticuloVarianteSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return{
+            'id': instance.id,
             'nombre':instance.nombre,
             'articulo':instance.articulo.nombre,
             'categoria':instance.articulo.categoria.id if instance.articulo.categoria else None,

@@ -119,23 +119,19 @@ const Articulos = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
-                    <TextField
-                      fullWidth
-                      label="Categoría"
-                      type="text"
+                    <Autocomplete
+                      disablePortal
+                      options={top100Films}
                       size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
                       id="textfields"
-                      onChange={handlerSearcher}
+                      renderInput={(params) => <TextField {...params} label="Categoría" margin="dense" color="secondary" fullWidth />}
                     />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
                           fullWidth
                           id="textfields"
-                          color="primary"
+                          color="secondary"
                           variant="contained"
                           onClick={handleClean}
                         >

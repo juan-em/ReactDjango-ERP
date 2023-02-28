@@ -25,7 +25,7 @@ import Swal from "sweetalert2";
 
 const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
   
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
+  const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -42,7 +42,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la categoría",
+        text: "Se registró la categoría de productos",
       });
       if(item.id)setItem({})
       setRenderizar(!renderizar)
@@ -75,7 +75,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Categoría" : "Nueva Categoría"}
+            {item.id ? "Editar Categoría (Productos)" : "Nueva Categoría (Productos)"}
           </Typography>
         </DialogTitle>
         <DialogContent>

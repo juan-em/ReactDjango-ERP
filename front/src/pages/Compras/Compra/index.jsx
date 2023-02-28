@@ -1,5 +1,5 @@
 import { alpha} from "@mui/material/styles";
-import { useState , Fragment } from "react";
+import { useState , Fragment, useReducer } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -40,7 +40,17 @@ import Paso2 from "./paso2";
 
 const steps = ['Registro', 'Agregar Artículo'];
 
+//Registration's Fuctionality
+import { INITIAL_STATE, comprasReducer, ACTION_TYPES} from "./reducerCompra";
+import { RegistroComnpra, BuildCompraPayload } from "../../../services/compras";
+import Swal from "sweetalert2";
+
 const Compra = () => {
+
+  //Registration's Fuctionality
+  const [state, dispatch] = useReducer(comprasReducer, INITIAL_STATE)
+  
+  //Steps's Functionality
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
@@ -52,6 +62,7 @@ const Compra = () => {
     return skipped.has(step);
   };
 
+  
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -83,8 +94,26 @@ const Compra = () => {
   };
 
   const handleReset = () => {
+    dispatch({type: ACTION_TYPES.RESET_COMPRA});
     setActiveStep(0);
   };
+
+
+  const handleRegister = () => {
+    if (Reflect.has(state.compra.proveedor, "id") && state.compra.detalle_compra.length){
+      var payload = BuildCompraPayload(state.compra)
+      RegistroComnpra(payload);
+      handleNext()
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Proveedor o articulos NO válidos",
+      });
+    }
+    
+  }
+
 
   return (
     <section>
@@ -94,9 +123,9 @@ const Compra = () => {
           <Grid item xs={12} sm={12} md={12}>
             <Typography fontFamily={"inherit"} align={'center'}
             sx={{ mt: 3, p: 3 , 
-              backgroundColor: alpha('#985024', 0.20),
+              backgroundColor: alpha('#633256', 0.20),
               '&:hover': {
-                  backgroundColor: alpha('#985024', 0.25),
+                  backgroundColor: alpha('#633256', 0.25),
               },
               }}>
               Nueva Compra
@@ -107,7 +136,7 @@ const Compra = () => {
                   const labelProps = {};
                   if (isStepOptional(index)) {
                     labelProps.optional = (
-                      <Typography variant="caption" fontFamily={"inherit"}>Optional</Typography>
+                      <Typography variant="caption" fontFamily={"inherit"}>Opcional</Typography>
                     );
                   }
                   if (isStepSkipped(index)) {
@@ -115,14 +144,16 @@ const Compra = () => {
                   }
                   return (
                     <Step key={label} {...stepProps} >
-                      <StepLabel {...labelProps}>{label}</StepLabel>
+                      <StepLabel {...labelProps}><span>{label}</span></StepLabel>
                     </Step>
                   );
                 })}
               </Stepper>
               {activeStep === steps.length ? (
                 <Fragment>
-                  <Alert severity="success" action={
+                  <Alert severity="success" 
+                  sx={{ p:3, m:5}}
+                  action={
                     <Button 
                     variant="contained"
                     id="textfields"
@@ -133,7 +164,7 @@ const Compra = () => {
                 </Fragment>
               ) : activeStep +1 === 1 ? (
                 <Fragment>
-                  <Paso1/>
+                  <Paso1 state={state} dispatch={dispatch}/>
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Box sx={{ flex: '1 1 auto' }} />
                     {isStepOptional(activeStep) && (
@@ -151,7 +182,7 @@ const Compra = () => {
                 
               ):(
                 <Fragment>
-                  <Paso2/>
+                  <Paso2 state={state} dispatch={dispatch}/>
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Button
                       color="inherit"
@@ -171,10 +202,16 @@ const Compra = () => {
                       </Button>
                     )}
 
+                    {activeStep === steps.length - 1 ? 
+                    <Button onClick={handleRegister} id="textfields"
+                      variant="contained" color="secondary">
+                      Terminar
+                    </Button>
+                    : 
                     <Button onClick={handleNext} id="textfields"
                       variant="contained" color="secondary">
-                      {activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
-                    </Button>
+                      Siguiente
+                    </Button>}
                   </Box>
                 </Fragment>
               )

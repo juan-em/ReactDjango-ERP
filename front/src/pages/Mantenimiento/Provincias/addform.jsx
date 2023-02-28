@@ -72,7 +72,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       <Dialog open={openModal}>
         <DialogTitle>
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
-            <CloseIcon fontSize="large" />
+            <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             {item.id ? "Editar Provincia" : "Nueva Provincia"}
@@ -81,8 +81,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
         <DialogContent>
           <TabContext centered>
               <form onSubmit={handlePostPutProvincia}>
-                {item.id?<input type="hidden" name="cod" value={item.id}/>:''
-                }
+                {item.id && <input type="hidden" name="cod" value={item.id}/>}
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12}>
                     <TextField

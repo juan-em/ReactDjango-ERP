@@ -16,12 +16,17 @@ import { alpha } from "@mui/material/styles";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PasswordIcon from '@mui/icons-material/Password';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import DescriptionIcon from '@mui/icons-material/Description';
+
 import Swal from "sweetalert2";
 
-const VerCategoria = (itemView) => {
+const VerArea = (itemView) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
+    { icon: <PasswordIcon />, primary: "Abreviación", secondary: "" }
   ]);
 
   const seti = () => {
@@ -41,7 +46,12 @@ const VerCategoria = (itemView) => {
             ...i,
             secondary: itemView.itemView.nombre,
           };
-        } 
+        } else if (i.primary === "Abreviación") {
+          return {
+            ...i,
+            secondary: itemView.itemView.abreviacion,
+          };
+        }
       }
     });
     setItemsPer(newItem);
@@ -67,7 +77,7 @@ const VerCategoria = (itemView) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Embalaje seleccionado
+            Área seleccionada
           </AccordionSummary>
           <AccordionDetails>
             <List
@@ -101,4 +111,4 @@ const VerCategoria = (itemView) => {
   );
 };
 
-export default VerCategoria;
+export default VerArea;

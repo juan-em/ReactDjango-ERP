@@ -21,9 +21,9 @@ import { Tabla } from "./complements";
 import { get, searcher } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerCategoria from "./vercategoria";
+import VerArea from "./ver";
 
-const Categorias = () => {
+const Areas = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -62,7 +62,7 @@ const Categorias = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoría
+                  Buscar Área
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -77,6 +77,17 @@ const Categorias = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
+                    <TextField
+                     fullWidth
+                     label="Abreviación"
+                     type="text"
+                     size="small"
+                     color="secondary"
+                     margin="dense"
+                     name="abreviacion"
+                     id="textfields"
+                     onChange={handlerSearcher}
+                   />
                     <br />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
@@ -97,7 +108,7 @@ const Categorias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerCategoria itemView={itemView} />
+            <VerArea itemView={itemView} />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -128,4 +139,4 @@ const Categorias = () => {
     </section>
   );
 };
-export default Categorias;
+export default Areas;

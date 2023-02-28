@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import { get, searcherAlmacen, del } from "../../../services/mantenimiento";
+import { get, searcherArea, del } from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
 
 export const Tabla = ({
@@ -27,16 +27,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/almacenes/";
-  const [almacen, setAlmacen] = useState([]);
+  const URL = "http://localhost:8000/api/mantenimientos/areas/";
+  const [area, setArea] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setAlmacen, URL);
+      get(setArea, URL);
     }
   }, [renderizar]);
 
-  let data = searcherAlmacen(fields, almacen);
+  let data = searcherArea(fields, area);
 
   const handlePut = (row) => {
     setItem(row);
@@ -101,12 +101,6 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Ubicación
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
               Acciones
             </TableCell>
           </TableRow>
@@ -120,7 +114,6 @@ export const Tabla = ({
               <TableCell align="right">{row.id}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
               <TableCell align="right">{row.abreviacion}</TableCell>
-              <TableCell align="right">{row.ubicacion }</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"

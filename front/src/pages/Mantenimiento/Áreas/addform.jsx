@@ -17,11 +17,8 @@ import CloseIcon from "@mui/icons-material/Close";
 
 //componentes
 import {
-  get,
-  searcher,
-  postIm,
-  putIm,
-  del,
+  postArea,
+  putArea,
 } from "../../../services/mantenimiento";
 
 import { Formik } from "formik";
@@ -37,8 +34,6 @@ const AddForm = ({
   item,
   setItem,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/impuestos/";
-  const URLID = `http://localhost:8000/api/mantenimientos/impuestos/${item.id}/`;
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -50,12 +45,12 @@ const AddForm = ({
 
   const InSubmit = async (val) => {
     try {
-      !item.id ? await postIm(val, URL) : await putIm(val, URLID);
+      !item.id ? await postArea(val) : await putArea(val, item.id);
 
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró el impuesto",
+        text: "Se registró el área",
       });
       if (item.id) setItem({});
       setRenderizar(!renderizar);
@@ -86,7 +81,7 @@ const AddForm = ({
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Impuesto" : "Nuevo Impuesto"}
+            {item.id ? "Editar Área" : "Nueva Área"}
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -108,20 +103,22 @@ const AddForm = ({
                         onChange={handleChange}
                         value={values.nombre}
                       />
+
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
                       <TextField
                         fullWidth
-                        label="Valor"
+                        label="Abreviación"
                         required
                         size="small"
                         color="secondary"
                         id="textfields"
                         margin="dense"
-                        name="valor"
+                        name="abreviacion"
                         onChange={handleChange}
-                        value={values.valor}
+                        value={values.abreviacion}
                       />
+                      
                     </Grid>
                     <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                       <Button

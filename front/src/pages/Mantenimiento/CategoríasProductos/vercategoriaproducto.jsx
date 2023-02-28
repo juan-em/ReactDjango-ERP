@@ -16,9 +16,8 @@ import { alpha } from "@mui/material/styles";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Swal from "sweetalert2";
 
-const VerCategoria = (itemView) => {
+const VerCategoriaProducto = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
@@ -26,7 +25,7 @@ const VerCategoria = (itemView) => {
 
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      if (!itemView.itemView.id) {
+      if (!itemView.id) {
         return {
           ...i,
         };
@@ -34,12 +33,12 @@ const VerCategoria = (itemView) => {
         if (i.primary === "Código") {
           return {
             ...i,
-            secondary: itemView.itemView.id,
+            secondary: itemView.id,
           };
         } else if (i.primary === "Nombre") {
           return {
             ...i,
-            secondary: itemView.itemView.nombre,
+            secondary: itemView.nombre,
           };
         } 
       }
@@ -47,19 +46,16 @@ const VerCategoria = (itemView) => {
     setItemsPer(newItem);
   };
 
-  useEffect(()=>{
-    seti()
-  },[itemView])
+  useEffect(() => {
+    seti();
+  }, [itemView]);
 
   return (
     <section>
       <Paper
         elevation={10}
         className="paper"
-        sx={{
-          mt: 4,
-          p: 0
-        }}
+        sx={{mt: 4,p: 0}}
       >
         <Accordion sx={{ p:5 }}>
           <AccordionSummary
@@ -67,7 +63,7 @@ const VerCategoria = (itemView) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Embalaje seleccionado
+            Categoría de Productos seleccionada
           </AccordionSummary>
           <AccordionDetails>
             <List
@@ -75,7 +71,7 @@ const VerCategoria = (itemView) => {
             >
               <Grid container spacing={0}>
                 {itemsPer.map((i) => (
-                    <Grid key={i.primary} item xs={12} sm={6} md={6} lg={6}>
+                    <Grid key={i.primary} item xs={12} sm={6} md={6}>
                       <ListItem>
                         <ListItemAvatar>
                           <Avatar sx={{ 
@@ -101,4 +97,4 @@ const VerCategoria = (itemView) => {
   );
 };
 
-export default VerCategoria;
+export default VerCategoriaProducto;

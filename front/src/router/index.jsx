@@ -27,7 +27,12 @@ import Embalajes from "../pages/Mantenimiento/Embalajes";
 import Entidades from "../pages/Mantenimiento/Entidades";
 import Impuestos from "../pages/Mantenimiento/Impuestos";
 import Almacenes from "../pages/Mantenimiento/Almacenes";
+<<<<<<< HEAD
 import Productos from "../pages/Productos/Productos";
+=======
+import CategoriasProductos from "../pages/Mantenimiento/CategoríasProductos";
+import Areas from "../pages/Mantenimiento/Áreas";
+>>>>>>> d660981111f259fe4a0b0ca10890934d390ef05a
 
 // LAYOUTS
 
@@ -66,6 +71,8 @@ const Router = () => {
               <Route path="/mantenimientos/entidades" element={<Entidades />} />
               <Route path="/mantenimientos/impuestos" element={<Impuestos />} />
               <Route path="/mantenimientos/almacenes" element={<Almacenes />} />
+              <Route path="/mantenimientos/categoriasproductos" element={<CategoriasProductos />} />
+              <Route path="/mantenimientos/areas" element={<Areas />} />
 
               {/* Venta */}
               <Route path="/ventas/venta" element={<Venta />} />

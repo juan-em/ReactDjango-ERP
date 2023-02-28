@@ -2,6 +2,14 @@ import "./index.css";
 import "../../../fonts/poppins.ttf";
 import { alpha } from "@mui/material/styles";
 
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import HomeWorkIcon from "@mui/icons-material/HomeWork";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import NumbersIcon from "@mui/icons-material/Numbers";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {
@@ -12,18 +20,18 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Box
+  Box,
 } from "@mui/material";
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
-import { get, searcher } from "../../../services/mantenimiento";
+
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerCategoria from "./vercategoria";
+import VerCategoriaProducto from "./vercategoriaproducto";
 
-const Categorias = () => {
+const CategoriasProductos = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -62,7 +70,7 @@ const Categorias = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoría
+                  Buscar Categoría del Producto
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -77,7 +85,6 @@ const Categorias = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
-                    <br />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -85,6 +92,8 @@ const Categorias = () => {
                           id="textfields"
                           color="secondary"
                           variant="contained"
+                          type="reset"
+                          value="limpiar"
                           onClick={handleClean}
                         >
                           Limpiar
@@ -97,7 +106,7 @@ const Categorias = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerCategoria itemView={itemView} />
+            <VerCategoriaProducto itemView={itemView} />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -128,4 +137,4 @@ const Categorias = () => {
     </section>
   );
 };
-export default Categorias;
+export default CategoriasProductos;
