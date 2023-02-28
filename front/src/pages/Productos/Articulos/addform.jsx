@@ -9,7 +9,6 @@ import {
   DialogContent,
   DialogTitle,
   Tab,
-  Autocomplete
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 //iconos
@@ -17,58 +16,54 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 
 //componentes
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
+import {
+  postAlmacen,
+  putAlmacen,
+} from "../../../services/mantenimiento";
 
-
+import { Formik } from "formik";
 
 import Swal from "sweetalert2";
 
-
-const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
-  
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
+const AddForm = ({
+  render,
+  renderizar,
+  setRenderizar,
+  openModal,
+  setOpenModal,
+  item,
+  setItem,
+}) => {
   const handleOpenPost = () => {
     setOpenModal(true);
   };
 
   const handleClose = () => {
-    if(item.id)setItem({})
-    setOpenModal(false)
+    if (item.id) setItem({});
+    setOpenModal(false);
   };
 
-  const handlePostPut = async(e) => {
+  const InSubmit = async (val) => {
     try {
-      const {nombre,} = e.target
-      await post_put(e, nombre, URL)
+      !item.id ? await postAlmacen(val) : await putAlmacen(val, item.id);
+
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la categoría",
+        text: "Se registro el impuesto",
       });
-      if(item.id)setItem({})
-      setRenderizar(!renderizar)
-      render.current = true
-      
-    }
-    catch(error){
+      if (item.id) setItem({});
+      setRenderizar(!renderizar);
+      render.current = true;
+    } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: `${error}`,
       });
     }
-    setOpenModal(false)
-  }
-
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
-  ];
+    setOpenModal(false);
+  };
 
   return (
     <>
@@ -86,105 +81,96 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
             <CloseIcon fontSize="large" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Artículo" : "Nuevo Artículo"}
+            {item.id ? "Editar Impuesto" : "Nuevo Impuesto"}
           </Typography>
         </DialogTitle>
         <DialogContent>
           <TabContext centered>
-              <form onSubmit={handlePostPut}>
-                {item.id?<input type="hidden" name="cod" value={item.id}/>:''
-                }
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={5}>
-                    <Button
-                      sx={{height:'100%'}}
-                      fullWidth
-                      component="label"
-                      id="textfields"
-                      size="small"
-                      color="primary"
-                      variant="outlined">
-                        <input hidden accept="image/*" multiple type="file" />
-                      Subir Imagen
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={7}>
-                  <TextField
-                      fullWidth
-                      label="Nombre"
-                      required
-                      size="small"
-                      color="secondary"
-                      id="textfields"
-                      margin="dense"
-                      name="nombre"
-                      defaultValue={item.id ? item.nombre:''}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Descripción"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                    />
-                    <Autocomplete
-                      disablePortal
-                      options={top100Films}
-                      size="small"
-                      id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Proveedor" margin="dense" color="secondary" fullWidth />}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Marca"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                    />
-                    <TextField
-                      fullWidth
-                      label="Categoría"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                    <Button
-                      fullWidth
-                      id="btnClick"
-                      size="medium"
-                      color="secondary"
-                      className="navbar-btn-single"
-                      variant="contained"
-                      type="submit">
-                      <span>{item.id ? "Editar" : "Registrar"}</span>
-                    </Button>
+            <Formik initialValues={item} onSubmit={InSubmit}>
+              {({ values, handleSubmit, handleChange }) => (
+                <form onSubmit={handleSubmit}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={12}>
+                      <TextField
+                        fullWidth
+                        label="Nombre"
+                        required
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        margin="dense"
+                        name="nombre"
+                        onChange={handleChange}
+                        value={values.nombre}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Abreviacion"
+                        required
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        margin="dense"
+                        name="abreviacion"
+                        onChange={handleChange}
+                        value={values.abreviacion}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Ubicacion"
+                        required
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        margin="dense"
+                        name="ubicacion"
+                        onChange={handleChange}
+                        value={values.ubicacion}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Descripcion"
+                        required
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        margin="dense"
+                        name="descripcion"
+                        onChange={handleChange}
+                        value={values.descripcion}
+                      />
                     </Grid>
-                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                    <Button
-                      fullWidth
-                      id="btnClick"
-                      size="medium"
-                      color="error"
-                      className="navbar-btn-single"
-                      variant="contained"
-                      onClick={handleClose}
-                    >
-                      <span>Cancelar</span>
-                    </Button>
+
+                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                      <Button
+                        fullWidth
+                        id="btnClick"
+                        size="medium"
+                        color="secondary"
+                        className="navbar-btn-single"
+                        variant="contained"
+                        type="submit"
+                      >
+                        <span>{item.id ? "Editar" : "Registrar"}</span>
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                      <Button
+                        fullWidth
+                        id="btnClick"
+                        size="medium"
+                        color="error"
+                        className="navbar-btn-single"
+                        variant="contained"
+                        onClick={handleClose}
+                      >
+                        <span>Cancelar</span>
+                      </Button>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </form>
+                </form>
+              )}
+            </Formik>
           </TabContext>
         </DialogContent>
       </Dialog>

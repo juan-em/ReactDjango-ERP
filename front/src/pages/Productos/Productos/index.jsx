@@ -71,10 +71,21 @@ const Productos = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoria
+                  Buscar Producto
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
+                    <TextField
+                      fullWidth
+                      label="Codigo"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="codigo"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
                     <TextField
                       fullWidth
                       label="Nombre"
@@ -88,7 +99,7 @@ const Productos = () => {
                     />
                     <TextField
                       fullWidth
-                      label="Nombre"
+                      label="Cantidad"
                       type="text"
                       size="small"
                       color="secondary"
@@ -103,9 +114,9 @@ const Productos = () => {
                       size="small"
                       color="secondary"
                     >
-                      <InputLabel>Provincia</InputLabel>
+                      <InputLabel>Categorias</InputLabel>
                       <Select
-                        label="Provincia"
+                        label="Categorias"
                         size="small"
                         color="secondary"
                         id="textfields"
