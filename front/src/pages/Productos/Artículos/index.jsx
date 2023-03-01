@@ -28,8 +28,7 @@ import { Container } from "@mui/system";
 const Articulos = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
-  const [itemView, setItemView] = useState({});
-
+  const [itemView, setItemView] = useState({"variantes":[]});
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
@@ -86,7 +85,7 @@ const Articulos = () => {
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="codigo"
                       id="textfields"
                       onChange={handlerSearcher}
                     />

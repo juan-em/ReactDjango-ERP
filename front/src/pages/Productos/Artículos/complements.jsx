@@ -15,7 +15,8 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
+import {  post_put, del } from "../../../services/mantenimiento";
+import { searcher, getArticulos} from "../../../services/articulos";
 import { useState, useEffect } from "react";
 
 export const Tabla = ({
@@ -27,16 +28,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
-  const [categoria, setCategoria] = useState([]);
+  const URL = "http://localhost:8000/api/articulos/";
+  const [articulos, setArticulos] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setCategoria, URL);
+      getArticulos(setArticulos, URL);
     }
   }, [renderizar]);
 
-  let data = searcher(fields, categoria);
+  let data = searcher(fields, articulos);
 
   const handlePut = (row) => {
     setItem(row);
@@ -123,11 +124,11 @@ export const Tabla = ({
               <TableCell component="th" scope="row">
                 {i + 1}
               </TableCell>
-              <TableCell align="right">{row.id}</TableCell>
+              <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
-              <TableCell align="right">categoria1</TableCell>
-              <TableCell align="right">marca1</TableCell>
-              <TableCell align="right">proveedor</TableCell>
+              <TableCell align="right">{row.categoria||'-'}</TableCell>
+              <TableCell align="right">{row.marca||'-'}</TableCell>
+              <TableCell align="right">{row.nombre_proveedor||'-'}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon

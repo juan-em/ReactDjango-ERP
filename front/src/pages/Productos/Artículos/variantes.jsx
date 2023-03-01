@@ -33,7 +33,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Variantes = () => {
+const Variantes = ({variantes}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -158,37 +158,37 @@ const Variantes = () => {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-
-                        <TableRow key={1}>
-                        <TableCell component="th" scope="row">
-                            1
-                        </TableCell>
-                        <TableCell align="right">codigo1</TableCell>
-                        <TableCell align="right">nombrevariante1</TableCell>
-                        <TableCell align="right">10</TableCell>
-                        <TableCell align="right">embalaje1</TableCell>
-                        <TableCell align="right">100</TableCell>
-                        <TableCell align="right">ubicacion1</TableCell>
-                        <TableCell align="right">almacen1</TableCell>
-                        <TableCell align="right">descripcion1</TableCell>
-                        <TableCell align="right" component="th" scope="row">
-                            <IconButton
-                            aria-label="delete"
-                            size="small"
-                            color="success"
-                            >
-                            <EditIcon fontSize="inherit" />
-                            </IconButton>
-                            <IconButton
-                            aria-label="delete"
-                            size="small"
-                            color="error"
-                            >
-                            <DeleteIcon fontSize="inherit" />
-                            </IconButton>
-                        </TableCell>
-                        </TableRow>
-
+                        {variantes.map((item, i) => (
+                            <TableRow key={1}>
+                            <TableCell component="th" scope="row">
+                                1
+                            </TableCell>
+                            <TableCell align="right">{item.codigo}</TableCell>
+                            <TableCell align="right">{item.nombre}</TableCell>
+                            <TableCell align="right">{item.precio_unitario}</TableCell>
+                            <TableCell align="right">{item.embalaje||"-"}</TableCell>
+                            <TableCell align="right">{item.cantidad}</TableCell>
+                            <TableCell align="right">{item.ubicacion}</TableCell>
+                            <TableCell align="right">{item.almacen.nombre ? item.almacen : "-"}</TableCell>
+                            <TableCell align="right">{item.descripcion}</TableCell>
+                            <TableCell align="right" component="th" scope="row">
+                                <IconButton
+                                aria-label="delete"
+                                size="small"
+                                color="success"
+                                >
+                                <EditIcon fontSize="inherit" />
+                                </IconButton>
+                                <IconButton
+                                aria-label="delete"
+                                size="small"
+                                color="error"
+                                >
+                                <DeleteIcon fontSize="inherit" />
+                                </IconButton>
+                            </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
                 </TableContainer>

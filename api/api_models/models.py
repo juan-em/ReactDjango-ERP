@@ -187,6 +187,11 @@ class Articulo (models.Model):
         else:
             return f'{self.proveedor.empresa.nombre}'
 
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'ART-'+'0'*(5-len(id))+id
+
 class ArticuloVariante(models.Model):
     nombre = models.CharField(max_length=100, default='-')
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE, null=True, related_name='variantes')
@@ -200,7 +205,12 @@ class ArticuloVariante(models.Model):
 
     def __str__(self):
         return self.articulo.nombre +'-'+ self.nombre
-
+    
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        almacen = self.almacen.abreviacion if self.almacen else "ND"
+        return almacen+'-'+'0'*(5-len(id))+id
 #################
 #PRODUCTO
 

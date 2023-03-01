@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   TextField,
   Button,
@@ -15,18 +15,29 @@ import { TabContext, TabPanel, TabList } from "@mui/lab";
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
+import { Formik } from "formik";
 
 //componentes
 import { get, searcher, post_put, del } from "../../../services/mantenimiento";
-
-
+import { getProveedores } from "../../../services/Proveedores";
 
 import Swal from "sweetalert2";
 
 
-const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
-  
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
+const AddForm = ({
+  render, 
+  renderizar, 
+  setRenderizar, 
+  openModal, 
+  setOpenModal, 
+  item, 
+  setItem,
+}) => {
+  const [proveedores, setProveedores] = useState()
+  const [categorias, setCategorias] = useState()
+  const [autocompleteFields, setAutocompleteFields] = useState()
+
+  const URL = "http://localhost:8000/api/articulos/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -34,31 +45,36 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
   const handleClose = () => {
     if(item.id)setItem({})
     setOpenModal(false)
+    setAutocompleteFields({})
   };
 
-  const handlePostPut = async(e) => {
-    try {
-      const {nombre,} = e.target
-      await post_put(e, nombre, URL)
-      Swal.fire({
-        icon: "success",
-        title: "Ok",
-        text: "Se registró la categoría",
-      });
-      if(item.id)setItem({})
-      setRenderizar(!renderizar)
-      render.current = true
-      
-    }
-    catch(error){
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${error}`,
-      });
-    }
-    setOpenModal(false)
-  }
+  const artSubmit = async (val) => {
+    const {nombre, descripcion, marca} = val
+    var dataToSubmit = {nombre, descripcion, marca}
+    dataToSubmit = {...dataToSubmit, ...autocompleteFields}
+    console.log(dataToSubmit)
+    // try {
+    //   !item.id
+    //     ? await postClienteper(val)
+    //     : await putClienteper(item.id, val);
+
+    //   Swal.fire({
+    //     icon: "success",
+    //     title: "Ok",
+    //     text: "Se registro el Cliente",
+    //   });
+    //   if (item.id) setItem({});
+    //   setRenderizar(!renderizar);
+    //   render.current = true;
+    // } catch (error) {
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Oops...",
+    //     text: `${error}`,
+    //   });
+    // }
+    // setOpenModal(false);
+  };
 
   const top100Films = [
     { label: 'The Shawshank Redemption', year: 1994 },
@@ -70,6 +86,22 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
     { label: 'Pulp Fiction', year: 1994 },
   ];
 
+  useEffect(()=>{
+    const URL_C = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
+    getProveedores(setProveedores)
+    get(setCategorias, URL_C)
+  },[])
+
+  const handleChange2 = (e, value, ref) => {
+    setAutocompleteFields(
+      {...autocompleteFields, [ref.current.getAttribute("name")]:value.id}
+    )
+  }
+
+  console.log("aaaa")
+  console.log(autocompleteFields)
+  const ref0 = useRef();
+  const ref1 = useRef();
   return (
     <>
       <IconButton
@@ -91,9 +123,9 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
         </DialogTitle>
         <DialogContent>
           <TabContext centered>
-              <form onSubmit={handlePostPut}>
-                {item.id?<input type="hidden" name="cod" value={item.id}/>:''
-                }
+            <Formik initialValues={item} onSubmit={artSubmit}>
+            {({ values, handleSubmit, handleChange }) => (
+              <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={5}>
                     <Button
@@ -118,7 +150,8 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       id="textfields"
                       margin="dense"
                       name="nombre"
-                      defaultValue={item.id ? item.nombre:''}
+                      onChange={handleChange}
+                      value={values.nombre}
                     />
                     <TextField
                       fullWidth
@@ -127,15 +160,31 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="descripcion"
                       id="textfields"
+                      onChange={handleChange}
+                      value={values.descripcion}
                     />
                     <Autocomplete
                       disablePortal
-                      options={top100Films}
+                      ref={ref0}
+                      options={proveedores}
+                      getOptionLabel = {(option) => {
+                        if (option.persona) return option.persona.nombre
+                        return option.empresa.nombre
+                      }}
                       size="small"
                       id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Proveedor" margin="dense" color="secondary" fullWidth />}
+                      name="proveedor"
+                      renderInput={(params) => 
+                        <TextField 
+                          {...params} 
+                          label="Proveedor" 
+                          margin="dense" 
+                          color="secondary"
+                          fullWidth />}
+                      value={values.proveedor}
+                      onChange={(e, value) => handleChange2(e, value, ref0)}
                     />
                     <TextField
                       fullWidth
@@ -144,14 +193,21 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="marca"
                       id="textfields"
+                      onChange={handleChange}
+                      value={values.marca}
                     />
                     <Autocomplete
                       disablePortal
-                      options={top100Films}
+                      options={categorias}
+                      getOptionLabel={(option)=>option.nombre}
                       size="small"
                       id="textfields"
+                      name="categoria"
+                      ref={ref1}
+                      value={values.obj_categoria}
+                      onChange={(e, value) => handleChange2(e, value, ref1)}
                       renderInput={(params) => <TextField {...params} label="Categoría" margin="dense" color="secondary" fullWidth />}
                     />
                   </Grid>
@@ -181,7 +237,8 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                     </Button>
                   </Grid>
                 </Grid>
-              </form>
+              </form> )}
+            </Formik>
           </TabContext>
         </DialogContent>
       </Dialog>

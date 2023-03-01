@@ -34,9 +34,8 @@ import Swal from "sweetalert2";
 import './index.css';
 import Variantes from "./variantes";
 
-const VerArticulo = (itemView) => {
+const VerArticulo = ({itemView}) => {
   const [openModal, setOpenModal] = useState(false);
-
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
@@ -48,7 +47,7 @@ const VerArticulo = (itemView) => {
 
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      if (!itemView.itemView.id) {
+      if (!itemView.id) {
         return {
           ...i,
         };
@@ -56,12 +55,32 @@ const VerArticulo = (itemView) => {
         if (i.primary === "Código") {
           return {
             ...i,
-            secondary: itemView.itemView.id,
+            secondary: itemView.codigo,
           };
         } else if (i.primary === "Nombre") {
           return {
             ...i,
-            secondary: itemView.itemView.nombre,
+            secondary: itemView.nombre,
+          };
+        } else if (i.primary === "Descripción") {
+          return {
+            ...i,
+            secondary: itemView.descripcion,
+          };
+        } else if (i.primary === "Proveedor") {
+          return {
+            ...i,
+            secondary: itemView.nombre_proveedor,
+          };
+        } else if (i.primary === "Marca") {
+          return {
+            ...i,
+            secondary: itemView.marca,
+          };
+        } else if (i.primary === "Categoría") {
+          return {
+            ...i,
+            secondary: itemView.categoria,
           };
         } 
       }
@@ -109,7 +128,7 @@ const VerArticulo = (itemView) => {
                     />
                   */}
                   <img
-                    src="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg"
+                    src={itemView.imagen}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={6}>
@@ -143,7 +162,7 @@ const VerArticulo = (itemView) => {
               <CardActions>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Variantes/>
+                    <Variantes variantes={itemView.variantes}/>
                   </Grid>
                 </Grid>
               </CardActions>
