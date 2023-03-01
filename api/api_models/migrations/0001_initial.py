@@ -519,6 +519,22 @@ class Migration(migrations.Migration):
             name='empresa',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='api_models.empresa'),
         ),
+        migrations.CreateModel(
+            name='SalidaVenta',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('fecha', models.DateField(auto_now_add=True)),
+                ('descripcion', models.CharField(max_length=300)),
+                ('cantidad', models.PositiveIntegerField(default=0)),
+                ('almacen', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api_models.almacen')),
+                ('trabajador', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api_models.trabajador')),
+                ('unidad', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api_models.unidad')),
+                ('venta', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api_models.venta_clie')),
+            ],
+            options={
+                'abstract': False,
+            },
+        ),
         migrations.AddField(
             model_name='clientes',
             name='persona',
