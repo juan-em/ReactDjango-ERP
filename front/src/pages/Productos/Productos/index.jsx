@@ -12,13 +12,11 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Autocomplete, FormControl, InputLabel, Select, MenuItem
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from "@mui/material";
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
@@ -26,19 +24,9 @@ import { Tabla } from "./complements";
 import { get, searcher } from "../../../services/mantenimiento";
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerCategoria from "./verproduccion";
-import VerArticulo from "./verproduccion";
-import { Container } from "@mui/system";
+import Ver from './ver'
 
-//Componentes pra el input de fecha
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import VerProduccion from "./verproduccion";
-import Estados from "./estados";
-
-const Produccion = () => {
+const Productos = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -46,6 +34,7 @@ const Produccion = () => {
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
+  const [categoria, setCategoria] = useState([]);
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
@@ -54,35 +43,21 @@ const Produccion = () => {
     searchform.reset();
   };
 
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
-  ];
-
-  //para el input de fecha
-  const [value, setValue] = useState(dayjs(new Date()));
-
-  const handleChange = (newValue) => {
-      setValue(newValue);
-  };
+  useEffect(() => {
+    const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
+    get(setCategoria, URL);
+  }, []);
 
   return (
     <section>
-      <div>
+      <div className="container">
         <Grid container spacing={4}>
-        
           <Grid item xs={12} sm={12} md={5}>
-            
             <Paper
               elevation={10}
               className="paper"
               sx={{
-                mt: 3,
+                mt: 4,
                 p: 0,
                 backgroundColor: alpha("#8D4C32", 0.2),
                 "&:hover": {
@@ -96,94 +71,73 @@ const Produccion = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar producción
+                  Buscar Producto
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
                     <TextField
                       fullWidth
-                      label="Código"
+                      label="Codigo"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="codigo"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Nombre"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
                       name="nombre"
                       id="textfields"
-                      variant="filled"
                       onChange={handlerSearcher}
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                      label="Fecha de inicio"
-                      inputFormat="DD/MM/YYYY"
-                      value={value}
-                      onChange={handleChange}
-                      renderInput={(params) => <TextField 
-                        {...params} 
-                        fullWidth
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        variant="filled"
-                        />}
-                      />
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                      label="Fecha de fin"
-                      inputFormat="DD/MM/YYYY"
-                      value={value}
-                      onChange={handleChange}
-                      renderInput={(params) => <TextField 
-                        {...params} 
-                        fullWidth
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        variant="filled"
-                        />}
-                      />
-                    </LocalizationProvider>
+                    <TextField
+                      fullWidth
+                      label="Cantidad"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="cantidad"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
                     <FormControl
                       fullWidth
                       margin="dense"
                       size="small"
                       color="secondary"
-                      variant="filled"
                     >
-                      <InputLabel>Estado de producción</InputLabel>
+                      <InputLabel>Categorias</InputLabel>
                       <Select
-                        label="Estado de producción"
+                        label="Categorias"
                         size="small"
                         color="secondary"
                         id="textfields"
                         onChange={handlerSearcher}
                         defaultValue=""
-                        name="codprovincia"
-                        variant="filled"
+                        name="categoria"
                       >
-                        <MenuItem key={1} value={1}>
-                          No Iniciado
-                        </MenuItem>
-                        <MenuItem key={1} value={1}>
-                          En proceso
-                        </MenuItem>
-                        <MenuItem key={1} value={1}>
-                          Terminado
-                        </MenuItem>
-                        <MenuItem key={1} value={1}>
-                          Saliendo
-                        </MenuItem>
+                        {categoria.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombre}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
+                    <br />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
                           fullWidth
                           id="textfields"
-                          color="secondary"
+                          color="primary"
                           variant="contained"
                           onClick={handleClean}
                         >
@@ -195,12 +149,10 @@ const Produccion = () => {
                 </AccordionDetails>
               </Accordion>
             </Paper>
-            
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerProduccion itemView={itemView}/>
+            <Ver itemView={itemView}/>
           </Grid>
-          
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
               render={render}
@@ -223,12 +175,8 @@ const Produccion = () => {
           setItem={setItem}
           setItemView={setItemView}
         />
-      
-         <Estados/>            
-
       </div>
-      
     </section>
   );
 };
-export default Produccion;
+export default Productos;

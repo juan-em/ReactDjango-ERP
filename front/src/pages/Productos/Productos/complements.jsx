@@ -15,7 +15,8 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
+import { getProd, postProd, patchProd, delProd, searcher } from "../../../services/producto";
+// import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
 
 export const Tabla = ({
@@ -27,16 +28,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
-  const [categoria, setCategoria] = useState([]);
+  const URL = "http://localhost:8000/api/productos/";
+  const [producto, setProducto] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setCategoria, URL);
+      getProd(setProducto, URL);
     }
   }, [renderizar]);
 
-  let data = searcher(fields, categoria);
+  let data = searcher(fields, producto);
 
   const handlePut = (row) => {
     setItem(row);
@@ -49,7 +50,7 @@ export const Tabla = ({
 
   const handleDelete = async (id) => {
     try {
-      let res = await del(id, URL);
+      let res = await delProd(`${URL}${id}/`);
       render.current = true;
       setRenderizar(!renderizar);
       return res;
@@ -95,19 +96,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Categoría
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Marca
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Proveedor
+              Cantidad
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -123,11 +112,9 @@ export const Tabla = ({
               <TableCell component="th" scope="row">
                 {i + 1}
               </TableCell>
-              <TableCell align="right">{row.id}</TableCell>
+              <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
-              <TableCell align="right">categoria1</TableCell>
-              <TableCell align="right">marca1</TableCell>
-              <TableCell align="right">proveedor</TableCell>
+              <TableCell align="right">{row.cantidad}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon

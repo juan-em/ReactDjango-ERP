@@ -27,13 +27,13 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Swal from "sweetalert2";
 import { DialogContent } from '@mui/material';
 import { TabContext, TabPanel, TabList } from "@mui/lab";
-import AddFormVariantes from './addformvariantes';
+import AddFormDetalles from './addformdetalles';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Variantes = () => {
+const Detalles = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -46,15 +46,15 @@ const Variantes = () => {
 
   return (
     <div>
-        
         <Button
         fullWidth
         color="secondary"
         variant="contained"
         size="small"
         id="textfields"
-        onClick={handleClickOpen}>
-            Ver variantes
+        onClick={handleClickOpen}
+        sx={{ mt:3}}>
+            Ver detalles de la producción
         </Button>
       <Dialog
         fullScreen
@@ -73,9 +73,9 @@ const Variantes = () => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Variantes
+              Detalles de esta producción
             </Typography>
-            <AddFormVariantes/>
+            <AddFormDetalles/>
             
           </Toolbar>
         </AppBar>
@@ -111,43 +111,13 @@ const Variantes = () => {
                         sx={{ color: "#633256", fontFamily: "inherit" }}
                         align="right"
                         >
-                        Nombre
+                        Nombre del producto
                         </TableCell>
                         <TableCell
                         sx={{ color: "#633256", fontFamily: "inherit" }}
                         align="right"
                         >
-                        Precio Unitario
-                        </TableCell>
-                        <TableCell
-                        sx={{ color: "#633256", fontFamily: "inherit" }}
-                        align="right"
-                        >
-                        Embalaje
-                        </TableCell>
-                        <TableCell
-                        sx={{ color: "#633256", fontFamily: "inherit" }}
-                        align="right"
-                        >
-                        Cantidad
-                        </TableCell>
-                        <TableCell
-                        sx={{ color: "#633256", fontFamily: "inherit" }}
-                        align="right"
-                        >
-                        Ubicación
-                        </TableCell>
-                        <TableCell
-                        sx={{ color: "#633256", fontFamily: "inherit" }}
-                        align="right"
-                        >
-                        Almacén
-                        </TableCell>
-                        <TableCell
-                        sx={{ color: "#633256", fontFamily: "inherit" }}
-                        align="right"
-                        >
-                        Descripción
+                        Estado de producción
                         </TableCell>
                         <TableCell
                         sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -166,11 +136,7 @@ const Variantes = () => {
                         <TableCell align="right">codigo1</TableCell>
                         <TableCell align="right">nombrevariante1</TableCell>
                         <TableCell align="right">10</TableCell>
-                        <TableCell align="right">embalaje1</TableCell>
-                        <TableCell align="right">100</TableCell>
-                        <TableCell align="right">ubicacion1</TableCell>
-                        <TableCell align="right">almacen1</TableCell>
-                        <TableCell align="right">descripcion1</TableCell>
+                      
                         <TableCell align="right" component="th" scope="row">
                             <IconButton
                             aria-label="delete"
@@ -199,4 +165,4 @@ const Variantes = () => {
   );
 }
 
-export default Variantes;
+export default Detalles;

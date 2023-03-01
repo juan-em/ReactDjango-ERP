@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   Tab, Box,
-  Autocomplete, Modal
+  Autocomplete, Modal, FormControl, InputLabel, Select, MenuItem
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 //iconos
@@ -34,13 +34,17 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Swal from "sweetalert2";
 
-const AddFormVariantes = ({ openModal, setOpenModal}) => {
+const AddFormDetalles = ({ openModal, setOpenModal}) => {
     const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handlerSearcher = (e) => {
+    const { name, value } = e.target;
+    setFields({ ...fields, [name]: value });
   };
 
   const top100Films = [
@@ -58,7 +62,7 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
         <Button 
         color="secondary"
         variant="contained"
-        onClick={handleOpen}>Añadir</Button>
+        onClick={handleOpen}><span>Añadir</span></Button>
         <Modal
             open={open}
             onClose={handleClose}
@@ -66,81 +70,48 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
             aria-describedby="parent-modal-description">
                 
             <Box maxWidth={'md'} sx={{ position: 'absolute', top: '50%', left: '50%', backgroundColor:'white' , transform: 'translate(-50%, -50%)', p:5}}>
-            <h2 id="parent-modal-title">Nueva variante</h2>
+            <h2 id="parent-modal-title">Nuevo producto de producción</h2>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
-                      fullWidth
-                      label="Nombre"
-                      required
-                      size="small"
-                      color="secondary"
-                      id="textfields"
-                      margin="dense"
-                      name="nombre"
-                    />
-                    <TextField
-                      fullWidth
-                      label="Precio unitario"
-                      required
-                      type="number"
-                      size="small"
-                      color="secondary"
-                      id="textfields"
-                      margin="dense"
-                      name="nombre"
-                      inputProps={{
-                        step: "0.1"
-                      }}
-                    />
                     <Autocomplete
                       disablePortal
                       options={top100Films}
                       size="small"
                       id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Embalaje" margin="dense" color="secondary" fullWidth />}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Cantidad"
-                      required
-                      type="number"
-                      size="small"
-                      color="secondary"
-                      id="textfields"
-                      margin="dense"
-                      name="nombre"
+                      renderInput={(params) => <TextField {...params} label="Producto" margin="dense" color="secondary" fullWidth />}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                  
-                    <TextField
+                  <FormControl
                       fullWidth
-                      label="Ubicación"
-                      type="text"
+                      margin="dense"
                       size="small"
                       color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                    />
-                    <Autocomplete
-                      disablePortal
-                      options={top100Films}
-                      size="small"
-                      id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Almacén" margin="dense" color="secondary" fullWidth />}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Descripción"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                    />
+                    >
+                      <InputLabel>Estado de producción</InputLabel>
+                      <Select
+                        label="Estado de producción"
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        onChange={handlerSearcher}
+                        defaultValue=""
+                        name="codprovincia"
+                      >
+                        <MenuItem key={1} value={1}>
+                          No Iniciado
+                        </MenuItem>
+                        <MenuItem key={2} value={2}>
+                          En proceso
+                        </MenuItem>
+                        <MenuItem key={3} value={3}>
+                          Terminado
+                        </MenuItem>
+                        <MenuItem key={4} value={4}>
+                          Saliendo
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
@@ -174,4 +145,4 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
   );
 };
 
-export default AddFormVariantes;
+export default AddFormDetalles;

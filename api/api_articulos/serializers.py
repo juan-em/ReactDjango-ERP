@@ -47,7 +47,7 @@ class ArticuloSerializer(WritableNestedModelSerializer):
             'proveedor': instance.nombre_proveedor if instance.proveedor else None,
             'marca': instance.marca,
             'categoria':instance.categoria.nombre if instance.categoria else None,
-            'imagen': instance.imagen.url,
+            'imagen': "http://localhost:8000"+instance.imagen.url,
             'variantes': ser_variantes.data
         }
     

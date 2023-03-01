@@ -26,24 +26,24 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DescriptionIcon from '@mui/icons-material/Description';
-import PortraitIcon from '@mui/icons-material/Portrait';
 import StyleIcon from '@mui/icons-material/Style';
-import CategoryIcon from '@mui/icons-material/Category';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import PauseCircleIcon from '@mui/icons-material/PauseCircle';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
 import Swal from "sweetalert2";
 import './index.css';
-import Variantes from "./variantes";
+import Detalles from "./detalles";
 
-const VerArticulo = (itemView) => {
+const VerProduccion = (itemView) => {
   const [openModal, setOpenModal] = useState(false);
 
   const [itemsPer, setItemsPer] = useState([
-    { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
-    { icon: <DescriptionIcon />, primary: "Descripción", secondary: "" },
-    { icon: <PortraitIcon />, primary: "Proveedor", secondary: "" },
-    { icon: <StyleIcon />, primary: "Marca", secondary: "" },
-    { icon: <CategoryIcon />, primary: "Categoría", secondary: "" },
+    { icon: <NumbersIcon />, primary: "Código (N° de producción)", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "N° de factura", secondary: "" },
+    { icon: <ProductionQuantityLimitsIcon />, primary: "N° de productos", secondary: "" },
+    { icon: <PlayCircleFilledIcon/>, primary: "Fecha de inicio", secondary: "" },
+    { icon: <PauseCircleIcon />, primary: "Fecha de fin", secondary: "" },
+    { icon: <StyleIcon />, primary: "Estado", secondary: "" },
   ]);
 
   const seti = () => {
@@ -94,60 +94,36 @@ const VerArticulo = (itemView) => {
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
           >
-            Artículo seleccionado
+            Producción seleccionada
           </AccordionSummary>
           <AccordionDetails>
-
-            <Card sx={{ p:2 }} elevation={0}>
-
-              <Grid container spacing={1}>
-                <Grid item xs={12} sm={12} md={12} lg={6}>
-                  {/*
-                    <CardMedia
-                      style={{ objectFit:'cover' }}
-                      image="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg"
-                    />
-                  */}
-                  <img
-                    src="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={6}>
-                  <CardContent >
                     <List>
                       <Grid container spacing={0}>
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
                           {itemsPer.map((i) => (
+                            <Grid key={i.primary} item xs={12} sm={6} md={6}>
                             <ListItem>
                               <ListItemAvatar>
                                 <Avatar sx={{ 
-                                backgroundColor: alpha('#633256', 0.20),
-                                '&:hover': {
-                                    backgroundColor: alpha('#633256', 0.25),
-                                }, color:'#633256'
-                                }}>{i.icon}</Avatar>
+                                        backgroundColor: alpha('#633256', 0.20),
+                                        '&:hover': {
+                                            backgroundColor: alpha('#633256', 0.25),
+                                        }, color:'#633256'
+                                        }}>{i.icon}</Avatar>
                               </ListItemAvatar>
                               <ListItemText
                                 primary={<span>{i.primary}</span>}
                                 secondary={i.secondary}
                               />
                             </ListItem>
+                          </Grid>
                           ))}
                         </Grid>
-                      </Grid>
                     </List>
-                  </CardContent>
-                </Grid>
-              </Grid>
-
-              <CardActions>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Variantes/>
+                    <Detalles/>
                   </Grid>
                 </Grid>
-              </CardActions>
-            </Card>
           </AccordionDetails>
         </Accordion>
       </Paper>
@@ -155,4 +131,4 @@ const VerArticulo = (itemView) => {
   );
 };
 
-export default VerArticulo;
+export default VerProduccion;

@@ -11,7 +11,11 @@ import {
   Tab,
   Autocomplete
 } from "@mui/material";
-import { TabContext, TabPanel, TabList } from "@mui/lab";
+import { TabContext } from '@mui/lab';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
@@ -43,7 +47,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la categoría",
+        text: "Se registró la nueva produccion",
       });
       if(item.id)setItem({})
       setRenderizar(!renderizar)
@@ -61,13 +65,10 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
   }
 
   const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
+    { label: 'No Iniciado'},
+    { label: 'En proceso'},
+    { label: 'Terminado'},
+    { label: 'Saliendo'},
   ];
 
   return (
@@ -86,7 +87,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Artículo" : "Nuevo Artículo"}
+            {item.id ? "Editar producion" : "Nueva Produccion"}
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -95,58 +96,59 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                 {item.id?<input type="hidden" name="cod" value={item.id}/>:''
                 }
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12} md={5}>
-                    <Button
-                      sx={{height:'100%'}}
-                      fullWidth
-                      component="label"
-                      id="textfields"
-                      size="small"
-                      color="primary"
-                      variant="outlined">
-                        <input hidden accept="image/*" multiple type="file" />
-                      Subir Imagen
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={7}>
+                  
+                  <Grid item xs={12} sm={12} md={6}>
                   <TextField
                       fullWidth
-                      label="Nombre"
+                      label="Numero de factura"
                       required
                       size="small"
                       color="secondary"
                       id="textfields"
                       margin="dense"
                       name="nombre"
+                      type="number"
                       defaultValue={item.id ? item.nombre:''}
                     />
-                    <TextField
-                      fullWidth
-                      label="Descripción"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                    />
-                    <Autocomplete
-                      disablePortal
-                      options={top100Films}
-                      size="small"
-                      id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Proveedor" margin="dense" color="secondary" fullWidth />}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Marca"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                    />
+                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                          label="Fecha de inicio"
+                          name="fecha"
+                          inputFormat="DD/MM/YYYY"
+                         
+                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
+                          renderInput={(params) => <TextField 
+                            {...params} 
+                            fullWidth
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            margin="dense"
+                            />}
+                          />
+                        </LocalizationProvider>
+                    
+
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                          label="Fecha de fin"
+                          name="fecha"
+                          inputFormat="DD/MM/YYYY"
+                         
+                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
+                          renderInput={(params) => <TextField 
+                            {...params} 
+                            fullWidth
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            margin="dense"
+                            />}
+                          />
+                        </LocalizationProvider>
                     <Autocomplete
                       disablePortal
                       options={top100Films}
