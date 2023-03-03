@@ -27,21 +27,23 @@ import AlbumIcon from '@mui/icons-material/Album';
 import ArtTrackIcon from '@mui/icons-material/ArtTrack';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
+import ClassIcon from '@mui/icons-material/Class';
+import CropIcon from '@mui/icons-material/Crop';
 
 export const menuItems = [
     { url: "/", icon: <HomeIcon/>, name: "Inicio",
     item:[] },
 
-    { url: "#comerciales", icon: <HandshakeIcon/>, name: "Inter. Comer.",
+    { url: "#Comerciales", icon: <HandshakeIcon/>, name: "Inter. Comer.",
     item:[{name:'Clientes',icon: <SwitchAccountIcon/>,url:'/clientes'},
         {name:'Proveedores',icon: <SupportAgentIcon/>,url:'/proveedores'},
         {name:'Trabajadores',icon: <EngineeringIcon/>,url:'/trabajadores'}] },
 
-    { url: "#contact", icon: <Inventory2Icon/>, name: "Productos",
-    item:[{name:'Productos',icon: <ArtTrackIcon/>,url:'#cliente'},
+    { url: "#Productos", icon: <Inventory2Icon/>, name: "Productos",
+    item:[{name:'Productos',icon: <ArtTrackIcon/>,url:'/productos/productos'},
         {name:'Articulos',icon: <AlbumIcon/>,url:'/productos/articulos'}] },
 
-    { url: "#about", icon: <AttachMoneyIcon/>, name: "Ventas",
+    { url: "#Ventas", icon: <AttachMoneyIcon/>, name: "Ventas",
     item:[{name:'Venta',icon: <SellIcon/>,url:'/ventas/venta'},
         {name:'Facturas',icon: <ArticleIcon/>,url:'#proveedor'},
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
@@ -51,22 +53,24 @@ export const menuItems = [
         {name:'Factura',icon: <ArticleIcon/>,url:'#proveedor'},
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 
-    { url: "#about", icon: <CategoryIcon/>, name: "Producción",
+    { url: "#Produccion", icon: <CategoryIcon/>, name: "Producción",
     item:[{name:'Produccion',icon: <ProductionQuantityLimitsIcon/>,url:'#cliente'}] },
 
-    { url: "#about", icon: <AutoStoriesIcon/>, name: "Tesorería",
+    { url: "#Tesoreria", icon: <AutoStoriesIcon/>, name: "Tesorería",
     item:[{name:'Caja Diaria',icon: <PointOfSaleIcon/>,url:'#cliente'},
         {name:'Libro Diario',icon: <BookmarkIcon/>,url:'#proveedor'}] },
 
-    { url: "#about", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
+    { url: "#Mantenimiento", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
     item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
         {name:'Formas de Pago',icon: <CreditCardIcon/>,url:'/mantenimientos/formaspago'},
         {name:'Entidades',icon: <LocalConvenienceStoreIcon/>,url:'/mantenimientos/entidades'},
         {name:'Almacenes',icon: <AddBusinessIcon/>,url:'/mantenimientos/almacenes'},
         {name:'Impuestos',icon: <RequestQuoteIcon/>,url:'/mantenimientos/impuestos'},
         {name:'Embalajes',icon: <ArchiveIcon/>,url:'/mantenimientos/embalajes'},
-        {name:'Categorías',icon: <AutoAwesomeMosaicIcon/>,url:'/mantenimientos/categorias'},]},
+        {name:'Áreas',icon: <CropIcon/>,url:'/mantenimientos/areas'},
+        {name:'Cat. Artículos',icon: <AutoAwesomeMosaicIcon/>,url:'/mantenimientos/categorias'},
+        {name:'Cat. Productos',icon: <ClassIcon/>,url:'/mantenimientos/categoriasproductos'},]},
 
-    { url: "#about", icon: <PrecisionManufacturingIcon/>, name: "Servicios",
+    { url: "#Setvicios", icon: <PrecisionManufacturingIcon/>, name: "Servicios",
     item:[{name:'Servicios',icon: <ElectricalServicesIcon/>,url:'#cliente'}] },
 ];

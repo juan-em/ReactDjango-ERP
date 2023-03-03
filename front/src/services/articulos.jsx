@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const URL = 'http://localhost:8000/api/articulos/'
+
 export const searcher = (fields, list) => {
     let resultData = list;
     resultData = fields.codigo
@@ -36,18 +38,69 @@ export const searcher = (fields, list) => {
     return resultData;
 };
 
-export const getArticulos = (set, url) => {
+export function transformObjectToFormData(obj) {
+  const formData = new FormData();
+
+  function flattenObj(obj, path = '') {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const value = obj[key];
+        const newPath = path ? `${path}[${key}]` : key;
+        if (value === null) {
+          formData.append(newPath, '');
+        } else if (value instanceof FileList) {
+          for (let i = 0; i < value.length; i++) {
+            formData.append(newPath, value[i]);
+          }
+        } else if (value instanceof File) {
+          formData.append(newPath, value);
+        } else if (typeof value === 'object' && value !== null) {
+          if (Array.isArray(value)) {
+            for (let i = 0; i < value.length; i++) {
+              flattenObj(value[i], `${newPath}[${i}]`);
+            }
+          } else {
+            flattenObj(value, newPath);
+          }
+        } else {
+          const numericValue = parseFloat(value);
+          formData.append(newPath, isNaN(numericValue) ? value : numericValue);
+        }
+      }
+    }
+  }
+
+  flattenObj(obj);
+  return formData;
+}
+
+export const getArticulos = (set) => {
     axios
-    .get(url)
+    .get(URL)
     .then((res) => {
       if (res.status == 200) set(res.data.content);
     })
     .catch((error) => console.log(error));
 }
 
-export const postArticulo = async (url, data) =>{
+export const postArticulo = async (data) =>{
     try{
-        const response = await axios.post(url, data);
+        const response = await axios.post(URL ,data,{headers: {
+            'Content-Type': 'multipart/form-data'
+          }});
+        return response.data
+        
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+}
+
+export const putArticulo = async (id, data) =>{
+    try{
+        const response = await axios.patch(`${URL}${id}/`, data,{headers: {
+          'Content-Type': 'multipart/form-data'
+        }});
         return response.data
     } catch (error) {
         console.log(error);
@@ -55,12 +108,12 @@ export const postArticulo = async (url, data) =>{
     }
 }
 
-export const putArticulo = async (url, data) =>{
-    try{
-        const response = await axios.put(url, data);
-        return response.data
-    } catch (error) {
-        console.log(error);
-        return error
-    }
+export const deleteArticulo = async (id) =>{
+  try{
+      const response = await axios.delete(`${URL}${id}/`);
+      return response.data
+  } catch (error) {
+      console.log(error);
+      return error
+  }
 }

@@ -5,6 +5,7 @@ from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _ 
 
 #CHOICES
 CHOICES_YES_NO = (("Sí", "Sí"),
@@ -15,6 +16,12 @@ CHOICES_PRIM_INS = [
     ("Insumo", "Insumo"),
     ("Ninguno", "Ninguno")
 ]
+
+# IMAGEN
+def upload_toArt(instance, filename):
+    return 'articulos/{filename}'.format(filename=filename)
+def upload_toProd(instance, filename):
+    return 'productos/{filename}'.format(filename=filename)
 
 # USER AUTHENTICATION
 class Profile_User(models.Model):
@@ -174,7 +181,8 @@ class Articulo (models.Model):
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True, blank=True)
     marca = models.CharField(max_length=100, default='-')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
-    imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
+    imagen = models.ImageField( _("Image") ,upload_to=upload_toArt,default='blancos.png', blank=True, null=True)
+    # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
 
     def __str__(self):
@@ -225,10 +233,16 @@ class Producto(models.Model):
     cantidad = models.IntegerField(default=0)
     descripcion_producto = models.TextField(null=True, blank=True)
     categoria=models.ForeignKey(Categoria_producto, related_name='categoria_producto', on_delete=models.SET_NULL, null=True)
-    imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
+    imagen = models.ImageField( _("Image") ,upload_to=upload_toProd,default='media/blancos.png', blank=True, null=True)
+    # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.nombre
+    
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'PROD-'+'0'*(5-len(id))+id
 
 class Producto_variante(models.Model):
     producto = models.ForeignKey(Producto,related_name='producto_variante', on_delete=models.CASCADE, null=True)

@@ -20,7 +20,7 @@ import { Formik } from "formik";
 //componentes
 import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 import { getProveedores } from "../../../services/Proveedores";
-
+import { postArticulo, putArticulo, transformObjectToFormData } from "../../../services/articulos";
 import Swal from "sweetalert2";
 
 
@@ -35,9 +35,8 @@ const AddForm = ({
 }) => {
   const [proveedores, setProveedores] = useState()
   const [categorias, setCategorias] = useState()
-  const [autocompleteFields, setAutocompleteFields] = useState()
+  
 
-  const URL = "http://localhost:8000/api/articulos/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -49,42 +48,48 @@ const AddForm = ({
   };
 
   const artSubmit = async (val) => {
-    const {nombre, descripcion, marca} = val
-    var dataToSubmit = {nombre, descripcion, marca}
-    dataToSubmit = {...dataToSubmit, ...autocompleteFields}
-    console.log(dataToSubmit)
-    // try {
-    //   !item.id
-    //     ? await postClienteper(val)
-    //     : await putClienteper(item.id, val);
-
-    //   Swal.fire({
-    //     icon: "success",
-    //     title: "Ok",
-    //     text: "Se registro el Cliente",
-    //   });
-    //   if (item.id) setItem({});
-    //   setRenderizar(!renderizar);
-    //   render.current = true;
-    // } catch (error) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Oops...",
-    //     text: `${error}`,
-    //   });
-    // }
-    // setOpenModal(false);
+    let {proveedor, categoria} = val
+    let dataToSubmit
+    dataToSubmit = {
+      "proveedor":proveedor ? proveedor.id : null, 
+      "categoria":categoria ? categoria.id : null
+    }
+    if (!item.id){
+      dataToSubmit = {...val,...dataToSubmit, "variantes":[{"nombre":val.nombre}]};
+    } 
+    else {
+      let {nombre, descripcion, marca, imagen} = val
+      dataToSubmit =  {nombre, descripcion, marca, imagen, ...dataToSubmit}
+      typeof dataToSubmit.imagen === 'string' && delete dataToSubmit.imagen
+    }
+    try {
+      console.log(dataToSubmit)
+      var payload = transformObjectToFormData(dataToSubmit)
+      for (var key of payload.entries()) {
+        console.log(key[0] + ', ' + key[1]);
+      }
+      !item.id
+        ? await postArticulo(payload)
+        : await putArticulo(item.id, payload);
+      Swal.fire({
+        icon: "success",
+        title: "Ok",
+        text: "Se registro el artículo",
+      })
+      if (item.id) setItem({});
+      setRenderizar(!renderizar);
+      render.current = true;
+    }
+    catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
+    }
+    setOpenModal(false);
   };
 
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
-  ];
 
   useEffect(()=>{
     const URL_C = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
@@ -92,16 +97,7 @@ const AddForm = ({
     get(setCategorias, URL_C)
   },[])
 
-  const handleChange2 = (e, value, ref) => {
-    setAutocompleteFields(
-      {...autocompleteFields, [ref.current.getAttribute("name")]:value.id}
-    )
-  }
 
-  console.log("aaaa")
-  console.log(autocompleteFields)
-  const ref0 = useRef();
-  const ref1 = useRef();
   return (
     <>
       <IconButton
@@ -121,10 +117,11 @@ const AddForm = ({
             {item.id ? "Editar Artículo" : "Nuevo Artículo"}
           </Typography>
         </DialogTitle>
-        <DialogContent>
-          <TabContext centered>
+        <DialogContent centered="true">
             <Formik initialValues={item} onSubmit={artSubmit}>
-            {({ values, handleSubmit, handleChange }) => (
+            {({ values, handleSubmit, handleChange, setFieldValue }) => {
+            const [imagenURL, setImagenURL] = useState(values.imagen || '');
+            return (
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={5}>
@@ -136,8 +133,13 @@ const AddForm = ({
                       size="small"
                       color="primary"
                       variant="outlined">
-                        <input hidden accept="image/*" multiple type="file" />
-                      Subir Imagen
+                        { values.imagen ? <img src={imagenURL} alt="Imagen seleccionada"/> : "Subir Imagen" }
+                        <input type="file" accept="image/*" hidden 
+                        name="imagen" onChange={(e)=>{
+                          setFieldValue([e.target.name],e.target.files[0]);
+                          setImagenURL(URL.createObjectURL(e.target.files[0]));
+                        }}/>
+                        
                     </Button>
                   </Grid>
                   <Grid item xs={12} sm={12} md={7}>
@@ -166,8 +168,8 @@ const AddForm = ({
                       value={values.descripcion}
                     />
                     <Autocomplete
+                      freeSolo
                       disablePortal
-                      ref={ref0}
                       options={proveedores}
                       getOptionLabel = {(option) => {
                         if (option.persona) return option.persona.nombre
@@ -184,7 +186,7 @@ const AddForm = ({
                           color="secondary"
                           fullWidth />}
                       value={values.proveedor}
-                      onChange={(e, value) => handleChange2(e, value, ref0)}
+                      onChange={(e, value) => {setFieldValue("proveedor", value)}}
                     />
                     <TextField
                       fullWidth
@@ -199,15 +201,15 @@ const AddForm = ({
                       value={values.marca}
                     />
                     <Autocomplete
+                      freeSolo
                       disablePortal
                       options={categorias}
                       getOptionLabel={(option)=>option.nombre}
                       size="small"
                       id="textfields"
                       name="categoria"
-                      ref={ref1}
-                      value={values.obj_categoria}
-                      onChange={(e, value) => handleChange2(e, value, ref1)}
+                      value={values.categoria}
+                      onChange={(e, value) => {setFieldValue("categoria", value)}}
                       renderInput={(params) => <TextField {...params} label="Categoría" margin="dense" color="secondary" fullWidth />}
                     />
                   </Grid>
@@ -237,9 +239,8 @@ const AddForm = ({
                     </Button>
                   </Grid>
                 </Grid>
-              </form> )}
+              </form> )}}
             </Formik>
-          </TabContext>
         </DialogContent>
       </Dialog>
     </>

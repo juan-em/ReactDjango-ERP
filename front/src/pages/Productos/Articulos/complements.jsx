@@ -11,13 +11,14 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MenuItem from "@mui/material/MenuItem";
 
-import { styled, useTheme, alpha } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
 import {  post_put, del } from "../../../services/mantenimiento";
 import { searcher, getArticulos} from "../../../services/articulos";
 import { useState, useEffect } from "react";
+import { deleteArticulo } from "../../../services/articulos";
+import Swal from "sweetalert2";
 
 export const Tabla = ({
   fields,
@@ -28,12 +29,11 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/articulos/";
   const [articulos, setArticulos] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      getArticulos(setArticulos, URL);
+      getArticulos(setArticulos);
     }
   }, [renderizar]);
 
@@ -50,12 +50,21 @@ export const Tabla = ({
 
   const handleDelete = async (id) => {
     try {
-      let res = await del(id, URL);
+      await deleteArticulo(id)
+      Swal.fire({
+        icon: "success",
+        title: "Ok",
+        text: "Se elimino el artículo",
+      })
+      setItem({});
       render.current = true;
       setRenderizar(!renderizar);
-      return res;
     } catch (error) {
-      return error;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
     }
   };
 
@@ -126,14 +135,18 @@ export const Tabla = ({
               </TableCell>
               <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
-              <TableCell align="right">{row.categoria||'-'}</TableCell>
+              <TableCell align="right">{row.nombre_categoria||'-'}</TableCell>
               <TableCell align="right">{row.marca||'-'}</TableCell>
               <TableCell align="right">{row.nombre_proveedor||'-'}</TableCell>
               <TableCell align="right" component="th" scope="row">
-                <IconButton aria-label="delete" size="small" color="primary">
+                <IconButton 
+                  onClick={() => handleView(row)}
+                  aria-label="delete" 
+                  size="small" 
+                  color="primary"
+                >
                   <VisibilityIcon
                     fontSize="inherit"
-                    onClick={() => handleView(row)}
                   />
                 </IconButton>
                 <IconButton

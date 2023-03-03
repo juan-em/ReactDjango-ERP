@@ -20,7 +20,7 @@ class ArticuloVarianteSerializer(serializers.ModelSerializer):
             'ubicacion': instance.ubicacion,
             'almacen': instance.almacen.id if instance.almacen else None,
             'descripcion': instance.descripcion,
-            'imagen': instance.articulo.imagen.url
+            'imagen': "http://localhost:8000" + instance.articulo.imagen.url
         }
 
 #Serializers for the representation (get)
@@ -63,9 +63,9 @@ class ArticuloSerializer(WritableNestedModelSerializer):
             'proveedor':ser_proveedor.data if instance.proveedor else None,
             'nombre_proveedor': instance.nombre_proveedor if instance.proveedor else None,
             'marca': instance.marca,
-            'categoria':instance.categoria.nombre if instance.categoria else None,
-            'obj_categoria': ser_categoria.data if instance.categoria else None,
-            'imagen': instance.imagen.url,
+            'nombre_categoria':instance.categoria.nombre if instance.categoria else None,
+            'categoria': ser_categoria.data if instance.categoria else None,
+            'imagen': "http://localhost:8000"+instance.imagen.url,
             'variantes': ser_variantes.data
         }
     

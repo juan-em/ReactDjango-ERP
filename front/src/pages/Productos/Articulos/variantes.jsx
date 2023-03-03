@@ -79,8 +79,7 @@ const Variantes = ({variantes}) => {
             
           </Toolbar>
         </AppBar>
-        <DialogContent>
-          <TabContext centered>
+        <DialogContent centered>
             <TableContainer component={Paper} sx={{ mt: 0 }} elevation={0}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead
@@ -158,7 +157,7 @@ const Variantes = ({variantes}) => {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                        {variantes.map((item, i) => (
+                        {variantes.map((item, i) => { return (
                             <TableRow key={1}>
                             <TableCell component="th" scope="row">
                                 1
@@ -169,7 +168,7 @@ const Variantes = ({variantes}) => {
                             <TableCell align="right">{item.embalaje||"-"}</TableCell>
                             <TableCell align="right">{item.cantidad}</TableCell>
                             <TableCell align="right">{item.ubicacion}</TableCell>
-                            <TableCell align="right">{item.almacen.nombre ? item.almacen : "-"}</TableCell>
+                            <TableCell align="right">{ item.almacen ? item.almacen.nombre : "-"}</TableCell>
                             <TableCell align="right">{item.descripcion}</TableCell>
                             <TableCell align="right" component="th" scope="row">
                                 <IconButton
@@ -188,11 +187,10 @@ const Variantes = ({variantes}) => {
                                 </IconButton>
                             </TableCell>
                             </TableRow>
-                        ))}
+                        )})}
                     </TableBody>
                 </Table>
                 </TableContainer>
-                </TabContext>
             </DialogContent>
       </Dialog>
     </div>
