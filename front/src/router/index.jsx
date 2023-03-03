@@ -31,6 +31,7 @@ import Productos from "../pages/Productos/Productos";
 import CategoriasProductos from "../pages/Mantenimiento/CategoríasProductos";
 import Areas from "../pages/Mantenimiento/Áreas";
 import Produccion from "../pages/Produccion/Produccion";
+import Factura from "../pages/Compras/Facturas";
 
 // LAYOUTS
 
@@ -77,7 +78,10 @@ const Router = () => {
 
               {/* Venta */}
               <Route path="/ventas/venta" element={<Venta />} />
+
+              {/* Compras */}
               <Route path="/compras/compra" element={<Compra />} />
+              <Route path="/compras/facturas" element={<Factura />} />
             </Route>
           </Route>
 
