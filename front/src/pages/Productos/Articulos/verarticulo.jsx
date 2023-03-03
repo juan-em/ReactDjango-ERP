@@ -60,7 +60,7 @@ const VerArticulo = ({itemView}) => {
         } else if (i.primary === "Proveedor") {
           return {
             ...i,
-            secondary: itemView.nombre_proveedor,
+            secondary: itemView.nombre_proveedor || '-',
           };
         } else if (i.primary === "Marca") {
           return {
@@ -70,7 +70,7 @@ const VerArticulo = ({itemView}) => {
         } else if (i.primary === "Categoría") {
           return {
             ...i,
-            secondary: itemView.nombre_categoria,
+            secondary: itemView.nombre_categoria || '-',
           };
         }
       }
@@ -136,7 +136,7 @@ const VerArticulo = ({itemView}) => {
               <CardActions>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Variantes variantes={itemView.variantes}/>
+                    <Variantes variantes={itemView.variantes} id={itemView.id}/>
                   </Grid>
                 </Grid>
               </CardActions>

@@ -31,6 +31,13 @@ const Articulos = () => {
   const [itemView, setItemView] = useState({"variantes":[]});
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
+
+  //Autocomplete options
+  const [proveedores, setProveedores] = useState()
+  const [categorias, setCategorias] = useState()
+  const [almacenes, setAlmacenes] = useState()
+  const [embalajes, setEmbalajes] = useState()
+
   const [fields, setFields] = useState({});
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
@@ -49,6 +56,8 @@ const Articulos = () => {
     { label: "Schindler's List", year: 1993 },
     { label: 'Pulp Fiction', year: 1994 },
   ];
+
+
   return (
     <section>
       <div className="container">
@@ -102,10 +111,23 @@ const Articulos = () => {
                     />
                     <Autocomplete
                       disablePortal
-                      options={top100Films}
+                      options={proveedores}
+                      getOptionLabel = {(option) => {
+                        if (option.persona) return option.persona.nombre 
+                        if (option.empresa) return option.empresa.nombre
+                        return ''
+                      }}
                       size="small"
                       id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Proveedor" margin="dense" color="secondary" fullWidth />}
+                      name="proveedor"
+                      renderInput={(params) => 
+                        <TextField 
+                          {...params} 
+                          label="Proveedor" 
+                          margin="dense" 
+                          color="secondary"
+                          fullWidth />}
+                      //onChange={(e, value) => {setFieldValue("proveedor", value)}}
                     />
                     <TextField
                       fullWidth
@@ -120,10 +142,23 @@ const Articulos = () => {
                     />
                     <Autocomplete
                       disablePortal
-                      options={top100Films}
+                      options={categorias}
+                      getOptionLabel={(option)=>{
+                        if (option) return option.nombre 
+                        return ''}}
                       size="small"
                       id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Categoría" margin="dense" color="secondary" fullWidth />}
+                      name="categoria"
+                      
+                      renderInput={(params) => 
+                        <TextField 
+                          {...params} 
+                          label="Categoría" 
+                          margin="dense" 
+                          color="secondary" 
+                          fullWidth 
+                        />}
+                      //onChange={(e, value) => {setFieldValue("categoria", value)}}
                     />
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
@@ -145,7 +180,12 @@ const Articulos = () => {
             
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerArticulo itemView={itemView}/>
+            <VerArticulo 
+              itemView={itemView} 
+              almacenes={almacenes}
+              setAlmacenes={setAlmacenes}
+              embalajes={embalajes}
+              setEmbalajes={setEmbalajes}/>
           </Grid>
           
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
@@ -157,6 +197,10 @@ const Articulos = () => {
               setOpenModal={setOpenModal}
               item={item}
               setItem={setItem}
+              proveedores={proveedores}
+              setProveedores={setProveedores}
+              categorias={categorias}
+              setCategorias={setCategorias}
             />
           </Grid>
         </Grid>

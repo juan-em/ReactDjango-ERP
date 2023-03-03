@@ -18,7 +18,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Formik } from "formik";
 
 //componentes
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
+import { get } from "../../../services/mantenimiento";
 import { getProveedores } from "../../../services/Proveedores";
 import { postArticulo, putArticulo, transformObjectToFormData } from "../../../services/articulos";
 import Swal from "sweetalert2";
@@ -32,11 +32,13 @@ const AddForm = ({
   setOpenModal, 
   item, 
   setItem,
+  proveedores,
+  setProveedores,
+  categorias,
+  setCategorias
 }) => {
-  const [proveedores, setProveedores] = useState()
-  const [categorias, setCategorias] = useState()
-  
 
+  
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -44,7 +46,6 @@ const AddForm = ({
   const handleClose = () => {
     if(item.id)setItem({})
     setOpenModal(false)
-    setAutocompleteFields({})
   };
 
   const artSubmit = async (val) => {
@@ -168,12 +169,12 @@ const AddForm = ({
                       value={values.descripcion}
                     />
                     <Autocomplete
-                      freeSolo
                       disablePortal
                       options={proveedores}
                       getOptionLabel = {(option) => {
-                        if (option.persona) return option.persona.nombre
-                        return option.empresa.nombre
+                        if (option.persona) return option.persona.nombre 
+                        if (option.empresa) return option.empresa.nombre
+                        return ''
                       }}
                       size="small"
                       id="textfields"
@@ -201,16 +202,24 @@ const AddForm = ({
                       value={values.marca}
                     />
                     <Autocomplete
-                      freeSolo
                       disablePortal
                       options={categorias}
-                      getOptionLabel={(option)=>option.nombre}
+                      getOptionLabel={(option)=>{if (option) return option.nombre 
+                                                return ''}}
                       size="small"
                       id="textfields"
                       name="categoria"
+                      
+                      renderInput={(params) => 
+                        <TextField 
+                          {...params} 
+                          label="Categoría" 
+                          margin="dense" 
+                          color="secondary" 
+                          fullWidth 
+                        />}
                       value={values.categoria}
                       onChange={(e, value) => {setFieldValue("categoria", value)}}
-                      renderInput={(params) => <TextField {...params} label="Categoría" margin="dense" color="secondary" fullWidth />}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>

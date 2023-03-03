@@ -50,15 +50,23 @@ export const Tabla = ({
 
   const handleDelete = async (id) => {
     try {
-      await deleteArticulo(id)
+      
       Swal.fire({
-        icon: "success",
-        title: "Ok",
-        text: "Se elimino el artículo",
+        title: '¿Desea eliminar el artículo y sus variantes?',
+        showDenyButton: true,
+        confirmButtonText: 'SI',
+        denyButtonText: `NO`,
+      }).then(async (result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          await deleteArticulo(id)
+          Swal.fire('Eliminado', '', 'success')
+          setItem({});
+          render.current = true;
+          setRenderizar(!renderizar);
+        } 
       })
-      setItem({});
-      render.current = true;
-      setRenderizar(!renderizar);
+      
     } catch (error) {
       Swal.fire({
         icon: "error",

@@ -33,8 +33,9 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Variantes = ({variantes}) => {
+const Variantes = ({variantes, id}) => {
   const [open, setOpen] = useState(false);
+  const [item, setItem] = useState();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,10 +45,15 @@ const Variantes = ({variantes}) => {
     setOpen(false);
   };
 
+  const handlePut = (row) => {
+    setItem(row);
+    setOpen(true);
+  }
+
   return (
     <div>
         
-        <Button
+      <Button
         fullWidth
         color="secondary"
         variant="contained"
@@ -75,7 +81,13 @@ const Variantes = ({variantes}) => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Variantes
             </Typography>
+            
+
+            
+            
             <AddFormVariantes/>
+            
+
             
           </Toolbar>
         </AppBar>
@@ -175,6 +187,7 @@ const Variantes = ({variantes}) => {
                                 aria-label="delete"
                                 size="small"
                                 color="success"
+                                onClick={()=>{ handlePut(item)}}
                                 >
                                 <EditIcon fontSize="inherit" />
                                 </IconButton>

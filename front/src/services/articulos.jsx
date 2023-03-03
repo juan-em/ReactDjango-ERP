@@ -117,3 +117,25 @@ export const deleteArticulo = async (id) =>{
       return error
   }
 }
+
+//Articulos variantes
+const URL_AV = `${URL}variantes/`
+
+export const getArticulosVariantes = (set) => {
+  axios
+  .get(URL_AV)
+  .then((res) => {
+    if (res.status == 200) set(res.data.content);
+  })
+  .catch((error) => console.log(error));
+}
+
+export const postArticulosVariantes = async (data) => {
+  try{
+    const response = await axios.post(URL_AV ,data);
+    return response.data
+} catch (error) {
+    console.log(error);
+    return error
+}
+}
