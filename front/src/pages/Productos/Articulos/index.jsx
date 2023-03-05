@@ -48,7 +48,6 @@ const Articulos = () => {
     searchform.reset();
   };
 
-  console.log(fields)
   useEffect(()=>{
     const URL_M = "http://localhost:8000/api/mantenimientos/almacenes/";
     get(setAlmacenes, URL_M)
