@@ -3,24 +3,34 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from api_models.models import *
 
+class EMSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Embalajes
+        fields = '__all__'
+class ALSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Almacen
+        fields = '__all__'
 class ArticuloVarianteSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticuloVariante
         fields = '__all__'
-
     def to_representation(self, instance):
+        almacen_info = ALSerilizer(Almacen.objects.get(id=instance.almacen.id)).data if instance.almacen else None
+        embalaje_info = EMSerilizer(Embalajes.objects.get(id=instance.embalaje.id)).data if instance.embalaje else None
         return{
             'id': instance.id,
             'nombre':instance.nombre,
             'articulo':instance.articulo.nombre,
             'categoria':instance.articulo.categoria.id if instance.articulo.categoria else None,
             'precio_unitario':instance.precio_unitario,
-            'embalaje': instance.embalaje.id if instance.embalaje else None,
+            'embalaje': embalaje_info,
             'cantidad': instance.cantidad,
             'ubicacion': instance.ubicacion,
-            'almacen': instance.almacen.id if instance.almacen else None,
+            'almacen': almacen_info,
             'descripcion': instance.descripcion,
-            'imagen': "http://localhost:8000" + instance.articulo.imagen.url
+            'imagen': "http://localhost:8000" + instance.articulo.imagen.url,
+            'codigo': instance.codigo
         }
 
 #Serializers for the representation (get)

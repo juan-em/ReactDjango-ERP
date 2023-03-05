@@ -64,11 +64,10 @@ const AddForm = ({
       typeof dataToSubmit.imagen === 'string' && delete dataToSubmit.imagen
     }
     try {
-      console.log(dataToSubmit)
       var payload = transformObjectToFormData(dataToSubmit)
-      for (var key of payload.entries()) {
-        console.log(key[0] + ', ' + key[1]);
-      }
+      // for (var key of payload.entries()) {
+      //   console.log(key[0] + ', ' + key[1]);
+      // }
       !item.id
         ? await postArticulo(payload)
         : await putArticulo(item.id, payload);
@@ -178,7 +177,6 @@ const AddForm = ({
                       }}
                       size="small"
                       id="textfields"
-                      name="proveedor"
                       renderInput={(params) => 
                         <TextField 
                           {...params} 
@@ -208,8 +206,6 @@ const AddForm = ({
                                                 return ''}}
                       size="small"
                       id="textfields"
-                      name="categoria"
-                      
                       renderInput={(params) => 
                         <TextField 
                           {...params} 

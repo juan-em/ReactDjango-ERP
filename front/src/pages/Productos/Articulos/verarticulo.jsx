@@ -24,8 +24,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./index.css";
 import Variantes from "./variantes";
 
-const VerArticulo = ({itemView}) => {
-  const [openModal, setOpenModal] = useState(false);
+const VerArticulo = ({itemView, almacenes}) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
@@ -34,6 +33,7 @@ const VerArticulo = ({itemView}) => {
     { icon: <NumbersIcon />, primary: "Marca", secondary: "" },
     { icon: <NumbersIcon />, primary: "Categoría", secondary: "" },
   ]);
+  const [variantes, setVariantes] = useState([])
 
   const seti = () => {
     const newItem = itemsPer.map((i) => {
@@ -76,6 +76,7 @@ const VerArticulo = ({itemView}) => {
       }
     });
     setItemsPer(newItem);
+    setVariantes(itemView.variantes)
   };
 
   useEffect(() => {
@@ -136,7 +137,12 @@ const VerArticulo = ({itemView}) => {
               <CardActions>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Variantes variantes={itemView.variantes} id={itemView.id}/>
+                    <Variantes 
+                      almacenes={almacenes}
+                      itemView={itemView}
+                      variantes={variantes}
+                      setVariantes={setVariantes}
+                    />
                   </Grid>
                 </Grid>
               </CardActions>

@@ -6,33 +6,37 @@ export const searcher = (fields, list) => {
     let resultData = list;
     resultData = fields.codigo
         ? resultData.filter((item) =>
-            item.codigo.toString().toLowerCase().includes(fields.codigo.toString())
+            item.id === fields.codigo
             )
         : resultData;
     resultData = fields.nombre
-        ? resultData.filter((item) =>
-            item.nombre.toString().toLowerCase().includes(fields.nombre.toString())
+        ? resultData.filter((item) =>{
+            console.log(item.nombre)
+            return item.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())}
             )
         : resultData;
     resultData = fields.proveedor
         ? resultData.filter((item) => 
-            item.proveedor == fields.proveedor
+            item.proveedor ? item.proveedor.id == fields.proveedor.id : false
         )
         : resultData;
-    resultData = fields.marca
+    resultData = fields.marca && fields.marca!=''
         ? resultData.filter((item) =>
-            item.marca.toString().toLowerCase().includes(fields.marca.toString())
+            item.marca.toString().toLowerCase().includes(fields.marca.toString().toLowerCase())
             )
         : resultData;
     resultData = fields.categoria
         ? resultData.filter((item) => 
-            item.categoria == fields.categoria
-        )
+            item.categoria ? item.categoria.id == fields.categoria.id : false
+            )
         : resultData;
     resultData = fields.almacen
         ? resultData.filter((item) => 
-            item.almacen == fields.almacen
-        )
+            item.variantes ? item.variantes.some(i=>{
+              return i.almacen ? i.almacen.id==fields.almacen.id: false})
+              : 
+              false
+            )
         : resultData;
     
     return resultData;
@@ -134,8 +138,28 @@ export const postArticulosVariantes = async (data) => {
   try{
     const response = await axios.post(URL_AV ,data);
     return response.data
-} catch (error) {
+  } catch (error) {
     console.log(error);
     return error
+  }
 }
+
+export const putArticulosVariantes = async (id, data) => {
+  try{
+    const response = await axios.patch(`${URL_AV}${id}/` ,data);
+    return response.data
+  } catch (error) {
+    console.log(error);
+    return error
+  }
+}
+
+export const deleteArticuloVariante = async (id) =>{
+  try{
+      const response = await axios.delete(`${URL_AV}${id}/`);
+      return response.data
+  } catch (error) {
+      console.log(error);
+      return error
+  }
 }
