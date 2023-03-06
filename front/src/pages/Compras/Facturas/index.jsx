@@ -89,8 +89,13 @@ const Factura = () => {
                   <form id="searchform">
                     <TextField
                       fullWidth
+<<<<<<< HEAD
                       label="RUC Proveedor"
                       type="number"
+=======
+                      label="RUC CLIENTE"
+                      type="text"
+>>>>>>> 88c03f8 (l)
                       size="small"
                       color="secondary"
                       margin="dense"
@@ -112,6 +117,7 @@ const Factura = () => {
                       onChange={handlerSearcher}
                     />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+<<<<<<< HEAD
                       <DesktopDatePicker
                         label="Fecha"
                         inputFormat="DD/MM/YYYY"
@@ -128,6 +134,26 @@ const Factura = () => {
                           />}
                         />
                       </LocalizationProvider>
+=======
+                          <DesktopDatePicker
+                          label="Fecha"
+                          name="fecha"
+                          
+                          inputFormat="DD/MM/YYYY"
+                         
+                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
+                          renderInput={(params) => <TextField 
+                            {...params} 
+                            fullWidth
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            variant="filled"
+                            margin="dense"
+                            />}
+                          />
+                        </LocalizationProvider>
+>>>>>>> 88c03f8 (l)
                     
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
