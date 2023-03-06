@@ -10,32 +10,21 @@ import {
   AccordionSummary,
   AccordionDetails,
   Grid,
-  Button,
-  Stack,
   CardActions,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
+
 //icons
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Swal from "sweetalert2";
 import "./index.css";
 import Variantes from "./variantes";
 
-const VerArticulo = (itemView) => {
-  const [openModal, setOpenModal] = useState(false);
-
+const VerArticulo = ({itemView, almacenes}) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
@@ -44,10 +33,11 @@ const VerArticulo = (itemView) => {
     { icon: <NumbersIcon />, primary: "Marca", secondary: "" },
     { icon: <NumbersIcon />, primary: "Categoría", secondary: "" },
   ]);
+  const [variantes, setVariantes] = useState([])
 
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      if (!itemView.itemView.id) {
+      if (!itemView.id) {
         return {
           ...i,
         };
@@ -55,17 +45,38 @@ const VerArticulo = (itemView) => {
         if (i.primary === "Código") {
           return {
             ...i,
-            secondary: itemView.itemView.id,
+            secondary: itemView.codigo,
           };
         } else if (i.primary === "Nombre") {
           return {
             ...i,
-            secondary: itemView.itemView.nombre,
+            secondary: itemView.nombre,
+          };
+        } else if (i.primary === "Descripción") {
+          return {
+            ...i,
+            secondary: itemView.descripcion,
+          };
+        } else if (i.primary === "Proveedor") {
+          return {
+            ...i,
+            secondary: itemView.nombre_proveedor || '-',
+          };
+        } else if (i.primary === "Marca") {
+          return {
+            ...i,
+            secondary: itemView.marca,
+          };
+        } else if (i.primary === "Categoría") {
+          return {
+            ...i,
+            secondary: itemView.nombre_categoria || '-',
           };
         }
       }
     });
     setItemsPer(newItem);
+    setVariantes(itemView.variantes)
   };
 
   useEffect(() => {
@@ -96,20 +107,16 @@ const VerArticulo = (itemView) => {
             <Card sx={{ p: 3 }} elevation={0}>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={12} lg={6}>
-                  {/*
-                    <CardMedia
-                      style={{ objectFit:'cover' }}
-                      image="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg"
-                    />
-                  */}
-                  <img src="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg" />
+                  <img
+                    src={itemView.imagen}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={6}>
                   <CardContent>
                     <List>
                       <Grid container spacing={0}>
-                        {itemsPer.map((i) => (
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
+                        {itemsPer.map((i, index) => (
+                          <Grid item xs={12} sm={12} md={12} lg={12} key={index}>
                             <ListItem>
                               <ListItemAvatar>
                                 <Avatar>{i.icon}</Avatar>
@@ -130,7 +137,12 @@ const VerArticulo = (itemView) => {
               <CardActions>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Variantes />
+                    <Variantes 
+                      almacenes={almacenes}
+                      itemView={itemView}
+                      variantes={variantes}
+                      setVariantes={setVariantes}
+                    />
                   </Grid>
                 </Grid>
               </CardActions>

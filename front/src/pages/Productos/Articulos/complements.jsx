@@ -11,12 +11,14 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MenuItem from "@mui/material/MenuItem";
 
-import { styled, useTheme, alpha } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
+
+
 import { useState, useEffect } from "react";
+import { searcher, getArticulos, deleteArticulo} from "../../../services/articulos";
+import Swal from "sweetalert2";
 
 export const Tabla = ({
   fields,
@@ -27,16 +29,8 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
-  const [categoria, setCategoria] = useState([]);
-  useEffect(() => {
-    if (render.current) {
-      render.current = false;
-      get(setCategoria, URL);
-    }
-  }, [renderizar]);
-
-  let data = searcher(fields, categoria);
+  const [articulos, setArticulos] = useState([]);
+  let data = searcher(fields, articulos);
 
   const handlePut = (row) => {
     setItem(row);
@@ -49,14 +43,36 @@ export const Tabla = ({
 
   const handleDelete = async (id) => {
     try {
-      let res = await del(id, URL);
-      render.current = true;
-      setRenderizar(!renderizar);
-      return res;
+      Swal.fire({
+        title: '¿Desea eliminar el artículo y sus variantes?',
+        showDenyButton: true,
+        confirmButtonText: 'SI',
+        denyButtonText: `NO`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteArticulo(id)
+          Swal.fire('Eliminado', '', 'success')
+          setItem({});
+          render.current = true;
+          setRenderizar(!renderizar);
+        } 
+      })
+      
     } catch (error) {
-      return error;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
     }
   };
+
+  useEffect(() => {
+    if (render.current) {
+      render.current = false;
+      getArticulos(setArticulos);
+    }
+  }, [renderizar]);
 
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
@@ -123,16 +139,20 @@ export const Tabla = ({
               <TableCell component="th" scope="row">
                 {i + 1}
               </TableCell>
-              <TableCell align="right">{row.id}</TableCell>
+              <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
-              <TableCell align="right">categoria1</TableCell>
-              <TableCell align="right">marca1</TableCell>
-              <TableCell align="right">proveedor</TableCell>
+              <TableCell align="right">{row.nombre_categoria||'-'}</TableCell>
+              <TableCell align="right">{row.marca||'-'}</TableCell>
+              <TableCell align="right">{row.nombre_proveedor||'-'}</TableCell>
               <TableCell align="right" component="th" scope="row">
-                <IconButton aria-label="delete" size="small" color="primary">
+                <IconButton 
+                  onClick={() => handleView(row)}
+                  aria-label="delete" 
+                  size="small" 
+                  color="primary"
+                >
                   <VisibilityIcon
                     fontSize="inherit"
-                    onClick={() => handleView(row)}
                   />
                 </IconButton>
                 <IconButton
