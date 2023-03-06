@@ -28,7 +28,6 @@ import Swal from "sweetalert2";
 
 const Ver = ({ itemView }) => {
   const [open, setOpen] = useState(false);
-  console.log(itemView)
 
   return (
     <section>
@@ -127,7 +126,12 @@ const Ver = ({ itemView }) => {
               <CardActions>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Variante item={itemView.producto_variante} open={open} setOpen={setOpen} />
+                    <Variante
+                      item={itemView.producto_variante}
+                      prodid={itemView.id}
+                      open={open}
+                      setOpen={setOpen}
+                    />
                   </Grid>
                 </Grid>
               </CardActions>

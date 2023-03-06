@@ -85,7 +85,7 @@ class ProductoSerializer(WritableNestedModelSerializer):
     producto_variante = Producto_varianteSerializer(many=True)
     class Meta:
         model = Producto
-        fields = ['id','codigo', 'nombre', 'cantidad', 'descripcion_producto', 'categoria', 'imagen', 'borrado', 'producto_variante']
+        fields = ['id','codigo', 'nombre', 'cantidad', 'descripcion_producto', 'categoria', 'borrado', 'producto_variante']
 
     def to_representation(self, instance):
         producto_variante = Producto_variante.objects.filter(producto=instance.id)
@@ -97,7 +97,7 @@ class ProductoSerializer(WritableNestedModelSerializer):
             'cantidad' : instance.cantidad,
             'descripcion_producto' : instance.descripcion_producto,
             'categoria' : instance.categoria.nombre if instance.categoria else None,
-            'imagen' : "http://localhost:8000"+instance.imagen.url,
+            # 'imagen' : "http://localhost:8000"+instance.imagen.url,
             'borrado' : instance.borrado,
             'producto_variante': ser_producto_variante.data
         }

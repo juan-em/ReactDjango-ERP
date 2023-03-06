@@ -32,7 +32,6 @@ class ProductoView(APIView):
         serializer = ProductoSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
-            print(serializer.data)
             return Response(serializer.data, status = status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
@@ -66,7 +65,7 @@ class ProductoDetailView(APIView):
             }
         return Response(context)
     
-    def patch(self, request, id):
+    def put(self, request, id):
         try:            
             dataProducto = Producto.objects.filter(borrado=False).get(pk=id)
             serializer = ProductoSerializer(dataProducto, data=request.data, partial=True)
@@ -124,7 +123,7 @@ class Producto_varianteView(APIView):
 # @permission_classes([IsAuthenticated])
 class Producto_varianteDetailView(APIView):
 
-    def patch(self, request, id):
+    def put(self, request, id):
         dataProducto_variante = Producto_variante.objects.filter(borrado=False).get(pk=id)
         serializer = Producto_varianteSerializer(dataProducto_variante, data=request.data, partial=True)
         if serializer.is_valid():
@@ -176,7 +175,7 @@ class Producto_detallelView(APIView):
 # @permission_classes([IsAuthenticated])
 class Producto_detalleDetailView(APIView):
 
-    def patch(self, request, id):
+    def put(self, request, id):
         dataProducto_detalle = Producto_detalle.objects.filter(borrado=False).get(pk=id)
         serializer = Producto_detalleSerializer(dataProducto_detalle, data=request.data, partial=True)
         if serializer.is_valid():

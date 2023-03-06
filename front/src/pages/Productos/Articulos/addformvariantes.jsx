@@ -81,64 +81,80 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                     />
                     <TextField
                       fullWidth
-                      label="Precio unitario"
+                      label="Descripcion"
                       required
                       type="number"
                       size="small"
                       color="secondary"
                       id="textfields"
                       margin="dense"
-                      name="nombre"
+                      name="descripcion"
                       inputProps={{
                         step: "0.1"
                       }}
                     />
-                    <Autocomplete
-                      disablePortal
-                      options={top100Films}
-                      size="small"
-                      id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Embalaje" margin="dense" color="secondary" fullWidth />}
-                    />
                     <TextField
                       fullWidth
-                      label="Cantidad"
+                      label="Color"
                       required
                       type="number"
                       size="small"
                       color="secondary"
                       id="textfields"
                       margin="dense"
-                      name="nombre"
+                      name="color"
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
                   
                     <TextField
                       fullWidth
-                      label="Ubicación"
+                      label="Talla"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="talla"
                       id="textfields"
-                    />
-                    <Autocomplete
-                      disablePortal
-                      options={top100Films}
-                      size="small"
-                      id="textfields"
-                      renderInput={(params) => <TextField {...params} label="Almacén" margin="dense" color="secondary" fullWidth />}
                     />
                     <TextField
                       fullWidth
-                      label="Descripción"
-                      type="text"
+                      label="Horas de Manufactura"
+                      type="number"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="horas_manufactura"
+                      id="textfields"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Costo de Manufactura"
+                      type="number"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="costo_manufactura"
+                      id="textfields"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Gastos Generales"
+                      type="number"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="gastos_generales"
+                      id="textfields"
+                    />
+                    <TextField
+                      fullWidth
+                      label="Precio Final"
+                      type="number"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="precio_final"
                       id="textfields"
                     />
                   </Grid>

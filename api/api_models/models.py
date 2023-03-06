@@ -223,7 +223,7 @@ class Producto(models.Model):
     cantidad = models.IntegerField(default=0)
     descripcion_producto = models.TextField(null=True, blank=True)
     categoria=models.ForeignKey(Categoria_producto, related_name='categoria_producto', on_delete=models.SET_NULL, null=True)
-    imagen = models.ImageField( _("Image") ,upload_to=upload_toProd,default='media/blancos.png', blank=True, null=True)
+    imagen = models.ImageField( _("Image") ,upload_to=upload_toProd,default='blancos.png')
     # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
