@@ -21,15 +21,6 @@ export const searcher = (fields, list) => {
     return resultData;
 };
 
-export const getArticulos = (set, url) => {
-    axios
-    .get(url)
-    .then((res) => {
-      if (res.status == 200) set(res.data.content);
-    })
-    .catch((error) => console.log(error));
-}
-
 // Registro de la compra
 export const RegistroComnpra =(payload) => {
     axios.post("http://localhost:8000/api/compras/", payload)

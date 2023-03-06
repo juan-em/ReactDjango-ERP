@@ -1,10 +1,6 @@
 import { forwardRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -23,18 +19,25 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import Swal from "sweetalert2";
 import { DialogContent } from '@mui/material';
-import { TabContext, TabPanel, TabList } from "@mui/lab";
 import AddFormVariantes from './addformvariantes';
+import { deleteArticuloVariante } from '../../../services/articulos';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Variantes = () => {
+const Variantes = ({
+  itemView, 
+  variantes, 
+  setVariantes, 
+  almacenes
+}) => {
   const [open, setOpen] = useState(false);
+  const [openAddModal, setOpenAddModal] = useState(false);
+  const [item, setItem] = useState({});
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,10 +47,50 @@ const Variantes = () => {
     setOpen(false);
   };
 
+  const handlePut = (item) => {
+    setItem(item);
+    setOpenAddModal(true);
+  }
+
+  const handleDelete = async (item) => {
+    var varianteEliminada = variantes.find(i=>i.id==item.id)
+    var indexVarianteEliminada = variantes.indexOf(varianteEliminada)
+    try {
+      Swal.fire({
+        title: '¿Desea eliminar el la variante?',
+        showDenyButton: true,
+        confirmButtonText: 'SI',
+        denyButtonText: `NO`,
+        customClass: {
+          container: 'my-swal',
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          var res = await deleteArticuloVariante(item.id)
+          if (!res.status) throw res.message
+          variantes.splice(indexVarianteEliminada, 1)
+          Swal.fire('Eliminado', '', 'success')
+          setItem({});
+        } 
+      })
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+        customClass: {
+          container: 'my-swal',
+        },
+      });
+    }
+  };
+
   return (
     <div>
         
-        <Button
+      {itemView.id && 
+      <Button
         fullWidth
         color="secondary"
         variant="contained"
@@ -55,7 +98,7 @@ const Variantes = () => {
         id="textfields"
         onClick={handleClickOpen}>
             Ver variantes
-        </Button>
+        </Button>}
       <Dialog
         fullScreen
         open={open}
@@ -73,14 +116,22 @@ const Variantes = () => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Variantes
+              {`Variantes - ${itemView.nombre}`}
             </Typography>
-            <AddFormVariantes/>
             
+            <AddFormVariantes
+              openAddModal={openAddModal}
+              setOpenAddModal={setOpenAddModal}
+              item={item}
+              setItem={setItem}
+              almacenes={almacenes}
+              itemView={itemView}
+              variantes={variantes}
+              setVariantes={setVariantes}/>
+
           </Toolbar>
         </AppBar>
-        <DialogContent>
-          <TabContext centered>
+        <DialogContent centered={"true"}>
             <TableContainer component={Paper} sx={{ mt: 0 }} elevation={0}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                     <TableHead
@@ -158,41 +209,42 @@ const Variantes = () => {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-
-                        <TableRow key={1}>
-                        <TableCell component="th" scope="row">
-                            1
-                        </TableCell>
-                        <TableCell align="right">codigo1</TableCell>
-                        <TableCell align="right">nombrevariante1</TableCell>
-                        <TableCell align="right">10</TableCell>
-                        <TableCell align="right">embalaje1</TableCell>
-                        <TableCell align="right">100</TableCell>
-                        <TableCell align="right">ubicacion1</TableCell>
-                        <TableCell align="right">almacen1</TableCell>
-                        <TableCell align="right">descripcion1</TableCell>
-                        <TableCell align="right" component="th" scope="row">
-                            <IconButton
-                            aria-label="delete"
-                            size="small"
-                            color="success"
-                            >
-                            <EditIcon fontSize="inherit" />
-                            </IconButton>
-                            <IconButton
-                            aria-label="delete"
-                            size="small"
-                            color="error"
-                            >
-                            <DeleteIcon fontSize="inherit" />
-                            </IconButton>
-                        </TableCell>
-                        </TableRow>
-
+                        {variantes.map((item, i) => { return (
+                            <TableRow key={i}>
+                            <TableCell component="th" scope="row">
+                                {i+1}
+                            </TableCell>
+                            <TableCell align="right">{item.codigo}</TableCell>
+                            <TableCell align="right">{item.nombre}</TableCell>
+                            <TableCell align="right">{item.precio_unitario}</TableCell>
+                            <TableCell align="right">{item.embalaje ? item.embalaje.nombre : "-"}</TableCell>
+                            <TableCell align="right">{item.cantidad}</TableCell>
+                            <TableCell align="right">{item.ubicacion}</TableCell>
+                            <TableCell align="right">{ item.almacen ? item.almacen.nombre : "-"}</TableCell>
+                            <TableCell align="right">{item.descripcion}</TableCell>
+                            <TableCell align="right" component="th" scope="row">
+                                <IconButton
+                                aria-label="delete"
+                                size="small"
+                                color="success"
+                                onClick={()=>handlePut(item)}
+                                >
+                                <EditIcon fontSize="inherit" />
+                                </IconButton>
+                                <IconButton
+                                aria-label="delete"
+                                size="small"
+                                color="error"
+                                onClick={()=>handleDelete(item)}
+                                >
+                                <DeleteIcon fontSize="inherit" />
+                                </IconButton>
+                            </TableCell>
+                            </TableRow>
+                        )})}
                     </TableBody>
                 </Table>
                 </TableContainer>
-                </TabContext>
             </DialogContent>
       </Dialog>
     </div>

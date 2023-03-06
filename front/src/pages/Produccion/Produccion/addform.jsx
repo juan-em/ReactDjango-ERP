@@ -9,8 +9,13 @@ import {
   DialogContent,
   DialogTitle,
   Tab,
+  Autocomplete
 } from "@mui/material";
-import { TabContext, TabPanel, TabList } from "@mui/lab";
+import { TabContext } from '@mui/lab';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
@@ -25,7 +30,7 @@ import Swal from "sweetalert2";
 
 const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
   
-  const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
+  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -42,7 +47,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la categoría de productos",
+        text: "Se registró la nueva produccion",
       });
       if(item.id)setItem({})
       setRenderizar(!renderizar)
@@ -58,6 +63,13 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
     }
     setOpenModal(false)
   }
+
+  const top100Films = [
+    { label: 'No Iniciado'},
+    { label: 'En proceso'},
+    { label: 'Terminado'},
+    { label: 'Saliendo'},
+  ];
 
   return (
     <>
@@ -75,7 +87,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Categoría (Productos)" : "Nueva Categoría (Productos)"}
+            {item.id ? "Editar producion" : "Nueva Produccion"}
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -83,21 +95,68 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
               <form onSubmit={handlePostPut}>
                 {item.id?<input type="hidden" name="cod" value={item.id}/>:''
                 }
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <TextField
+                <Grid container spacing={2}>
+                  
+                  <Grid item xs={12} sm={12} md={6}>
+                  <TextField
                       fullWidth
-                      label="Nombre"
+                      label="Numero de factura"
                       required
                       size="small"
                       color="secondary"
                       id="textfields"
                       margin="dense"
                       name="nombre"
+                      type="number"
                       defaultValue={item.id ? item.nombre:''}
                     />
+                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                          label="Fecha de inicio"
+                          name="fecha"
+                          inputFormat="DD/MM/YYYY"
+                         
+                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
+                          renderInput={(params) => <TextField 
+                            {...params} 
+                            fullWidth
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            margin="dense"
+                            />}
+                          />
+                        </LocalizationProvider>
+                    
+
                   </Grid>
 
+                  <Grid item xs={12} sm={12} md={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                          label="Fecha de fin"
+                          name="fecha"
+                          inputFormat="DD/MM/YYYY"
+                         
+                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
+                          renderInput={(params) => <TextField 
+                            {...params} 
+                            fullWidth
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            margin="dense"
+                            />}
+                          />
+                        </LocalizationProvider>
+                    <Autocomplete
+                      disablePortal
+                      options={top100Films}
+                      size="small"
+                      id="textfields"
+                      renderInput={(params) => <TextField {...params} label="Categoría" margin="dense" color="secondary" fullWidth />}
+                    />
+                  </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
                       fullWidth
@@ -106,9 +165,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       color="secondary"
                       className="navbar-btn-single"
                       variant="contained"
-                      type="submit"
-                      
-                    >
+                      type="submit">
                       <span>{item.id ? "Editar" : "Registrar"}</span>
                     </Button>
                     </Grid>

@@ -18,30 +18,97 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import './index.css';
 //componentes
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
-
-
-//para la tabla
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import Swal from "sweetalert2";
+import { get} from "../../../services/mantenimiento";
+import { Formik } from "formik";
+import { useEffect } from "react";
+import { postArticulosVariantes, putArticulosVariantes } from "../../../services/articulos";
 
-const AddFormVariantes = ({ openModal, setOpenModal}) => {
-    const [open, setOpen] = useState(false);
+const AddFormVariantes = ({
+  openAddModal, 
+  setOpenAddModal, 
+  itemView, 
+  item, 
+  setItem, 
+  almacenes,
+  variantes,
+  setVariantes
+}) => {
+  const [embalajes, setEmbalajes] = useState()
   const handleOpen = () => {
-    setOpen(true);
+    setOpenAddModal(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    setOpenAddModal(false);
+    setItem({})
   };
+
+  const artVarSubmit = async (val) => {
+    let {embalaje, almacen} = val
+    var dataToSubmit = {
+      "embalaje":embalaje ? embalaje.id : null, 
+      "almacen":almacen ? almacen.id : null
+    }
+    dataToSubmit = {...val,...dataToSubmit, "articulo":itemView.id};
+    try {
+      if (!item.id) {
+        var res = await postArticulosVariantes(dataToSubmit)
+        itemView.variantes.push(res.content)
+      } else {
+        var res = await putArticulosVariantes(item.id, dataToSubmit)
+        var varianteEditando = variantes.find(i=>i.id == item.id)
+        var indexVarianteEditando = variantes.indexOf(varianteEditando)
+        variantes.splice(indexVarianteEditando, 1, res.content)
+      }
+      Swal.fire({
+        icon: "success",
+        title: "Ok",
+        text: "Se registro la variante",
+        customClass: {
+          container: 'my-swal',
+        },
+      })
+      if (item.id) setItem({});
+    }
+    catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+        customClass: {
+          container: 'my-swal',
+        },
+      });
+    }
+
+    // console.log("ponga el envio de datos")
+    // itemView.variantes.push(
+    //   {
+    //     "id": 1,
+    //     "codigo": "MP-00001",
+    //     "nombre": "-",
+    //     "precio_unitario": 0.0,
+    //     "embalaje": {
+    //         "id": 1,
+    //         "nombre": "celofan",
+    //         "borrado": false
+    //     },
+    //     "cantidad": 0,
+    //     "ubicacion": "-",
+    //     "almacen": {
+    //         "id": 1,
+    //         "nombre": "Materia Prima",
+    //         "abreviacion": "MP",
+    //         "descripcion": "-",
+    //         "ubicacion": "-",
+    //         "borrado": false
+    //     },
+    //     "descripcion": "-"
+    // }
+    // )
+    setOpenAddModal(false)
+
+  }
 
   const top100Films = [
     { label: 'The Shawshank Redemption', year: 1994 },
@@ -53,6 +120,11 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
     { label: 'Pulp Fiction', year: 1994 },
   ];
 
+  useEffect(()=>{
+    const URL_E = "http://localhost:8000/api/mantenimientos/embalajes/";
+    get(setEmbalajes, URL_E)
+  },[])
+
   return (
     <>
         <Button 
@@ -60,13 +132,20 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
         variant="contained"
         onClick={handleOpen}>Añadir</Button>
         <Modal
-            open={open}
+            open={openAddModal}
             onClose={handleClose}
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description">
                 
             <Box maxWidth={'md'} sx={{ position: 'absolute', top: '50%', left: '50%', backgroundColor:'white' , transform: 'translate(-50%, -50%)', p:5}}>
-            <h2 id="parent-modal-title">Nueva variante</h2>
+            <h2 id="parent-modal-title">
+              {item.id ? "Editar Variante" : "Nueva Variante"}
+            </h2>
+
+            <Formik initialValues={item} onSubmit={artVarSubmit}>
+            {({ values, handleSubmit, handleChange, setFieldValue }) => {
+            return (
+              <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={6}>
                     <TextField
@@ -78,6 +157,8 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                       id="textfields"
                       margin="dense"
                       name="nombre"
+                      value={values.nombre}
+                      onChange={handleChange}
                     />
                     <TextField
                       fullWidth
@@ -88,11 +169,39 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                       color="secondary"
                       id="textfields"
                       margin="dense"
+<<<<<<< HEAD
                       name="descripcion"
+=======
+                      name="precio_unitario"
+>>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                       inputProps={{
                         step: "0.1"
                       }}
+                      value={values.precio_unitario}
+                      onChange={handleChange}
                     />
+<<<<<<< HEAD
+=======
+                    <Autocomplete
+                      disablePortal
+                      size="small"
+                      id="textfields"
+                      renderInput={(params) => 
+                        <TextField 
+                          {...params} 
+                          label="Embalaje" 
+                          margin="dense" 
+                          color="secondary" 
+                          fullWidth 
+                        />}
+                      options={embalajes}
+                      getOptionLabel={(option)=>{
+                        if (option) return option.nombre 
+                        return ''}}
+                      value={values.embalaje}
+                      onChange={(e, value) => {setFieldValue("embalaje", value)}}
+                    />
+>>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                     <TextField
                       fullWidth
                       label="Color"
@@ -102,7 +211,13 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                       color="secondary"
                       id="textfields"
                       margin="dense"
+<<<<<<< HEAD
                       name="color"
+=======
+                      name="cantidad"
+                      value={values.cantidad}
+                      onChange={handleChange}
+>>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
@@ -114,18 +229,46 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                       size="small"
                       color="secondary"
                       margin="dense"
+<<<<<<< HEAD
                       name="talla"
+=======
+                      name="ubicacion"
+>>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                       id="textfields"
+                      value={values.ubicacion}
+                      onChange={handleChange}
                     />
+<<<<<<< HEAD
                     <TextField
                       fullWidth
                       label="Horas de Manufactura"
                       type="number"
+=======
+                    <Autocomplete
+                      disablePortal
+                      options={almacenes}
+                      getOptionLabel={(option)=>{
+                        if (option) return option.nombre 
+                        return ''}}
+>>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                       size="small"
                       color="secondary"
                       margin="dense"
                       name="horas_manufactura"
                       id="textfields"
+<<<<<<< HEAD
+=======
+                      renderInput={(params) => 
+                        <TextField 
+                          {...params} 
+                          label="Almacen" 
+                          margin="dense" 
+                          color="secondary" 
+                          fullWidth 
+                        />}
+                      value={values.almacen}
+                      onChange={(e, value) => {setFieldValue("almacen", value)}}
+>>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                     />
                     <TextField
                       fullWidth
@@ -134,6 +277,7 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                       size="small"
                       color="secondary"
                       margin="dense"
+<<<<<<< HEAD
                       name="costo_manufactura"
                       id="textfields"
                     />
@@ -155,7 +299,12 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                       color="secondary"
                       margin="dense"
                       name="precio_final"
+=======
+                      name="descripcion"
+>>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                       id="textfields"
+                      value={values.descripcion}
+                      onChange={handleChange}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
@@ -167,7 +316,7 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                       className="navbar-btn-single"
                       variant="contained"
                       type="submit">
-                      <span>Registrar</span>
+                      <span>{item.id ? "Editar" : "Registrar"}</span>
                     </Button>
                     </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
@@ -184,6 +333,8 @@ const AddFormVariantes = ({ openModal, setOpenModal}) => {
                     </Button>
                   </Grid>
                 </Grid>
+                </form> )}}
+              </Formik>
             </Box>
         </Modal>
     </>

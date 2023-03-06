@@ -53,8 +53,8 @@ export const menuItems = [
         {name:'Factura',icon: <ArticleIcon/>,url:'#proveedor'},
         {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
 
-    { url: "#Produccion", icon: <CategoryIcon/>, name: "Producción",
-    item:[{name:'Produccion',icon: <ProductionQuantityLimitsIcon/>,url:'#cliente'}] },
+    { url: "#about", icon: <CategoryIcon/>, name: "Producción",
+    item:[{name:'Produccion',icon: <ProductionQuantityLimitsIcon/>,url:'/produccion/produccion'}] },
 
     { url: "#Tesoreria", icon: <AutoStoriesIcon/>, name: "Tesorería",
     item:[{name:'Caja Diaria',icon: <PointOfSaleIcon/>,url:'#cliente'},

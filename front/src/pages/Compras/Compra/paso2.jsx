@@ -19,7 +19,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import SearcherArticulos from "./searcher";
 import { ACTION_TYPES } from "./reducerCompra";
 import Table from "./table";
-import { searcher, getArticulos } from "../../../services/compras";
+import { searcher } from "../../../services/compras";
+import { getArticulosVariantes } from "../../../services/articulos";
 
 
 
@@ -62,7 +63,7 @@ const Paso2 = ({state, dispatch}) => {
     useEffect(() => {
         if (render.current) {
         render.current = false;
-        getArticulos(setArticulos, URL);
+        getArticulosVariantes(setArticulos, URL);
         }
     }, []);
     

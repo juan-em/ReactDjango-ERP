@@ -3,32 +3,51 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from api_models.models import *
 
+class EMSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Embalajes
+        fields = '__all__'
+class ALSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Almacen
+        fields = '__all__'
 class ArticuloVarianteSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticuloVariante
         fields = '__all__'
-
     def to_representation(self, instance):
+        almacen_info = ALSerilizer(Almacen.objects.get(id=instance.almacen.id)).data if instance.almacen else None
+        embalaje_info = EMSerilizer(Embalajes.objects.get(id=instance.embalaje.id)).data if instance.embalaje else None
         return{
             'id': instance.id,
             'nombre':instance.nombre,
             'articulo':instance.articulo.nombre,
             'categoria':instance.articulo.categoria.id if instance.articulo.categoria else None,
             'precio_unitario':instance.precio_unitario,
-            'embalaje': instance.embalaje.id if instance.embalaje else None,
+            'embalaje': embalaje_info,
             'cantidad': instance.cantidad,
             'ubicacion': instance.ubicacion,
-            'almacen': instance.almacen.id if instance.almacen else None,
+            'almacen': almacen_info,
             'descripcion': instance.descripcion,
-            'imagen': instance.articulo.imagen.url
+            'imagen': "http://localhost:8000" + instance.articulo.imagen.url,
+            'codigo': instance.codigo
         }
 
-
+#Serializers for the representation (get)
 class AVSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticuloVariante
-        exclude = ('articulo',)
+        fields = ['id', 'codigo', 'nombre', 'precio_unitario', 'embalaje', 'cantidad', 'ubicacion', 'almacen', 'descripcion']
         depth = 2
+class PVSerializer(serializers.ModelSerializer):
+    class Meta:        
+        model = Proveedores
+        fields = '__all__'
+        depth = 2
+class CatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categoria
+        fields = '__all__'
 
 
 class ArticuloSerializer(WritableNestedModelSerializer):
@@ -40,13 +59,22 @@ class ArticuloSerializer(WritableNestedModelSerializer):
     def to_representation(self, instance):
         variantes = ArticuloVariante.objects.filter(articulo=instance.id)
         ser_variantes = AVSerializer(variantes, many=True)
+        if instance.proveedor:
+            proveedor = Proveedores.objects.get(id=instance.proveedor.id)
+            ser_proveedor = PVSerializer(proveedor)
+        if instance.categoria:
+            categoria = Categoria.objects.get(id=instance.categoria.id)
+            ser_categoria = CatSerializer(categoria)
         return{
             'id': instance.id,
+            'codigo': instance.codigo,
             'nombre': instance.nombre,
             'descripcion': instance.descripcion,
-            'proveedor': instance.nombre_proveedor if instance.proveedor else None,
+            'proveedor':ser_proveedor.data if instance.proveedor else None,
+            'nombre_proveedor': instance.nombre_proveedor if instance.proveedor else None,
             'marca': instance.marca,
-            'categoria':instance.categoria.nombre if instance.categoria else None,
+            'nombre_categoria':instance.categoria.nombre if instance.categoria else None,
+            'categoria': ser_categoria.data if instance.categoria else None,
             'imagen': "http://localhost:8000"+instance.imagen.url,
             'variantes': ser_variantes.data
         }
