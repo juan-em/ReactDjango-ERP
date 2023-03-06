@@ -50,8 +50,8 @@ export const menuItems = [
 
     { url: "#about", icon: <ReceiptIcon/>, name: "Compras",
     item:[{name:'Compra',icon: <ShopIcon/>,url:'/compras/compra'},
-        {name:'Factura',icon: <ArticleIcon/>,url:'/compras/facturas'},
-        {name:'Remision',icon: <SubjectIcon/>,url:'#proveedor'}] },
+        {name:'Facturas',icon: <ArticleIcon/>,url:'/compras/facturas'},
+        {name:'Remisiones',icon: <SubjectIcon/>,url:'/compras/remisiones'}] },
 
     { url: "#about", icon: <CategoryIcon/>, name: "Producción",
     item:[{name:'Produccion',icon: <ProductionQuantityLimitsIcon/>,url:'/produccion/produccion'}] },

@@ -22,21 +22,16 @@ import {
   AccordionDetails,
   Box,
 } from "@mui/material";
-import { TabContext } from '@mui/lab';
-//Componentes pra el input de fecha
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
 
+import AddForm from "./addform";
 import { useRef } from "react";
-import VerProvincia from "./verfactura";
+import VerRemision from "./verremision";
 
-const Factura = () => {
+const Remisiones = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -51,14 +46,6 @@ const Factura = () => {
   const handleClean = () => {
     searchform.reset();
   };
-
-  //para el input de fecha
-  const [value, setValue] = useState(dayjs(new Date()));
-
-  const handleChange = (newValue) => {
-      setValue(newValue);
-  };
-  
 
   return (
     <section>
@@ -83,54 +70,21 @@ const Factura = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Factura
+                  Buscar Remisiones
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
                     <TextField
                       fullWidth
-                      label="RUC Proveedor"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      variant="filled"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                    />
-                      <TextField
-                      fullWidth
-                      label="N° de factura"
+                      label="Nombre"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
                       name="nombre"
                       id="textfields"
-                      variant="filled"
                       onChange={handlerSearcher}
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DesktopDatePicker
-                          label="Fecha"
-                          name="fecha"
-                          
-                          inputFormat="DD/MM/YYYY"
-                         
-                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
-                          renderInput={(params) => <TextField 
-                            {...params} 
-                            fullWidth
-                            size="small"
-                            color="secondary"
-                            id="textfields"
-                            variant="filled"
-                            margin="dense"
-                            />}
-                          />
-                        </LocalizationProvider>
-                    
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -151,8 +105,19 @@ const Factura = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={7}>
-            <VerProvincia itemView={itemView} />
+          <Grid item xs={12} sm={12} md={6}>
+            <VerRemision itemView={itemView} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
+            <AddForm
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              item={item}
+              setItem={setItem}
+            />
           </Grid>
         </Grid>
         <Box sx={{ overflow: "auto" }}>
@@ -172,4 +137,4 @@ const Factura = () => {
     </section>
   );
 };
-export default Factura;
+export default Remisiones;

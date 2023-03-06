@@ -11,8 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import DescriptionIcon from '@mui/icons-material/Description';
-import Button from "@mui/material/MenuItem";
+import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
@@ -95,25 +94,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              N° de factura
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Fecha
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Proveedor
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              N° de artículos
+              Nombre
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -130,9 +111,6 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
               <TableCell align="right">{row.nombreprovincia}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
@@ -158,13 +136,6 @@ export const Tabla = ({
                   color="error"
                 >
                   <DeleteIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton
-                  aria-label="remision"
-                  size="small"
-                  color="secondary"
-                >
-                  <DescriptionIcon fontSize="inherit" />
                 </IconButton>
               </TableCell>
             </TableRow>
