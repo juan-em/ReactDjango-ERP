@@ -19,7 +19,7 @@ CHOICES_PRIM_INS = [
 
 # IMAGEN
 def upload_toArt(instance, filename):
-    return 'productos/{filename}'.format(filename=filename)
+    return 'articulos/{filename}'.format(filename=filename)
 def upload_toProd(instance, filename):
     return 'productos/{filename}'.format(filename=filename)
 
@@ -181,7 +181,7 @@ class Articulo (models.Model):
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True, blank=True)
     marca = models.CharField(max_length=100, default='-')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
-    imagen = models.ImageField( _("Image") ,upload_to=upload_toArt,default='media/blancos.png', blank=True, null=True)
+    imagen = models.ImageField( _("Image") ,upload_to=upload_toArt,default='blancos.png', blank=True, null=True)
     # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
 
@@ -194,6 +194,11 @@ class Articulo (models.Model):
             return f'{self.proveedor.persona.nombre}'
         else:
             return f'{self.proveedor.empresa.nombre}'
+
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'ART-'+'0'*(5-len(id))+id
 
 class ArticuloVariante(models.Model):
     nombre = models.CharField(max_length=100, default='-')
@@ -208,7 +213,12 @@ class ArticuloVariante(models.Model):
 
     def __str__(self):
         return self.articulo.nombre +'-'+ self.nombre
-
+    
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        almacen = self.almacen.abreviacion if self.almacen else "ND"
+        return almacen+'-'+'0'*(5-len(id))+id
 #################
 #PRODUCTO
 

@@ -21,6 +21,7 @@ class ArticulosView(APIView):
         return Response(context)
 
     def post (self, request):
+        print(request.data)
         try:
             serializer = ArticuloSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -50,6 +51,7 @@ class ArticuloDetailView(APIView):
         return Response(context)
 
     def patch (self, request, id):
+        print(request.data)
         data = Articulo.objects.filter(borrado=False).get(id=id)
         serializer = ArticuloSerializer(data, data= request.data,
                                               partial=True)
@@ -71,7 +73,9 @@ class ArticuloDetailView(APIView):
     def delete(self, request, id):
         data = data = Articulo.objects.filter(borrado=False).get(id=id)
         serializer = ArticuloSerializer(data)
-        data.delelte()
+        if data.imagen.name != 'blancos.png':
+            data.imagen.delete()
+        data.delete()
         context = {
             'status':True,
             'message':'Delete succes',
@@ -103,7 +107,17 @@ class ArticuloVarianteView(APIView):
         return Response(context)
 
 class ArticuloVarianteDetailView(APIView):
+    def get(self, request, id):
+        data = ArticuloVariante.objects.get(id=id)
+        serializer = ArticuloVarianteSerializer(data)
+        context = {
+            'status':True,
+            'content':serializer.data
+        }        
+        return Response(context)
+
     def patch (self, request, id):
+        print(request.data)
         data = ArticuloVariante.objects.get(id=id)
         serializer = ArticuloVarianteSerializer(data, data= request.data,
                                               partial=True)

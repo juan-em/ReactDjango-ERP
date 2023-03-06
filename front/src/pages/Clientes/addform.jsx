@@ -112,6 +112,7 @@ const AddForm = ({
     setOpenModal(false);
   };
 
+
   useEffect(() => {
     const URLP = "http://localhost:8000/api/mantenimientos/provincias/";
     const URLF = "http://localhost:8000/api/mantenimientos/formapago/";
@@ -119,6 +120,7 @@ const AddForm = ({
     get(setFormPago, URLF);
   }, []);
 
+  
   return (
     <>
       <IconButton
