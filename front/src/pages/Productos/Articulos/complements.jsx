@@ -52,9 +52,9 @@ export const Tabla = ({
         if (result.isConfirmed) {
           await deleteArticulo(id)
           Swal.fire('Eliminado', '', 'success')
-          setItem({});
           render.current = true;
           setRenderizar(!renderizar);
+          setItem({"variantes":[{...variantesInitialValue}]});
         } 
       })
       

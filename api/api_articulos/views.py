@@ -10,6 +10,44 @@ from rest_framework.response import Response
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework.parsers import JSONParser
+from io import BytesIO
+from django.http.request import QueryDict
+
+
+def querydict_to_dict(querydict):
+    def get_value(value):
+        try:
+            return int(value)
+        except ValueError:
+            pass
+        try:
+            return float(value)
+        except ValueError:
+            pass
+        return value
+
+    data = {}
+    for key, value in querydict.items():
+        if 'variantes' in key:
+            var_attr = key.split('[')[-1][:-1]
+            if 'variantes' not in data:
+                data['variantes'] = []
+            if not data['variantes']:
+                data['variantes'].append({})
+            if var_attr in data['variantes'][-1]:
+                data['variantes'].append({})
+            data['variantes'][-1][var_attr] = get_value(value)
+            data['variantes'][-1] = {k: v for k, v in data['variantes'][-1].items() if v != ''}
+        elif key == 'imagen':
+            data[key] = value
+        else:
+            data[key] = get_value(value)
+    return data
+
+
+
+
 class ArticulosView(APIView):
     def get(self, request):
         dataArticulo = Articulo.objects.filter(borrado=False)
@@ -20,10 +58,11 @@ class ArticulosView(APIView):
         }        
         return Response(context)
 
-    def post (self, request):
-        print(request.data)
+    def post(self, request):
+        # print(request.data)
+        # print(querydict_to_dict(request.data))
         try:
-            serializer = ArticuloSerializer(data=request.data)
+            serializer = ArticuloSerializer(data=querydict_to_dict(request.data))
             serializer.is_valid(raise_exception=True)
             serializer.save()
             context = {
@@ -38,7 +77,8 @@ class ArticulosView(APIView):
                 'status': False,
                 'content': 'Error',
                 'message': 'Internal server error'
-            }) 
+            })
+
 
 class ArticuloDetailView(APIView):
     def get(self, request, id):

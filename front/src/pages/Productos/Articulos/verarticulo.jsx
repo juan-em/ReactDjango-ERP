@@ -28,7 +28,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import "./index.css";
 import Variantes from "./variantes";
 
-const VerArticulo = ({itemView, almacenes}) => {
+const VerArticulo = ({itemView, almacenes, embalajes}) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
@@ -110,12 +110,12 @@ const VerArticulo = ({itemView, almacenes}) => {
           <AccordionDetails>
             <Card sx={{ p: 3 }} elevation={0}>
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={12} md={12} lg={6}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
                   <img
                     src={itemView.imagen}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={6}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
                   <CardContent>
                     <List>
                       <Grid container spacing={0}>
@@ -151,6 +151,7 @@ const VerArticulo = ({itemView, almacenes}) => {
                       itemView={itemView}
                       variantes={variantes}
                       setVariantes={setVariantes}
+                      embalajes={embalajes}
                     />
                   </Grid>
                 </Grid>
