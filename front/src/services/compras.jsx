@@ -15,7 +15,7 @@ export const searcher = (fields, list) => {
         : resultData;
     resultData = fields.almacen
         ? resultData.filter((item) => 
-            item.almacen == fields.almacen
+            item.almacen.id == fields.almacen
         )
         : resultData;
     return resultData;
