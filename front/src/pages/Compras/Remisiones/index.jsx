@@ -22,6 +22,11 @@ import {
   AccordionDetails,
   Box,
 } from "@mui/material";
+//Componentes pra el input de fecha
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
@@ -58,7 +63,8 @@ const Remisiones = () => {
     const handleChange = (newValue) => {
         setValue(newValue);
     };
-  
+
+   
     
   return (
     <section>
@@ -136,22 +142,24 @@ const Remisiones = () => {
                       onChange={handlerSearcher}
                     />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Fecha"
-                        inputFormat="DD/MM/YYYY"
-                        value={value}
-                        onChange={handleChange}
-                        renderInput={(params) => <TextField 
-                          {...params} 
-                          fullWidth
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          margin="dense"
-                          variant="filled"
-                          />}
-                        />
-                      </LocalizationProvider>
+                          <DesktopDatePicker
+                          label="Fecha"
+                          name="fecha"
+                          
+                          inputFormat="DD/MM/YYYY"
+                         
+                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
+                          renderInput={(params) => <TextField 
+                            {...params} 
+                            fullWidth
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            variant="filled"
+                            margin="dense"
+                            />}
+                          />
+                        </LocalizationProvider>
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
