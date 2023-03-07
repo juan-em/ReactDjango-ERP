@@ -8,16 +8,23 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Tab,
-  Autocomplete
+  Box,
+  Divider,
+  Autocomplete,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CloseIcon from "@mui/icons-material/Close";
-import { Formik } from "formik";
+import { FieldArray, Formik } from "formik";
 
 //componentes
+import { variantesInitialValue } from "../../../services/articulos";
 import { get } from "../../../services/mantenimiento";
 import { getProveedores } from "../../../services/Proveedores";
 import { postArticulo, putArticulo, transformObjectToFormData } from "../../../services/articulos";
@@ -35,7 +42,9 @@ const AddForm = ({
   proveedores,
   setProveedores,
   categorias,
-  setCategorias
+  setCategorias,
+  almacenes,
+  embalajes
 }) => {
 
   
@@ -44,11 +53,13 @@ const AddForm = ({
   };
 
   const handleClose = () => {
-    if(item.id)setItem({})
+    if(item.id)setItem({"variantes":[{...variantesInitialValue}]})
     setOpenModal(false)
   };
 
   const artSubmit = async (val) => {
+    console.log(val)
+    
     let {proveedor, categoria} = val
     let dataToSubmit
     dataToSubmit = {
@@ -56,7 +67,7 @@ const AddForm = ({
       "categoria":categoria ? categoria.id : null
     }
     if (!item.id){
-      dataToSubmit = {...val,...dataToSubmit, "variantes":[{"nombre":val.nombre}]};
+      dataToSubmit = {...val, ...dataToSubmit}
     } 
     else {
       let {nombre, descripcion, marca, imagen} = val
@@ -143,7 +154,7 @@ const AddForm = ({
                     </Button>
                   </Grid>
                   <Grid item xs={12} sm={12} md={7}>
-                  <TextField
+                    <TextField
                       fullWidth
                       label="Nombre"
                       required
@@ -218,6 +229,151 @@ const AddForm = ({
                       onChange={(e, value) => {setFieldValue("categoria", value)}}
                     />
                   </Grid>
+                  
+                  {!item.id && 
+                  <Grid item xs={12} sm={12} md={12}>
+                    <FieldArray
+                      name="variantes"
+                      render={(arrayHelpers) => (
+                        <>
+                          <Box sx={{ p: 2, border: "1px dashed purple" }}>
+                          {values.variantes.map((variante, index) => (
+                              <div  key={index}>
+                              <Grid container>
+                                <Grid item xs={12} sm={6} md={6} mb={1} pr={0.5}>
+                                  <TextField
+                                    fullWidth
+                                    label="Nombre"
+                                    size="small"
+                                    color="secondary"
+                                    id="textfields"
+                                    margin="dense"
+                                    name={`variantes.${index}.nombre`}
+                                    onChange={handleChange}
+                                  />
+                                  <TextField
+                                    fullWidth
+                                    label="Descripcion"
+                                    size="small"
+                                    color="secondary"
+                                    id="textfields"
+                                    margin="dense"
+                                    name={`variantes.${index}.descripcion`}
+                                    onChange={handleChange}
+                                  />
+                                  <TextField
+                                    fullWidth
+                                    label="Precio"
+                                    size="small"
+                                    type="number"
+                                    color="secondary"
+                                    id="textfields"
+                                    margin="dense"
+                                    name={`variantes.${index}.precio_unitario`}
+                                    onChange={handleChange}
+                                  />
+                                  <FormControl
+                                    fullWidth
+                                    margin="dense"
+                                    size="small"
+                                    color="secondary"
+                                  >
+                                    <InputLabel>Embalaje</InputLabel>
+                                    <Select
+                                      label="Embalaje"
+                                      size="small"
+                                      color="secondary"
+                                      id="textfields"
+                                      name={`variantes.${index}.embalaje`}
+                                      onChange={handleChange}
+                                      value={values.embalaje}
+                                    >
+                                      {embalajes.map((item, i) => (
+                                        <MenuItem key={i} value={item.id}>
+                                          {item.nombre}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                </Grid>
+                                <Grid item xs={12} sm={6} md={6} mb={1} pl={0.5}>
+                                  <TextField
+                                    fullWidth
+                                    label="Cantidad"
+                                    size="small"
+                                    type="number"
+                                    color="secondary"
+                                    id="textfields"
+                                    margin="dense"
+                                    name={`variantes.${index}.cantidad`}
+                                    onChange={handleChange}
+                                  />
+                                  <TextField
+                                    fullWidth
+                                    label="Ubicación"
+                                    size="small"
+                                    color="secondary"
+                                    id="textfields"
+                                    margin="dense"
+                                    name={`variantes.${index}.ubicacion`}
+                                    onChange={handleChange}
+                                  />
+                                  <FormControl
+                                    fullWidth
+                                    margin="dense"
+                                    size="small"
+                                    color="secondary"
+                                  >
+                                    <InputLabel>Almacen</InputLabel>
+                                    <Select
+                                      label="Almacen"
+                                      size="small"
+                                      color="secondary"
+                                      id="textfields"
+                                      name={`variantes.${index}.almacen`}
+                                      onChange={handleChange}
+                                      value={values.almacen}
+                                    >
+                                      {almacenes.map((item, i) => (
+                                        <MenuItem key={i} value={item.id}>
+                                          {item.nombre}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
+                                
+                                </Grid>
+                              </Grid>
+                              {index!= 0 &&
+                              <Button
+                                fullWidth
+                                component="label"
+                                variant="outlined"
+                                startIcon={<RemoveCircleOutlineIcon/>}
+                                sx={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
+                                onClick={() => arrayHelpers.remove(index)}
+                              >
+                                Remove
+                              </Button>}
+                              <Divider style={{backgroundColor: '#D593F4', borderStyle: "dashed"}} />
+                              </div>
+                          ))}
+                            <Button
+                                fullWidth
+                                component="label"
+                                variant="outlined"
+                                color="secondary"
+                                startIcon={<AddCircleIcon />}
+                                sx={{ marginTop: "0.5rem" }}
+                                onClick={() => arrayHelpers.push({...variantesInitialValue})}
+                              >
+                                Variantes
+                            </Button>
+                          </Box>
+                        </>
+                      )}
+                    />
+                  </Grid> }
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
                       fullWidth

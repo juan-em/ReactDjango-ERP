@@ -32,7 +32,8 @@ const Variantes = ({
   itemView, 
   variantes, 
   setVariantes, 
-  almacenes
+  almacenes,
+  embalajes
 }) => {
   const [open, setOpen] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -127,7 +128,8 @@ const Variantes = ({
               almacenes={almacenes}
               itemView={itemView}
               variantes={variantes}
-              setVariantes={setVariantes}/>
+              setVariantes={setVariantes}
+              embalajes={embalajes}/>
 
           </Toolbar>
         </AppBar>
