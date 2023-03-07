@@ -83,7 +83,7 @@ const Factura = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Factura
+                  Buscar Factura (Compras)
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">

@@ -22,22 +22,21 @@ import {
   AccordionDetails,
   Box,
 } from "@mui/material";
-
-//Componentes
-import { useState, useEffect, useContext } from "react";
-import { Tabla } from "./complements";
-
-import AddForm from "./addform";
-import { useRef } from "react";
-import VerRemision from "./verremision";
-
+import { TabContext } from '@mui/lab';
 //Componentes pra el input de fecha
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-const Remisiones = () => {
+//Componentes
+import { useState, useEffect, useContext } from "react";
+import { Tabla } from "./complements";
+
+import { useRef } from "react";
+import VerProvincia from "./verfactura";
+
+const FacturaVentas = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -52,19 +51,20 @@ const Remisiones = () => {
   const handleClean = () => {
     searchform.reset();
   };
-    //para el input de fecha
-    const [value, setValue] = useState(dayjs(new Date()));
 
-    const handleChange = (newValue) => {
-        setValue(newValue);
-    };
+  //para el input de fecha
+  const [value, setValue] = useState(dayjs(new Date()));
+
+  const handleChange = (newValue) => {
+      setValue(newValue);
+  };
   
-    
+
   return (
     <section>
       <div className="container">
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={5}>
             <Paper
               elevation={10}
               className="paper"
@@ -83,54 +83,31 @@ const Remisiones = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Remisiones (Compras)
+                  Buscar Factura (Ventas)
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
-                  <TextField
+                    <TextField
                       fullWidth
-                      label="Codigo"
-                      type="text"
+                      label="N° de factura"
+                      type="number"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="codigo"
+                      name="nombre"
                       variant="filled"
                       id="textfields"
                       onChange={handlerSearcher}
                     />
                     <TextField
                       fullWidth
-                      label="Nombre de proveedor"
+                      label="RUC/DNI Cliente"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
+                      maxlength="8"
                       name="nombre"
-                      variant="filled"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                    />
-                     <TextField
-                      fullWidth
-                      label="N° de factura"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                      variant="filled"
-                      onChange={handlerSearcher}
-                    />
-                      <TextField
-                      fullWidth
-                      label="RUC"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="ruc"
                       id="textfields"
                       variant="filled"
                       onChange={handlerSearcher}
@@ -152,6 +129,7 @@ const Remisiones = () => {
                           />}
                         />
                       </LocalizationProvider>
+                    
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -172,8 +150,8 @@ const Remisiones = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <VerRemision itemView={itemView} />
+          <Grid item xs={12} sm={12} md={7}>
+            <VerProvincia itemView={itemView} />
           </Grid>
         </Grid>
         <Box sx={{ overflow: "auto" }}>
@@ -193,4 +171,4 @@ const Remisiones = () => {
     </section>
   );
 };
-export default Remisiones;
+export default FacturaVentas;
