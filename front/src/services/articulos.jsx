@@ -42,6 +42,7 @@ export const searcher = (fields, list) => {
     return resultData;
 };
 
+
 export function transformObjectToFormData(obj) {
   const formData = new FormData();
 
@@ -124,6 +125,16 @@ export const deleteArticulo = async (id) =>{
 
 //Articulos variantes
 const URL_AV = `${URL}variantes/`
+
+export const variantesInitialValue = {
+  nombre:"",
+  precio_unitario:0,
+  embalaje:null,
+  cantidad:0,
+  ubicacion:"",
+  almacen:null,
+  descripcion:""
+}
 
 export const getArticulosVariantes = (set) => {
   axios

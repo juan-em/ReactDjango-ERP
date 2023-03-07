@@ -78,6 +78,13 @@ class ArticuloSerializer(WritableNestedModelSerializer):
             'imagen': "http://localhost:8000"+instance.imagen.url,
             'variantes': ser_variantes.data
         }
+
+    # def create(self, validated_data):
+    #     variantes_data = validated_data.pop('variantes')
+    #     articulo = Articulo.objects.create(**validated_data)
+    #     for variante_data in variantes_data:
+    #         ArticuloVariante.objects.create(articulo=articulo, **variante_data)
+    #     return articulo
     
 
 

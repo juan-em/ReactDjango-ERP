@@ -23,11 +23,12 @@ import AddForm from "./addform";
 import { useRef } from "react";
 
 import VerArticulo from "./verarticulo";
+import { variantesInitialValue } from "../../../services/articulos";
 
 
 const Articulos = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [item, setItem] = useState({});
+  const [item, setItem] = useState({"variantes":[{...variantesInitialValue}]});
   const [itemView, setItemView] = useState({"variantes":[]});
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
@@ -36,6 +37,7 @@ const Articulos = () => {
   const [proveedores, setProveedores] = useState()
   const [categorias, setCategorias] = useState()
   const [almacenes, setAlmacenes] = useState()
+  const [embalajes, setEmbalajes] = useState()
 
   const [fields, setFields] = useState({});
   const handlerSearcher = (e, val) => {
@@ -50,6 +52,8 @@ const Articulos = () => {
 
   useEffect(()=>{
     const URL_M = "http://localhost:8000/api/mantenimientos/almacenes/";
+    const URL_E = "http://localhost:8000/api/mantenimientos/embalajes/";
+    get(setEmbalajes, URL_E)
     get(setAlmacenes, URL_M)
   },[])
 
@@ -176,7 +180,8 @@ const Articulos = () => {
             <VerArticulo 
               itemView={itemView} 
               almacenes={almacenes}
-              setAlmacenes={setAlmacenes}/>
+              setAlmacenes={setAlmacenes}
+              embalajes={embalajes}/>
           </Grid>
           
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
@@ -192,6 +197,8 @@ const Articulos = () => {
               setProveedores={setProveedores}
               categorias={categorias}
               setCategorias={setCategorias}
+              almacenes={almacenes}
+              embalajes={embalajes}
             />
           </Grid>
         </Grid>

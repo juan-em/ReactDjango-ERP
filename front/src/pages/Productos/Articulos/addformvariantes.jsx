@@ -31,10 +31,10 @@ const AddFormVariantes = ({
   item, 
   setItem, 
   almacenes,
+  embalajes,
   variantes,
   setVariantes
 }) => {
-  const [embalajes, setEmbalajes] = useState()
   const handleOpen = () => {
     setOpenAddModal(true);
   };
@@ -120,11 +120,6 @@ const AddFormVariantes = ({
     { label: 'Pulp Fiction', year: 1994 },
   ];
 
-  useEffect(()=>{
-    const URL_E = "http://localhost:8000/api/mantenimientos/embalajes/";
-    get(setEmbalajes, URL_E)
-  },[])
-
   return (
     <>
         <Button 
@@ -163,7 +158,6 @@ const AddFormVariantes = ({
                     <TextField
                       fullWidth
                       label="Precio unitario"
-                      required
                       type="number"
                       size="small"
                       color="secondary"
@@ -198,7 +192,6 @@ const AddFormVariantes = ({
                     <TextField
                       fullWidth
                       label="Cantidad"
-                      required
                       type="number"
                       size="small"
                       color="secondary"

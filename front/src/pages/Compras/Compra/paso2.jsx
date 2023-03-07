@@ -69,6 +69,8 @@ const Paso2 = ({state, dispatch}) => {
     
     let data = searcher(fields, articulos);
 
+    console.log("Fields", fields)
+
     return (
         <>
         {/* From searcher.jsx */}
