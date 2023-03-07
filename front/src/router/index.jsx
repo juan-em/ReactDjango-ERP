@@ -33,6 +33,8 @@ import Areas from "../pages/Mantenimiento/Áreas";
 import Produccion from "../pages/Produccion/Produccion";
 import Factura from "../pages/Compras/Facturas";
 import Remisiones from "../pages/Compras/Remisiones";
+import FacturaVentas from "../pages/Ventas/Facturas";
+import RemisionesVentas from "../pages/Ventas/Remisiones";
 
 // LAYOUTS
 
@@ -79,6 +81,8 @@ const Router = () => {
 
               {/* Venta */}
               <Route path="/ventas/venta" element={<Venta />} />
+              <Route path="/ventas/facturas" element={<FacturaVentas />} />
+              <Route path="/ventas/remisiones" element={<RemisionesVentas />} />
 
               {/* Compras */}
               <Route path="/compras/compra" element={<Compra />} />
