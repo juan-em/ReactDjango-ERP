@@ -36,6 +36,7 @@ import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import Estados from "./estados";
 
 const RemisionesVentas = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -83,13 +84,13 @@ const RemisionesVentas = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Remisiones
+                  Buscar Remisiones (Ventas)
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
                   <TextField
                       fullWidth
-                      label="Codigo"
+                      label="Código"
                       type="text"
                       size="small"
                       color="secondary"
@@ -101,7 +102,7 @@ const RemisionesVentas = () => {
                     />
                     <TextField
                       fullWidth
-                      label="Nombre de proveedor"
+                      label="Nombre Cliente"
                       type="text"
                       size="small"
                       color="secondary"
@@ -123,15 +124,16 @@ const RemisionesVentas = () => {
                       variant="filled"
                       onChange={handlerSearcher}
                     />
-                      <TextField
+                    <TextField
                       fullWidth
-                      label="RUC"
+                      label="RUC/DNI Cliente"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
                       name="ruc"
                       id="textfields"
+                      maxlength="7"
                       variant="filled"
                       onChange={handlerSearcher}
                     />
@@ -189,6 +191,7 @@ const RemisionesVentas = () => {
             />
           </Box>
         </Box>
+        <Estados/>
       </div>
     </section>
   );

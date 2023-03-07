@@ -76,7 +76,7 @@ const VerRemision = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Remisión seleccionada
+            Remisión seleccionada (Compras)
           </AccordionSummary>
           <AccordionDetails>
             <List

@@ -94,25 +94,25 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Compra
+              Estado
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Trabajador
+              N° de factura
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Cliente
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
               Fecha
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Detalle de compra
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}

@@ -19,31 +19,27 @@ import { alpha } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+
 //icons
 import NumbersIcon from "@mui/icons-material/Numbers";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DiscountIcon from '@mui/icons-material/Discount';
-import StoreIcon from '@mui/icons-material/Store';
+import PersonIcon from '@mui/icons-material/Person';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import DescriptionIcon from '@mui/icons-material/Description';
 import InfoIcon from '@mui/icons-material/Info';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import "./index.css";
+import InventoryIcon from '@mui/icons-material/Inventory';
+import RemisionesVentas from "../Remisiones";
 import Remisiones from "./remisiones";
 
 const VerFactura = (itemView) => {
-  
   const [openModal, setOpenModal] = useState(false);
   const [open, setOpen] = useState(false);
-  console.log(itemView)
-  
   const [itemsPer, setItemsPer] = useState([
-    { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" },
-    { icon: <StoreIcon />, primary: "Proveedor", secondary: "" },
-    { icon: <NumbersIcon />, primary: "Estado", secondary: "" },
-    { icon: <DiscountIcon />, primary: "Descuento", secondary: "" },
-    { icon: <InfoIcon />, primary: "Detalle de entrega", secondary: "" },
-    { icon: <AttachMoneyIcon />, primary: "Total de compra", secondary: "" },
+    { icon: <NumbersIcon />, primary: "Código", secondary: "" },
+    { icon: <DescriptionIcon />, primary: "Factura", secondary: "" },
+    { icon: <PersonIcon />, primary: "Cliente", secondary: "" },
+    { icon: <InventoryIcon />, primary: "N° Productos", secondary: "" },
+    { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" }
   ]);
 
   const seti = () => {
@@ -91,7 +87,7 @@ const VerFactura = (itemView) => {
       >
         <Accordion sx={{ p: 5 }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            Factura seleccionada
+            Factura seleccionada (Ventas)
           </AccordionSummary>
           <AccordionDetails>
             <Card sx={{ p: 3 }} elevation={0}>
@@ -113,7 +109,7 @@ const VerFactura = (itemView) => {
                           <Grid item xs={12} sm={12} md={12} lg={12}>
                             <ListItem>
                               <ListItemAvatar>
-                              <Avatar sx={{ 
+                                <Avatar sx={{
                                 backgroundColor: alpha('#633256', 0.20),
                                 '&:hover': {
                                     backgroundColor: alpha('#633256', 0.25),

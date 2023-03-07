@@ -83,13 +83,13 @@ const FacturaVentas = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Factura
+                  Buscar Factura (Ventas)
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
                     <TextField
                       fullWidth
-                      label="RUC Proveedor"
+                      label="N° de factura"
                       type="number"
                       size="small"
                       color="secondary"
@@ -99,13 +99,14 @@ const FacturaVentas = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                     />
-                      <TextField
+                    <TextField
                       fullWidth
-                      label="N° de factura"
+                      label="RUC/DNI Cliente"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
+                      maxlength="8"
                       name="nombre"
                       id="textfields"
                       variant="filled"

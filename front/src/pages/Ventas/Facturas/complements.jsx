@@ -109,13 +109,13 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Proveedor
+              Cliente
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              N° de artículos
+              N° de productos
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}

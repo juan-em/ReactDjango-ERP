@@ -36,38 +36,22 @@ const AddForm = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'nombre', headerName: 'Nombre', width: 130 },
-    { field: 'articulo', headerName: 'Artículo', width: 130 },
-    {
-      field: 'precio',
-      headerName: 'Precio',
-      type: 'number',
-      width: 90,
-    },
-    {
-      field: 'ubicacion',
-      headerName: 'Ubicación',
-      description: 'Por ejemplo, alguna estantería',
-      width: 150,
-    },
-    {
-      field: 'almacen',
-      headerName: 'Almacén',
-      width: 150,
-    },
+    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'nombre', headerName: 'Nombre', width: 150 },
+    { field: 'descripcion', headerName: 'Descripción', width: 200 },
+    { field: 'categoria', headerName: 'Categoría', width: 150 },
   ];
 
   const rows = [
-    { id: 1, articulo: 'Snow', nombre: 'Jon', precio: 35 },
-    { id: 2, articulo: 'Lannister', nombre: 'Cersei', precio: 42 },
-    { id: 3, articulo: 'Lannister', nombre: 'Jaime', precio: 45 },
-    { id: 4, articulo: 'Stark', nombre: 'Arya', precio: 16 },
-    { id: 5, articulo: 'Targaryen', nombre: 'Daenerys', precio: null },
-    { id: 6, articulo: 'Melisandre', nombre: null, precio: 150 },
-    { id: 7, articulo: 'Clifford', nombre: 'Ferrara', precio: 44 },
-    { id: 8, articulo: 'Frances', nombre: 'Rossini', precio: 36 },
-    { id: 9, articulo: 'Roxie', nombre: 'Harvey', precio: 65 },
+    { id: 1, descripcion: 'Snow', nombre: 'Jon', categoria: '35' },
+    { id: 2, descripcion: 'Lannister', nombre: 'Cersei', categoria: '42' },
+    { id: 3, descripcion: 'Lannister', nombre: 'Jaime', categoria: '45' },
+    { id: 4, descripcion: 'Stark', nombre: 'Arya', categoria: '16' },
+    { id: 5, descripcion: 'Targaryen', nombre: 'Daenerys', categoria: null },
+    { id: 6, descripcion: 'Melisandre', nombre: null, categoria: '150' },
+    { id: 7, descripcion: 'Clifford', nombre: 'Ferrara', categoria:' 44' },
+    { id: 8, descripcion: 'Frances', nombre: 'Rossini', categoria: '36' },
+    { id: 9, descripcion: 'Roxie', nombre: 'Harvey', categoria:' 65' },
   ];
 
   return (
@@ -86,7 +70,7 @@ const AddForm = () => {
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            Nueva Remisión
+            Nueva Remisión (Ventas)
           </Typography>
         </DialogTitle>
         <DialogContent>

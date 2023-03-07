@@ -83,7 +83,7 @@ const Remisiones = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Remisiones
+                  Buscar Remisiones (Compras)
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">

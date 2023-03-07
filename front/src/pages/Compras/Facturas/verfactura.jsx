@@ -91,7 +91,7 @@ const VerFactura = (itemView) => {
       >
         <Accordion sx={{ p: 5 }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            Factura seleccionada
+            Factura seleccionada (Compras)
           </AccordionSummary>
           <AccordionDetails>
             <Card sx={{ p: 3 }} elevation={0}>

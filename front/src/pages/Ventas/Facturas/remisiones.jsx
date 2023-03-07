@@ -138,25 +138,25 @@ const Remisiones = ({ item, open, setOpen }) => {
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Artículo
+                      Producto
                     </TableCell>
                     <TableCell
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Precio
+                      Cantidad
                     </TableCell>
                     <TableCell
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Ubicación
+                      Importe
                     </TableCell>
                     <TableCell
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Almacén
+                      Descuento
                     </TableCell>
                     <TableCell
                       sx={{ color: "#633256", fontFamily: "inherit" }}
