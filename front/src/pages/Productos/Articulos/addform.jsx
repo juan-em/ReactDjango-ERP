@@ -58,8 +58,7 @@ const AddForm = ({
   };
 
   const artSubmit = async (val) => {
-    console.log(val)
-    
+
     let {proveedor, categoria} = val
     let dataToSubmit
     dataToSubmit = {
