@@ -30,14 +30,14 @@ const SearcherArticulos = ({fields, setFields}) => {
             elevation={10}
             className="paper"
             sx={{
-            py: 2,
+            py: 4,
             px: 5
             }}
         >
-                Buscar Articulo
-            <Grid container spacing={2}>
+                Buscar Artículo
+            <Grid container spacing={1}>
                 
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={4} md={4}>
                 <TextField
                     fullWidth
                     label="Nombre"
@@ -51,14 +51,14 @@ const SearcherArticulos = ({fields, setFields}) => {
 
                 />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={4} md={4}>
                 <FormControl
                     fullWidth
                     margin="dense"
                     size="small"
                     color="secondary"
                 >
-                    <InputLabel>Categoria</InputLabel>
+                    <InputLabel>Categoría</InputLabel>
                     <Select
                     label="Categoria"
                     size="small"
@@ -80,14 +80,14 @@ const SearcherArticulos = ({fields, setFields}) => {
                 </FormControl> 
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={12} sm={4} md={4}>
                 <FormControl
                     fullWidth
                     margin="dense"
                     size="small"
                     color="secondary"
                 >
-                    <InputLabel>Almacen</InputLabel>
+                    <InputLabel>Almacén</InputLabel>
                     <Select
                     label="Almacen"
                     size="small"

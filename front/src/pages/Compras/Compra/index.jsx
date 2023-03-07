@@ -151,16 +151,32 @@ const Compra = () => {
               </Stepper>
               {activeStep === steps.length ? (
                 <Fragment>
-                  <Alert severity="success" 
-                  sx={{ p:3, m:5}}
-                  action={
-                    <Button 
-                    variant="contained"
-                    id="textfields"
-                    onClick={handleReset}>Nueva Compra</Button>
-                  }>
-                    <AlertTitle>Se logró registrar la orden de compra</AlertTitle>
-                  </Alert>
+                  <Paper sx={{p:5}} elevation={20}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Alert severity="success" 
+                        sx={{ p:3}}>
+                          <AlertTitle>Se logró registrar la orden de compra</AlertTitle>
+                        </Alert>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={6} lg={6} sx={{mt:3}}>
+                        <Button 
+                          variant="contained"
+                          id="textfields"
+                          color="secondary"
+                          fullWidth
+                        onClick={handleReset}>Nueva Compra</Button>
+                      </Grid>
+                      <Grid item xs={12} sm={12} md={6} lg={6} sx={{mt:3}}>
+                        <Button 
+                          variant="contained"
+                          id="textfields"
+                          color="secondary"
+                          fullWidth>Ver facturas</Button>
+                      </Grid>
+                    </Grid>
+                    </Paper>
+
                 </Fragment>
               ) : activeStep +1 === 1 ? (
                 <Fragment>
