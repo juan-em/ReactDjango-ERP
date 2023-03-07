@@ -105,8 +105,9 @@ const AddForm = ({
         formData.append(`producto_variante[${index}].producto_detalle[${ind}].cantidad`, val.producto_variante[index].producto_detalle[ind].cantidad)
       })
     })
-    const parseData = parseFormData(formData)
-    console.log(parseData)
+    // const parseData = parseFormData(formData)
+    // console.log(parseData)
+
     
     // formData.append('producto_variante', JSON.stringify(variantes))
     // formData.append('producto_variante.producto_detalle', JSON.stringify(detalle))

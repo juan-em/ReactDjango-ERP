@@ -274,58 +274,6 @@ class Factura(models.Model):
     iva = models.IntegerField()
     totalfactura = models.FloatField(default=0, null=True) 
 
-###############
-# VENTA
-
-class Venta_clie(models.Model):
-    factura = models.OneToOneField(Factura, on_delete=models.CASCADE, primary_key=True)
-    codcliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
-    estadoprod = models.BooleanField(null=True, default=False)
-    contador_productos = models.IntegerField(null=True, default=0)
-
-    def __str__(self):
-        if self.codcliente.persona:
-            return "Nombre cliente: {}, Cod. Factura:{}".format(self.codcliente.persona.nombre, self.factura.pk)    
-        else:
-            return "Nombre cliente: {}, Cod. Factura:{}".format(self.codcliente.empresa.nombre, self.factura.pk)
-
-class Venta_clie_detalle(models.Model):
-    venta_clie = models.ForeignKey(Venta_clie, on_delete=models.CASCADE, null=True)
-    codproducto = models.ForeignKey(Producto, on_delete=models.CASCADE, null=True)
-    cantidad = models.IntegerField()
-    precio = models.FloatField()
-    importe = models.FloatField(null=True)
-    dsctoproducto = models.FloatField()
-    remision_hecha = models.BooleanField(null=True, blank=True, default=False)
-
-    def __str__(self):
-        return "Nombre articulo: {}".format(self.codproducto.nombre)
-
-########################
-#REMISION DE VENTAS
-class Remision_venta(models.Model):
-    NOENVIADO = 'No Enviado'
-    ENVIADO = 'Enviado'
-    
-
-    ESTADOREM = [
-        (NOENVIADO, 'No Enviado'),
-        (ENVIADO, 'Enviado'),
-    ]
-    factura_venta_clie = models.ForeignKey(Venta_clie, on_delete=models.CASCADE)
-    fecha_remision = models.DateField(auto_now_add=True)
-    contador = models.IntegerField(default=0, null=True)
-    estado = models.CharField(max_length=100, choices=ESTADOREM, default=NOENVIADO)
-
-    def __str__(self):
-        return "Numero de factura:{}".format(self.factura_cliente.factura.pk)
-
-class Remision_venta_detalle(models.Model):
-    codremision = models.ForeignKey(Remision_venta, on_delete=models.CASCADE)
-    codproducto = models.ForeignKey(Venta_clie_detalle, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return "Numero de remisión:{}".format(self.codremision.pk)
 
 #################
 #TRABAJADOR
@@ -402,47 +350,6 @@ class Recibir_orden_servicio(models.Model):
     def __str__(self):
         return "Orden de compra:{}".format(self.servicio_compra_referencia)
 
-##################
-# PRODUCCION
-class Produccion(models.Model):
-
-    NINGUNO = 'No Iniciado'
-    PROCESO = 'En proceso'
-    TERMINADO = 'Terminado'
-    SALIENDO = 'Saliendo'
-
-    PROCESOSPROD = [
-        (NINGUNO, 'No Iniciado'),
-        (PROCESO, 'En proceso'),
-        (TERMINADO, 'Terminado'),
-        (SALIENDO, 'Saliendo')
-    ]
-
-    factura_clie = models.ForeignKey(Venta_clie, on_delete=models.CASCADE, null=True)
-    fecha_inicio = models.DateField(auto_now_add=True)
-    fecha_fin = models.DateField()
-    estdo_produccion = models.CharField(max_length=100, choices=PROCESOSPROD, default=NINGUNO)
-
-    def __str__(self):
-        return str(self.factura_clie)
-
-class Produccion_detalle(models.Model):
-
-    NINGUNO = 'No Iniciado'
-    PROCESO = 'En proceso'
-    TERMINADO = 'Terminado'
-    SALIENDO = 'Saliendo'
-
-    PROCESOSPROD = [
-        (NINGUNO, 'No Iniciado'),
-        (PROCESO, 'En proceso'),
-        (TERMINADO, 'Terminado'),
-        (SALIENDO, 'Saliendo')
-    ]
-
-    produccion = models.ForeignKey(Produccion, on_delete=models.CASCADE, null=True)
-    cod_producto = models.ForeignKey(Venta_clie_detalle, on_delete=models.CASCADE, null=True)
-    estdo_produccion_prod = models.CharField(max_length=100, choices=PROCESOSPROD, default=NINGUNO)
 
 
 ##############################################################################################
@@ -459,6 +366,127 @@ class Unidad(models.Model):
 
 #Areas a las cuales puede pertenecer un trabajador
 
+
+
+
+### Refactorizando Compras
+class Compra(models.Model):
+    fecha = models.DateTimeField(null=True)
+    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
+    estado = models.BooleanField(null=True, blank=True, default=False)
+    detalle_entrega = models.TextField(null=True, blank=True)
+    totalCompra = models.FloatField(default=0, null=True)
+    imagen_fac_compra = CloudinaryField('imagen_fac_compra', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
+    descuento = models.FloatField(default=0, null=True)
+    def __str__(self):
+        return 'C-'+str(self.pk)
+
+    @property
+    def nombre_proveedor(self):
+        if self.proveedor.persona:
+            return f'{self.proveedor.persona.nombre}'
+        else:
+            return f'{self.proveedor.empresa.nombre}'
+
+
+class CompraDetalle(models.Model):
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE,related_name='detalle_compra')
+    articulo = models.ForeignKey(ArticuloVariante, on_delete=models.CASCADE, null=True)
+    unidad = models.PositiveIntegerField(default=1)
+    cantidad = models.PositiveIntegerField(default=0)
+    precio_unitario = models.FloatField(default=0)
+    dscto_unitario = models.FloatField(null=True, default=0, blank=True)
+    remision_hecha = models.BooleanField(null=True, blank=True, default=False)
+    
+    def __str__(self):
+        return 'C-'+str(self.compra.pk)+'-D'+str(self.pk)
+
+class RemisionCompra(models.Model):
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, related_name='remision_compra')
+    
+
+    def __str__(self):
+        return 'RC-'+str(self.pk)
+
+class RemisionDetalleCompra(models.Model):
+    remision_compra = models.ForeignKey(RemisionCompra, on_delete=models.CASCADE, related_name='remision_compra_detalle')
+    compra_detalle = models.ForeignKey(CompraDetalle, on_delete=models.CASCADE, null=True)
+    fecha = models.DateField(auto_now_add=True)
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return 'RCD-'+str(self.pk)
+    
+###############
+# VENTA
+class Venta(models.Model):
+    fecha = models.DateTimeField(null=True)
+    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    estado = models.BooleanField(null=True, blank=True, default=False)
+    totalCompra = models.FloatField(default=0, null=True)
+    descuento = models.FloatField(default=0, null=True)
+    def __str__(self):
+        return 'C-'+str(self.pk)
+
+    @property
+    def nombre_cliente(self):
+        if self.cliente.persona:
+            return f'{self.cliente.persona.nombre}'
+        else:
+            return f'{self.cliente.empresa.nombre}'
+
+class Venta_detalle(models.Model):
+    venta = models.ForeignKey(Venta, on_delete=models.CASCADE,related_name='detalle_venta')
+    producto = models.ForeignKey(Producto_variante, on_delete=models.CASCADE, null=True)
+    cantidad = models.PositiveIntegerField(default=0, null=True)
+    precio_unitario = models.FloatField(default=0, null=True)
+    dscto_unitario = models.FloatField(null=True, default=0, blank=True)
+    precio_final = models.FloatField(default=0, null=True)
+    remision_hecha = models.BooleanField(null=True, blank=True, default=False)
+    
+    def __str__(self):
+        return 'C-'+str(self.compra.pk)+'-D'+str(self.pk)
+    
+########################
+#REMISION DE VENTAS
+class Remision_venta(models.Model):
+    NOENVIADO = 'No Enviado'
+    ENVIADO = 'Enviado'
+    
+
+    ESTADOREM = [
+        (NOENVIADO, 'No Enviado'),
+        (ENVIADO, 'Enviado'),
+    ]
+    factura_venta_clie = models.ForeignKey(Venta, on_delete=models.CASCADE)
+    fecha_remision = models.DateField(auto_now_add=True)
+    contador = models.IntegerField(default=0, null=True)
+    estado = models.CharField(max_length=100, choices=ESTADOREM, default=NOENVIADO)
+
+    def __str__(self):
+        return "Numero de factura:{}".format(self.factura_cliente.factura.pk)
+
+class Remision_venta_detalle(models.Model):
+    codremision = models.ForeignKey(Remision_venta, on_delete=models.CASCADE)
+    codproducto = models.ForeignKey(Venta_detalle, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return "Numero de remisión:{}".format(self.codremision.pk)
+
+#Entradas Almacen ###########################################
+class EntradaAlmacen (models.Model):
+    fecha = models.DateTimeField(auto_now_add=True)
+    descripcion = models.CharField(max_length=300, default='-')
+    estado = models.BooleanField(null=True, blank=True, default=False)
+    trabajador_receptor = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True ,related_name='trabajador_receptor') 
+    class Meta:
+        abstract = True
+
+class EntradaAlmacenCompra(EntradaAlmacen):
+    remision = models.ForeignKey(RemisionDetalleCompra, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.pk
+    
 
 #ALMACENES ###########################################
 # class ArticulosEnAlmacen (models.Model):
@@ -526,71 +554,9 @@ class SalidaRequerimientoSalida(Salidas):
         return self.pk
     
 class SalidaVenta(Salidas):
-    venta = models.ForeignKey(Venta_clie, on_delete=models.CASCADE) #modelo del requerimiento de salida
+    venta = models.ForeignKey(Venta, on_delete=models.CASCADE) #modelo del requerimiento de salida
     unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=0)
-    def __str__(self):
-        return self.pk
-
-### Refactorizando Compras
-class Compra(models.Model):
-    fecha = models.DateTimeField(null=True)
-    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
-    estado = models.BooleanField(null=True, blank=True, default=False)
-    detalle_entrega = models.TextField(null=True, blank=True)
-    totalCompra = models.FloatField(default=0, null=True)
-    imagen_fac_compra = CloudinaryField('imagen_fac_compra', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
-    descuento = models.FloatField(default=0, null=True)
-    def __str__(self):
-        return 'C-'+str(self.pk)
-
-    @property
-    def nombre_proveedor(self):
-        if self.proveedor.persona:
-            return f'{self.proveedor.persona.nombre}'
-        else:
-            return f'{self.proveedor.empresa.nombre}'
-
-
-class CompraDetalle(models.Model):
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE,related_name='detalle_compra')
-    articulo = models.ForeignKey(ArticuloVariante, on_delete=models.CASCADE, null=True)
-    unidad = models.PositiveIntegerField(default=1)
-    cantidad = models.PositiveIntegerField(default=0)
-    precio_unitario = models.FloatField(default=0)
-    dscto_unitario = models.FloatField(null=True, default=0, blank=True)
-    remision_hecha = models.BooleanField(null=True, blank=True, default=False)
-    
-    def __str__(self):
-        return 'C-'+str(self.compra.pk)+'-D'+str(self.pk)
-
-class RemisionCompra(models.Model):
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, related_name='remision_compra')
-    
-
-    def __str__(self):
-        return 'RC-'+str(self.pk)
-
-class RemisionDetalleCompra(models.Model):
-    remision_compra = models.ForeignKey(RemisionCompra, on_delete=models.CASCADE, related_name='remision_compra_detalle')
-    compra_detalle = models.ForeignKey(CompraDetalle, on_delete=models.CASCADE, null=True)
-    fecha = models.DateField(auto_now_add=True)
-    trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        return 'RCD-'+str(self.pk)
-
-#Entradas Almacen ###########################################
-class EntradaAlmacen (models.Model):
-    fecha = models.DateTimeField(auto_now_add=True)
-    descripcion = models.CharField(max_length=300, default='-')
-    estado = models.BooleanField(null=True, blank=True, default=False)
-    trabajador_receptor = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True ,related_name='trabajador_receptor') 
-    class Meta:
-        abstract = True
-
-class EntradaAlmacenCompra(EntradaAlmacen):
-    remision = models.ForeignKey(RemisionDetalleCompra, on_delete=models.CASCADE)
     def __str__(self):
         return self.pk
 
@@ -610,7 +576,7 @@ class Caja_diaria(models.Model):
         return "Monto inicial:{}, Monto final:{}, Estado:{}".format(self.monto_total_inicial, self.monto_total_final, self.estado)
 
 class Caja_tipo_pago(models.Model):
-    venta = models.ForeignKey(Venta_clie, on_delete=models.CASCADE, null=True, blank=True)
+    venta = models.ForeignKey(Venta, on_delete=models.CASCADE, null=True, blank=True)
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=True, blank=True)
     tipo_pago = models.ForeignKey(Formapago, on_delete=models.CASCADE, null=True)
     caja_diaria = models.ForeignKey(Caja_diaria, on_delete=models.CASCADE, null=True)
@@ -634,3 +600,46 @@ class Libro_diario(models.Model):
 
     def __str__(self):
         return "Factura:{}, Tipo:{}".format(self.factura.id, self.tipo)
+
+
+##################
+# PRODUCCION
+class Produccion(models.Model):
+
+    NINGUNO = 'No Iniciado'
+    PROCESO = 'En proceso'
+    TERMINADO = 'Terminado'
+    SALIENDO = 'Saliendo'
+
+    PROCESOSPROD = [
+        (NINGUNO, 'No Iniciado'),
+        (PROCESO, 'En proceso'),
+        (TERMINADO, 'Terminado'),
+        (SALIENDO, 'Saliendo')
+    ]
+
+    factura_clie = models.ForeignKey(Venta, on_delete=models.CASCADE, null=True)
+    fecha_inicio = models.DateField(auto_now_add=True)
+    fecha_fin = models.DateField()
+    estdo_produccion = models.CharField(max_length=100, choices=PROCESOSPROD, default=NINGUNO)
+
+    def __str__(self):
+        return str(self.factura_clie)
+
+class Produccion_detalle(models.Model):
+
+    NINGUNO = 'No Iniciado'
+    PROCESO = 'En proceso'
+    TERMINADO = 'Terminado'
+    SALIENDO = 'Saliendo'
+
+    PROCESOSPROD = [
+        (NINGUNO, 'No Iniciado'),
+        (PROCESO, 'En proceso'),
+        (TERMINADO, 'Terminado'),
+        (SALIENDO, 'Saliendo')
+    ]
+
+    produccion = models.ForeignKey(Produccion, on_delete=models.CASCADE, null=True)
+    cod_producto = models.ForeignKey(Venta_detalle, on_delete=models.CASCADE, null=True)
+    estdo_produccion_prod = models.CharField(max_length=100, choices=PROCESOSPROD, default=NINGUNO)

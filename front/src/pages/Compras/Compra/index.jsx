@@ -19,10 +19,6 @@ import {
 } from "@mui/material";
 
 //Componentes
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -30,11 +26,6 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import MailIcon from '@mui/icons-material/Mail';
-import SearchIcon from '@mui/icons-material/Search';
-import { blue } from "@mui/material/colors";
 import Paso1 from "./paso1";
 import Paso2 from "./paso2";
 
@@ -80,8 +71,6 @@ const Compra = () => {
 
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
       throw new Error("You can't skip a step that isn't optional.");
     }
 

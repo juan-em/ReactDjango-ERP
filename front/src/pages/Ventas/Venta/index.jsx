@@ -136,7 +136,7 @@ const Venta = () => {
                 </Fragment>
               ) : activeStep +1 === 1 ? (
                 <Fragment>
-                  <Paso1/>
+                  <Paso1 state={state} dispatch={dispatch}/>
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Box sx={{ flex: '1 1 auto' }} />
                     {isStepOptional(activeStep) && (

@@ -15,6 +15,35 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.parsers import JSONParser
+from io import BytesIO
+from django.http.request import QueryDict
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+def parse_querydict(qdict):
+    parsed = {}
+    for key, value in qdict.items():
+        if "[" in key:
+            main_key, sub_key = key.split("[")[:-1], key.split("[")[-1][:-1]
+            if main_key not in parsed:
+                parsed[main_key] = []
+            if sub_key.isdigit():
+                if len(parsed[main_key]) <= int(sub_key):
+                    parsed[main_key].append({})
+                parsed[main_key][int(sub_key)][sub_key] = value[0] if isinstance(value, list) else value
+            else:
+                parsed[main_key][-1][sub_key] = value[0] if isinstance(value, list) else value
+        else:
+            if isinstance(value, InMemoryUploadedFile):
+                parsed[key] = value
+            else:
+                try:
+                    parsed[key] = int(value[0])
+                except ValueError:
+                    try:
+                        parsed[key] = float(value[0])
+                    except ValueError:
+                        parsed[key] = value[0]
+    return parsed
 
 # @permission_classes([IsAuthenticated])
 class ProductoView(APIView):
@@ -30,8 +59,9 @@ class ProductoView(APIView):
 
     def post(self, request, format=None):
         # print('nested')
-        # print(request.data.producto_variante)
-        serializer = ProductoSerializer(data = request.data)
+        print(request.data)
+        print(parse_querydict(request.data))
+        serializer = ProductoSerializer(data = parse_querydict(request.data))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status = status.HTTP_200_OK)
@@ -70,7 +100,7 @@ class ProductoDetailView(APIView):
     def put(self, request, id):
         try:            
             dataProducto = Producto.objects.filter(borrado=False).get(pk=id)
-            serializer = ProductoSerializer(dataProducto, data=request.data, partial=True)
+            serializer = ProductoSerializer(dataProducto, data=parse_querydict(request.data), partial=True)
             if serializer.is_valid():
                 serializer.save()
                 context = {
