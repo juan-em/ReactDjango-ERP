@@ -23,6 +23,7 @@ import {
   post_put,
   del,
 } from "../../../services/mantenimiento";
+import AddForm from "../Remisiones/addform";
 
 export const Tabla = ({
   fields,
@@ -33,6 +34,7 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
+
   const URL = "http://localhost:8000/api/mantenimientos/provincias/";
   const [provincias, setProvincias] = useState([]);
   useEffect(() => {
@@ -159,13 +161,9 @@ export const Tabla = ({
                 >
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
-                <IconButton
-                  aria-label="remision"
-                  size="small"
-                  color="secondary"
-                >
-                  <DescriptionIcon fontSize="inherit" />
-                </IconButton>
+
+                <AddForm/>
+                
               </TableCell>
             </TableRow>
           ))}

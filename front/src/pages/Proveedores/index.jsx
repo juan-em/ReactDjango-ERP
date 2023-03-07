@@ -95,6 +95,7 @@ const Proveedores = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                       name="codigo"
+                      variant="filled"
                     />
                     <TextField
                       fullWidth
@@ -106,6 +107,7 @@ const Proveedores = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                       name="ruc"
+                      variant="filled"
                     />
                     <TextField
                       fullWidth
@@ -117,6 +119,7 @@ const Proveedores = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                       name="nombre"
+                      variant="filled"
                     />
                     <TextField
                       fullWidth
@@ -128,12 +131,14 @@ const Proveedores = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                       name="telefono"
+                      variant="filled"
                     />
                     <FormControl
                       fullWidth
                       margin="dense"
                       size="small"
                       color="secondary"
+                      variant="filled"
                     >
                       <InputLabel>Provincia</InputLabel>
                       <Select
@@ -162,8 +167,9 @@ const Proveedores = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                       name="localidad"
+                      variant="filled"
                     />
-                    <FormControl>
+                    <FormControl margin="dense">
                       <FormLabel
                         id="demo-row-radio-buttons-group-label"
                         color="secondary"
@@ -202,7 +208,7 @@ const Proveedores = () => {
                         <Button
                           fullWidth
                           id="textfields"
-                          color="primary"
+                          color="secondary"
                           variant="contained"
                           type="reset"
                           value="limpiar"

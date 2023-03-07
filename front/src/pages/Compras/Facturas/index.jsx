@@ -90,7 +90,7 @@ const Factura = () => {
                     <TextField
                       fullWidth
                       label="RUC Proveedor"
-                      type="text"
+                      type="number"
                       size="small"
                       color="secondary"
                       margin="dense"
@@ -112,24 +112,22 @@ const Factura = () => {
                       onChange={handlerSearcher}
                     />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DesktopDatePicker
-                          label="Fecha"
-                          name="fecha"
-                          
-                          inputFormat="DD/MM/YYYY"
-                         
-                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
-                          renderInput={(params) => <TextField 
-                            {...params} 
-                            fullWidth
-                            size="small"
-                            color="secondary"
-                            id="textfields"
-                            variant="filled"
-                            margin="dense"
-                            />}
-                          />
-                        </LocalizationProvider>
+                      <DesktopDatePicker
+                        label="Fecha"
+                        inputFormat="DD/MM/YYYY"
+                        value={value}
+                        onChange={handleChange}
+                        renderInput={(params) => <TextField 
+                          {...params} 
+                          fullWidth
+                          size="small"
+                          color="secondary"
+                          id="textfields"
+                          margin="dense"
+                          variant="filled"
+                          />}
+                        />
+                      </LocalizationProvider>
                     
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>

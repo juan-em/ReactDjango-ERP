@@ -15,7 +15,7 @@ import { DataGrid } from '@mui/x-data-grid';
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
-
+import DescriptionIcon from '@mui/icons-material/Description';
 //componentes
 import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 
@@ -24,73 +24,50 @@ import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 import Swal from "sweetalert2";
 
 
-const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
-  
+const AddForm = () => {
+  const [openModal, setOpenModal] = useState(false);
   const URL = "http://localhost:8000/api/mantenimientos/provincias/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
 
   const handleClose = () => {
-    if(item.id)setItem({})
     setOpenModal(false)
   };
 
-  const handlePostPutProvincia = async(e) => {
-    try {
-      const {nombreprovincia,} = e.target
-      await post_put(e, nombreprovincia, URL)
-      Swal.fire({
-        icon: "success",
-        title: "Ok",
-        text: "Se registró la provincia",
-      });
-      if(item.id)setItem({})
-      setRenderizar(!renderizar)
-      render.current = true
-      
-    }
-    catch(error){
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${error}`,
-      });
-    }
-    setOpenModal(false)
-  }
-
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'firstName', headerName: 'First name', width: 130 },
-    { field: 'lastName', headerName: 'Last name', width: 130 },
+    { field: 'nombre', headerName: 'Nombre', width: 130 },
+    { field: 'articulo', headerName: 'Artículo', width: 130 },
     {
-      field: 'age',
-      headerName: 'Age',
+      field: 'precio',
+      headerName: 'Precio',
       type: 'number',
       width: 90,
     },
     {
-      field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+      field: 'ubicacion',
+      headerName: 'Ubicación',
+      description: 'Por ejemplo, alguna estantería',
+      width: 150,
+    },
+    {
+      field: 'almacen',
+      headerName: 'Almacén',
+      width: 150,
     },
   ];
 
   const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+    { id: 1, articulo: 'Snow', nombre: 'Jon', precio: 35 },
+    { id: 2, articulo: 'Lannister', nombre: 'Cersei', precio: 42 },
+    { id: 3, articulo: 'Lannister', nombre: 'Jaime', precio: 45 },
+    { id: 4, articulo: 'Stark', nombre: 'Arya', precio: 16 },
+    { id: 5, articulo: 'Targaryen', nombre: 'Daenerys', precio: null },
+    { id: 6, articulo: 'Melisandre', nombre: null, precio: 150 },
+    { id: 7, articulo: 'Clifford', nombre: 'Ferrara', precio: 44 },
+    { id: 8, articulo: 'Frances', nombre: 'Rossini', precio: 36 },
+    { id: 9, articulo: 'Roxie', nombre: 'Harvey', precio: 65 },
   ];
 
   return (
@@ -98,10 +75,10 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       <IconButton
         aria-label="delete"
         color="secondary"
-        size="large"
+        size="small"
         onClick={handleOpenPost}
       >
-        <AddCircleIcon fontSize="large" />
+        <DescriptionIcon fontSize="inherit" />
       </IconButton>
       <Dialog open={openModal} maxWidth={'xl'}>
         <DialogTitle>
@@ -114,8 +91,8 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
         </DialogTitle>
         <DialogContent>
           <TabContext centered>
-              <form onSubmit={handlePostPutProvincia}>
-                {item.id && <input type="hidden" name="cod" value={item.id}/>}
+
+                {/*item.id && <input type="hidden" name="cod" value={item.id}/>*/}
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12}>
                     <div style={{ height: 400, width: '100%' }}>
@@ -140,7 +117,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       type="submit"
                       
                     >
-                      <span>{item.id ? "Editar" : "Registrar"}</span>
+                      <span>Registrar</span>
                     </Button>
                     </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
@@ -157,7 +134,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                     </Button>
                   </Grid>
                 </Grid>
-              </form>
+
           </TabContext>
         </DialogContent>
       </Dialog>

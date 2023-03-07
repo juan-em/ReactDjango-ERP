@@ -19,7 +19,6 @@ import { alpha } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-
 //icons
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -30,10 +29,14 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import "./index.css";
+import Remisiones from "./remisiones";
 
 const VerFactura = (itemView) => {
+  
   const [openModal, setOpenModal] = useState(false);
-
+  const [open, setOpen] = useState(false);
+  console.log(itemView)
+  
   const [itemsPer, setItemsPer] = useState([
     { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" },
     { icon: <StoreIcon />, primary: "Proveedor", secondary: "" },
@@ -110,10 +113,15 @@ const VerFactura = (itemView) => {
                           <Grid item xs={12} sm={12} md={12} lg={12}>
                             <ListItem>
                               <ListItemAvatar>
-                                <Avatar>{i.icon}</Avatar>
+                              <Avatar sx={{ 
+                                backgroundColor: alpha('#633256', 0.20),
+                                '&:hover': {
+                                    backgroundColor: alpha('#633256', 0.25),
+                                }, color:'#633256'
+                                }}>{i.icon}</Avatar>
                               </ListItemAvatar>
                               <ListItemText
-                                primary={i.primary}
+                                primary={<span>{i.primary}</span>}
                                 secondary={i.secondary}
                               />
                             </ListItem>
@@ -128,14 +136,7 @@ const VerFactura = (itemView) => {
               <CardActions>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Button
-                      fullWidth
-                      color="secondary"
-                      variant="contained"
-                      size="small"
-                      id="textfields">
-                        Remisiones
-                    </Button>
+                    <Remisiones item={itemView.producto_variante} open={open} setOpen={setOpen} />
                   </Grid>
                 </Grid>
               </CardActions>

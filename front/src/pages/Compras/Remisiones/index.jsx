@@ -31,6 +31,12 @@ import AddForm from "./addform";
 import { useRef } from "react";
 import VerRemision from "./verremision";
 
+//Componentes pra el input de fecha
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
 const Remisiones = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
@@ -46,12 +52,19 @@ const Remisiones = () => {
   const handleClean = () => {
     searchform.reset();
   };
+    //para el input de fecha
+    const [value, setValue] = useState(dayjs(new Date()));
 
+    const handleChange = (newValue) => {
+        setValue(newValue);
+    };
+  
+    
   return (
     <section>
       <div className="container">
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={6}>
             <Paper
               elevation={10}
               className="paper"
@@ -74,17 +87,71 @@ const Remisiones = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
+                  <TextField
+                      fullWidth
+                      label="Codigo"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="codigo"
+                      variant="filled"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
                     <TextField
                       fullWidth
-                      label="Nombre"
+                      label="Nombre de proveedor"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="nombre"
+                      variant="filled"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                     <TextField
+                      fullWidth
+                      label="N° de factura"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
                       name="nombre"
                       id="textfields"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
+                      <TextField
+                      fullWidth
+                      label="RUC"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="ruc"
+                      id="textfields"
+                      variant="filled"
+                      onChange={handlerSearcher}
+                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DesktopDatePicker
+                        label="Fecha"
+                        inputFormat="DD/MM/YYYY"
+                        value={value}
+                        onChange={handleChange}
+                        renderInput={(params) => <TextField 
+                          {...params} 
+                          fullWidth
+                          size="small"
+                          color="secondary"
+                          id="textfields"
+                          margin="dense"
+                          variant="filled"
+                          />}
+                        />
+                      </LocalizationProvider>
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -107,17 +174,6 @@ const Remisiones = () => {
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
             <VerRemision itemView={itemView} />
-          </Grid>
-          <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
-            <AddForm
-              render={render}
-              renderizar={renderizar}
-              setRenderizar={setRenderizar}
-              openModal={openModal}
-              setOpenModal={setOpenModal}
-              item={item}
-              setItem={setItem}
-            />
           </Grid>
         </Grid>
         <Box sx={{ overflow: "auto" }}>

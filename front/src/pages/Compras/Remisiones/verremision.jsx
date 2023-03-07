@@ -10,17 +10,30 @@ import {
   AccordionSummary,
   AccordionDetails,
   Grid,
+  Button,
+  Stack,
+  CardActions,
 } from "@mui/material";
+
 import { alpha } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+
 //icons
 import NumbersIcon from "@mui/icons-material/Numbers";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import InfoIcon from '@mui/icons-material/Info';
+import PersonIcon from '@mui/icons-material/Person';
 
 const VerRemision = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
+    { icon: <NumbersIcon />, primary: "Compra", secondary: "" },
+    { icon: <PersonIcon />, primary: "Trabajador", secondary: "" },
+    { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" },
+    { icon: <InfoIcon />, primary: "Detalle de compra", secondary: "" }
   ]);
 
   const seti = () => {
@@ -40,7 +53,7 @@ const VerRemision = ({ itemView }) => {
             ...i,
             secondary: itemView.nombreprovincia,
           };
-        } 
+        }
       }
     });
     setItemsPer(newItem);
@@ -63,7 +76,7 @@ const VerRemision = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Provincia seleccionada
+            Remisión seleccionada
           </AccordionSummary>
           <AccordionDetails>
             <List
@@ -74,7 +87,7 @@ const VerRemision = ({ itemView }) => {
                     <Grid key={i.primary} item xs={12} sm={6} md={6}>
                       <ListItem>
                         <ListItemAvatar>
-                          <Avatar sx={{ 
+                          <Avatar sx={{
                                 backgroundColor: alpha('#633256', 0.20),
                                 '&:hover': {
                                     backgroundColor: alpha('#633256', 0.25),
