@@ -13,6 +13,10 @@ export const getProd = async (set) => {
 };
 
 export const postProd = async (data) => {
+  console.log(data)
+  for (var pair of data.entries()) {
+    console.log(pair[0]+ ' - ' + pair[1]); 
+}
   try {
     const response = await axios.post(URL, data);
     return response.data;

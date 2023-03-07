@@ -30,43 +30,7 @@ import { Field, FieldArray, Formik } from "formik";
 import Swal from "sweetalert2";
 import { Box } from "@mui/system";
 
-export function transformObjectToFormData(obj) {
-  const formData = new FormData();
-
-  function flattenObj(obj, path = "") {
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        const value = obj[key];
-        if (value === null || value === undefined || value === "") {
-          // Ignorar claves con valor nulo, indefinido o una cadena vacía
-          continue;
-        }
-        const newPath = path ? `${path}[${key}]` : key;
-        if (value instanceof FileList) {
-          for (let i = 0; i < value.length; i++) {
-            formData.append(newPath, value[i]);
-          }
-        } else if (value instanceof File) {
-          formData.append(newPath, value);
-        } else if (typeof value === "object" && value !== null) {
-          if (Array.isArray(value)) {
-            for (let i = 0; i < value.length; i++) {
-              flattenObj(value[i], `${newPath}[${i}]`);
-            }
-          } else {
-            flattenObj(value, newPath);
-          }
-        } else {
-          const numericValue = parseFloat(value);
-          formData.append(newPath, isNaN(numericValue) ? value : numericValue);
-        }
-      }
-    }
-  }
-
-  flattenObj(obj);
-  return formData;
-}
+import {parseFormData} from 'parse-nested-form-data'
 
 const AddForm = ({
   render,
@@ -97,84 +61,59 @@ const AddForm = ({
     setImagen(event.target.value);
   };
 
-  const [productoEsc, setProductoEsc] = useState({
-    nombre: "",
-    cantidad: "",
-    descripcion_producto: "",
-    categoria: "",
-    imagen: "",
-    producto_variante: [
-      {
-        nombre: "",
-        descripcion: "",
-        color: "",
-        talla: "",
-        horas_manufactura: "",
-        costo_manufactura: "",
-        gastos_generales: "",
-        precio_final: "",
-        producto_detalle: [
-          {
-            articulo: "",
-            cantidad: "",
-          },
-        ],
-      },
-    ],
-  });
-
   const InSubmit = async (val) => {
-    // let variantes = []
-    // let detalle = []
-    // val.producto_variante.forEach((it, index)=>{
-    //   variantes.push({
-    //     nombre:val.producto_variante[index].nombre,
-    //     descripcion:val.producto_variante[index].descripcion,
-    //     color:val.producto_variante[index].color,
-    //     talla:val.producto_variante[index].talla,
-    //     horas_manufactura:val.producto_variante[index].horas_manufactura,
-    //     costo_manufactura:val.producto_variante[index].costo_manufactura,
-    //     gastos_generales:val.producto_variante[index].gastos_generales,
-    //   })
-    //   // formData.append('it.nombre', val.producto_variante[index].nombre)
-    //   // formData.append('it.descripcion', val.producto_variante[index].descripcion)
-    //   // formData.append('it.color', val.producto_variante[index].color)
-    //   // formData.append('it.talla', val.producto_variante[index].talla)
-    //   // formData.append('it.horas_manufactura', val.producto_variante[index].horas_manufactura)
-    //   // formData.append('it.costos_manufactura', val.producto_variante[index].costos_manufactura)
-    //   // formData.append('it.gastos_generales', val.producto_variante[index].gastos_generales)
-    //   it.producto_detalle.forEach((i, ind)=>{
-    //     detalle.push({
-    //       nombre:val.producto_variante[index].producto_detalle[ind].articulo,
-    //       cantidad:val.producto_variante[index].producto_detalle[ind].cantidad
-    //     })
-    //     // formData.append('i.articulo', val.producto_variante[index].producto_detalle[ind].articulo)
-    //     // formData.append('i.cantidad', val.producto_variante[index].producto_detalle[ind].cantidad)
-    //   })
-    // })
-    // console.log(variantes)
-    // console.log(detalle)
-    // let formData = new FormData;
-    // formData.append('nombre', val.nombre)
-    // formData.append('cantidad', val.cantidad)
-    // formData.append('descripcion_producto', val.descripcion_producto)
-    // formData.append('categoria', val.categoria)
-    // formData.append('imagen', val.imagen)
+    let variantes = []
+    let detalle = []
+    let formData = new FormData;
+    formData.append('nombre', val.nombre)
+    formData.append('cantidad', val.cantidad)
+    formData.append('descripcion_producto', val.descripcion_producto)
+    formData.append('categoria', val.categoria)
+    formData.append('imagen', val.imagen)
+    // formData.append('producto_variante[0].nombre', 'nada')
+    // formData.append('producto_variante[0].descripcion', 'nada')
+    // formData.append('producto_variante[0].color', 'nada')
+    // formData.append('producto_variante[0].talla', 'nada')
+    // formData.append('producto_variante[0].horas_manufactura', 'nada')
+    // formData.append('producto_variante[0].costos_manufactura', 'nada')
+    // formData.append('producto_variante[0].gastos_generales', 'nada')
+    val.producto_variante.forEach((it, index)=>{
+      formData.append(`producto_variante[${index}].nombre`, val.producto_variante[index].nombre)
+      formData.append(`producto_variante[${index}].descripcion`, val.producto_variante[index].descripcion)
+      formData.append(`producto_variante[${index}].color`, val.producto_variante[index].color)
+      formData.append(`producto_variante[${index}].talla`, val.producto_variante[index].talla)
+      formData.append(`producto_variante[${index}].horas_manufactura`, val.producto_variante[index].horas_manufactura)
+      formData.append(`producto_variante[${index}].costos_manufactura`, val.producto_variante[index].costos_manufactura)
+      formData.append(`producto_variante[${index}].gastos_generales`, val.producto_variante[index].gastos_generales)
+      formData.append(`producto_variante[${index}].precio_final`, val.producto_variante[index].precio_final)
+      // variantes.push({
+      //   nombre:val.producto_variante[index].nombre,
+      //   descripcion:val.producto_variante[index].descripcion,
+      //   color:val.producto_variante[index].color,
+      //   talla:val.producto_variante[index].talla,
+      //   horas_manufactura:val.producto_variante[index].horas_manufactura,
+      //   costo_manufactura:val.producto_variante[index].costo_manufactura,
+      //   gastos_generales:val.producto_variante[index].gastos_generales,
+      // })
+      
+      it.producto_detalle.forEach((i, ind)=>{
+        // detalle.push({
+        //   nombre:val.producto_variante[index].producto_detalle[ind].articulo,
+        //   cantidad:val.producto_variante[index].producto_detalle[ind].cantidad
+        // })
+        formData.append(`producto_variante[${index}].producto_detalle[${ind}].articulo`, val.producto_variante[index].producto_detalle[ind].articulo)
+        formData.append(`producto_variante[${index}].producto_detalle[${ind}].cantidad`, val.producto_variante[index].producto_detalle[ind].cantidad)
+      })
+    })
+    const parseData = parseFormData(formData)
+    console.log(parseData)
+    
     // formData.append('producto_variante', JSON.stringify(variantes))
     // formData.append('producto_variante.producto_detalle', JSON.stringify(detalle))
-    // console.log(formData.getAll('nombre'))
-    // console.log(formData.getAll('cantidad'))
-    // console.log(formData.getAll('descripcion_producto'))
-    // console.log(formData.getAll('categoria'))
-    // console.log(formData.getAll('imagen'))
-    // console.log(formData.getAll('producto_variante'))
-    // console.log(formData.getAll('producto_variante.producto_detalle'))
+    
     try {
       console.log(val);
-      const formData = transformObjectToFormData(val);
-      console.log(formData);
-      // console.log(await postProd(formData))
-      !item.id ? await postProd(val) : await putProd(val, item.id);
+      !item.id ? await postProd(formData) : await putProd(formData, item.id);
       Swal.fire({
         icon: "success",
         title: "Ok",
@@ -211,6 +150,8 @@ const AddForm = ({
     artget(setVArt, URLAV);
   }, []);
 
+  console.log(item)
+
   return (
     <>
       <IconButton
@@ -233,10 +174,41 @@ const AddForm = ({
         <DialogContent>
           <TabContext centered>
             <Formik initialValues={item} onSubmit={InSubmit}>
-              {({ values, handleSubmit, handleChange, setFieldValue }) => (
-                <form onSubmit={handleSubmit}>
+              {({ values, handleSubmit, handleChange, setFieldValue }) => {
+                const [imagenURL, setImagenURL] = useState(values.imagen || '');
+                return (
+                  <form onSubmit={handleSubmit}>
                   <Grid container spacing={1}>
-                    <Grid item xs={12} sm={12} md={12}>
+                    <Grid item xs={12} sm={12} md={5}>
+                      <Button
+                        sx={{ height: "100%" }}
+                        fullWidth
+                        component="label"
+                        id="textfields"
+                        size="small"
+                        color="primary"
+                        variant="outlined"
+                      >
+                        {values.imagen ? (
+                          <img src={imagenURL} alt="Imagen seleccionada" />
+                        ) : (
+                          "Subir Imagen"
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          hidden
+                          name="imagen"
+                          onChange={(e) => {
+                            setFieldValue([e.target.name], e.target.files[0]);
+                            setImagenURL(
+                              URL.createObjectURL(e.target.files[0])
+                            );
+                          }}
+                        />
+                      </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={7}>
                       <TextField
                         fullWidth
                         label="Nombre"
@@ -296,15 +268,6 @@ const AddForm = ({
                           ))}
                         </Select>
                       </FormControl>
-
-                      <input
-                        type="file"
-                        onChange={(event) => {
-                          setFieldValue("imagen", event.target.files[0]);
-                          // setImagen(event.target.files[0])
-                          // console.log(event.target.files[0]);
-                        }}
-                      />
                     </Grid>
 
                     <Grid item xs={12} sm={12} md={12}>
@@ -458,11 +421,11 @@ const AddForm = ({
                                           margin="dense"
                                           name={`producto_variante.${index}.precio_final`}
                                           onChange={handleChange}
-                                          // value={
-                                          //   parseInt(variante.gastos_generales) +
-                                          //   parseInt(variante.costo_manufactura) *
-                                          //     parseInt(variante.horas_manufactura)
-                                          // }
+                                          value={
+                                            parseInt(variante.gastos_generales) +
+                                            parseInt(variante.costo_manufactura) *
+                                              parseInt(variante.horas_manufactura)
+                                          }
                                           InputProps={{
                                             startAdornment: (
                                               <InputAdornment position="start">
@@ -526,7 +489,6 @@ const AddForm = ({
                                                             getOptionLabel={(
                                                               option
                                                             ) => option.nombre}
-                                                            // value={art.nombre}
                                                             onChange={
                                                               varianteHandleChange
                                                             }
@@ -541,6 +503,7 @@ const AddForm = ({
                                                                 }}
                                                               />
                                                             )}
+                                                            // value={detalle.articulo.id}
                                                           />
                                                         </Grid>
                                                         <Grid item xs={6}>
@@ -559,7 +522,7 @@ const AddForm = ({
                                                               color="secondary"
                                                               id="textfields"
                                                               name={`producto_variante.${index}.producto_detalle.${i}.articulo`}
-                                                              defaultValue=""
+                                                              // value={detalle.articulo.variante}
                                                               onChange={
                                                                 handleChange
                                                               }
@@ -591,6 +554,7 @@ const AddForm = ({
                                                         id="textfields"
                                                         margin="dense"
                                                         name={`producto_variante.${index}.producto_detalle.${i}.cantidad`}
+                                                        value={detalle.cantidad}
                                                         onChange={handleChange}
                                                       />
                                                     </Box>
@@ -643,7 +607,8 @@ const AddForm = ({
                     </Grid>
                   </Grid>
                 </form>
-              )}
+                )
+              }}
             </Formik>
           </TabContext>
         </DialogContent>

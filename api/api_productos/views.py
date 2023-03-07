@@ -14,10 +14,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import JSONParser
 
 # @permission_classes([IsAuthenticated])
 class ProductoView(APIView):
-    parse_classes = [MultiPartParser, FormParser]
+    parse_classes = [MultiPartParser, FormParser, JSONParser]
     def get(self, request):
         dataProducto = Producto.objects.filter(borrado=False)
         serProducto = ProductoSerializer(dataProducto, many=True)
@@ -28,7 +29,8 @@ class ProductoView(APIView):
         return Response(context)
 
     def post(self, request, format=None):
-        print(request.data)
+        # print('nested')
+        # print(request.data.producto_variante)
         serializer = ProductoSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()
@@ -99,7 +101,6 @@ class ProductoDetailView(APIView):
 
 # @permission_classes([IsAuthenticated])
 class Producto_varianteView(APIView):
-    
     def post(self, request):
         try:
             serializer = ProductoSerializer(data=request.data)

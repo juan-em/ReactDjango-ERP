@@ -19,7 +19,6 @@ class Producto_detalleSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         variantes = ArticuloVariante.objects.filter(articulo=instance.articulo.id)
         articulo = Articulo.objects.filter(pk=instance.articulo.id)
-        ser_variantes = AVSerializer(variantes, many=True)
         ser_articulo = ArticuloSerializer(articulo, many=True)
         return{
             'id':instance.id,

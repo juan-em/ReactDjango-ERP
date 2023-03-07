@@ -169,19 +169,13 @@ const AddFormVariantes = ({
                       color="secondary"
                       id="textfields"
                       margin="dense"
-<<<<<<< HEAD
-                      name="descripcion"
-=======
                       name="precio_unitario"
->>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                       inputProps={{
                         step: "0.1"
                       }}
                       value={values.precio_unitario}
                       onChange={handleChange}
                     />
-<<<<<<< HEAD
-=======
                     <Autocomplete
                       disablePortal
                       size="small"
@@ -201,7 +195,6 @@ const AddFormVariantes = ({
                       value={values.embalaje}
                       onChange={(e, value) => {setFieldValue("embalaje", value)}}
                     />
->>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                     <TextField
                       fullWidth
                       label="Color"
@@ -211,13 +204,9 @@ const AddFormVariantes = ({
                       color="secondary"
                       id="textfields"
                       margin="dense"
-<<<<<<< HEAD
-                      name="color"
-=======
                       name="cantidad"
                       value={values.cantidad}
                       onChange={handleChange}
->>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
@@ -229,35 +218,22 @@ const AddFormVariantes = ({
                       size="small"
                       color="secondary"
                       margin="dense"
-<<<<<<< HEAD
-                      name="talla"
-=======
                       name="ubicacion"
->>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                       id="textfields"
                       value={values.ubicacion}
                       onChange={handleChange}
                     />
-<<<<<<< HEAD
-                    <TextField
-                      fullWidth
-                      label="Horas de Manufactura"
-                      type="number"
-=======
                     <Autocomplete
                       disablePortal
                       options={almacenes}
                       getOptionLabel={(option)=>{
                         if (option) return option.nombre 
                         return ''}}
->>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                       size="small"
                       color="secondary"
                       margin="dense"
                       name="horas_manufactura"
                       id="textfields"
-<<<<<<< HEAD
-=======
                       renderInput={(params) => 
                         <TextField 
                           {...params} 
@@ -268,7 +244,6 @@ const AddFormVariantes = ({
                         />}
                       value={values.almacen}
                       onChange={(e, value) => {setFieldValue("almacen", value)}}
->>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                     />
                     <TextField
                       fullWidth
@@ -277,31 +252,7 @@ const AddFormVariantes = ({
                       size="small"
                       color="secondary"
                       margin="dense"
-<<<<<<< HEAD
-                      name="costo_manufactura"
-                      id="textfields"
-                    />
-                    <TextField
-                      fullWidth
-                      label="Gastos Generales"
-                      type="number"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="gastos_generales"
-                      id="textfields"
-                    />
-                    <TextField
-                      fullWidth
-                      label="Precio Final"
-                      type="number"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="precio_final"
-=======
                       name="descripcion"
->>>>>>> 5b7112ed269abcb9c0bd47c14eeb1179ca6af4f7
                       id="textfields"
                       value={values.descripcion}
                       onChange={handleChange}
