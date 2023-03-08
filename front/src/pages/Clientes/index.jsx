@@ -96,6 +96,7 @@ const Clientes = () => {
                       margin="dense"
                       id="textfields"
                       name="codigo"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
                     <TextField
@@ -107,6 +108,7 @@ const Clientes = () => {
                       margin="dense"
                       id="textfields"
                       name="dni"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
                     <TextField
@@ -118,6 +120,7 @@ const Clientes = () => {
                       margin="dense"
                       id="textfields"
                       name="nombre"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
                     <TextField
@@ -129,6 +132,7 @@ const Clientes = () => {
                       margin="dense"
                       id="textfields"
                       name="telefono"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
                     <FormControl
@@ -136,6 +140,7 @@ const Clientes = () => {
                       margin="dense"
                       size="small"
                       color="secondary"
+                      variant="filled"
                     >
                       <InputLabel>Provincia</InputLabel>
                       <Select
@@ -164,8 +169,9 @@ const Clientes = () => {
                       id="textfields"
                       onChange={handlerSearcher}
                       name="localidad"
+                      variant="filled"
                     />
-                    <FormControl>
+                    <FormControl margin="dense">
                       <FormLabel
                         id="demo-row-radio-buttons-group-label"
                         color="secondary"

@@ -9,6 +9,7 @@ import Card from "@mui/material/Paper";
 import { useState } from "react";
 import { CardHeader, Typography } from "@mui/material";
 import { fontSize } from "@mui/system";
+import { alpha} from "@mui/material/styles";
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -111,9 +112,17 @@ const Estados = () => {
   };
 
   const customList = (items, tittle) => (
-    <Card sx={{ width: 180, height: 250, overflow: "auto", mt:4 }} elevation={10}>
+    <Card sx={{ height: 300, overflow: "auto", mt:4 }} elevation={10}>
         <CardHeader
-        title={<Typography sx={{fontSize:15}}><span>{tittle}</span></Typography>}/>
+        title={<Typography fontFamily={"inherit"} align={'center'}
+        sx={{ p: 1 , 
+          backgroundColor: alpha('#633256', 0.20),
+          '&:hover': {
+              backgroundColor: alpha('#633256', 0.25),
+          },
+          }}>
+          {tittle}
+        </Typography>}/>
         
       <List dense component="div" role="list">
         {items.map((value) => {
@@ -147,8 +156,8 @@ const Estados = () => {
 
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item>{customList(left, "No Iniciado")}</Grid>
-      <Grid item>
+      <Grid item xs={12} md={2}>{customList(left, "No Iniciado")}</Grid>
+      <Grid item xs={12} md={1}>
         <Grid container direction="column" alignItems="center">
           <Button
             sx={{ my: 0.5 }}
@@ -196,7 +205,7 @@ const Estados = () => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList(right, "En Proceso")}</Grid>
+      <Grid item xs={12} md={2}>{customList(right, "En Proceso")}</Grid>
 
 
 
@@ -204,7 +213,7 @@ const Estados = () => {
 
 
 
-      <Grid item>
+      <Grid item xs={12} md={1}>
         <Grid container direction="column" alignItems="center">
           <Button
             sx={{ my: 0.5 }}
@@ -259,8 +268,8 @@ const Estados = () => {
 
 
 
-      <Grid item>{customList(left2, "Terminado")}</Grid>
-      <Grid item>
+      <Grid item xs={12} md={2}>{customList(left2, "Terminado")}</Grid>
+      <Grid item xs={12} md={1}>
         <Grid container direction="column" alignItems="center">
           <Button
             sx={{ my: 0.5 }}
@@ -308,7 +317,7 @@ const Estados = () => {
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList(right2, "Saliendo")}</Grid>
+      <Grid item xs={12} md={3}>{customList(right2, "Saliendo")}</Grid>
     </Grid>
   );
 };

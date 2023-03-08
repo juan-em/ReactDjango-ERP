@@ -97,6 +97,7 @@ const Articulos = () => {
                       name="codigo"
                       id="textfields"
                       onChange={handlerSearcher}
+                      variant="filled"
                     />
                     <TextField
                       fullWidth
@@ -108,6 +109,7 @@ const Articulos = () => {
                       name="nombre"
                       id="textfields"
                       onChange={handlerSearcher}
+                      variant="filled"
                     />
                     <Autocomplete
                       disablePortal
@@ -119,12 +121,14 @@ const Articulos = () => {
                       }}
                       size="small"
                       id="textfields"
+                      variant="filled"
                       renderInput={(params) => 
                         <TextField 
                           {...params} 
                           label="Proveedor" 
                           margin="dense" 
                           color="secondary"
+                          variant="filled"
                           fullWidth />}
                       onChange={(e, value) => handlerSearcher(e, {"proveedor": value})}
                     />
@@ -138,6 +142,7 @@ const Articulos = () => {
                       name="marca"
                       id="textfields"
                       onChange={handlerSearcher}
+                      variant="filled"
                     />
                     <Autocomplete
                       disablePortal
@@ -154,6 +159,7 @@ const Articulos = () => {
                           margin="dense" 
                           color="secondary" 
                           fullWidth 
+                          variant="filled"
                         />}
                       onChange={(e, value) => handlerSearcher(e, {"categoria": value})}
                     />
