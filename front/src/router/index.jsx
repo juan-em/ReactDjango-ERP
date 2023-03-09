@@ -36,6 +36,7 @@ import Remisiones from "../pages/Compras/Remisiones";
 import FacturaVentas from "../pages/Ventas/Facturas";
 import RemisionesVentas from "../pages/Ventas/Remisiones";
 import Requerimientos from "../pages/Requerimientos/Requerimientos";
+import Servicios from "../pages/Servicios/Servicios";
 
 // LAYOUTS
 
@@ -89,6 +90,9 @@ const Router = () => {
               <Route path="/compras/compra" element={<Compra />} />
               <Route path="/compras/facturas" element={<Factura />} />
               <Route path="/compras/remisiones" element={<Remisiones />} />
+
+              {/* Servicios */}
+              <Route path="/servicios/servicios" element={<Servicios />} />
 
               {/* Requerimientos */}
               <Route path="/requerimientos/requerimientos" element={<Requerimientos />} />

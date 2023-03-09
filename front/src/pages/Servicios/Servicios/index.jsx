@@ -29,9 +29,9 @@ import { Tabla } from "./complements";
 
 import AddForm from "./addform";
 import { useRef } from "react";
-import VerRequerimiento from "./verrequerimiento";
+import VerServicio from "./verservicio";
 
-const Requerimientos = () => {
+const Servicios = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -85,7 +85,7 @@ const Requerimientos = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar requerimientos
+                  Buscar servicios
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -170,7 +170,7 @@ const Requerimientos = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerRequerimiento itemView={itemView} />
+            <VerServicio itemView={itemView} />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -201,4 +201,4 @@ const Requerimientos = () => {
     </section>
   );
 };
-export default Requerimientos;
+export default Servicios;

@@ -5,7 +5,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import {TableRow , Button} from "@mui/material";
 
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -87,27 +87,33 @@ export const Tabla = ({
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="center"
+              align="right"
             >
               Código
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="center"
+              align="right"
             >
-              Área solicitante
+              Tipo de Servicio
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="center"
+              align="right"
             >
-              Estado
+              Cotización
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="center"
+              align="right"
             >
-              Bien o servicio
+              Propuesta Técnica
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Propuesta Económica
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -123,20 +129,35 @@ export const Tabla = ({
               <TableCell component="th" scope="row">
                 {i + 1}
               </TableCell>
-              <TableCell align="center">{row.id}</TableCell>
-              <TableCell align="center">{row.nombreprovincia}</TableCell>
-              <TableCell align="center" sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white' }} >
-                {row.nombreprovincia}
-                <IconButton
-                  aria-label="delete"
-                  size="small"
-                  sx={{ color: 'white' }}
-                  aria-describedby="Cambiar de estado"
-                >
-                  <ChangeCircleIcon fontSize="inherit" />
-                </IconButton>
+              <TableCell align="right">{row.id}</TableCell>
+              <TableCell align="right">{row.nombreprovincia}</TableCell>
+              <TableCell align="right" >
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                  }, }} 
+                 size="small">
+                  <span>Ver</span>
+                </Button>
               </TableCell>
-              <TableCell align="center">{row.nombreprovincia}</TableCell>
+              <TableCell align="right" >
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                  }, }} 
+                 size="small">
+                  <span>Ver</span>
+                </Button>
+              </TableCell>
+              <TableCell align="right" >
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                  }, }} 
+                 size="small">
+                  <span>Ver</span>
+                </Button>
+              </TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"
