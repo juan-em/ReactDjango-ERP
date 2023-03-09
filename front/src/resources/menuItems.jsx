@@ -57,7 +57,7 @@ export const menuItems = [
     item:[{name:'Produccion',icon: <ProductionQuantityLimitsIcon/>,url:'/produccion/produccion'}] },
 
     { url: "#Tesoreria", icon: <AutoStoriesIcon/>, name: "Tesorería",
-    item:[{name:'Caja Diaria',icon: <PointOfSaleIcon/>,url:'#cliente'},
+    item:[{name:'Caja Diaria',icon: <PointOfSaleIcon/>,url:'/tesoreria/cajadiaria'},
         {name:'Libro Diario',icon: <BookmarkIcon/>,url:'#proveedor'}] },
 
     { url: "#Mantenimiento", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
