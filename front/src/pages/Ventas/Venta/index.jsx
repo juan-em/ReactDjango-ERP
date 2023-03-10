@@ -42,6 +42,8 @@ const steps = ['Registro', 'Agregar producto'];
 
 import { INITIAL_STATE, ventasReducer, ACTION_TYPES} from "./reducerVenta";
 
+import { RegistroVenta, BuildVentaPayload } from "../../../services/ventas";
+
 const Venta = () => {
 
   //Registration's Fuctionality
@@ -96,7 +98,8 @@ const Venta = () => {
   const handleRegister = () => {
     if (Reflect.has(state.venta.cliente, "id") && state.venta.detalle_venta.length){
       var payload = BuildVentaPayload(state.venta)
-      RegistroComnpra(payload);
+      console.log(state.venta)
+      RegistroVenta(payload);
       handleNext()
     } else {
       Swal.fire({

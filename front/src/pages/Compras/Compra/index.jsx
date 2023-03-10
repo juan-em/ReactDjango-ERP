@@ -1,46 +1,31 @@
-import { alpha} from "@mui/material/styles";
-import { useState , Fragment, useReducer } from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import './index.css';
+import { alpha } from "@mui/material/styles";
+import { useState, Fragment, useReducer } from "react";
+import "./index.css";
 
-import {
-  Paper,
-  Grid,
-  TextField,
-  Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Badge,
-  ButtonGroup, Divider, Card, CardMedia, CardContent, CardActions, CardHeader, IconButton,
-  SnackbarContent, Alert, AlertTitle
-} from "@mui/material";
+import { Paper, Grid, Button, Alert, AlertTitle } from "@mui/material";
 
 //Componentes
 
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Typography from "@mui/material/Typography";
 
 import Paso1 from "./paso1";
 import Paso2 from "./paso2";
 
-const steps = ['Registro', 'Agregar Artículo'];
+const steps = ["Registro", "Agregar Artículo"];
 
 //Registration's Fuctionality
-import { INITIAL_STATE, comprasReducer, ACTION_TYPES} from "./reducerCompra";
+import { INITIAL_STATE, comprasReducer, ACTION_TYPES } from "./reducerCompra";
 import { RegistroComnpra, BuildCompraPayload } from "../../../services/compras";
 import Swal from "sweetalert2";
 
 const Compra = () => {
-
   //Registration's Fuctionality
-  const [state, dispatch] = useReducer(comprasReducer, INITIAL_STATE)
-  
+  const [state, dispatch] = useReducer(comprasReducer, INITIAL_STATE);
+
   //Steps's Functionality
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
@@ -53,7 +38,6 @@ const Compra = () => {
     return skipped.has(step);
   };
 
-  
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -83,16 +67,19 @@ const Compra = () => {
   };
 
   const handleReset = () => {
-    dispatch({type: ACTION_TYPES.RESET_COMPRA});
+    dispatch({ type: ACTION_TYPES.RESET_COMPRA });
     setActiveStep(0);
   };
 
-
   const handleRegister = () => {
-    if (Reflect.has(state.compra.proveedor, "id") && state.compra.detalle_compra.length){
-      var payload = BuildCompraPayload(state.compra)
+    if (
+      Reflect.has(state.compra.proveedor, "id") &&
+      state.compra.detalle_compra.length
+    ) {
+      var payload = BuildCompraPayload(state.compra);
+      console.log(state.compra);
       RegistroComnpra(payload);
-      handleNext()
+      handleNext();
     } else {
       Swal.fire({
         icon: "error",
@@ -100,127 +87,154 @@ const Compra = () => {
         text: "Proveedor o articulos NO válidos",
       });
     }
-    
-  }
-
+  };
 
   return (
     <section>
       <div className="container">
-
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={12}>
-            <Typography fontFamily={"inherit"} align={'center'}
-            sx={{ mt: 3, p: 3 , 
-              backgroundColor: alpha('#633256', 0.20),
-              '&:hover': {
-                  backgroundColor: alpha('#633256', 0.25),
-              },
-              }}>
+            <Typography
+              fontFamily={"inherit"}
+              align={"center"}
+              sx={{
+                mt: 3,
+                p: 3,
+                backgroundColor: alpha("#633256", 0.2),
+                "&:hover": {
+                  backgroundColor: alpha("#633256", 0.25),
+                },
+              }}
+            >
               Nueva Compra
             </Typography>
-              <Stepper activeStep={activeStep} sx={{ p: 5 }}>
-                {steps.map((label, index) => {
-                  const stepProps = {};
-                  const labelProps = {};
-                  if (isStepOptional(index)) {
-                    labelProps.optional = (
-                      <Typography variant="caption" fontFamily={"inherit"}>Opcional</Typography>
-                    );
-                  }
-                  if (isStepSkipped(index)) {
-                    stepProps.completed = false;
-                  }
-                  return (
-                    <Step key={label} {...stepProps} >
-                      <StepLabel {...labelProps}><span>{label}</span></StepLabel>
-                    </Step>
+            <Stepper activeStep={activeStep} sx={{ p: 5 }}>
+              {steps.map((label, index) => {
+                const stepProps = {};
+                const labelProps = {};
+                if (isStepOptional(index)) {
+                  labelProps.optional = (
+                    <Typography variant="caption" fontFamily={"inherit"}>
+                      Opcional
+                    </Typography>
                   );
-                })}
-              </Stepper>
-              {activeStep === steps.length ? (
-                <Fragment>
-                  <Paper sx={{p:5}} elevation={20}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <Alert severity="success" 
-                        sx={{ p:3}}>
-                          <AlertTitle>Se logró registrar la orden de compra</AlertTitle>
-                        </Alert>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={6} lg={6} sx={{mt:3}}>
-                        <Button 
-                          variant="contained"
-                          id="textfields"
-                          color="secondary"
-                          fullWidth
-                        onClick={handleReset}>Nueva Compra</Button>
-                      </Grid>
-                      <Grid item xs={12} sm={12} md={6} lg={6} sx={{mt:3}}>
-                        <Button 
-                          variant="contained"
-                          id="textfields"
-                          color="secondary"
-                          fullWidth>Ver facturas</Button>
-                      </Grid>
+                }
+                if (isStepSkipped(index)) {
+                  stepProps.completed = false;
+                }
+                return (
+                  <Step key={label} {...stepProps}>
+                    <StepLabel {...labelProps}>
+                      <span>{label}</span>
+                    </StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+            {activeStep === steps.length ? (
+              <Fragment>
+                <Paper sx={{ p: 5 }} elevation={20}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                      <Alert severity="success" sx={{ p: 3 }}>
+                        <AlertTitle>
+                          Se logró registrar la orden de compra
+                        </AlertTitle>
+                      </Alert>
                     </Grid>
-                    </Paper>
-
-                </Fragment>
-              ) : activeStep +1 === 1 ? (
-                <Fragment>
-                  <Paso1 state={state} dispatch={dispatch}/>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
-                    <Box sx={{ flex: '1 1 auto' }} />
-                    {isStepOptional(activeStep) && (
-                      <Button onClick={handleSkip} sx={{ mr: 1 }}>
-                        Saltar
+                    <Grid item xs={12} sm={12} md={6} lg={6} sx={{ mt: 3 }}>
+                      <Button
+                        variant="contained"
+                        id="textfields"
+                        color="secondary"
+                        fullWidth
+                        onClick={handleReset}
+                      >
+                        Nueva Compra
                       </Button>
-                    )}
-                    <Button onClick={handleNext}
-                      id="textfields"
-                      variant="contained" color="secondary">
-                      {activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} sx={{ mt: 3 }}>
+                      <Button
+                        variant="contained"
+                        id="textfields"
+                        color="secondary"
+                        fullWidth
+                      >
+                        Ver facturas
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Fragment>
+            ) : activeStep + 1 === 1 ? (
+              <Fragment>
+                <Paso1 state={state} dispatch={dispatch} />
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 5 }}>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  {isStepOptional(activeStep) && (
+                    <Button onClick={handleSkip} sx={{ mr: 1 }}>
+                      Saltar
                     </Button>
-                  </Box>
-                </Fragment>
-                
-              ):(
-                <Fragment>
-                  <Paso2 state={state} dispatch={dispatch}/>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
+                  )}
+                  <Button
+                    onClick={handleNext}
+                    id="textfields"
+                    variant="contained"
+                    color="secondary"
+                  >
+                    {activeStep === steps.length - 1 ? "Terminar" : "Siguiente"}
+                  </Button>
+                </Box>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <Paso2 state={state} dispatch={dispatch} />
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 5 }}>
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                    id="textfields"
+                    variant="contained"
+                  >
+                    Volver
+                  </Button>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  {isStepOptional(activeStep) && (
                     <Button
                       color="inherit"
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
+                      onClick={handleSkip}
                       sx={{ mr: 1 }}
                       id="textfields"
                       variant="contained"
                     >
-                      Volver
+                      Saltar
                     </Button>
-                    <Box sx={{ flex: '1 1 auto' }} />
-                    {isStepOptional(activeStep) && (
-                      <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }} id="textfields"
-                      variant="contained">
-                        Saltar
-                      </Button>
-                    )}
+                  )}
 
-                    {activeStep === steps.length - 1 ? 
-                    <Button onClick={handleRegister} id="textfields"
-                      variant="contained" color="secondary">
+                  {activeStep === steps.length - 1 ? (
+                    <Button
+                      onClick={handleRegister}
+                      id="textfields"
+                      variant="contained"
+                      color="secondary"
+                    >
                       Terminar
                     </Button>
-                    : 
-                    <Button onClick={handleNext} id="textfields"
-                      variant="contained" color="secondary">
+                  ) : (
+                    <Button
+                      onClick={handleNext}
+                      id="textfields"
+                      variant="contained"
+                      color="secondary"
+                    >
                       Siguiente
-                    </Button>}
-                  </Box>
-                </Fragment>
-              )
-            }
+                    </Button>
+                  )}
+                </Box>
+              </Fragment>
+            )}
           </Grid>
         </Grid>
       </div>

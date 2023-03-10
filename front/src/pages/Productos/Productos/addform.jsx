@@ -309,9 +309,9 @@ const AddForm = ({
                                             size="small"
                                             color="secondary"
                                             id="textfields"
-                                            name="almacen"
+                                            name={`producto_variante.${index}.almacen`}
                                             onChange={handleChange}
-                                            value={values.almacen}
+                                            value={variante.almacen}
                                           >
                                             {almacenes.map((item, i) => (
                                               <MenuItem key={i} value={item.id}>

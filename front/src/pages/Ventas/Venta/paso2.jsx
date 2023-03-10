@@ -33,7 +33,7 @@ const Paso2 = ({ state, dispatch }) => {
     console.log(item)
     let payload = {
       nombre: `${item.producto}/${item.nombre}`,
-      articulo: item.id,
+      producto: item.id,
       unidad: 1,
       cantidad: 1,
       precio_unitario: item.precio_final,
@@ -67,9 +67,7 @@ const Paso2 = ({ state, dispatch }) => {
       get(setProductos, URL);
     }
   }, []);
-  console.log(productos)
   let data = searcher(fields, productos);
-  console.log(data)
 
   return (
     <>

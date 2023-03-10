@@ -3,18 +3,23 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from api_models.models import *
 
+class VentaDetalleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Venta_detalle
+        exclude = ('venta',)
+
 class Venta_DetalleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venta_detalle
-        fields = '__all__'
+        exclude = ('venta',)
+        depth = 2
 
 class VentaSerializer(WritableNestedModelSerializer):
-    venta_detalle = Venta_DetalleSerializer(many=True)
+    detalle_venta = VentaDetalleSerializer(many=True)
     class Meta:
         model = Venta
-        fields = '__all__'
+        fields = ['id', 'cliente', 'estado', 'fecha', 'descuento','total', 'detalle_venta']
     def to_representation(self, instance):
-        cliente = Clientes.objects.get(pk=instance.cliente.pk)
         venta_detalle = Venta_detalle.objects.filter(venta = instance.pk)
         ser_venta_detalle = Venta_DetalleSerializer(venta_detalle, many=True)
         return {
@@ -24,6 +29,7 @@ class VentaSerializer(WritableNestedModelSerializer):
             'fecha':instance.fecha,
             'descuento': instance.descuento,
             'total':instance.total,
+            'detalle_venta':ser_venta_detalle.data
         }
 
 class RemisionDetalleSerializer(serializers.ModelSerializer):
@@ -33,7 +39,7 @@ class RemisionDetalleSerializer(serializers.ModelSerializer):
 
 
 class RemisionesSerializer(WritableNestedModelSerializer):
-    remision_venta = Remision_venta_detalle(many=True)
+    remision_venta = RemisionDetalleSerializer(many=True)
     class Meta:
         model = Remision_venta
         fields = ['id', 'compra', 'remision_venta']

@@ -463,7 +463,7 @@ class Venta_detalle(models.Model):
     remision_hecha = models.BooleanField(null=True, blank=True, default=False)
     
     def __str__(self):
-        return 'C-'+str(self.compra.pk)+'-D'+str(self.pk)
+        return 'V-'+str(self.venta.pk)+'-D'+str(self.pk)
     
 
 class Remision_venta(models.Model):

@@ -35,9 +35,9 @@ const SearcherProductos = ({fields, setFields}) => {
             }}
         >
                 Buscar Producto
-            <Grid container spacing={2}>
+                <Grid container spacing={1}>
                 
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={4} md={4}>
                 <TextField
                     fullWidth
                     label="Nombre"
@@ -51,14 +51,14 @@ const SearcherProductos = ({fields, setFields}) => {
 
                 />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={4} md={4}>
                 <FormControl
                     fullWidth
                     margin="dense"
                     size="small"
                     color="secondary"
                 >
-                    <InputLabel>Categoria</InputLabel>
+                    <InputLabel>Categoría</InputLabel>
                     <Select
                     label="Categoria"
                     size="small"
@@ -72,6 +72,35 @@ const SearcherProductos = ({fields, setFields}) => {
                     all
                     </MenuItem>
                     {categorias.map((item, i) => (
+                        <MenuItem key={1} value={item.id}>
+                        {item.nombre}
+                        </MenuItem>
+                    ))}
+                    </Select>
+                </FormControl> 
+                </Grid>
+
+                <Grid item xs={12} sm={4} md={4}>
+                <FormControl
+                    fullWidth
+                    margin="dense"
+                    size="small"
+                    color="secondary"
+                >
+                    <InputLabel>Almacén</InputLabel>
+                    <Select
+                    label="Almacen"
+                    size="small"
+                    color="secondary"
+                    id="textfields"
+                    defaultValue=""
+                    name="almacen"
+                    onChange={handlerSearcher}
+                    >
+                    <MenuItem value="">
+                    all
+                    </MenuItem>
+                    {almacenes.map((item, i) => (
                         <MenuItem key={1} value={item.id}>
                         {item.nombre}
                         </MenuItem>

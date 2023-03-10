@@ -25,7 +25,6 @@ export const INITIAL_STATE = {
 export const getTotal = (detalle_venta) =>{
     if (detalle_venta != []){
         let sum = detalle_venta.reduce((amount, item) => ((item.precio_unitario*item.cantidad)*0.18)+(item.precio_unitario*item.cantidad) + amount, 0)
-        console.log(sum)
         return sum
     }
     return 0
@@ -53,6 +52,8 @@ export const ventasReducer = (state, action) => {
             }
         case ACTION_TYPES.ADD_DETALLE:
             var isInVentaDetalle = state.venta.detalle_venta.some((item)=> action.payload.producto == item.producto)
+            console.log(action.payload)
+            console.log(state.venta.detalle_venta)
             if (!isInVentaDetalle) 
                 return {
                     ...state,
@@ -62,7 +63,8 @@ export const ventasReducer = (state, action) => {
                     }
                 }
             var item = state.venta.detalle_venta.find((item) => action.payload.producto == item.producto);
-            item.cantidad += .5   
+            item.cantidad += .5  
+            console.log(state.venta.detalle_venta) 
             return  {
                 ...state,
 

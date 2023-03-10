@@ -31,4 +31,7 @@ urlpatterns = [
 
     #Compras
     path('compras/', include('api_compras.urls')),
+
+    #Ventas
+    path('ventas/', include('api_ventas.urls')),
 ]

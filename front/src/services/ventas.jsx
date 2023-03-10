@@ -21,17 +21,17 @@ export const searcher = (fields, list) => {
     return resultData;
 };
 
-// Registro de la compra
-export const RegistroComnpra =(payload) => {
-    axios.post("http://localhost:8000/api/compras/", payload)
+// Registro de la venta
+export const RegistroVenta =(payload) => {
+    axios.post("http://localhost:8000/api/ventas/", payload)
          .then(res=>{console.log(res.data)})
          .catch(err=>{console.log(err)})
 }
 
-export const BuildCompraPayload =(compra)=>{
-    compra.proveedor = compra.proveedor.id
-    compra.detalle_compra.forEach(item => {
+export const BuildVentaPayload =(venta)=>{
+    venta.cliente = venta.cliente.id
+    venta.detalle_venta.forEach(item => {
         delete item.nombre
     })
-    return compra
+    return venta
 }
