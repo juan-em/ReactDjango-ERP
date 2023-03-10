@@ -19,31 +19,44 @@ from io import BytesIO
 from django.http.request import QueryDict
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-def parse_querydict(qdict):
-    parsed = {}
-    for key, value in qdict.items():
-        if "[" in key:
-            main_key, sub_key = key.split("[")[:-1], key.split("[")[-1][:-1]
-            if main_key not in parsed:
-                parsed[main_key] = []
-            if sub_key.isdigit():
-                if len(parsed[main_key]) <= int(sub_key):
-                    parsed[main_key].append({})
-                parsed[main_key][int(sub_key)][sub_key] = value[0] if isinstance(value, list) else value
+
+
+def parse_querydict(query_dict):
+    result = {}
+    for key, value in query_dict.lists():
+        parts = key.split('.')
+        current = result
+        for i, part in enumerate(parts):
+            if '[' in part and ']' in part:
+                index_start = part.index('[')
+                index_end = part.index(']')
+                index = part[index_start+1:index_end]
+                part = part[:index_start]
+                if part not in current:
+                    current[part] = []
+                while len(current[part]) <= int(index):
+                    current[part].append({})
+                if i == len(parts) - 1:
+                    if isinstance(value[0], str):
+                        current[part][int(index)] = value[0] if not value[0].isdigit() else int(value[0]) if '.' not in value[0] else float(value[0])
+                    else:
+                        current[part][int(index)] = value[0]
+                else:
+                    current = current[part][int(index)]
             else:
-                parsed[main_key][-1][sub_key] = value[0] if isinstance(value, list) else value
-        else:
-            if isinstance(value, InMemoryUploadedFile):
-                parsed[key] = value
-            else:
-                try:
-                    parsed[key] = int(value[0])
-                except ValueError:
-                    try:
-                        parsed[key] = float(value[0])
-                    except ValueError:
-                        parsed[key] = value[0]
-    return parsed
+                if i == len(parts) - 1:
+                    if isinstance(value[0], str):
+                        current[part] = value[0] if not value[0].isdigit() else int(value[0]) if '.' not in value[0] else float(value[0])
+                    else:
+                        current[part] = value[0]
+                elif isinstance(value, InMemoryUploadedFile):
+                    current[key] = value        
+                else:
+                    if part not in current:
+                        current[part] = {}
+                    current = current[part]
+    print(result)
+    return result
 
 # @permission_classes([IsAuthenticated])
 class ProductoView(APIView):
@@ -131,6 +144,15 @@ class ProductoDetailView(APIView):
 
 # @permission_classes([IsAuthenticated])
 class Producto_varianteView(APIView):
+    def get(self, request):
+        dataProductoVariante = Producto_variante.objects.filter(borrado=False)
+        serializer = PVSerializer(dataProductoVariante, many=True)
+        context = {
+            'status':True,
+            'content':serializer.data
+        }        
+        return Response(context)
+
     def post(self, request):
         try:
             serializer = ProductoSerializer(data=request.data)

@@ -8,26 +8,31 @@ const setInitialDate = () => {
 export const ACTION_TYPES = {
     SET_FECHA:"SET_FECHA",
     SET_CLIENTE:"SET_CLIENTE",
+    ADD_DETALLE: "ADD_DETALLE",
+    LOW_DETALLE: "LOW_DETALLE",
+    REMOVE_DETALLE: "REMOVE_DETALLE",
     RESET_VENTA: "RESET_VENTA"
 }
 
 export const INITIAL_STATE = {
-    compra: {
+    venta: {
         fecha:setInitialDate(),
         cliente:{persona:{nombre:""}},
+        detalle_venta:[]
     }
 }
 
-export const getTotal = (detalle_compra) =>{
-    if (detalle_compra != []){
-        let sum = detalle_compra.reduce((amount, item) => item.precio_unitario*item.cantidad + amount, 0)
+export const getTotal = (detalle_venta) =>{
+    if (detalle_venta != []){
+        let sum = detalle_venta.reduce((amount, item) => ((item.precio_unitario*item.cantidad)*0.18)+(item.precio_unitario*item.cantidad) + amount, 0)
+        console.log(sum)
         return sum
     }
     return 0
 }
 
 
-export const comprasReducer = (state, action) => {
+export const ventasReducer = (state, action) => {
     switch(action.type) {
         case ACTION_TYPES.SET_FECHA:
             return {
@@ -37,34 +42,35 @@ export const comprasReducer = (state, action) => {
                     fecha:action.payload
                 }
             }
-        case ACTION_TYPES.SET_PROVEEDOR:
+        case ACTION_TYPES.SET_CLIENTE:
+            console.log(state)
             return {
                 ...state,
-                compra:{
-                    ...state.compra,
-                    proveedor:action.payload
+                venta:{
+                    ...state.venta,
+                    cliente:action.payload
                 }
             }
         case ACTION_TYPES.ADD_DETALLE:
-            var isInCompraDetalle = state.compra.detalle_compra.some((item)=> action.payload.articulo == item.articulo)
-            if (!isInCompraDetalle) 
+            var isInVentaDetalle = state.venta.detalle_venta.some((item)=> action.payload.producto == item.producto)
+            if (!isInVentaDetalle) 
                 return {
                     ...state,
-                    compra:{
-                        ...state.compra,
-                        detalle_compra:[...state.compra.detalle_compra,action.payload]
+                    venta:{
+                        ...state.venta,
+                        detalle_venta:[...state.venta.detalle_venta,action.payload]
                     }
                 }
-            var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo);
+            var item = state.venta.detalle_venta.find((item) => action.payload.producto == item.producto);
             item.cantidad += .5   
             return  {
                 ...state,
 
             }
         case ACTION_TYPES.LOW_DETALLE:
-            var isInCompraDetalle = state.compra.detalle_compra.some((item)=> action.payload.articulo == item.articulo)
-            if (isInCompraDetalle) {
-                var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo)
+            var isInVentaDetalle = state.venta.detalle_venta.some((item)=> action.payload.producto == item.producto)
+            if (isInVentaDetalle) {
+                var item = state.venta.detalle_venta.find((item) => action.payload.producto == item.producto)
                 if (item.cantidad > 1){
                     item.cantidad -= .5
                     return  {
@@ -74,18 +80,18 @@ export const comprasReducer = (state, action) => {
                 return state
             }
         case ACTION_TYPES.REMOVE_DETALLE:
-            var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo)
-            var index = state.compra.detalle_compra.indexOf(item)
-            let detalle_compra = state.compra.detalle_compra.splice(index, 1)
+            var item = state.venta.detalle_venta.find((item) => action.payload.producto == item.producto)
+            var index = state.venta.detalle_venta.indexOf(item)
+            let detalle_venta = state.venta.detalle_venta.splice(index, 1)
             return{
                 ...state,
-                compra:{
-                    ...state.compra,
-                    detalle_compra:[...detalle_compra]
+                venta:{
+                    ...state.venta,
+                    detalle_venta:[...detalle_venta]
                 }
             }
         
-        case ACTION_TYPES.RESET_COMPRA:
+        case ACTION_TYPES.RESET_VENTA:
             return{...INITIAL_STATE}
 
         default:

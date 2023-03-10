@@ -42,6 +42,7 @@ export const comprasReducer = (state, action) => {
                 }
             }
         case ACTION_TYPES.SET_PROVEEDOR:
+            console.log(state)
             return {
                 ...state,
                 compra:{

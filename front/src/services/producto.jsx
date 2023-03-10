@@ -71,9 +71,20 @@ export const searcher = (fields, list) => {
   return resultData;
 };
 
+export const get = async (set, url) => {
+  try {
+    const response = await axios.get(url);
+    set(response.data.content);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
 export const post = async (data, url) => {
   try {
-    const response = await axios.post('http://localhost:8000/api/productos/prodvar/', data);
+    const response = await axios.post('http://localhost:8000/api/productos/variantes/', data);
     return response.data;
   } catch (error) {
     console.log(error);

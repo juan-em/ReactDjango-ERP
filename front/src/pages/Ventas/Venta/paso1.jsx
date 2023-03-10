@@ -1,44 +1,49 @@
-import { alpha } from "@mui/material/styles";
-import { useState, Fragment, useEffect, useRef } from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import { useState } from "react";
 import "./index.css";
 
 import { Paper, Grid, TextField, Button, Autocomplete } from "@mui/material";
 
 //Componentes
-import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Typography from "@mui/material/Typography";
-
 import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import MailIcon from "@mui/icons-material/Mail";
 import SearchIcon from "@mui/icons-material/Search";
-import { blue } from "@mui/material/colors";
 
+import { ACTION_TYPES } from "./reducerVenta";
+import { useEffect, useRef } from "react";
 import { getClientes } from "../../../services/clientes";
 
-const steps = ["Registro", "Agregar producto"];
-
-const Paso1 = ({state, dispatch}) => {
+const Paso1 = ({ state, dispatch }) => {
   const render = useRef(true);
   const [dataClientes, setDataClientes] = useState([]);
 
-  //para el input de fecha
-  const [value, setValue] = useState(dayjs(new Date()));
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
+  const handleChange = (e, value, ac) => {
+    let action = {
+      type: ac,
+    };
+    switch (ac) {
+      case ACTION_TYPES.SET_FECHA:
+        var event = new Date(e.$d);
+        let date = JSON.stringify(event);
+        date = date.slice(1, -1);
+        action.payload = date;
+        dispatch(action);
+        break;
+
+      case ACTION_TYPES.SET_CLIENTE:
+        if (value.id) {
+          action.payload = value;
+          dispatch(action);
+        }
+        break;
+      default:
+        console.log("Acción no definida");
+    }
   };
+
+  console.log(state);
 
   useEffect(() => {
     if (render.current) {
@@ -63,16 +68,16 @@ const Paso1 = ({state, dispatch}) => {
                       return option.empresa.nombre;
                     }}
                     onChange={(e, value) => {
-                      handleChange(e, value, ACTION_TYPES.SET_PROVEEDOR);
+                      handleChange(e, value, ACTION_TYPES.SET_CLIENTE);
                     }}
-                    value={state.compra.proveedor}
+                    value={state.venta.cliente}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         focused
                         fullWidth
                         type="text"
-                        label="Nombre del proveedor"
+                        label="Nombre del cliente"
                         size="small"
                         color="secondary"
                         margin="none"
@@ -104,13 +109,16 @@ const Paso1 = ({state, dispatch}) => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={12} md={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DesktopDatePicker
                   label="Fecha"
+                  name="fecha"
                   inputFormat="DD/MM/YYYY"
-                  value={value}
-                  onChange={handleChange}
+                  value={state.venta.fecha}
+                  onChange={(value) => {
+                    handleChange(value, null, ACTION_TYPES.SET_FECHA);
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -125,31 +133,40 @@ const Paso1 = ({state, dispatch}) => {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={12} md={3}>
               <TextField
                 fullWidth
-                label="IGV"
-                value="18"
+                // label={"IDENTIFICACION CLIENTE"}
+                type="text"
+                size="small"
+                color="secondary"
+                margin="dense"
+                id="textfields"
+                disable="true"
+                variant="filled"
+                value={
+                  state.venta.cliente
+                    ? state.venta.cliente.codigo
+                    : state.venta.cliente.codigo
+                }
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={3}>
+              <TextField
+                fullWidth
+                // label={"IDENTIFICACION CLIENTE"}
                 type="number"
                 size="small"
                 color="secondary"
                 margin="dense"
-                name="nombreprovincia"
                 id="textfields"
+                disable="true"
                 variant="filled"
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <TextField
-                fullWidth
-                label="Nombre del cliente"
-                value="Nombre"
-                size="small"
-                color="secondary"
-                margin="dense"
-                name="nombreprovincia"
-                id="textfields"
-                variant="filled"
+                value={
+                  state.venta.cliente.persona
+                    ? state.venta.cliente.persona.dni
+                    : state.venta.cliente.empresa.ruc
+                }
               />
             </Grid>
           </Grid>

@@ -43,10 +43,9 @@ const AddForm = ({
 }) => {
   const [catProd, setCatProd] = useState([]);
   const [art, setArt] = useState([]);
-  const [artValue, setArtValue] = useState([]);
   const [vArt, setVArt] = useState([]);
   const [filterVarianteArt, setFilterVarianteArt] = useState([]);
-  const [imagen, setImagen] = useState();
+  const [almacenes, setAlmacenes] = useState([]);
 
   const handleOpenPost = () => {
     setOpenModal(true);
@@ -57,63 +56,30 @@ const AddForm = ({
     setOpenModal(false);
   };
 
-  const handleChangeImagen = (event) => {
-    setImagen(event.target.value);
-  };
-
   const InSubmit = async (val) => {
-    let variantes = []
-    let detalle = []
+    console.log(val)
     let formData = new FormData;
     formData.append('nombre', val.nombre)
     formData.append('cantidad', val.cantidad)
     formData.append('descripcion_producto', val.descripcion_producto)
     formData.append('categoria', val.categoria)
     formData.append('imagen', val.imagen)
-    // formData.append('producto_variante[0].nombre', 'nada')
-    // formData.append('producto_variante[0].descripcion', 'nada')
-    // formData.append('producto_variante[0].color', 'nada')
-    // formData.append('producto_variante[0].talla', 'nada')
-    // formData.append('producto_variante[0].horas_manufactura', 'nada')
-    // formData.append('producto_variante[0].costos_manufactura', 'nada')
-    // formData.append('producto_variante[0].gastos_generales', 'nada')
     val.producto_variante.forEach((it, index)=>{
       formData.append(`producto_variante[${index}].nombre`, val.producto_variante[index].nombre)
       formData.append(`producto_variante[${index}].descripcion`, val.producto_variante[index].descripcion)
+      formData.append(`producto_variante[${index}].almacen`, val.producto_variante[index].almacen)
       formData.append(`producto_variante[${index}].color`, val.producto_variante[index].color)
       formData.append(`producto_variante[${index}].talla`, val.producto_variante[index].talla)
       formData.append(`producto_variante[${index}].horas_manufactura`, val.producto_variante[index].horas_manufactura)
-      formData.append(`producto_variante[${index}].costos_manufactura`, val.producto_variante[index].costos_manufactura)
+      formData.append(`producto_variante[${index}].costo_manufactura`, val.producto_variante[index].costo_manufactura)
       formData.append(`producto_variante[${index}].gastos_generales`, val.producto_variante[index].gastos_generales)
-      formData.append(`producto_variante[${index}].precio_final`, val.producto_variante[index].precio_final)
-      // variantes.push({
-      //   nombre:val.producto_variante[index].nombre,
-      //   descripcion:val.producto_variante[index].descripcion,
-      //   color:val.producto_variante[index].color,
-      //   talla:val.producto_variante[index].talla,
-      //   horas_manufactura:val.producto_variante[index].horas_manufactura,
-      //   costo_manufactura:val.producto_variante[index].costo_manufactura,
-      //   gastos_generales:val.producto_variante[index].gastos_generales,
-      // })
-      
+      formData.append(`producto_variante[${index}].precio_final`, 0)
       it.producto_detalle.forEach((i, ind)=>{
-        // detalle.push({
-        //   nombre:val.producto_variante[index].producto_detalle[ind].articulo,
-        //   cantidad:val.producto_variante[index].producto_detalle[ind].cantidad
-        // })
         formData.append(`producto_variante[${index}].producto_detalle[${ind}].articulo`, val.producto_variante[index].producto_detalle[ind].articulo)
         formData.append(`producto_variante[${index}].producto_detalle[${ind}].cantidad`, val.producto_variante[index].producto_detalle[ind].cantidad)
       })
-    })
-    // const parseData = parseFormData(formData)
-    // console.log(parseData)
-
-    
-    // formData.append('producto_variante', JSON.stringify(variantes))
-    // formData.append('producto_variante.producto_detalle', JSON.stringify(detalle))
-    
+    })    
     try {
-      console.log(val);
       !item.id ? await postProd(formData) : await putProd(formData, item.id);
       Swal.fire({
         icon: "success",
@@ -124,7 +90,6 @@ const AddForm = ({
       setRenderizar(!renderizar);
       render.current = true;
     } catch (error) {
-      console.log(val);
       console.log(formData);
       console.log(error);
       Swal.fire({
@@ -146,7 +111,9 @@ const AddForm = ({
     const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
     const URLA = "http://localhost:8000/api/articulos/";
     const URLAV = "http://localhost:8000/api/articulos/variantes/";
+    const URL_ALMACEN = "http://localhost:8000/api/mantenimientos/almacenes/";
     get(setCatProd, URL);
+    get(setAlmacenes, URL_ALMACEN);
     artget(setArt, URLA);
     artget(setVArt, URLAV);
   }, []);
@@ -330,6 +297,29 @@ const AddForm = ({
                                           onChange={handleChange}
                                           value={variante.descripcion}
                                         />
+                                        <FormControl
+                                          fullWidth
+                                          margin="dense"
+                                          size="small"
+                                          color="secondary"
+                                        >
+                                          <InputLabel>Almacen</InputLabel>
+                                          <Select
+                                            label="Almacen"
+                                            size="small"
+                                            color="secondary"
+                                            id="textfields"
+                                            name="almacen"
+                                            onChange={handleChange}
+                                            value={values.almacen}
+                                          >
+                                            {almacenes.map((item, i) => (
+                                              <MenuItem key={i} value={item.id}>
+                                                {item.nombre}
+                                              </MenuItem>
+                                            ))}
+                                          </Select>
+                                        </FormControl>
                                         <TextField
                                           fullWidth
                                           label="Color"
@@ -450,7 +440,7 @@ const AddForm = ({
                                                 sx={{ marginTop: "0.5rem" }}
                                                 onClick={() => array.push("")}
                                               >
-                                                Detalle
+                                                Articulos
                                               </Button>
                                               {variante.producto_detalle !==
                                               undefined ? (

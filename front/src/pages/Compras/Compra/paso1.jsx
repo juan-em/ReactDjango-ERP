@@ -51,6 +51,8 @@ const Paso1 = ({state, dispatch}) => {
       }
     }
 
+    console.log(state)
+
     useEffect(()=>{
       if (render.current){
         render.current = false;

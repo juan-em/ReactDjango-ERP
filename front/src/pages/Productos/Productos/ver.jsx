@@ -28,6 +28,7 @@ import Swal from "sweetalert2";
 
 const Ver = ({ itemView }) => {
   const [open, setOpen] = useState(false);
+  console.log(itemView)
 
   return (
     <section>
@@ -112,6 +113,19 @@ const Ver = ({ itemView }) => {
                                 <ListItemText
                                   primary="Categoria"
                                   secondary={itemView.categoria}
+                                />
+                              </ListItem>
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12} lg={6}>
+                              <ListItem>
+                                <ListItemAvatar>
+                                  <Avatar>
+                                    <NumbersIcon />
+                                  </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                  primary="Almacen"
+                                  secondary={itemView.almacen}
                                 />
                               </ListItem>
                             </Grid>

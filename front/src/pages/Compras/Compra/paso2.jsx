@@ -68,6 +68,7 @@ const Paso2 = ({state, dispatch}) => {
     }, []);
     
     let data = searcher(fields, articulos);
+    console.log(data)
 
     return (
         <>

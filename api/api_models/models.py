@@ -17,11 +17,15 @@ CHOICES_PRIM_INS = [
     ("Ninguno", "Ninguno")
 ]
 
-# IMAGEN
+############################################################
+#IMAGENES
+############################################################
 def upload_toArt(instance, filename):
     return 'articulos/{filename}'.format(filename=filename)
 def upload_toProd(instance, filename):
     return 'productos/{filename}'.format(filename=filename)
+def upload_toCom(instance, filename):
+    return 'compras/{filename}'.format(filename=filename)
 
 # USER AUTHENTICATION
 class Profile_User(models.Model):
@@ -36,8 +40,9 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile_user.save()
         
-
-# MODELOS
+############################################################
+# MODELOS DE MANTENIMIENTO
+############################################################
 class Provincias(models.Model):
     nombreprovincia = models.CharField(max_length=100)
     borrado = models.BooleanField(default=False, null=True)
@@ -87,9 +92,9 @@ class Areas(models.Model):
     def __str__(self):
         return self.nombre.upper()
 
-#####################
+############################################################
 #MODELOS GENERALES PERSONA Y EMPRESA
-
+############################################################
 class Persona(models.Model):
     nombre = models.CharField(max_length=100, default="-")
     dni = models.CharField(max_length=100, default="-")
@@ -124,8 +129,9 @@ class Empresa(models.Model):
     def __str__(self):
         return self.nombre
 
-###################
+############################################################
 #CLIENTES
+############################################################
 
 class Clientes(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
@@ -144,8 +150,9 @@ class Clientes(models.Model):
         id = str(self.pk)
         return 'CLIE-'+'0'*(5-len(id))+id
 
-##################
+############################################################
 #PROVEEDORES
+############################################################
 
 class Proveedores(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
@@ -164,8 +171,9 @@ class Proveedores(models.Model):
         id = str(self.pk)
         return 'PROV-'+'0'*(5-len(id))+id
 
-###############
-#CATEGORIA DE ARTICULO
+############################################################
+#ARTICULOS
+############################################################
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
@@ -173,8 +181,7 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 
-###############
-#ARTICULOS
+
 class Articulo (models.Model): 
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=100, default='-')
@@ -219,8 +226,10 @@ class ArticuloVariante(models.Model):
         id = str(self.pk)
         almacen = self.almacen.abreviacion if self.almacen else "ND"
         return almacen+'-'+'0'*(5-len(id))+id
-#################
+
+############################################################
 #PRODUCTO
+############################################################
 
 class Categoria_producto(models.Model):
     nombre = models.CharField(max_length=100)
@@ -233,7 +242,7 @@ class Producto(models.Model):
     cantidad = models.IntegerField(default=0)
     descripcion_producto = models.TextField(null=True, blank=True)
     categoria=models.ForeignKey(Categoria_producto, related_name='categoria_producto', on_delete=models.SET_NULL, null=True)
-    imagen = models.ImageField( _("Image") ,upload_to=upload_toProd,default='blancos.png')
+    imagen = models.ImageField( _("Image") ,upload_to=upload_toProd,default='blancos.png', blank=True)
     # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
@@ -248,6 +257,7 @@ class Producto_variante(models.Model):
     producto = models.ForeignKey(Producto,related_name='producto_variante', on_delete=models.CASCADE, null=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=100, null=True, blank=True)
+    almacen = models.ForeignKey(Almacen, on_delete=models.SET_NULL, null=True, blank=True)  #ALmacen de Prod Terminado o Almacen Tienda #x
     color = models.CharField(max_length=100, null=True, blank=True, default='-')
     talla = models.CharField(max_length=100, null=True, blank=True, default='-')
     horas_manufactura=models.IntegerField(default=0)
@@ -266,8 +276,9 @@ class Producto_detalle(models.Model):
     def __str__(self):
         return self.variante.producto.nombre + "-" + self.variante.nombre + "-" + self.articulo.nombre
 
-################
-#FACTURA
+############################################################
+#FACTURAS
+############################################################
 
 class Factura(models.Model):
     fecha = models.DateField(null=True)
@@ -275,8 +286,10 @@ class Factura(models.Model):
     totalfactura = models.FloatField(default=0, null=True) 
 
 
-#################
+############################################################
 #TRABAJADOR
+############################################################
+
 def get_default_area():
     """ get a default value for action status; create new status if not available """
     return Areas.objects.get_or_create(nombre="No definida")[0].pk
@@ -305,8 +318,10 @@ class Trabajador(models.Model):
             return "Nombre trabajador:{}, Tipo:{}".format(self.empresa.nombre, self.tipo_trabajador)
 
 
-#######################
-# SERVICIOS
+###########################################################
+#----------------------- SERVICIOS -----------------------#
+###########################################################
+
 #"contratista" en Servicios es la empresa o persona al que se va a pedir el servicio 
 class Servicios(models.Model):
     nombre = models.CharField(max_length=200)
@@ -352,9 +367,9 @@ class Recibir_orden_servicio(models.Model):
 
 
 
-##############################################################################################
-#-------------------------PROPUESTA DE ESQUEMATIZACIÓN RESPECTO A ALMACENES------------------#
-##############################################################################################
+###########################################################
+#----------------------- ALMACENES -----------------------#
+###########################################################
 
 #Unidades
 class Unidad(models.Model):
@@ -368,15 +383,16 @@ class Unidad(models.Model):
 
 
 
-
-### Refactorizando Compras
+###########################################################
+#----------------------- COMPRAS -----------------------#
+###########################################################
 class Compra(models.Model):
     fecha = models.DateTimeField(null=True)
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
     detalle_entrega = models.TextField(null=True, blank=True)
     totalCompra = models.FloatField(default=0, null=True)
-    imagen_fac_compra = CloudinaryField('imagen_fac_compra', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
+    imagen_fac_compra = models.ImageField( _("Image") ,upload_to=upload_toCom,default='blancos.png', blank=True)
     descuento = models.FloatField(default=0, null=True)
     def __str__(self):
         return 'C-'+str(self.pk)
@@ -417,13 +433,15 @@ class RemisionDetalleCompra(models.Model):
     def __str__(self):
         return 'RCD-'+str(self.pk)
     
-###############
-# VENTA
+###########################################################
+#----------------------- VENTAS -----------------------#
+###########################################################
+
 class Venta(models.Model):
     fecha = models.DateTimeField(null=True)
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
-    totalCompra = models.FloatField(default=0, null=True)
+    total = models.FloatField(default=0, null=True)
     descuento = models.FloatField(default=0, null=True)
     def __str__(self):
         return 'C-'+str(self.pk)
@@ -447,33 +465,25 @@ class Venta_detalle(models.Model):
     def __str__(self):
         return 'C-'+str(self.compra.pk)+'-D'+str(self.pk)
     
-########################
-#REMISION DE VENTAS
-class Remision_venta(models.Model):
-    NOENVIADO = 'No Enviado'
-    ENVIADO = 'Enviado'
-    
 
-    ESTADOREM = [
-        (NOENVIADO, 'No Enviado'),
-        (ENVIADO, 'Enviado'),
-    ]
-    factura_venta_clie = models.ForeignKey(Venta, on_delete=models.CASCADE)
-    fecha_remision = models.DateField(auto_now_add=True)
-    contador = models.IntegerField(default=0, null=True)
-    estado = models.CharField(max_length=100, choices=ESTADOREM, default=NOENVIADO)
+class Remision_venta(models.Model):
+    venta = models.ForeignKey(Venta, on_delete=models.CASCADE, related_name='remision_venta', null=True)
 
     def __str__(self):
-        return "Numero de factura:{}".format(self.factura_cliente.factura.pk)
+        return 'RC-'+str(self.pk)
 
 class Remision_venta_detalle(models.Model):
-    codremision = models.ForeignKey(Remision_venta, on_delete=models.CASCADE)
-    codproducto = models.ForeignKey(Venta_detalle, on_delete=models.CASCADE, null=True)
+    remision_venta = models.ForeignKey(Remision_venta, on_delete=models.CASCADE, related_name='remision_venta_detalle', null=True)
+    venta_detalle = models.ForeignKey(Venta_detalle, on_delete=models.CASCADE, null=True)
+    fecha = models.DateField(auto_now_add=True, null=True)
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return "Numero de remisión:{}".format(self.codremision.pk)
+        return 'RCD-'+str(self.pk)
 
-#Entradas Almacen ###########################################
+#################################################################
+#----------------------- ENTRADA ALMACEN -----------------------#
+#################################################################
 class EntradaAlmacen (models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     descripcion = models.CharField(max_length=300, default='-')
@@ -488,17 +498,6 @@ class EntradaAlmacenCompra(EntradaAlmacen):
         return self.pk
     
 
-#ALMACENES ###########################################
-# class ArticulosEnAlmacen (models.Model):
-#     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
-#     articulo_variante = models.ForeignKey(Articulo, on_delete=models.CASCADE)
-#     cantidad = models.PositiveIntegerField(default=0)
-#     ubicacion = models.CharField(max_length=300, default='-') #por ejemplo alguna estantería
-#     observaciones = models.CharField(max_length=500, default='-')
-
-#     def __str__(self):
-#         return f"Almacen: {self.almacen.nombre}, Artículo: {self.articulo_variante.nombre}"
-
 
 class AlmacenProductosTerminados (models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
@@ -510,7 +509,9 @@ class AlmacenProductosTerminados (models.Model):
     def __str__(self):
         return self.pk
 
-#Salidas de almacen ###########################################
+################################################################
+#----------------------- SALIDA ALMACEN -----------------------#
+################################################################
 class Salidas (models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE)
     fecha = models.DateField(auto_now_add=True)
@@ -561,8 +562,9 @@ class SalidaVenta(Salidas):
         return self.pk
 
 
-#######################
-# TESORERIA
+###########################################################
+#----------------------- TESORERIA -----------------------#
+###########################################################
 class Caja_diaria(models.Model):
     fecha_apertura = models.DateTimeField(null=True, auto_now_add=True)
     fecha_cierre = models.DateTimeField(null=True, auto_now_add=True)
@@ -582,8 +584,9 @@ class Caja_tipo_pago(models.Model):
     caja_diaria = models.ForeignKey(Caja_diaria, on_delete=models.CASCADE, null=True)
     total_tipo_pago = models.FloatField(null=True)
 
-###############
-#LIBRO DIARIO
+##############################################################
+#----------------------- LIBRO DIARIO -----------------------#
+##############################################################
 class Libro_diario(models.Model):
     COMPRA = 'Compra'
     VENTA = 'Venta'
@@ -602,8 +605,9 @@ class Libro_diario(models.Model):
         return "Factura:{}, Tipo:{}".format(self.factura.id, self.tipo)
 
 
-##################
-# PRODUCCION
+############################################################
+#----------------------- PRODUCCION -----------------------#
+############################################################
 class Produccion(models.Model):
 
     NINGUNO = 'No Iniciado'
