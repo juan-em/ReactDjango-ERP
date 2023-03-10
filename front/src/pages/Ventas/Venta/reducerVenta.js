@@ -42,7 +42,6 @@ export const ventasReducer = (state, action) => {
                 }
             }
         case ACTION_TYPES.SET_CLIENTE:
-            console.log(state)
             return {
                 ...state,
                 venta:{
@@ -52,8 +51,6 @@ export const ventasReducer = (state, action) => {
             }
         case ACTION_TYPES.ADD_DETALLE:
             var isInVentaDetalle = state.venta.detalle_venta.some((item)=> action.payload.producto == item.producto)
-            console.log(action.payload)
-            console.log(state.venta.detalle_venta)
             if (!isInVentaDetalle) 
                 return {
                     ...state,
@@ -64,7 +61,6 @@ export const ventasReducer = (state, action) => {
                 }
             var item = state.venta.detalle_venta.find((item) => action.payload.producto == item.producto);
             item.cantidad += .5  
-            console.log(state.venta.detalle_venta) 
             return  {
                 ...state,
 

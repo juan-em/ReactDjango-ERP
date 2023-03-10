@@ -50,9 +50,6 @@ const Paso1 = ({state, dispatch}) => {
           console.log("Acción no definida")
       }
     }
-
-    console.log(state)
-
     useEffect(()=>{
       if (render.current){
         render.current = false;

@@ -43,8 +43,6 @@ const AddVariante = ({
   };
 
   const InSub = async (val) => {
-    console.log(id);
-    console.log(val);
     try {
     //   URL = "http://localhost:8000/api/productos/prodvar/";
       !variante.id ? await post(val, 'http://localhost:8000/api/productos/prodvar/') : await put(val, `http://localhost:8000/api/productos/prodvar/${id}/`);
@@ -57,7 +55,6 @@ const AddVariante = ({
       setRenderizar(!renderizar);
       render.current = true;
     } catch (error) {
-      console.log(val);
       console.log(error);
       Swal.fire({
         icon: "error",

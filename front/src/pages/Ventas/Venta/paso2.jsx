@@ -30,7 +30,6 @@ const Paso2 = ({ state, dispatch }) => {
   //para la cuenta
   const handleAdd = (item) => {
     //building the payload
-    console.log(item)
     let payload = {
       nombre: `${item.producto}/${item.nombre}`,
       producto: item.id,

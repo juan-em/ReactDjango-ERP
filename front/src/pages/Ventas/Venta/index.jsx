@@ -98,7 +98,6 @@ const Venta = () => {
   const handleRegister = () => {
     if (Reflect.has(state.venta.cliente, "id") && state.venta.detalle_venta.length){
       var payload = BuildVentaPayload(state.venta)
-      console.log(state.venta)
       RegistroVenta(payload);
       handleNext()
     } else {

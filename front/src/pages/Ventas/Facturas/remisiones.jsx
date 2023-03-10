@@ -50,10 +50,8 @@ const Remisiones = ({ item, open, setOpen }) => {
   };
   const handleClickOpen = () => {
     setOpen(true);
-    console.log(item);
     item !== undefined ? setVariante(item) : variante;
   };
-  console.log(variante);
 
   const handleClose = () => {
     setOpen(false);

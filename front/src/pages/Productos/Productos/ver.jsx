@@ -28,7 +28,6 @@ import Swal from "sweetalert2";
 
 const Ver = ({ itemView }) => {
   const [open, setOpen] = useState(false);
-  console.log(itemView)
 
   return (
     <section>

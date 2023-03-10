@@ -36,7 +36,6 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
   const handleOpenPost = () => {
     setOpenModal(true);
   };
-  console.log(item);
 
   //   Modal de articulo
   const handlePut = (row) => {

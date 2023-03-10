@@ -25,7 +25,6 @@ const Table =({state, dispatch})=> {
     const[rowIndex, setRowIndex] = useState(-1)
     const[columnIndex, setColumnIndex] = useState(-1)
     const rows = state.venta.detalle_venta
-    console.log(rows)
     const handleChange = (i, prop, value) => {
         rows[i][prop] = parseInt(value,10) 
     }

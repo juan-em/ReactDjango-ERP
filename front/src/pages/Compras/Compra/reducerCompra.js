@@ -42,7 +42,6 @@ export const comprasReducer = (state, action) => {
                 }
             }
         case ACTION_TYPES.SET_PROVEEDOR:
-            console.log(state)
             return {
                 ...state,
                 compra:{
@@ -52,7 +51,6 @@ export const comprasReducer = (state, action) => {
             }
         case ACTION_TYPES.ADD_DETALLE:
             var isInCompraDetalle = state.compra.detalle_compra.some((item)=> action.payload.articulo == item.articulo)
-            console.log(action.payload.articulo) 
             if (!isInCompraDetalle) 
                 return {
                     ...state,
@@ -63,7 +61,6 @@ export const comprasReducer = (state, action) => {
                 }
             var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo);
             item.cantidad += .5  
-            console.log(state.compra.detalle_compra) 
             return  {
                 ...state,
 

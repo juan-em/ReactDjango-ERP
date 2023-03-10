@@ -80,32 +80,6 @@ const AddFormVariantes = ({
         },
       });
     }
-
-    // console.log("ponga el envio de datos")
-    // itemView.variantes.push(
-    //   {
-    //     "id": 1,
-    //     "codigo": "MP-00001",
-    //     "nombre": "-",
-    //     "precio_unitario": 0.0,
-    //     "embalaje": {
-    //         "id": 1,
-    //         "nombre": "celofan",
-    //         "borrado": false
-    //     },
-    //     "cantidad": 0,
-    //     "ubicacion": "-",
-    //     "almacen": {
-    //         "id": 1,
-    //         "nombre": "Materia Prima",
-    //         "abreviacion": "MP",
-    //         "descripcion": "-",
-    //         "ubicacion": "-",
-    //         "borrado": false
-    //     },
-    //     "descripcion": "-"
-    // }
-    // )
     setOpenAddModal(false)
 
   }

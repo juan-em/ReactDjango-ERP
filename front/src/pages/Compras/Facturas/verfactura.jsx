@@ -35,7 +35,6 @@ const VerFactura = (itemView) => {
   
   const [openModal, setOpenModal] = useState(false);
   const [open, setOpen] = useState(false);
-  console.log(itemView)
   
   const [itemsPer, setItemsPer] = useState([
     { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" },

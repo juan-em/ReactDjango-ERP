@@ -77,7 +77,6 @@ const Compra = () => {
       state.compra.detalle_compra.length
     ) {
       var payload = BuildCompraPayload(state.compra);
-      console.log(state.compra);
       RegistroComnpra(payload);
       handleNext();
     } else {

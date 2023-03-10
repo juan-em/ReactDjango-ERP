@@ -59,8 +59,6 @@ const Variante = ({ item, prodid, open, setOpen }) => {
   // };
   const handleClickOpen = () => {
     setOpen(true);
-    console.log(item);
-    console.log(prodid)
     item !== undefined ? setVariante(item) : variante;
   };
 
@@ -76,7 +74,6 @@ const Variante = ({ item, prodid, open, setOpen }) => {
 
   const handleDelete = (id) => {
     delProd(`${URL}${id}/`)
-    console.log('eliminado')
   }
 
   return (

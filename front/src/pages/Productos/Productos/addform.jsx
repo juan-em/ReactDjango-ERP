@@ -57,7 +57,6 @@ const AddForm = ({
   };
 
   const InSubmit = async (val) => {
-    console.log(val)
     let formData = new FormData;
     formData.append('nombre', val.nombre)
     formData.append('cantidad', val.cantidad)
@@ -90,7 +89,6 @@ const AddForm = ({
       setRenderizar(!renderizar);
       render.current = true;
     } catch (error) {
-      console.log(formData);
       console.log(error);
       Swal.fire({
         icon: "error",
@@ -117,8 +115,6 @@ const AddForm = ({
     artget(setArt, URLA);
     artget(setVArt, URLAV);
   }, []);
-
-  console.log(item)
 
   return (
     <>
