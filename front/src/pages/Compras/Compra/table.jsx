@@ -146,8 +146,9 @@ const Table =({state, dispatch})=> {
                         </Grid>
                         <Grid item xs  align="right">
                             <IconButton
+                                size="small"
                                 onClick={()=>handleDelete(item.articulo )}>
-                            <DeleteOutlineIcon />
+                            <DeleteOutlineIcon/>
                             </IconButton>
                         </Grid>
                     </Grid>

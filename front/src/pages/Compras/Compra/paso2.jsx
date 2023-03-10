@@ -84,9 +84,9 @@ const Paso2 = ({state, dispatch}) => {
                         {data.map((item, i) => (
                             <Grid key={i} item xs={12} sm={6} md={6} lg={4}>
                             <Card  sx={{ 
-                                backgroundColor: alpha('#985024', 0.20),
+                                backgroundColor: alpha('#633256', 0.20),
                                 '&:hover': {
-                                    backgroundColor: alpha('#985024', 0.25),
+                                    backgroundColor: alpha('#633256', 0.25),
                                 },
                                 }}>
                                 <CardHeader
