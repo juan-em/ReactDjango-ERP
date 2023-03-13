@@ -36,29 +36,45 @@ import "./index.css";
 
 import { alpha } from "@mui/material/styles";
 
+import { delProd } from "../../../services/producto";
+
+import AddVariante from "./addFormVatiantes";
+
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Variante = ({ item, open, setOpen }) => {
+const Variante = ({ item, prodid, open, setOpen }) => {
+  const [openModalVariante, setOpenModalVariante] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [detalle, setDetalle] = useState();
   const [variante, setVariante] = useState([]);
-  const handleOpenPost = () => {
-    setOpenModal(true);
-    setDetalle(item.producto_detalle);
-  };
+  
+
+  const URL = 'http://localhost:8000/api/productos/prodvar/'
+
+  // const handleOpenPost = () => {
+  //   setOpenModal(true);
+  //   setDetalle(item.producto_detalle);
+  // };
   const handleClickOpen = () => {
     setOpen(true);
-    console.log(item);
     item !== undefined ? setVariante(item) : variante;
   };
-  console.log(variante);
+
+  const handlePutVariante = (row) => {
+    setVariante(row);
+    setOpenModalVariante(true);
+  };
 
   const handleClose = () => {
     setOpen(false);
     setVariante({});
   };
+
+  const handleDelete = (id) => {
+    delProd(`${URL}${id}/`)
+  }
 
   return (
     <>
@@ -93,7 +109,7 @@ const Variante = ({ item, open, setOpen }) => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Variantes
             </Typography>
-            {/* <AddFormVariantes/> */}
+            <AddVariante variante={variante} setVariante={setVariante} id={prodid} openModalVariante={openModalVariante} setOpenModalVariante={setOpenModalVariante} />
           </Toolbar>
         </AppBar>
         <DialogContent>
@@ -167,22 +183,22 @@ const Variante = ({ item, open, setOpen }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {variante.length > 0 ? (
-                    variante.map((variante) => (
+                  {item ? (
+                    item.map((vari) => (
                       <TableRow key={1}>
                         <TableCell component="th" scope="row">
                           1
                         </TableCell>
-                        <TableCell align="right">{variante.id}</TableCell>
-                        <TableCell align="right">{variante.nombre}</TableCell>
+                        <TableCell align="right">{vari.id}</TableCell>
+                        <TableCell align="right">{vari.nombre}</TableCell>
                         <TableCell align="right">
-                          {variante.precio_final}
+                          {vari.precio_final}
                         </TableCell>
-                        <TableCell align="right">{variante.color}</TableCell>
-                        <TableCell align="right">{variante.talla}</TableCell>
+                        <TableCell align="right">{vari.color}</TableCell>
+                        <TableCell align="right">{vari.talla}</TableCell>
                         <TableCell align="right">
                           <Detalles
-                            item={variante.producto_detalle[0]}
+                            item={vari.producto_detalle[0]}
                             openModal={openModal}
                             setOpenModal={setOpenModal}
                           />
@@ -192,6 +208,7 @@ const Variante = ({ item, open, setOpen }) => {
                             aria-label="delete"
                             size="small"
                             color="success"
+                            onClick={()=>handlePutVariante(vari)}
                           >
                             <EditIcon fontSize="inherit" />
                           </IconButton>
@@ -199,6 +216,7 @@ const Variante = ({ item, open, setOpen }) => {
                             aria-label="delete"
                             size="small"
                             color="error"
+                            onClick={()=>handleDelete(vari.id)}
                           >
                             <DeleteIcon fontSize="inherit" />
                           </IconButton>
@@ -214,75 +232,6 @@ const Variante = ({ item, open, setOpen }) => {
           </TabContext>
         </DialogContent>
       </Dialog>
-      {/* <List
-        className="list"
-        sx={{
-          width: "100%",
-          maxWidth: 200,
-          bgcolor: "#EDECEF",
-          borderRadius: 5,
-        }}
-        onClick={handleOpenPost}
-      >
-        <Grid container>
-          <Grid item lg={12}>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <NumbersIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Codigo" secondary={item.id} />
-            </ListItem>
-          </Grid>
-
-          <Grid item lg={12}>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <NumbersIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Nombre" secondary={item.nombre} />
-            </ListItem>
-          </Grid>
-        </Grid>
-      </List>
-      <Dialog open={openModal} sx={{ minWidth: 500 }}>
-        <DialogTitle>
-          <IconButton aria-label="delete" size="small" onClick={handleClose}>
-            <CloseIcon fontSize="large" />
-          </IconButton>
-          <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            Detalles del Producto
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-                {item.producto_detalle !== undefined ? (
-                    item.producto_detalle.map((item)=>(
-                        <Detalles item={item}/>
-                    ))
-                ):(
-                    <>
-                      <Skeleton
-                        variant="rectangular"
-                        width={120}
-                        height={120}
-                      />
-                      <Skeleton
-                        variant="rectangular"
-                        width={120}
-                        height={120}
-                      />
-                      <Skeleton
-                        variant="rectangular"
-                        width={120}
-                        height={120}
-                      />
-                    </>
-                )}
-        </DialogContent>
-      </Dialog> */}
     </>
   );
 };

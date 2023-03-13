@@ -11,7 +11,6 @@ export const searcher = (fields, list) => {
         : resultData;
     resultData = fields.nombre
         ? resultData.filter((item) =>{
-            console.log(item.nombre)
             return item.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())}
             )
         : resultData;
