@@ -45,7 +45,6 @@ const AddForm = ({
   value,
   setValue,
 }) => {
-  console.log(item)
   const [provincias, setProvincias] = useState([]);
 
   const handleChange = (event, newValue) => {

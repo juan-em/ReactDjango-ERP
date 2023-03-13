@@ -12,8 +12,6 @@ const useRefreshToken = () => {
 
         //"..." operator is for unstructuring our array
         setAuth(prev => {
-            console.log(JSON.stringify(prev))
-            console.log(response.data.accessToken)
             return { ...prev, accessToken: response.data.accessToken}
         })
 

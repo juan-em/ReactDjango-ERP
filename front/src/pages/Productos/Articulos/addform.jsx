@@ -57,8 +57,7 @@ const AddForm = ({
     setOpenModal(false)
   };
 
-  const artSubmit = async (val) => {
-
+  const artSubmit = async (val) => {    
     let {proveedor, categoria} = val
     let dataToSubmit
     dataToSubmit = {
@@ -75,9 +74,6 @@ const AddForm = ({
     }
     try {
       var payload = transformObjectToFormData(dataToSubmit)
-      // for (var key of payload.entries()) {
-      //   console.log(key[0] + ', ' + key[1]);
-      // }
       !item.id
         ? await postArticulo(payload)
         : await putArticulo(item.id, payload);
@@ -107,6 +103,7 @@ const AddForm = ({
     get(setCategorias, URL_C)
   },[])
 
+  console.log(item)
 
   return (
     <>

@@ -36,7 +36,6 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
   const handleOpenPost = () => {
     setOpenModal(true);
   };
-  console.log(item);
 
   //   Modal de articulo
   const handlePut = (row) => {
@@ -71,7 +70,7 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
         </DialogTitle>
         <DialogContent>
           <Card sx={{ minWidth: 345 }}>
-            <CardMedia sx={{ height: 160 }} image={item.articulo[0].imagen} />
+            {/* <CardMedia sx={{ height: 160 }} image={item.articulo.imagen} /> */}
             <CardContent>
               <Grid container>
                 <Grid item>
@@ -83,7 +82,7 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
                     </ListItemAvatar>
                     <ListItemText
                       primary="Articulo"
-                      secondary={item.articulo[0].nombre}
+                      // secondary={item.articulo.articulo.nombre}
                     />
                   </ListItem>
                   <ListItem>
@@ -94,7 +93,7 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
                     </ListItemAvatar>
                     <ListItemText
                       primary="Cantidad"
-                      secondary={item.cantidad}
+                      // secondary={item.cantidad}
                     />
                   </ListItem>
                 </Grid>
@@ -108,7 +107,7 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
                     </ListItemAvatar>
                     <ListItemText
                       primary="Variante"
-                      secondary={item.articulo[0].variantes[0].nombre}
+                      // secondary={item.articulo.nombre}
                     />
                   </ListItem>
                   <ListItem>
@@ -119,7 +118,7 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
                     </ListItemAvatar>
                     <ListItemText
                       primary="Almacen"
-                      secondary={item.articulo[0].variantes[0].almacen.nombre}
+                      // secondary={item.articulo.almacen.nombre}
                     />
                   </ListItem>
                 </Grid>
