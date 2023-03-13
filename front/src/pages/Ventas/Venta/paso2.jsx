@@ -23,7 +23,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import SearcherProductos from "./searcher";
 import { ACTION_TYPES } from "./reducerVenta";
 import Table from "./table";
-import { searcher } from "../../../services/compras";
+import { searcher } from "../../../services/ventas";
 import {  get } from "../../../services/producto";
 
 const Paso2 = ({ state, dispatch }) => {

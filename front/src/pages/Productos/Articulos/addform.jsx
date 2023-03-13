@@ -103,6 +103,7 @@ const AddForm = ({
     get(setCategorias, URL_C)
   },[])
 
+  console.log(item)
 
   return (
     <>

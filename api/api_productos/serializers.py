@@ -2,7 +2,7 @@ from rest_framework import serializers
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 from django.contrib.auth.models import User
 from api_models.serializers import EmpresaSerializer, PersonaSerializer
-
+from api_mantenimientos.serializers import AlmacenSerializer
 
 #Import Models
 from api_models.models import (
@@ -38,12 +38,15 @@ class PVSerializer(WritableNestedModelSerializer):
         detalle = Producto_detalle.objects.filter(variante=instance.id)
         ser_detalle = Producto_detalleSerializer(detalle, many=True)
         operacion = (float(instance.horas_manufactura)*float(instance.costo_manufactura))+float(instance.gastos_generales)
-        print(operacion)
+        if instance.almacen:
+            almacen = Almacen.objects.get(id=instance.almacen.id)
+            ser_almacen = AlmacenSerializer(almacen)
         return{
             'id':instance.id,
             'nombre':instance.nombre,
             'descripcion':instance.descripcion,
-            'almacen':instance.almacen.nombre,
+            'almacen_nombre':instance.almacen.nombre,
+            'almacen':ser_almacen.data if instance.almacen else None,
             'color':instance.color,
             'talla':instance.talla,
             'horas_manufactura':instance.horas_manufactura,
@@ -51,6 +54,7 @@ class PVSerializer(WritableNestedModelSerializer):
             'gastos_generales':instance.gastos_generales,
             'precio_final':operacion,
             'producto': instance.producto.nombre,
+            'categoria':instance.producto.categoria.id if instance.producto.categoria else None,
             'imagen': "http://localhost:8000"+instance.producto.imagen.url,
             
         }
@@ -71,13 +75,17 @@ class ProductoSerializer(WritableNestedModelSerializer):
     def to_representation(self, instance):
         producto_variante = Producto_variante.objects.filter(producto=instance.id)
         ser_producto_variante = Producto_varianteSerializer(producto_variante, many=True)
+        if instance.categoria:
+            categoria = Categoria_producto.objects.get(id=instance.categoria.id)
+            ser_categoria = CatSerializer(categoria)
         return{
             'id': instance.id,
             'codigo':instance.codigo,
             'nombre' : instance.nombre,
             'cantidad' : instance.cantidad,
             'descripcion_producto' : instance.descripcion_producto,
-            'categoria' : instance.categoria.nombre if instance.categoria else None,
+            'nombre_categoria':instance.categoria.nombre if instance.categoria else None,
+            'categoria' : ser_categoria.data if instance.categoria else None,
             'imagen' : "http://localhost:8000"+instance.imagen.url,
             'borrado' : instance.borrado,
             'producto_variante': ser_producto_variante.data

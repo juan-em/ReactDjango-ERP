@@ -1,17 +1,20 @@
 import axios from "axios";
 
-//Buscador de articulos
+//Buscador de productos
 export const searcher = (fields, list) => {
     let resultData = list;
     resultData = fields.nombre
         ? resultData.filter((item) =>
-            (item.articulo.toString()+item.nombre.toString()).toLowerCase().includes(fields.nombre.toString())
+            (item.producto.toString()+item.nombre.toString()).toLowerCase().includes(fields.nombre.toString())
             )
         : resultData;
     resultData = fields.categoria
-        ? resultData.filter((item) => 
+        ? resultData.filter((item) =>{
+            console.log(item.categoria)
+            console.log(fields.categoria)
             item.categoria == fields.categoria
-        )
+        
+        })
         : resultData;
     resultData = fields.almacen
         ? resultData.filter((item) => 
