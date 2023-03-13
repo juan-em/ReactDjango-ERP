@@ -16,11 +16,15 @@ import { alpha } from "@mui/material/styles";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import InfoIcon from '@mui/icons-material/Info';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const VerRequerimiento = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Area solicitante", secondary: "" },
+    { icon: <InfoIcon />, primary: "Estado", secondary: "" },
+    { icon: <DescriptionIcon />, primary: "Tipo", secondary: "" }
   ]);
 
   const seti = () => {
@@ -35,12 +39,23 @@ const VerRequerimiento = ({ itemView }) => {
             ...i,
             secondary: itemView.id,
           };
-        } else if (i.primary === "Nombre") {
+        } else if (i.primary === "Area solicitante") {
           return {
             ...i,
             secondary: itemView.nombreprovincia,
           };
         } 
+       else if (i.primary === "Estado") {
+        return {
+          ...i,
+          secondary: itemView.nombreprovincia,
+        };
+       } else if (i.primary === "Tipo") {
+          return {
+            ...i,
+            secondary: itemView.nombreprovincia,
+          };
+      } 
       }
     });
     setItemsPer(newItem);
@@ -63,7 +78,7 @@ const VerRequerimiento = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Provincia seleccionada
+            Requerimiento seleccionado
           </AccordionSummary>
           <AccordionDetails>
             <List
