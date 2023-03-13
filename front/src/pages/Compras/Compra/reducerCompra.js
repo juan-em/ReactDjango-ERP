@@ -60,7 +60,7 @@ export const comprasReducer = (state, action) => {
                     }
                 }
             var item = state.compra.detalle_compra.find((item) => action.payload.articulo == item.articulo);
-            item.cantidad += .5   
+            item.cantidad += .5  
             return  {
                 ...state,
 

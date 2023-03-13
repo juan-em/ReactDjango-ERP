@@ -80,45 +80,11 @@ const AddFormVariantes = ({
         },
       });
     }
-
-    // console.log("ponga el envio de datos")
-    // itemView.variantes.push(
-    //   {
-    //     "id": 1,
-    //     "codigo": "MP-00001",
-    //     "nombre": "-",
-    //     "precio_unitario": 0.0,
-    //     "embalaje": {
-    //         "id": 1,
-    //         "nombre": "celofan",
-    //         "borrado": false
-    //     },
-    //     "cantidad": 0,
-    //     "ubicacion": "-",
-    //     "almacen": {
-    //         "id": 1,
-    //         "nombre": "Materia Prima",
-    //         "abreviacion": "MP",
-    //         "descripcion": "-",
-    //         "ubicacion": "-",
-    //         "borrado": false
-    //     },
-    //     "descripcion": "-"
-    // }
-    // )
     setOpenAddModal(false)
 
   }
 
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
-  ];
+  console.log(item)
 
   return (
     <>
@@ -206,7 +172,7 @@ const AddFormVariantes = ({
                   
                     <TextField
                       fullWidth
-                      label="Ubicación"
+                      label="Talla"
                       type="text"
                       size="small"
                       color="secondary"
@@ -223,6 +189,9 @@ const AddFormVariantes = ({
                         if (option) return option.nombre 
                         return ''}}
                       size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="horas_manufactura"
                       id="textfields"
                       renderInput={(params) => 
                         <TextField 
@@ -237,8 +206,8 @@ const AddFormVariantes = ({
                     />
                     <TextField
                       fullWidth
-                      label="Descripción"
-                      type="text"
+                      label="Costo de Manufactura"
+                      type="number"
                       size="small"
                       color="secondary"
                       margin="dense"

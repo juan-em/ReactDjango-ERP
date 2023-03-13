@@ -1,5 +1,5 @@
 import { alpha} from "@mui/material/styles";
-import { useState , Fragment } from "react";
+import { useState , Fragment, useReducer } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -40,7 +40,16 @@ import Paso2 from "./paso2";
 
 const steps = ['Registro', 'Agregar producto'];
 
+import { INITIAL_STATE, ventasReducer, ACTION_TYPES} from "./reducerVenta";
+
+import { RegistroVenta, BuildVentaPayload } from "../../../services/ventas";
+
 const Venta = () => {
+
+  //Registration's Fuctionality
+  const [state, dispatch] = useReducer(ventasReducer, INITIAL_STATE)
+  
+  //Steps's Functionality
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
 
@@ -52,6 +61,7 @@ const Venta = () => {
     return skipped.has(step);
   };
 
+  
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -69,8 +79,6 @@ const Venta = () => {
 
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
       throw new Error("You can't skip a step that isn't optional.");
     }
 
@@ -83,8 +91,24 @@ const Venta = () => {
   };
 
   const handleReset = () => {
+    dispatch({type: ACTION_TYPES.RESET_VENTA});
     setActiveStep(0);
   };
+
+  const handleRegister = () => {
+    if (Reflect.has(state.venta.cliente, "id") && state.venta.detalle_venta.length){
+      var payload = BuildVentaPayload(state.venta)
+      RegistroVenta(payload);
+      handleNext()
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Proveedor o articulos NO válidos",
+      });
+    }
+    
+  }
 
   return (
     <section>
@@ -128,15 +152,14 @@ const Venta = () => {
                     <Button 
                     variant="contained"
                     id="textfields"
-                    color="secondary"
                     onClick={handleReset}>Nueva Venta</Button>
                   }>
-                    <AlertTitle>Se logró registrar la venta</AlertTitle>
+                    <AlertTitle>Se logró registrar la orden de venta</AlertTitle>
                   </Alert>
                 </Fragment>
               ) : activeStep +1 === 1 ? (
                 <Fragment>
-                  <Paso1/>
+                  <Paso1 state={state} dispatch={dispatch}/>
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Box sx={{ flex: '1 1 auto' }} />
                     {isStepOptional(activeStep) && (
@@ -154,7 +177,7 @@ const Venta = () => {
                 
               ):(
                 <Fragment>
-                  <Paso2/>
+                  <Paso2 state={state} dispatch={dispatch}/>
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 5 }}>
                     <Button
                       color="inherit"
@@ -174,10 +197,16 @@ const Venta = () => {
                       </Button>
                     )}
 
+                    {activeStep === steps.length - 1 ? 
+                    <Button onClick={handleRegister} id="textfields"
+                      variant="contained" color="secondary">
+                      Terminar
+                    </Button>
+                    : 
                     <Button onClick={handleNext} id="textfields"
                       variant="contained" color="secondary">
-                      {activeStep === steps.length - 1 ? 'Terminar' : 'Siguiente'}
-                    </Button>
+                      Siguiente
+                    </Button>}
                   </Box>
                 </Fragment>
               )
