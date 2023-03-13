@@ -25,6 +25,8 @@ import {
 } from "../../../services/mantenimiento";
 import AddForm from "../Remisiones/addform";
 
+import { getCompras } from "../../../services/compras";
+
 export const Tabla = ({
   fields,
   render,
@@ -35,7 +37,7 @@ export const Tabla = ({
   setItemView,
 }) => {
 
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+  
   const [provincias, setProvincias] = useState([]);
   useEffect(() => {
     if (render.current) {
@@ -56,14 +58,7 @@ export const Tabla = ({
   };
 
   const handleDelete = async (id) => {
-    try {
-      let res = await del(id, URL);
-      render.current = true;
-      setRenderizar(!renderizar);
-      return res;
-    } catch (error) {
-      return error;
-    }
+    
   };
 
   return (

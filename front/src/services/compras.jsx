@@ -21,11 +21,19 @@ export const searcher = (fields, list) => {
     return resultData;
 };
 
+const URL_COMPRAS = "http://localhost:8000/api/compras/"
+
 // Registro de la compra
 export const RegistroComnpra =(payload) => {
-    axios.post("http://localhost:8000/api/compras/", payload)
+    axios.post(URL_COMPRAS, payload)
          .then(res=>{console.log(res.data)})
          .catch(err=>{console.log(err)})
+}
+
+export const getCompras = (set) => {
+    axios.get(URL_COMPRAS)
+     .then(res =>  {if (res.status == 200) set(res.data)})
+     .catch((error) => console.log(error))
 }
 
 export const BuildCompraPayload =(compra)=>{

@@ -403,6 +403,11 @@ class Compra(models.Model):
             return f'{self.proveedor.persona.nombre}'
         else:
             return f'{self.proveedor.empresa.nombre}'
+    
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'FC-'+'0'*(5-len(id))+id
 
 
 class CompraDetalle(models.Model):

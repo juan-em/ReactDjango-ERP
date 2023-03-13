@@ -2,6 +2,7 @@ from rest_framework import serializers
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from api_models.models import *
+from api_articulos.serializers import AVSerializer
 
 class CompraDetalleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,10 +16,10 @@ class ProveedoresSerializer(serializers.ModelSerializer):
         depth = 2
 
 class DetalleCompraSerializer(serializers.ModelSerializer):
+    articulo = AVSerializer()
     class Meta:
         model = CompraDetalle
-        #fields = '__all__'
-        exclude = ('compra',)
+        fields = ['id', 'articulo', 'unidad', 'cantidad', 'precio_unitario', 'dscto_unitario', 'remision_hecha']
         depth = 2
 
 
@@ -41,7 +42,8 @@ class CompraSerializer(WritableNestedModelSerializer):
             'totalCompra': instance.totalCompra,
             'imagen_fac_compra': instance.imagen_fac_compra.url,
             'descuento': instance.descuento,
-            'detalle_compra': ser_detalle_compra.data
+            'detalle_compra': ser_detalle_compra.data,  
+            'codigo': instance.codigo
         }
 
 
