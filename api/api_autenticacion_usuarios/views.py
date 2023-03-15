@@ -6,14 +6,17 @@ from .authentication import *
 from rest_framework.authentication import get_authorization_header
 
 from .serializers import *
-from api_models.models import User
+from api_models.models import User, Profile_User
 
 class RegisterAPIView(APIView):
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         serializer.save()
+
+        print("Result:", serializer.data)
 
         return Response(serializer.data)
 

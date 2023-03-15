@@ -440,7 +440,11 @@ class Migration(migrations.Migration):
             name='Profile_User',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('rol', models.CharField(choices=[('Ninguno', 'Ninguno'), ('Trabajador', 'Trabajador'), ('Gerente', 'Gerente')], default='Ninguno', max_length=100)),
+                ('area', models.CharField(choices=[('Ninguno', 'Ninguno'), ('Logística', 'Logística')], default='Ninguno', max_length=50)),
+                ('fecha_registro', models.DateField(auto_now_add=True)),
+                ('fecha_ultima_modificacion', models.DateField(auto_now=True)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile_user', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
