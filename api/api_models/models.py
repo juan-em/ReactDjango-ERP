@@ -25,18 +25,43 @@ def upload_toProd(instance, filename):
 
 # USER AUTHENTICATION
 class Profile_User(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile_User.objects.create(user=instance)
+    NINGUNO = "Ninguno"
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile_user.save()
+    LOGISTICA = "Logística"
+
+    TRABAJADOR = "Trabajador"
+    GERENTE = "Gerente"
+
+    AREAS = [
+        (NINGUNO, "Ninguno"),
+        (LOGISTICA, "Logística"),
+    ]
+
+    ROLES = [
+        (NINGUNO, "Ninguno"),
+        (TRABAJADOR, "Trabajador"),
+        (GERENTE, "Gerente")
+    ]
+ 
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile_user")
+    rol = models.CharField(max_length=100, choices=ROLES, default=NINGUNO)
+    area = models.CharField(max_length=50, choices=AREAS, default=NINGUNO)
+    fecha_registro = models.DateField(auto_now_add=True)
+    fecha_ultima_modificacion = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return "Usuario:{}, Rol:{}, Area:{}",format(self.profile_user.username, self.rol, self.area)
+
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile_User.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile_user.save()
         
-
 # MODELOS
 class Provincias(models.Model):
     nombreprovincia = models.CharField(max_length=100)
