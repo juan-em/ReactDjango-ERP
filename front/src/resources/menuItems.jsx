@@ -74,7 +74,8 @@ export const menuItems = [
         {name:'Cat. Productos',icon: <ClassIcon/>,url:'/mantenimientos/categoriasproductos'},]},
 
     { url: "#Servicios", icon: <PrecisionManufacturingIcon/>, name: "Servicios",
-    item:[{name:'Ord. Servicios',icon: <ElectricalServicesIcon/>,url:'/servicios/servicios'}] },
+    item:[{name:'Ord. Servicios',icon: <ElectricalServicesIcon/>,url:'/servicios/servicios'},
+    {name:'Ord. Bien',icon: <ElectricalServicesIcon/>,url:'/servicios/bien'},]},
 
     { url: "#Requerimientos", icon: <RequestPageIcon />, name: "Requerimientos",
     item:[{name:'Requerimientos',icon: <HomeRepairServiceIcon/>,url:'/requerimientos/requerimientos'}] },
