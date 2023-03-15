@@ -37,7 +37,7 @@ class ArticuloVarianteSerializer(serializers.ModelSerializer):
 class AVSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticuloVariante
-        fields = ['id', 'codigo', 'nombre', 'precio_unitario', 'embalaje', 'cantidad', 'ubicacion', 'almacen', 'descripcion']
+        fields = ['id', 'codigo', 'nombre', 'precio_unitario', 'embalaje', 'cantidad', 'ubicacion', 'almacen', 'descripcion', 'articulo']
         depth = 2
 class PVSerializer(serializers.ModelSerializer):
     class Meta:        

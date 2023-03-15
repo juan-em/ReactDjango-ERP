@@ -19,7 +19,7 @@ class DetalleCompraSerializer(serializers.ModelSerializer):
     articulo = AVSerializer()
     class Meta:
         model = CompraDetalle
-        fields = ['id', 'articulo', 'unidad', 'cantidad', 'precio_unitario', 'dscto_unitario', 'remision_hecha']
+        fields = ['id', 'nombre_articulo', 'articulo', 'unidad', 'cantidad', 'precio_unitario', 'dscto_unitario', 'remision_hecha']
         depth = 2
 
 
@@ -27,23 +27,28 @@ class CompraSerializer(WritableNestedModelSerializer):
     detalle_compra = CompraDetalleSerializer(many=True)
     class Meta:
         model = Compra
-        fields = ['id','fecha', 'proveedor', 'estado', 'detalle_entrega', 'totalCompra', 'imagen_fac_compra', 'descuento', 'detalle_compra']
+        fields = ['id','fecha', 'proveedor', 'estado', 'observaciones', 'totalCompra', 'imagen_fac_compra', 'descuento', 'detalle_compra']
     
     def to_representation(self,instance):
         detalle_compra = CompraDetalle.objects.filter(compra=instance.pk)
         ser_detalle_compra = DetalleCompraSerializer(detalle_compra, many=True)
         return{
             'id': instance.id,
+            'fecha':instance.fecha,
+            'estado':instance.estado,
+            'estado_remision': instance.estado_remision,
+            'numero_factura': instance.numero_factura,
             #All prov's information -> 'proveedor': ser_prov.data,
             #Just the name of the prov -> 'provedor': instance.nombre_proveedor,
-            'provedor': instance.nombre_proveedor if instance.proveedor else None,
+            'proveedor': instance.nombre_proveedor if instance.proveedor else None,
             'estado': instance.estado,
-            'detalle_entrega': instance.detalle_entrega,
+            'observaciones': instance.observaciones,
             'totalCompra': instance.totalCompra,
             'imagen_fac_compra': instance.imagen_fac_compra.url,
             'descuento': instance.descuento,
             'detalle_compra': ser_detalle_compra.data,  
-            'codigo': instance.codigo
+            'codigo': instance.codigo,
+            'borrado': instance.borrado
         }
 
 

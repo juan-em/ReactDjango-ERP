@@ -58,7 +58,8 @@ class ComprasDetailView(APIView):
     
     def delete(self, request, id):
         data = Compra.objects.get(id=id)
-        data.delete()
+        data.borrado = not data.borrado
+        data.save()
         context = {
             'status':True,
             'message':'Delete succes',
@@ -93,8 +94,21 @@ class RemisionesView(APIView):
         
         return Response({'msg':True})
 
-
 class RemisionDetailView(APIView):
+    def delete(self, request, id):
+        data = RemisionCompra.objects.get(id=id)
+        for detalle_remision in data.remision_compra_detalle.all():
+            compra_detalle = detalle_remision.compra_detalle
+            compra_detalle.remision_hecha = False
+            compra_detalle.save()
+        data.delete()
+        context = {
+            'status':True,
+            'message':'Delete succes',
+        }
+        return Response(context)
+
+class RemisionDetalleDetailView(APIView):
 
     def delete(self, request, id):
         data = RemisionDetalleCompra.objects.get(id=id)
@@ -117,7 +131,7 @@ class EntradasAlmacenComprasSerializer(APIView):
         estado = request.data.get("estado", None)
         if estado == True:
             cantidad = data.remision.compra_detalle.cantidad
-            unidad = data.remision.compra_detalle.unidad.valor if data.remision.compra_detalle.unidad else 1
+            unidad = data.remision.compra_detalle.unidad if data.remision.compra_detalle.unidad else 1
             total = cantidad*unidad
             articuloVariante = data.remision.compra_detalle.articulo
             articuloVariante.cantidad = articuloVariante.cantidad + total

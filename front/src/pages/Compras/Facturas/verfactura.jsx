@@ -108,8 +108,8 @@ const VerFactura = (itemView) => {
                   <CardContent>
                     <List>
                       <Grid container spacing={0}>
-                        {itemsPer.map((i) => (
-                          <Grid item xs={12} sm={12} md={12} lg={12}>
+                        {itemsPer.map((i, index) => (
+                          <Grid item xs={12} sm={12} md={12} lg={12} key={index}>
                             <ListItem>
                               <ListItemAvatar>
                               <Avatar sx={{ 

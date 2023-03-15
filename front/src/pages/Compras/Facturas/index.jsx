@@ -21,8 +21,9 @@ import {
   AccordionSummary,
   AccordionDetails,
   Box,
+  Autocomplete
 } from "@mui/material";
-import { TabContext } from '@mui/lab';
+
 //Componentes pra el input de fecha
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -35,6 +36,7 @@ import { Tabla } from "./complements";
 
 import { useRef } from "react";
 import VerProvincia from "./verfactura";
+import { getProveedores } from "../../../services/Proveedores";
 
 const Factura = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -44,6 +46,10 @@ const Factura = () => {
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
+  const [proveedores, setProveedores] = useState([])
+  
+  
+  
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
@@ -56,10 +62,15 @@ const Factura = () => {
   const [value, setValue] = useState(dayjs(new Date()));
 
   const handleChange = (newValue) => {
-      setValue(newValue);
+    console.log(value,"hola")  
+    setValue(newValue);
   };
-  
 
+  useEffect(()=>{
+    getProveedores(setProveedores)
+  },[])
+
+  
   return (
     <section>
       <div className="container">
@@ -87,19 +98,40 @@ const Factura = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
+                    <Autocomplete
+                      disablePortal
+                      options={proveedores || []}
+                      getOptionLabel = {(option) => {
+                        if (option.persona) return option.persona.nombre 
+                        if (option.empresa) return option.empresa.nombre
+                        return ''
+                      }}
+                      size="small"
+                      id="textfields"
+                      variant="filled"
+                      renderInput={(params) => 
+                        <TextField 
+                          {...params} 
+                          label="Proveedor" 
+                          margin="dense" 
+                          color="secondary"
+                          variant="filled"
+                          fullWidth />}
+                      //onChange={(e, value) => handlerSearcher(e, {"proveedor": value})}
+                    />
                     <TextField
                       fullWidth
-                      label="RUC Proveedor"
-                      type="number"
+                      label="Código"
+                      type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
                       name="nombre"
-                      variant="filled"
                       id="textfields"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
-                      <TextField
+                    <TextField
                       fullWidth
                       label="N° de factura"
                       type="text"
@@ -118,7 +150,7 @@ const Factura = () => {
                         value={value}
                         onChange={handleChange}
                         renderInput={(params) => <TextField 
-                          {...params} 
+                          {...params}
                           fullWidth
                           size="small"
                           color="secondary"

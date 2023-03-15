@@ -390,10 +390,12 @@ class Compra(models.Model):
     fecha = models.DateTimeField(null=True)
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
-    detalle_entrega = models.TextField(null=True, blank=True)
+    observaciones = models.TextField(default='-', null=True, blank=True)
     totalCompra = models.FloatField(default=0, null=True)
     imagen_fac_compra = models.ImageField( _("Image") ,upload_to=upload_toCom,default='blancos.png', blank=True)
     descuento = models.FloatField(default=0, null=True)
+    numero_factura = models.TextField(default='-', null=True, blank=True)
+    borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return 'C-'+str(self.pk)
 
@@ -407,7 +409,23 @@ class Compra(models.Model):
     @property
     def codigo(self):
         id = str(self.pk)
-        return 'FC-'+'0'*(5-len(id))+id
+        return 'C-'+'0'*(5-len(id))+id
+
+    @property
+    def estado_remision (self):
+        if self.borrado == True:
+            return "-"
+        remisiones = CompraDetalle.objects.filter(compra=self.id)
+        cant = 0
+        for item in remisiones:
+            if item.remision_hecha == False:
+                cant += 1
+        if cant == len(remisiones):
+            return "Por Hacer"
+        elif cant == 0:
+            return "Hecha"
+        else:
+            return "Incompleta"
 
 
 class CompraDetalle(models.Model):
@@ -422,6 +440,10 @@ class CompraDetalle(models.Model):
     def __str__(self):
         return 'C-'+str(self.compra.pk)+'-D'+str(self.pk)
 
+    @property
+    def nombre_articulo(self):
+        return self.articulo.articulo.nombre+'/'+self.articulo.nombre
+
 class RemisionCompra(models.Model):
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE, related_name='remision_compra')
     
@@ -432,7 +454,7 @@ class RemisionCompra(models.Model):
 class RemisionDetalleCompra(models.Model):
     remision_compra = models.ForeignKey(RemisionCompra, on_delete=models.CASCADE, related_name='remision_compra_detalle')
     compra_detalle = models.ForeignKey(CompraDetalle, on_delete=models.CASCADE, null=True)
-    fecha = models.DateField(auto_now_add=True)
+    fecha = models.DateTimeField(auto_now_add=True)
     trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
