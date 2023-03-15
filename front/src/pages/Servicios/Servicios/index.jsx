@@ -27,9 +27,9 @@ import {
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
 
-import AddForm from "./addform";
 import { useRef } from "react";
 import VerServicio from "./verservicio";
+import Notificaciones from "./notificaciones";
 
 const Servicios = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -46,16 +46,9 @@ const Servicios = () => {
   const handleClean = () => {
     searchform.reset();
   };
-  const top100Films = [
-    { label: 'Logistica'},
-    { label: 'Marketing'},
-    { label: 'Aministración'},
-    { label: 'Mantenimiento'},
-  ];
 
   const top101Films = [
     { label: 'No Iniciado'},
-    { label: 'Solicitando cotización'},
     { label: 'Aprobado'},
     { label: 'En proceso'},
     { label: 'Denegado'},
@@ -64,14 +57,16 @@ const Servicios = () => {
 
   return (
     <section>
-      <div className="container">
+      <div className="container" style={{ marginTop: '30px'}}>
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={12} xl={4}>
+            <Notificaciones/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} xl={4}>
             <Paper
               elevation={10}
               className="paper"
               sx={{
-                mt: 4,
                 p: 0,
                 backgroundColor: alpha("#8D4C32", 0.2),
                 "&:hover": {
@@ -85,25 +80,25 @@ const Servicios = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar servicios
+                  Buscar órdenes de servicios
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
-                    <Autocomplete
+                   
+                    <TextField
                       fullWidth
-                     
+                      label="Tipo de servicio"
                       type="text"
                       size="small"
                       color="secondary"
+                      variant="filled"
+                      
                       margin="dense"
                       name="nombre"
                       id="textfields"
                       onChange={handlerSearcher}
-                      disablePortal
-                      options={top100Films}
-                      renderInput={(params) => <TextField {...params} variant="filled" label="Área" margin="dense" color="secondary" fullWidth />}
-                  
                     />
+
                     <Autocomplete
                       fullWidth
 
@@ -119,34 +114,7 @@ const Servicios = () => {
                       renderInput={(params) => <TextField {...params} variant="filled" label="Estado" margin="dense" color="secondary" fullWidth />}
 
                     />
-                    <FormControl margin="dense">
-                      <FormLabel
-                        id="demo-row-radio-buttons-group-label"
-                        color="secondary"
-                      >
-                        Tipo
-                      </FormLabel>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="radio"
-                        onChange={handlerSearcher}
-                      >
-                        <FormControlLabel                        
-                          labelPlacement="start"
-                          value="bien"
-                          control={<Radio color="secondary" />}
-                          label="Bien"
-                        />
-                        <FormControlLabel
-                          labelPlacement="start"
-                          value="servicio"
-                          control={<Radio color="secondary" />}
-                          label="Servicio"
-                        />
-                       
-                      </RadioGroup>
-                    </FormControl>
+
                    
                     
                     <Grid container spacing={1} sx={{ mt: 2 }}>
@@ -169,19 +137,8 @@ const Servicios = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={6} xl={4}>
             <VerServicio itemView={itemView} />
-          </Grid>
-          <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
-            <AddForm
-              render={render}
-              renderizar={renderizar}
-              setRenderizar={setRenderizar}
-              openModal={openModal}
-              setOpenModal={setOpenModal}
-              item={item}
-              setItem={setItem}
-            />
           </Grid>
         </Grid>
         <Box sx={{ overflow: "auto" }}>

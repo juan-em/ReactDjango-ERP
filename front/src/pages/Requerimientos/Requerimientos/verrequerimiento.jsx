@@ -70,7 +70,7 @@ const VerRequerimiento = ({ itemView }) => {
       <Paper
         elevation={10}
         className="paper"
-        sx={{mt: 4,p: 0}}
+        sx={{p: 0}}
       >
         <Accordion sx={{ p:5 }}>
           <AccordionSummary

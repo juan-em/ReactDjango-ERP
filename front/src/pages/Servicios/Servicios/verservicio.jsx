@@ -16,11 +16,15 @@ import { alpha } from "@mui/material/styles";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import InfoIcon from '@mui/icons-material/Info';
 
 const VerServicio = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
-    { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" }
+    { icon: <NumbersIcon />, primary: "Tipo de servicio", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Cotización", secondary: "" },
+    { icon: < DriveFileRenameOutlineIcon/>, primary: "Propuesta técnica", secondary: "" },
+    { icon: < DriveFileRenameOutlineIcon/>, primary: "Propuesta económica", secondary: "" },
+    { icon: <InfoIcon />, primary: "Estado", secondary: "" }
   ]);
 
   const seti = () => {
@@ -30,12 +34,28 @@ const VerServicio = ({ itemView }) => {
           ...i,
         };
       } else {
-        if (i.primary === "Código") {
+        if (i.primary === "Tipo de servicio") {
           return {
             ...i,
             secondary: itemView.id,
           };
-        } else if (i.primary === "Nombre") {
+        } else if (i.primary === "Cotización") {
+          return {
+            ...i,
+            secondary: itemView.nombreprovincia,
+          };
+        } else if (i.primary === "Propuesta técnica") {
+          return {
+            ...i,
+            secondary: itemView.nombreprovincia,
+          };
+        } else if (i.primary === "Propuesta económica") {
+          return {
+            ...i,
+            secondary: itemView.nombreprovincia,
+          };
+        } 
+        else if (i.primary === "Estado") {
           return {
             ...i,
             secondary: itemView.nombreprovincia,
@@ -55,7 +75,7 @@ const VerServicio = ({ itemView }) => {
       <Paper
         elevation={10}
         className="paper"
-        sx={{mt: 4,p: 0}}
+        sx={{p: 0}}
       >
         <Accordion sx={{ p:5 }}>
           <AccordionSummary
@@ -63,7 +83,7 @@ const VerServicio = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Provincia seleccionada
+            Servicio seleccionado
           </AccordionSummary>
           <AccordionDetails>
             <List

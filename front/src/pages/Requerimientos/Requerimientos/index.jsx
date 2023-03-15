@@ -30,6 +30,7 @@ import { Tabla } from "./complements";
 import AddForm from "./addform";
 import { useRef } from "react";
 import VerRequerimiento from "./verrequerimiento";
+import Notificaciones from "./notificaciones";
 
 const Requerimientos = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -55,7 +56,6 @@ const Requerimientos = () => {
 
   const top101Films = [
     { label: 'No Iniciado'},
-    { label: 'Solicitando cotización'},
     { label: 'Aprobado'},
     { label: 'En proceso'},
     { label: 'Denegado'},
@@ -64,14 +64,16 @@ const Requerimientos = () => {
 
   return (
     <section>
-      <div className="container">
+      <div className="container" style={{ marginTop: '30px'}}>
         <Grid container spacing={4}>
+          <Grid item xs={12} sm={12} md={12} xl={4}>
+            <Notificaciones/>
+          </Grid>
           <Grid item xs={12} sm={12} md={5}>
             <Paper
               elevation={10}
               className="paper"
               sx={{
-                mt: 4,
                 p: 0,
                 backgroundColor: alpha("#8D4C32", 0.2),
                 "&:hover": {

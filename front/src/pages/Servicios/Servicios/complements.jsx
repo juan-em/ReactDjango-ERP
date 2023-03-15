@@ -101,6 +101,12 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
+              Estado
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
               Cotización
             </TableCell>
             <TableCell
@@ -130,6 +136,7 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
+              <TableCell align="right">{row.nombreprovincia}</TableCell>
               <TableCell align="right">{row.nombreprovincia}</TableCell>
               <TableCell align="right" >
                 <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
@@ -166,14 +173,6 @@ export const Tabla = ({
                   onClick={() => handleView(row)}
                 >
                   <VisibilityIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton
-                  onClick={() => handlePut(row)}
-                  aria-label="delete"
-                  size="small"
-                  color="success"
-                >
-                  <EditIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton
                   onClick={() => handleDelete(row.id)}
