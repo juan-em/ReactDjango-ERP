@@ -91,7 +91,7 @@ const Login = () => {
                                 size="small"
                                 color="secondary"
                                 margin="dense"
-                                id="textfields"
+                                id="email-field"
                                 variant="filled"
                                 ref={userRef}
                                 autoComplete="off"
@@ -113,7 +113,7 @@ const Login = () => {
                                 size="small"
                                 color="secondary"
                                 margin="dense"
-                                id="textfields"
+                                id="password-field"
                                 variant="filled"
                                 onChange={(e) => setPassword(e.target.value)}
                                 value={password}
@@ -128,7 +128,7 @@ const Login = () => {
                             />
                             <Button
                                 fullWidth
-                                id="textfields"
+                                id="login-button"
                                 variant="contained"
                                 type="submit"
                                 sx={{ backgroundColor:'#633256' , "&:hover": {backgroundColor: "#633256" }, mt:4, mb:2  }}
