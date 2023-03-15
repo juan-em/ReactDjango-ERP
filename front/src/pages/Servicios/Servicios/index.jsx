@@ -85,20 +85,7 @@ const Servicios = () => {
                 <AccordionDetails>
                   <form id="searchform">
                    
-                    <TextField
-                      fullWidth
-                      label="Tipo de servicio"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      variant="filled"
-                      
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                    />
-
+                    
                     <Autocomplete
                       fullWidth
 
@@ -114,7 +101,6 @@ const Servicios = () => {
                       renderInput={(params) => <TextField {...params} variant="filled" label="Estado" margin="dense" color="secondary" fullWidth />}
 
                     />
-
                    
                     
                     <Grid container spacing={1} sx={{ mt: 2 }}>
