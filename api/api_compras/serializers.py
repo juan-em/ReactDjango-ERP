@@ -29,9 +29,6 @@ class CompraSerializer(WritableNestedModelSerializer):
         fields = ['id','fecha', 'proveedor', 'estado', 'detalle_entrega', 'totalCompra', 'imagen_fac_compra', 'descuento', 'detalle_compra']
     
     def to_representation(self,instance):
-        #Prov Full data
-        prov = Proveedores.objects.get(pk=instance.proveedor.pk)
-        ser_prov = ProveedoresSerializer(prov)
         detalle_compra = CompraDetalle.objects.filter(compra=instance.pk)
         ser_detalle_compra = DetalleCompraSerializer(detalle_compra, many=True)
         return{

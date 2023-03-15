@@ -12,9 +12,13 @@ export const getProd = async (set) => {
   return res.data.content;
 };
 
-export const postProd = async (data, url) => {
+export const postProd = async (data) => {
   try {
-    const response = await axios.post(url, data);
+    const response = await axios.post(URL, data, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      },
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -22,9 +26,9 @@ export const postProd = async (data, url) => {
   }
 };
 
-export const patchProd = async (data, url) => {
+export const putProd = async (data, id) => {
   try {
-    const response = await axios.patch(url, data);
+    const response = await axios.put(`${URL}${id}/`, data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -66,3 +70,42 @@ export const searcher = (fields, list) => {
     : resultData;
   return resultData;
 };
+
+export const get = async (set, url) => {
+  try {
+    const response = await axios.get(url);
+    set(response.data.content);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export const post = async (data, url) => {
+  try {
+    const response = await axios.post('http://localhost:8000/api/productos/variantes/', data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+export const put = async (data, url) => {
+  try {
+    const response = await axios.put(data, url);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
+
+export const artget = async (set, url) => {
+  const res = await axios
+    .get(url)
+    .catch((error) => console.log({ error }));
+  set(res.data.content);
+  return res.data.content;
+};
+

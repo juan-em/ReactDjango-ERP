@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import { getProd, postProd, patchProd, delProd, searcher } from "../../../services/producto";
+import { getProd, postProd, putProd, delProd, searcher } from "../../../services/producto";
 // import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
 
