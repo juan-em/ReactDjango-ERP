@@ -33,7 +33,9 @@ const Variantes = ({
   variantes, 
   setVariantes, 
   almacenes,
-  embalajes
+  embalajes,
+  setFullProduct,
+  fullProduct
 }) => {
   const [open, setOpen] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);

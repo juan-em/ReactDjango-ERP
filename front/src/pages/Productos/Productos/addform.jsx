@@ -57,59 +57,71 @@ const AddForm = ({
   };
 
   const InSubmit = async (val) => {
+    console.log(val);
+    let {categoria} = val
+    let dataToSubmit
+    dataToSubmit = {
+      "categoria":categoria ? categoria.id : null
+    }
     let formData = new FormData();
-    formData.append("nombre", val.nombre);
-    formData.append("cantidad", val.cantidad);
-    formData.append("descripcion_producto", val.descripcion_producto);
-    formData.append("categoria", val.categoria);
-    formData.append("imagen", val.imagen);
-    val.producto_variante.forEach((it, index) => {
-      formData.append(
-        `producto_variante[${index}].nombre`,
-        val.producto_variante[index].nombre
-      );
-      formData.append(
-        `producto_variante[${index}].descripcion`,
-        val.producto_variante[index].descripcion
-      );
-      formData.append(
-        `producto_variante[${index}].almacen`,
-        val.producto_variante[index].almacen
-      );
-      formData.append(
-        `producto_variante[${index}].color`,
-        val.producto_variante[index].color
-      );
-      formData.append(
-        `producto_variante[${index}].talla`,
-        val.producto_variante[index].talla
-      );
-      formData.append(
-        `producto_variante[${index}].horas_manufactura`,
-        val.producto_variante[index].horas_manufactura
-      );
-      formData.append(
-        `producto_variante[${index}].costo_manufactura`,
-        val.producto_variante[index].costo_manufactura
-      );
-      formData.append(
-        `producto_variante[${index}].gastos_generales`,
-        val.producto_variante[index].gastos_generales
-      );
-      formData.append(`producto_variante[${index}].precio_final`, 0);
-      it.producto_detalle.forEach((i, ind) => {
+    if (!item.id) {
+      formData.append("nombre", val.nombre);
+      formData.append("cantidad", val.cantidad);
+      formData.append("descripcion_producto", val.descripcion_producto);
+      formData.append("categoria", val.categoria);
+      formData.append("imagen", val.imagen);
+      val.producto_variante.forEach((it, index) => {
         formData.append(
-          `producto_variante[${index}].producto_detalle[${ind}].articulo`,
-          val.producto_variante[index].producto_detalle[ind].articulo
+          `producto_variante[${index}].nombre`,
+          val.producto_variante[index].nombre
         );
         formData.append(
-          `producto_variante[${index}].producto_detalle[${ind}].cantidad`,
-          val.producto_variante[index].producto_detalle[ind].cantidad
+          `producto_variante[${index}].descripcion`,
+          val.producto_variante[index].descripcion
         );
+        formData.append(
+          `producto_variante[${index}].almacen`,
+          val.producto_variante[index].almacen
+        );
+        formData.append(
+          `producto_variante[${index}].color`,
+          val.producto_variante[index].color
+        );
+        formData.append(
+          `producto_variante[${index}].talla`,
+          val.producto_variante[index].talla
+        );
+        formData.append(
+          `producto_variante[${index}].horas_manufactura`,
+          val.producto_variante[index].horas_manufactura
+        );
+        formData.append(
+          `producto_variante[${index}].costo_manufactura`,
+          val.producto_variante[index].costo_manufactura
+        );
+        formData.append(
+          `producto_variante[${index}].gastos_generales`,
+          val.producto_variante[index].gastos_generales
+        );
+        formData.append(`producto_variante[${index}].precio_final`, 0);
+        it.producto_detalle.forEach((i, ind) => {
+          formData.append(
+            `producto_variante[${index}].producto_detalle[${ind}].articulo`,
+            val.producto_variante[index].producto_detalle[ind].articulo
+          );
+          formData.append(
+            `producto_variante[${index}].producto_detalle[${ind}].cantidad`,
+            val.producto_variante[index].producto_detalle[ind].cantidad
+          );
+        });
       });
-    });
+    } else {
+      let {nombre, descripcion, cantidad, categoria, imagen} = val
+      dataToSubmit =  {nombre, descripcion, cantidad, categoria, imagen, ...dataToSubmit}
+      typeof dataToSubmit.imagen === 'string' && delete dataToSubmit.imagen
+    }
     try {
-      !item.id ? await postProd(formData) : await putProd(formData, item.id);
+      !item.id ? await postProd(formData) : await putProd(dataToSubmit, item.id);
       Swal.fire({
         icon: "success",
         title: "Ok",
@@ -255,7 +267,7 @@ const AddForm = ({
                             id="textfields"
                             name="categoria"
                             onChange={handleChange}
-                            value={values.categoria ? values.categoria.id : ""}
+                            value={values.categoria}
                           >
                             {catProd.map((item, i) => (
                               <MenuItem key={i} value={item.id}>
@@ -266,364 +278,377 @@ const AddForm = ({
                         </FormControl>
                       </Grid>
 
-                      <Grid item xs={12} sm={12} md={12}>
-                        <FieldArray
-                          name="producto_variante"
-                          render={(arrayHelpers) => (
-                            <>
-                              <Button
-                                fullWidth
-                                component="label"
-                                variant="outlined"
-                                color="secondary"
-                                startIcon={<AddCircleIcon />}
-                                sx={{ marginTop: "0.5rem" }}
-                                onClick={() => arrayHelpers.push("")}
-                              >
-                                Variantes
-                              </Button>
-                              {values.producto_variante &&
-                              values.producto_variante.length > 0 ? (
-                                values.producto_variante.map(
-                                  (variante, index) => (
-                                    <Box
-                                      key={index}
-                                      sx={{ p: 2, border: "1px dashed purple" }}
-                                    >
-                                      <Button
-                                        fullWidth
-                                        component="label"
-                                        variant="outlined"
-                                        color="secondary"
-                                        startIcon={<RemoveCircleIcon />}
-                                        sx={{ marginTop: "0.5rem" }}
-                                        onClick={() =>
-                                          arrayHelpers.remove(index)
-                                        }
-                                      ></Button>
-                                      <Grid container>
-                                        <Grid item xs={12} sm={6} md={6}>
-                                          <TextField
-                                            fullWidth
-                                            label="Nombre"
-                                            required
-                                            size="small"
-                                            color="secondary"
-                                            id="textfields"
-                                            margin="dense"
-                                            name={`producto_variante.${index}.nombre`}
-                                            onChange={handleChange}
-                                            value={variante.nombre}
-                                          />
-                                          <TextField
-                                            fullWidth
-                                            label="Descripcion"
-                                            required
-                                            size="small"
-                                            color="secondary"
-                                            id="textfields"
-                                            margin="dense"
-                                            name={`producto_variante.${index}.descripcion`}
-                                            onChange={handleChange}
-                                            value={variante.descripcion}
-                                          />
-                                          <FormControl
-                                            fullWidth
-                                            margin="dense"
-                                            size="small"
-                                            color="secondary"
-                                          >
-                                            <InputLabel>Almacen</InputLabel>
-                                            <Select
-                                              label="Almacen"
+                      {!item.id && (
+                        <Grid item xs={12} sm={12} md={12}>
+                          <FieldArray
+                            name="producto_variante"
+                            render={(arrayHelpers) => (
+                              <>
+                                {values.producto_variante &&
+                                values.producto_variante.length > 0 ? (
+                                  values.producto_variante.map(
+                                    (variante, index) => (
+                                      <Box
+                                        key={index}
+                                        sx={{
+                                          p: 2,
+                                          border: "1px dashed purple",
+                                        }}
+                                      >
+                                        <Button
+                                          fullWidth
+                                          component="label"
+                                          variant="outlined"
+                                          color="secondary"
+                                          startIcon={<RemoveCircleIcon />}
+                                          sx={{ marginTop: "0.5rem" }}
+                                          onClick={() =>
+                                            arrayHelpers.remove(index)
+                                          }
+                                        ></Button>
+                                        <Grid container>
+                                          <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                              fullWidth
+                                              label="Nombre"
+                                              required
                                               size="small"
                                               color="secondary"
                                               id="textfields"
-                                              name={`producto_variante.${index}.almacen`}
+                                              margin="dense"
+                                              name={`producto_variante.${index}.nombre`}
+                                              onChange={handleChange}
+                                              value={variante.nombre}
+                                            />
+                                            <TextField
+                                              fullWidth
+                                              label="Descripcion"
+                                              required
+                                              size="small"
+                                              color="secondary"
+                                              id="textfields"
+                                              margin="dense"
+                                              name={`producto_variante.${index}.descripcion`}
+                                              onChange={handleChange}
+                                              value={variante.descripcion}
+                                            />
+                                            <FormControl
+                                              fullWidth
+                                              margin="dense"
+                                              size="small"
+                                              color="secondary"
+                                            >
+                                              <InputLabel>Almacen</InputLabel>
+                                              <Select
+                                                label="Almacen"
+                                                size="small"
+                                                color="secondary"
+                                                id="textfields"
+                                                name={`producto_variante.${index}.almacen`}
+                                                onChange={handleChange}
+                                                value={
+                                                  variante.almacen
+                                                    ? variante.almacen
+                                                    : ""
+                                                }
+                                              >
+                                                {almacenes.map((item, i) => (
+                                                  <MenuItem
+                                                    key={i}
+                                                    value={item.id}
+                                                  >
+                                                    {item.nombre}
+                                                  </MenuItem>
+                                                ))}
+                                              </Select>
+                                            </FormControl>
+                                            <TextField
+                                              fullWidth
+                                              label="Color"
+                                              required
+                                              size="small"
+                                              color="secondary"
+                                              id="textfields"
+                                              margin="dense"
+                                              name={`producto_variante.${index}.color`}
+                                              onChange={handleChange}
+                                              value={variante.color}
+                                            />
+                                            <TextField
+                                              fullWidth
+                                              label="Talla"
+                                              required
+                                              size="small"
+                                              color="secondary"
+                                              id="textfields"
+                                              margin="dense"
+                                              name={`producto_variante.${index}.talla`}
+                                              onChange={handleChange}
+                                              value={variante.talla}
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12} sm={6} md={6}>
+                                            <TextField
+                                              fullWidth
+                                              label="Horas de Manufactura"
+                                              required
+                                              size="small"
+                                              color="secondary"
+                                              id="textfields"
+                                              margin="dense"
+                                              name={`producto_variante.${index}.horas_manufactura`}
+                                              onChange={handleChange}
+                                              value={variante.horas_manufactura}
+                                              InputProps={{
+                                                endAdornment: (
+                                                  <InputAdornment position="end">
+                                                    h
+                                                  </InputAdornment>
+                                                ),
+                                              }}
+                                            />
+                                            <TextField
+                                              fullWidth
+                                              label="Costos de Manufactura"
+                                              required
+                                              size="small"
+                                              color="secondary"
+                                              id="textfields"
+                                              margin="dense"
+                                              name={`producto_variante.${index}.costo_manufactura`}
+                                              onChange={handleChange}
+                                              value={variante.costo_manufactura}
+                                              InputProps={{
+                                                startAdornment: (
+                                                  <InputAdornment position="start">
+                                                    S/.
+                                                  </InputAdornment>
+                                                ),
+                                              }}
+                                            />
+                                            <TextField
+                                              fullWidth
+                                              label="Gastos Generales"
+                                              required
+                                              size="small"
+                                              color="secondary"
+                                              id="textfields"
+                                              margin="dense"
+                                              name={`producto_variante.${index}.gastos_generales`}
+                                              onChange={handleChange}
+                                              value={variante.gastos_generales}
+                                              InputProps={{
+                                                startAdornment: (
+                                                  <InputAdornment position="start">
+                                                    S/.
+                                                  </InputAdornment>
+                                                ),
+                                              }}
+                                            />
+                                            <TextField
+                                              fullWidth
+                                              label="Precio Final"
+                                              size="small"
+                                              color="secondary"
+                                              id="textfields"
+                                              margin="dense"
+                                              name={`producto_variante.${index}.precio_final`}
                                               onChange={handleChange}
                                               value={
-                                                variante.almacen
-                                                  ? variante.almacen
-                                                  : ""
-                                              }
-                                            >
-                                              {almacenes.map((item, i) => (
-                                                <MenuItem
-                                                  key={i}
-                                                  value={item.id}
-                                                >
-                                                  {item.nombre}
-                                                </MenuItem>
-                                              ))}
-                                            </Select>
-                                          </FormControl>
-                                          <TextField
-                                            fullWidth
-                                            label="Color"
-                                            required
-                                            size="small"
-                                            color="secondary"
-                                            id="textfields"
-                                            margin="dense"
-                                            name={`producto_variante.${index}.color`}
-                                            onChange={handleChange}
-                                            value={variante.color}
-                                          />
-                                          <TextField
-                                            fullWidth
-                                            label="Talla"
-                                            required
-                                            size="small"
-                                            color="secondary"
-                                            id="textfields"
-                                            margin="dense"
-                                            name={`producto_variante.${index}.talla`}
-                                            onChange={handleChange}
-                                            value={variante.talla}
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={6}>
-                                          <TextField
-                                            fullWidth
-                                            label="Horas de Manufactura"
-                                            required
-                                            size="small"
-                                            color="secondary"
-                                            id="textfields"
-                                            margin="dense"
-                                            name={`producto_variante.${index}.horas_manufactura`}
-                                            onChange={handleChange}
-                                            value={variante.horas_manufactura}
-                                            InputProps={{
-                                              endAdornment: (
-                                                <InputAdornment position="end">
-                                                  h
-                                                </InputAdornment>
-                                              ),
-                                            }}
-                                          />
-                                          <TextField
-                                            fullWidth
-                                            label="Costos de Manufactura"
-                                            required
-                                            size="small"
-                                            color="secondary"
-                                            id="textfields"
-                                            margin="dense"
-                                            name={`producto_variante.${index}.costo_manufactura`}
-                                            onChange={handleChange}
-                                            value={variante.costo_manufactura}
-                                            InputProps={{
-                                              startAdornment: (
-                                                <InputAdornment position="start">
-                                                  S/.
-                                                </InputAdornment>
-                                              ),
-                                            }}
-                                          />
-                                          <TextField
-                                            fullWidth
-                                            label="Gastos Generales"
-                                            required
-                                            size="small"
-                                            color="secondary"
-                                            id="textfields"
-                                            margin="dense"
-                                            name={`producto_variante.${index}.gastos_generales`}
-                                            onChange={handleChange}
-                                            value={variante.gastos_generales}
-                                            InputProps={{
-                                              startAdornment: (
-                                                <InputAdornment position="start">
-                                                  S/.
-                                                </InputAdornment>
-                                              ),
-                                            }}
-                                          />
-                                          <TextField
-                                            fullWidth
-                                            label="Precio Final"
-                                            size="small"
-                                            color="secondary"
-                                            id="textfields"
-                                            margin="dense"
-                                            name={`producto_variante.${index}.precio_final`}
-                                            onChange={handleChange}
-                                            value={
-                                              parseInt(
-                                                variante.gastos_generales
-                                              ) +
-                                              parseInt(
-                                                variante.costo_manufactura
-                                              ) *
                                                 parseInt(
-                                                  variante.horas_manufactura
-                                                )
-                                            }
-                                            InputProps={{
-                                              startAdornment: (
-                                                <InputAdornment position="start">
-                                                  S/.
-                                                </InputAdornment>
-                                              ),
-                                            }}
-                                          />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                          <FieldArray
-                                            name={`producto_variante.${index}.producto_detalle`}
-                                            render={(array) => (
-                                              <>
-                                                <Button
-                                                  fullWidth
-                                                  component="label"
-                                                  variant="outlined"
-                                                  color="secondary"
-                                                  startIcon={<AddCircleIcon />}
-                                                  sx={{ marginTop: "0.5rem" }}
-                                                  onClick={() => array.push("")}
-                                                >
-                                                  Articulos
-                                                </Button>
-                                                {variante.producto_detalle !==
-                                                undefined ? (
-                                                  variante.producto_detalle.map(
-                                                    (detalle, i) => (
-                                                      <Box
-                                                        key={i}
-                                                        sx={{
-                                                          p: 2,
-                                                          border:
-                                                            "1px dashed purple",
-                                                        }}
-                                                      >
-                                                        <Button
-                                                          fullWidth
-                                                          component="label"
-                                                          variant="outlined"
-                                                          color="secondary"
-                                                          startIcon={
-                                                            <RemoveCircleIcon />
-                                                          }
+                                                  variante.gastos_generales
+                                                ) +
+                                                parseInt(
+                                                  variante.costo_manufactura
+                                                ) *
+                                                  parseInt(
+                                                    variante.horas_manufactura
+                                                  )
+                                              }
+                                              InputProps={{
+                                                startAdornment: (
+                                                  <InputAdornment position="start">
+                                                    S/.
+                                                  </InputAdornment>
+                                                ),
+                                              }}
+                                            />
+                                          </Grid>
+                                          <Grid item xs={12}>
+                                            <FieldArray
+                                              name={`producto_variante.${index}.producto_detalle`}
+                                              render={(array) => (
+                                                <>
+                                                  {variante.producto_detalle !==
+                                                  undefined ? (
+                                                    variante.producto_detalle.map(
+                                                      (detalle, i) => (
+                                                        <Box
+                                                          key={i}
                                                           sx={{
-                                                            marginTop: "0.5rem",
+                                                            p: 2,
+                                                            border:
+                                                              "1px dashed purple",
                                                           }}
-                                                          onClick={() =>
-                                                            array.remove(i)
-                                                          }
-                                                        ></Button>
+                                                        >
+                                                          <Button
+                                                            fullWidth
+                                                            component="label"
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            startIcon={
+                                                              <RemoveCircleIcon />
+                                                            }
+                                                            sx={{
+                                                              marginTop:
+                                                                "0.5rem",
+                                                            }}
+                                                            onClick={() =>
+                                                              array.remove(i)
+                                                            }
+                                                          ></Button>
 
-                                                        <Grid container>
-                                                          <Grid item xs={6}>
-                                                            <Autocomplete
-                                                              sx={{ mt: 1 }}
-                                                              size="small"
-                                                              color="secondary"
-                                                              options={art}
-                                                              getOptionLabel={(
-                                                                option
-                                                              ) => {
-                                                                if (option)
-                                                                  return option.nombre;
-                                                                return "";
-                                                              }}
-                                                              onChange={
-                                                                varianteHandleChange
-                                                              }
-                                                              renderInput={(
-                                                                params
-                                                              ) => (
-                                                                <TextField
-                                                                  {...params}
-                                                                  label="Articulos"
-                                                                  inputProps={{
-                                                                    ...params.inputProps,
-                                                                  }}
-                                                                />
-                                                              )}
-                                                              // value={
-                                                              //   detalle
-                                                              //     .articulo[0]
-                                                              //     .nombre
-                                                              // }
-                                                            />
-                                                          </Grid>
-                                                          <Grid item xs={6}>
-                                                            <FormControl
-                                                              fullWidth
-                                                              margin="dense"
-                                                              size="small"
-                                                              color="secondary"
-                                                            >
-                                                              <InputLabel>
-                                                                Variante
-                                                              </InputLabel>
-                                                              <Select
-                                                                label="Categorias"
+                                                          <Grid container>
+                                                            <Grid item xs={6}>
+                                                              <Autocomplete
+                                                                sx={{ mt: 1 }}
                                                                 size="small"
                                                                 color="secondary"
-                                                                id="textfields"
-                                                                name={`producto_variante.${index}.producto_detalle.${i}.articulo`}
-                                                                // value={detalle.articulo.variante}
+                                                                options={art}
+                                                                getOptionLabel={(
+                                                                  option
+                                                                ) => {
+                                                                  if (option)
+                                                                    return option.nombre;
+                                                                  return "";
+                                                                }}
                                                                 onChange={
-                                                                  handleChange
+                                                                  varianteHandleChange
                                                                 }
-                                                              >
-                                                                {filterVarianteArt.map(
-                                                                  (item, i) => (
-                                                                    <MenuItem
-                                                                      key={i}
-                                                                      value={
-                                                                        item.id
-                                                                      }
-                                                                    >
-                                                                      {
-                                                                        item.nombre
-                                                                      }
-                                                                    </MenuItem>
-                                                                  )
+                                                                renderInput={(
+                                                                  params
+                                                                ) => (
+                                                                  <TextField
+                                                                    {...params}
+                                                                    label="Articulos"
+                                                                    inputProps={{
+                                                                      ...params.inputProps,
+                                                                    }}
+                                                                  />
                                                                 )}
-                                                              </Select>
-                                                            </FormControl>
+                                                                // value={
+                                                                //   detalle
+                                                                //     .articulo[0]
+                                                                //     .nombre
+                                                                // }
+                                                              />
+                                                            </Grid>
+                                                            <Grid item xs={6}>
+                                                              <FormControl
+                                                                fullWidth
+                                                                margin="dense"
+                                                                size="small"
+                                                                color="secondary"
+                                                              >
+                                                                <InputLabel>
+                                                                  Variante
+                                                                </InputLabel>
+                                                                <Select
+                                                                  label="Categorias"
+                                                                  size="small"
+                                                                  color="secondary"
+                                                                  id="textfields"
+                                                                  name={`producto_variante.${index}.producto_detalle.${i}.articulo`}
+                                                                  // value={detalle.articulo.variante}
+                                                                  onChange={
+                                                                    handleChange
+                                                                  }
+                                                                >
+                                                                  {filterVarianteArt.map(
+                                                                    (
+                                                                      item,
+                                                                      i
+                                                                    ) => (
+                                                                      <MenuItem
+                                                                        key={i}
+                                                                        value={
+                                                                          item.id
+                                                                        }
+                                                                      >
+                                                                        {
+                                                                          item.nombre
+                                                                        }
+                                                                      </MenuItem>
+                                                                    )
+                                                                  )}
+                                                                </Select>
+                                                              </FormControl>
+                                                            </Grid>
                                                           </Grid>
-                                                        </Grid>
-                                                        <TextField
-                                                          fullWidth
-                                                          label="Cantidad"
-                                                          required
-                                                          size="small"
-                                                          color="secondary"
-                                                          id="textfields"
-                                                          margin="dense"
-                                                          name={`producto_variante.${index}.producto_detalle.${i}.cantidad`}
-                                                          value={
-                                                            detalle.cantidad
-                                                          }
-                                                          onChange={
-                                                            handleChange
-                                                          }
-                                                        />
-                                                      </Box>
+                                                          <TextField
+                                                            fullWidth
+                                                            label="Cantidad"
+                                                            required
+                                                            size="small"
+                                                            color="secondary"
+                                                            id="textfields"
+                                                            margin="dense"
+                                                            name={`producto_variante.${index}.producto_detalle.${i}.cantidad`}
+                                                            value={
+                                                              detalle.cantidad
+                                                            }
+                                                            onChange={
+                                                              handleChange
+                                                            }
+                                                          />
+                                                        </Box>
+                                                      )
                                                     )
-                                                  )
-                                                ) : (
-                                                  <></>
-                                                )}
-                                              </>
-                                            )}
-                                          />
+                                                  ) : (
+                                                    <></>
+                                                  )}
+                                                  <Button
+                                                    fullWidth
+                                                    component="label"
+                                                    variant="outlined"
+                                                    color="secondary"
+                                                    startIcon={
+                                                      <AddCircleIcon />
+                                                    }
+                                                    sx={{ marginTop: "0.5rem" }}
+                                                    onClick={() =>
+                                                      array.push("")
+                                                    }
+                                                  >
+                                                    Articulos
+                                                  </Button>
+                                                </>
+                                              )}
+                                            />
+                                          </Grid>
                                         </Grid>
-                                      </Grid>
-                                    </Box>
+                                      </Box>
+                                    )
                                   )
-                                )
-                              ) : (
-                                <></>
-                              )}
-                            </>
-                          )}
-                        />
-                      </Grid>
+                                ) : (
+                                  <></>
+                                )}
+                                <Button
+                                  fullWidth
+                                  component="label"
+                                  variant="outlined"
+                                  color="secondary"
+                                  startIcon={<AddCircleIcon />}
+                                  sx={{ marginTop: "0.5rem" }}
+                                  onClick={() => arrayHelpers.push("")}
+                                >
+                                  Variantes
+                                </Button>
+                              </>
+                            )}
+                          />
+                        </Grid>
+                      )}
 
                       <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                         <Button

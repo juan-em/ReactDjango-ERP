@@ -27,6 +27,7 @@ export const Tabla = ({
   setOpenModal,
   setItem,
   setItemView,
+  setFullProduct
 }) => {
   const URL = "http://localhost:8000/api/productos/";
   const [producto, setProducto] = useState([]);
@@ -46,6 +47,7 @@ export const Tabla = ({
 
   const handleView = (row) => {
     setItemView(row);
+    setFullProduct(producto)
   };
 
   const handleDelete = async (id) => {
@@ -91,6 +93,11 @@ export const Tabla = ({
               align="right"
             >
               Nombre
+            </TableCell><TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Catogoria
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -114,6 +121,7 @@ export const Tabla = ({
               </TableCell>
               <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
+              <TableCell align="right">{row.nombre_categoria}</TableCell>
               <TableCell align="right">{row.cantidad}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
