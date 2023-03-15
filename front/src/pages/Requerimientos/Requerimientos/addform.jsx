@@ -108,16 +108,11 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
   const top100Films = [
     { label: 'Logistica'},
     { label: 'Marketing'},
-    { label: 'Aministración'},
-    { label: 'Mantenimiento'},
   ];
 
   const top101Films = [
-    { label: 'No Iniciado'},
-    { label: 'Solicitando cotización'},
-    { label: 'Aprobado'},
-    { label: 'En proceso'},
-    { label: 'Denegado'},
+    { label: 'Artículo'},
+    { label: 'Suministro'},
 
   ];
 
@@ -152,7 +147,6 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                       </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                      falta cambiar
                       <Grid container spacing={1}>
                         <Grid item xs={12} sm={6} md={6}>
                         <Autocomplete
@@ -167,19 +161,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                           options={top100Films}
                           renderInput={(params) => <TextField {...params} label="Área solicitante" margin="dense" color="secondary" fullWidth />}
                         />
-                        <TextField
-                          fullWidth
-                          label="Tipo de servicio"
-                          required
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          margin="dense"
-                          name="persona.nombre"
-                        />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6}>
-                          <Autocomplete
+                        <Autocomplete
                             fullWidth
                             type="text"
                             size="small"
@@ -190,8 +172,10 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                             disablePortal
                             required
                             options={top101Films}
-                            renderInput={(params) => <TextField {...params} label="Estado" margin="dense" color="secondary" fullWidth />}
+                            renderInput={(params) => <TextField {...params} label="Tipo de bien" margin="dense" color="secondary" fullWidth />}
                           />
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={6}>
                           <TextField
                             fullWidth
                             label="Descripción"
@@ -201,6 +185,19 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                             id="textfields"
                             margin="dense"
                             name="persona.nombre"
+                          />
+                          <Autocomplete
+                            fullWidth
+                            type="text"
+                            size="small"
+                            color="secondary"
+                            margin="dense"
+                            name="nombre"
+                            id="textfields"
+                            disablePortal
+                            required
+                            options={top100Films}
+                            renderInput={(params) => <TextField {...params} label="Almacén" margin="dense" color="secondary" fullWidth />}
                           />
                         </Grid>
 
@@ -261,19 +258,6 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
                         />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
-                          <Autocomplete
-                            fullWidth
-                            type="text"
-                            size="small"
-                            color="secondary"
-                            margin="dense"
-                            name="nombre"
-                            id="textfields"
-                            disablePortal
-                            required
-                            options={top101Films}
-                            renderInput={(params) => <TextField {...params} label="Estado" margin="dense" color="secondary" fullWidth />}
-                          />
                           <TextField
                             fullWidth
                             label="Descripción"

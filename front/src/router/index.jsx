@@ -37,6 +37,7 @@ import FacturaVentas from "../pages/Ventas/Facturas";
 import RemisionesVentas from "../pages/Ventas/Remisiones";
 import Requerimientos from "../pages/Requerimientos/Requerimientos";
 import Servicios from "../pages/Servicios/Servicios";
+import CajaDiaria from "../pages/Tesorería/CajaDiaria";
 
 // LAYOUTS
 
@@ -69,6 +70,9 @@ const Router = () => {
 
               {/* Produccion */}
               <Route path="/produccion/produccion" element={<Produccion />} />
+
+              {/* Tesoreria */}
+              <Route path="/tesoreria/cajadiaria" element={<CajaDiaria />} />
 
               {/* Otros */}
               <Route path="/mantenimientos/provincias" element={<Provincias />} />
