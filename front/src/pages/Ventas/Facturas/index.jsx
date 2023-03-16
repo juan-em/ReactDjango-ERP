@@ -107,6 +107,7 @@ const FacturaVentas = () => {
                       color="secondary"
                       margin="dense"
                       maxlength="8"
+                     
                       name="nombre"
                       id="textfields"
                       variant="filled"
