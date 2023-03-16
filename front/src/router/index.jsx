@@ -38,6 +38,7 @@ import RemisionesVentas from "../pages/Ventas/Remisiones";
 import Requerimientos from "../pages/Requerimientos/Requerimientos";
 import Servicios from "../pages/Servicios/Servicios";
 import CajaDiaria from "../pages/Tesorería/CajaDiaria";
+import Bien from "../pages/Servicios/Bien";
 
 // LAYOUTS
 
@@ -97,6 +98,7 @@ const Router = () => {
 
               {/* Servicios */}
               <Route path="/servicios/servicios" element={<Servicios />} />
+              <Route path="/servicios/bien" element={<Bien/>} />
 
               {/* Requerimientos */}
               <Route path="/requerimientos/requerimientos" element={<Requerimientos />} />

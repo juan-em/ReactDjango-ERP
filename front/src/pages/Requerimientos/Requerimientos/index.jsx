@@ -1,7 +1,7 @@
 import "./index.css";
 import "../../../fonts/poppins.ttf";
 import { alpha } from "@mui/material/styles";
-
+import Radio from "@mui/material/Radio";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -17,10 +17,15 @@ import {
   Grid,
   TextField,
   Button,
+  FormControl,
   Accordion,
+  FormControlLabel,
+  FormLabel,
   AccordionSummary,
+  RadioGroup,
   AccordionDetails,
-  Box, Autocomplete, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio
+  Box,
+  Autocomplete,
 } from "@mui/material";
 
 //Componentes
