@@ -91,7 +91,7 @@ const Login = () => {
                                 size="small"
                                 color="secondary"
                                 margin="dense"
-                                id="email-field"
+                                id="textfields"
                                 variant="filled"
                                 ref={userRef}
                                 autoComplete="off"
@@ -113,7 +113,7 @@ const Login = () => {
                                 size="small"
                                 color="secondary"
                                 margin="dense"
-                                id="password-field"
+                                id="textfields"
                                 variant="filled"
                                 onChange={(e) => setPassword(e.target.value)}
                                 value={password}

@@ -129,7 +129,7 @@ const Register = () => {
                                         size="small"
                                         color="secondary"
                                         margin="dense"
-                                        id="usernameInput"
+                                        id="textfields"
                                         variant="filled"
                                         ref={userRef}
                                         autoComplete="off"
@@ -153,7 +153,7 @@ const Register = () => {
                                         size="small"
                                         color="secondary"
                                         margin="dense"
-                                        id="emailInput"
+                                        id="textfields"
                                         variant="filled"
                                         ref={userRef}
                                         autoComplete="off"
@@ -181,7 +181,7 @@ const Register = () => {
                                                     <InputLabel id="rol-label" color="secondary"><span>Rol</span></InputLabel>
                                                     <Select
                                                         labelId="rol-label"
-                                                        id="rol-label-id"
+                                                        id="textfields"
                                                         color="secondary"
                                                         value={rol}
                                                         onChange={(e) => setRol(e.target.value)}
@@ -189,8 +189,8 @@ const Register = () => {
                                                         <MenuItem value="">
                                                             <em>Ninguno</em>
                                                         </MenuItem>
-                                                        <MenuItem value="Trabajador">Trabajador</MenuItem>
-                                                        <MenuItem value="Gerente">Gerente</MenuItem>
+                                                        <MenuItem value="Trabajador"><span>Trabajador</span></MenuItem>
+                                                        <MenuItem value="Gerente"><span>Gerente</span></MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Grid>
@@ -201,7 +201,7 @@ const Register = () => {
                                                     <InputLabel id="area-label" color="secondary"><span>Area</span></InputLabel>
                                                     <Select
                                                         labelId="area-label"
-                                                        id="area-label-id"
+                                                        id="textfields"
                                                         color="secondary"
                                                         value={area}
                                                         onChange={(e) => setArea(e.target.value)}
@@ -209,7 +209,7 @@ const Register = () => {
                                                         <MenuItem value="">
                                                             <em>Ninguno</em>
                                                         </MenuItem>
-                                                        <MenuItem value="Logística">Logística</MenuItem>
+                                                        <MenuItem value="Logística"><span>Logística</span></MenuItem>
                                                     </Select>
                                                 </FormControl>
                                             </Grid>
@@ -225,7 +225,7 @@ const Register = () => {
                                         size="small"
                                         color="secondary"
                                         margin="dense"
-                                        id="passwordInput"
+                                        id="textfields"
                                         variant="filled"
                                         onChange={(e) => setPwd(e.target.value)}
                                         value={pwd}
