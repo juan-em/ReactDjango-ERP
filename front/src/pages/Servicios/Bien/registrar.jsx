@@ -109,7 +109,7 @@ const Registar = ({ openModal, setOpenModal}) => {
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             
-            Registrar Servicio
+            Registrar Bien
           </Typography>
         </DialogTitle>
         <DialogContent>

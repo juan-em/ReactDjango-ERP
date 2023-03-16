@@ -20,7 +20,7 @@ import InfoIcon from '@mui/icons-material/Info';
 
 const VerBien = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
-    { icon: <NumbersIcon />, primary: "Tipo de servicio", secondary: "" },
+    { icon: <NumbersIcon />, primary: "Tipo de bien", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Cotización", secondary: "" },
     { icon: < DriveFileRenameOutlineIcon/>, primary: "Propuesta técnica", secondary: "" },
     { icon: < DriveFileRenameOutlineIcon/>, primary: "Propuesta económica", secondary: "" },
@@ -83,7 +83,7 @@ const VerBien = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Servicio seleccionado
+            Bien seleccionado
           </AccordionSummary>
           <AccordionDetails>
             <List

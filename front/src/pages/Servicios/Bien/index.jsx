@@ -80,7 +80,7 @@ const Bien = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar órdenes de servicios
+                  Buscar órden de bien
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">

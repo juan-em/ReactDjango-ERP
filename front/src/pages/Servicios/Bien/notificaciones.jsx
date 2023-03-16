@@ -65,14 +65,14 @@ import Registar from "./registrar";
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Órdenes de Servicios Pendientes
+                  Órdenes de Bienes Pendientes
                 </AccordionSummary>
                 <AccordionDetails>
                     <Alert variant="outlined" severity="warning"
                     action={
                         <Registar/>
                       }>
-                        Nombre del servicio (Tipo) — <strong>Estado del servicio</strong>
+                        Nombre del bien (Tipo) — <strong>Estado del bien</strong>
                     </Alert>
                 </AccordionDetails>
               </Accordion>
