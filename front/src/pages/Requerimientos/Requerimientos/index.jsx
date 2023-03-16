@@ -74,7 +74,7 @@ const Requerimientos = () => {
           <Grid item xs={12} sm={12} md={12} xl={4}>
             <Notificaciones/>
           </Grid>
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={5} xl={3}>
             <Paper
               elevation={10}
               className="paper"
@@ -176,10 +176,10 @@ const Requerimientos = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={6} xl={4}>
             <VerRequerimiento itemView={itemView} />
           </Grid>
-          <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
+          <Grid item xs={12} sm={12} md={1} xl={1} sx={{ mt: 4 }}>
             <AddForm
               render={render}
               renderizar={renderizar}
