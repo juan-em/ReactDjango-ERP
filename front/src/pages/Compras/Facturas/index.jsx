@@ -21,8 +21,9 @@ import {
   AccordionSummary,
   AccordionDetails,
   Box,
+  Autocomplete
 } from "@mui/material";
-import { TabContext } from '@mui/lab';
+
 //Componentes pra el input de fecha
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -34,31 +35,50 @@ import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
 
 import { useRef } from "react";
-import VerProvincia from "./verfactura";
+import VerFactura from "./verfactura";
+import { getProveedores } from "../../../services/Proveedores";
+import AddForm from "./addform";
 
 const Factura = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
-  const [itemView, setItemView] = useState({});
+  const [itemView, setItemView] = useState({"remision":[]});
 
+  //Renderizacion de tabla y buscador
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
-  const handlerSearcher = (e) => {
-    const { name, value } = e.target;
-    setFields({ ...fields, [name]: value });
+
+  //Autocomplete
+  const [proveedores, setProveedores] = useState([])
+  
+  
+  //para el input de fecha
+  const [value, setValue] = useState();
+  
+
+  const handlerSearcher = (e, val) => {
+    if (e.$d) {
+      setValue(e);
+      var fecha = new Date(e.$d)
+      var offsetPeru = -5; 
+      var fechaPeru = new Date(fecha.getTime() + offsetPeru * 60 * 60 * 1000);
+      var fechaConvertida = fechaPeru.toISOString().slice(0, 10);
+      fields.fecha = fechaConvertida
+    } else {
+      const { name, value } = e.target;
+      setFields({ ...fields, [name]: value });
+    }
+    val && setFields({...fields, ...val})
   };
   const handleClean = () => {
     searchform.reset();
   };
 
-  //para el input de fecha
-  const [value, setValue] = useState(dayjs(new Date()));
+  useEffect(()=>{
+    getProveedores(setProveedores)
+  },[])
 
-  const handleChange = (newValue) => {
-      setValue(newValue);
-  };
-  
 
   return (
     <section>
@@ -89,24 +109,46 @@ const Factura = () => {
                   <form id="searchform">
                     <TextField
                       fullWidth
-                      label="RUC Proveedor"
-                      type="number"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      variant="filled"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                    />
-                      <TextField
-                      fullWidth
-                      label="N° de factura"
+                      label="Código"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="codigo"
+                      id="textfields"
+                      variant="filled"
+                      onChange={handlerSearcher}
+                    />
+                    <Autocomplete
+                      disablePortal
+                      options={proveedores || []}
+                      getOptionLabel = {(option) => {
+                        if (option.persona) return option.persona.nombre 
+                        if (option.empresa) return option.empresa.nombre
+                        return ''
+                      }}
+                      size="small"
+                      id="textfields"
+                      variant="filled"
+                      renderInput={(params) => 
+                        <TextField 
+                          {...params} 
+                          label="Proveedor" 
+                          margin="dense" 
+                          color="secondary"
+                          variant="filled"
+                          fullWidth />}
+                      onChange={(e, value) => handlerSearcher(e, {"proveedor": value})}
+                    />
+                    
+                    <TextField
+                      fullWidth
+                      label="N° de factura"
+                      type="number"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="numero_factura"
                       id="textfields"
                       variant="filled"
                       onChange={handlerSearcher}
@@ -116,9 +158,10 @@ const Factura = () => {
                         label="Fecha"
                         inputFormat="DD/MM/YYYY"
                         value={value}
-                        onChange={handleChange}
+                        name="fecha"
+                        onChange={handlerSearcher}
                         renderInput={(params) => <TextField 
-                          {...params} 
+                          {...params}
                           fullWidth
                           size="small"
                           color="secondary"
@@ -150,9 +193,23 @@ const Factura = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={7}>
-            <VerProvincia itemView={itemView} />
+            <VerFactura 
+              itemView={itemView} 
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+              />
           </Grid>
         </Grid>
+        <AddForm 
+          item={item}
+          setItem={setItem}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          render={render}
+          renderizar={renderizar}
+          setRenderizar={setRenderizar}
+        />
         <Box sx={{ overflow: "auto" }}>
           <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
             <Tabla
@@ -163,6 +220,7 @@ const Factura = () => {
               setOpenModal={setOpenModal}
               setItem={setItem}
               setItemView={setItemView}
+              itemView={itemView}
             />
           </Box>
         </Box>
