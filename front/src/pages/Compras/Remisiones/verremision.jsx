@@ -27,13 +27,15 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
 import PersonIcon from '@mui/icons-material/Person';
 
+import { formateoFecha } from "../../../services/compras";
+
 const VerRemision = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <NumbersIcon />, primary: "Compra", secondary: "" },
     { icon: <PersonIcon />, primary: "Trabajador", secondary: "" },
     { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" },
-    { icon: <InfoIcon />, primary: "Detalle de compra", secondary: "" }
+    { icon: <InfoIcon />, primary: "Total Remision", secondary: "" }
   ]);
 
   const seti = () => {
@@ -46,12 +48,27 @@ const VerRemision = ({ itemView }) => {
         if (i.primary === "Código") {
           return {
             ...i,
-            secondary: itemView.id,
+            secondary: itemView.codigo,
           };
-        } else if (i.primary === "Nombre") {
+        } else if (i.primary === "Compra") {
           return {
             ...i,
-            secondary: itemView.nombreprovincia,
+            secondary: itemView.codigo_compra,
+          };
+        } else if (i.primary === "Trabajador") {
+          return {
+            ...i,
+            secondary: itemView.trabajador?itemView.trabajador.nombre:'-',
+          };
+        } else if (i.primary === "Fecha") {
+          return {
+            ...i,
+            secondary: formateoFecha(itemView.fecha),
+          };
+        } else if (i.primary === "Total Remision") {
+          return {
+            ...i,
+            secondary: `S/. ${itemView.totalRemision}`,
           };
         }
       }

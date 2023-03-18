@@ -35,42 +35,49 @@ import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
 
 import { useRef } from "react";
-import VerProvincia from "./verfactura";
+import VerFactura from "./verfactura";
 import { getProveedores } from "../../../services/Proveedores";
+import AddForm from "./addform";
 
 const Factura = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
-  const [itemView, setItemView] = useState({});
+  const [itemView, setItemView] = useState({"remision":[]});
 
+  //Renderizacion de tabla y buscador
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
+
+  //Autocomplete
   const [proveedores, setProveedores] = useState([])
   
   
+  //para el input de fecha
+  const [value, setValue] = useState();
   
-  const handlerSearcher = (e) => {
-    const { name, value } = e.target;
-    setFields({ ...fields, [name]: value });
+
+  const handlerSearcher = (e, val) => {
+    if (e.$d) {
+      setValue(e);
+      var fecha = new Date(e.$d)
+      fecha = fecha.toISOString()
+      fields.fecha = fecha
+    } else {
+      const { name, value } = e.target;
+      setFields({ ...fields, [name]: value });
+    }
+    val && setFields({...fields, ...val})
   };
   const handleClean = () => {
     searchform.reset();
-  };
-
-  //para el input de fecha
-  const [value, setValue] = useState(dayjs(new Date()));
-
-  const handleChange = (newValue) => {
-    console.log(value,"hola")  
-    setValue(newValue);
   };
 
   useEffect(()=>{
     getProveedores(setProveedores)
   },[])
 
-  
+
   return (
     <section>
       <div className="container">
@@ -98,6 +105,18 @@ const Factura = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
+                    <TextField
+                      fullWidth
+                      label="Código"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="codigo"
+                      id="textfields"
+                      variant="filled"
+                      onChange={handlerSearcher}
+                    />
                     <Autocomplete
                       disablePortal
                       options={proveedores || []}
@@ -117,28 +136,17 @@ const Factura = () => {
                           color="secondary"
                           variant="filled"
                           fullWidth />}
-                      //onChange={(e, value) => handlerSearcher(e, {"proveedor": value})}
+                      onChange={(e, value) => handlerSearcher(e, {"proveedor": value})}
                     />
-                    <TextField
-                      fullWidth
-                      label="Código"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="nombre"
-                      id="textfields"
-                      variant="filled"
-                      onChange={handlerSearcher}
-                    />
+                    
                     <TextField
                       fullWidth
                       label="N° de factura"
-                      type="text"
+                      type="number"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="numero_factura"
                       id="textfields"
                       variant="filled"
                       onChange={handlerSearcher}
@@ -148,7 +156,8 @@ const Factura = () => {
                         label="Fecha"
                         inputFormat="DD/MM/YYYY"
                         value={value}
-                        onChange={handleChange}
+                        name="fecha"
+                        onChange={handlerSearcher}
                         renderInput={(params) => <TextField 
                           {...params}
                           fullWidth
@@ -182,9 +191,23 @@ const Factura = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={7}>
-            <VerProvincia itemView={itemView} />
+            <VerFactura 
+              itemView={itemView} 
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+              />
           </Grid>
         </Grid>
+        <AddForm 
+          item={item}
+          setItem={setItem}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          render={render}
+          renderizar={renderizar}
+          setRenderizar={setRenderizar}
+        />
         <Box sx={{ overflow: "auto" }}>
           <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
             <Tabla
@@ -195,6 +218,7 @@ const Factura = () => {
               setOpenModal={setOpenModal}
               setItem={setItem}
               setItemView={setItemView}
+              itemView={itemView}
             />
           </Box>
         </Box>

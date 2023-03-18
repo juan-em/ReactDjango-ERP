@@ -53,7 +53,6 @@ class ComprasDetailView(APIView):
                 'status':status.HTTP_202_ACCEPTED,
                 'content':serCompra.data
         }
-        
         return Response(context)
     
     def delete(self, request, id):
@@ -67,17 +66,22 @@ class ComprasDetailView(APIView):
         return Response(context) 
 
 class RemisionesView(APIView):
+    def get(self, request):
+        dataRemisiones = RemisionCompra.objects.all()
+        serializer = RemisionesCompraSerializer(dataRemisiones, many=True)
+        context = {
+            'status': True,
+            'content': serializer.data
+        }
+        return Response(context)
 
     def post(self, request):
         compra_id = request.data.pop('compra')
-        isRemision = RemisionCompra.objects.filter(compra=compra_id)
-        if not isRemision:
-            remision = RemisionCompra()
-            remision.compra_id = compra_id
-            remision.save()
-        else:
-            remision = isRemision[0]
         
+        remision = RemisionCompra()
+        remision.compra_id = compra_id
+        remision.save()
+
         lista_detalles_remision = request.data.get('remision_compra_detalle')
         for item in lista_detalles_remision:
             compra_detalle = CompraDetalle.objects.get(id=item["compra_detalle"])
@@ -89,10 +93,19 @@ class RemisionesView(APIView):
             detalle_remision.compra_detalle=compra_detalle
             detalle_remision.save()
 
+
+
             entrada_almacen = EntradaAlmacenCompra.objects.create(remision=detalle_remision)
             entrada_almacen.save()
         
-        return Response({'msg':True})
+        compra = remision.compra
+        serCompra = CompraSerializer(compra)
+        context = {
+            'status':True,
+            'content':serCompra.data
+        }
+
+        return Response(context)
 
 class RemisionDetailView(APIView):
     def delete(self, request, id):
@@ -111,14 +124,21 @@ class RemisionDetailView(APIView):
 class RemisionDetalleDetailView(APIView):
 
     def delete(self, request, id):
+
         data = RemisionDetalleCompra.objects.get(id=id)
+        totalRemsiones = RemisionDetalleCompra.objects.filter(remision_compra = data.remision_compra.id)
+        if len(totalRemsiones) == 1:
+           remision = data.remision_compra
+           remision.delete()
         compra_detalle = data.compra_detalle
         compra_detalle.remision_hecha = False
         compra_detalle.save()
         data.delete()
+        
         context = {
             'status':True,
             'message':'Delete succes',
+            
         }
         return Response(context)
     

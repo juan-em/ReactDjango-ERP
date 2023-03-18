@@ -27,6 +27,8 @@ import Swal from "sweetalert2";
 
 
 const AddForm = ({
+  itemView,
+  setItemView,
   row,
   idCompra, 
   detalle_compra, 
@@ -52,12 +54,12 @@ const AddForm = ({
     { field: 'unidad', headerName: 'Uds./Paq', type: 'number', },
     { field: 'cantidad', headerName: 'Cantidad', type: 'number' },
     { field: 'precio_unitario', headerName: 'Precio', type: 'number', valueFormatter: ({value}) => `S./ ${value}` },
-    
+    { field: 'subtotal', headerName: 'Subtotal', type: 'number', valueFormatter: ({value}) => `S./ ${value}` },
     
   ];
 
   const rows = detalle_compra.map(item => {
-    if (item.remision_hecha == true) item.isRow = true
+    item.subtotal = item.precio_unitario * item.cantidad 
     return item
   })
 
@@ -74,6 +76,7 @@ const AddForm = ({
         title: "Ok",
         text: "Se realizó la remisión",
       })
+      if (itemView.id && itemView.id == idCompra) setItemView(res.content)
       setRenderizar(!renderizar)
       render.current = true;
     } catch (err) {

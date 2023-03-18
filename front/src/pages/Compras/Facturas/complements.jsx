@@ -26,7 +26,7 @@ import {
 } from "../../../services/mantenimiento";
 import AddForm from "../Remisiones/addform";
 
-import { getCompras, formateoFecha, deleteCompra } from "../../../services/compras";
+import { getCompras, formateoFecha, deleteCompra, searcherFacturas } from "../../../services/compras";
 import Swal from "sweetalert2";
 
 export const Tabla = ({
@@ -37,19 +37,14 @@ export const Tabla = ({
   setOpenModal,
   setItem,
   setItemView,
+  itemView,
 }) => {
 
   
   const [facturaCompras, setFacturaCompras] = useState([]);
-  useEffect(() => {
-    if (render.current) {
-      render.current = false;
-      getCompras(setFacturaCompras)
-    }
-  }, [renderizar]);
+  
 
-  let data = searcherprov(fields, facturaCompras);
-
+  let data = searcherFacturas(fields, facturaCompras);
 
   const handlePut = (row) => {
     setItem(row);
@@ -59,7 +54,7 @@ export const Tabla = ({
   const handleView = (row) => {
     setItemView(row);
   };
-
+  
   const handleActiveDeactive = async (row) => {
     try {
       Swal.fire({
@@ -86,6 +81,12 @@ export const Tabla = ({
     }
   };
 
+  useEffect(() => {
+    if (render.current) {
+      render.current = false;
+      getCompras(setFacturaCompras)
+    }
+  }, [renderizar]);
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -123,7 +124,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Fecha
+              Fecha de Compra
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -160,7 +161,7 @@ export const Tabla = ({
               <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">{row.numero_factura?row.numero_factura:"-"}</TableCell>
               <TableCell align="right">{formateoFecha(row.fecha)}</TableCell>
-              <TableCell align="right">{row.proveedor}</TableCell>
+              <TableCell align="right">{row.nombre_proveedor}</TableCell>
               <TableCell align="right">{row.estado_remision}</TableCell>
               <TableCell align="right">{row.borrado?"Anulado":"Vigente"}</TableCell>
               <TableCell align="right" component="th" scope="row">
@@ -193,6 +194,8 @@ export const Tabla = ({
                 </IconButton>
 
                 <AddForm 
+                  itemView={itemView}
+                  setItemView={setItemView}
                   row={row}
                   idCompra={row.id} 
                   detalle_compra={row.detalle_compra}

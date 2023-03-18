@@ -30,42 +30,86 @@ import InfoIcon from '@mui/icons-material/Info';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import "./index.css";
 import Remisiones from "./remisiones";
+import { rowSelectionStateInitializer } from "@mui/x-data-grid/internals";
 
-const VerFactura = (itemView) => {
+
+import { formateoFecha } from "../../../services/compras";
+
+const VerFactura = ({itemView, 
+  render,
+  renderizar,
+  setRenderizar,}) => {
   
-  const [openModal, setOpenModal] = useState(false);
-  const [open, setOpen] = useState(false);
-  
+
   const [itemsPer, setItemsPer] = useState([
+    { icon: <NumbersIcon />, primary: "Codigo", secondary: "" },
     { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" },
     { icon: <StoreIcon />, primary: "Proveedor", secondary: "" },
-    { icon: <NumbersIcon />, primary: "Estado", secondary: "" },
-    { icon: <DiscountIcon />, primary: "Descuento", secondary: "" },
+    { icon: <InfoIcon />, primary: "Estado", secondary: "" },
+    { icon: <InfoIcon />, primary: "Estado Remision", secondary: "" },
+    { icon: <DiscountIcon />, primary: "N° Factura", secondary: "" },
     { icon: <InfoIcon />, primary: "Detalle de entrega", secondary: "" },
     { icon: <AttachMoneyIcon />, primary: "Total de compra", secondary: "" },
   ]);
 
+  const [remisiones, setRemisiones] = useState([]);
+
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      if (!itemView.itemView.id) {
+      if (!itemView.id) {
         return {
           ...i,
         };
       } else {
-        if (i.primary === "Código") {
+        if (i.primary === "Codigo") {
           return {
             ...i,
-            secondary: itemView.itemView.id,
+            secondary: itemView.codigo,
           };
-        } else if (i.primary === "Nombre") {
+        } else if (i.primary === "Fecha") {
           return {
             ...i,
-            secondary: itemView.itemView.nombre,
+            secondary: formateoFecha(itemView.fecha),
+          };
+        } else if (i.primary === "Proveedor") {
+          return {
+            ...i,
+            secondary: itemView.nombre_proveedor,
+          };
+        }else if (i.primary === "Estado") {
+          return {
+            ...i,
+            secondary: itemView.borrado?"Anulado":"Vigente",
+          };
+        }
+        else if (i.primary === "Estado Remision") {
+          return {
+            ...i,
+            secondary: itemView.estado_remision,
+          };
+        }
+        else if (i.primary === "N° Factura") {
+          return {
+            ...i,
+            secondary: itemView.numero_factura,
+          };
+        }
+        else if (i.primary === "Detalle de entrega") {
+          return {
+            ...i,
+            secondary: itemView.detalle_entrega,
+          };
+        }
+        else if (i.primary === "Total de compra") {
+          return {
+            ...i,
+            secondary: `S/. ${itemView.totalCompra}`,
           };
         }
       }
     });
     setItemsPer(newItem);
+    setRemisiones(itemView.remision?itemView.remision:[])
   };
 
   useEffect(() => {
@@ -102,7 +146,7 @@ const VerFactura = (itemView) => {
                       image="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg"
                     />
                   */}
-                  <img src="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg" />
+                  <img src={itemView?.imagen_fac_compra?itemView.imagen_fac_compra:"https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg"} />
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={6}>
                   <CardContent>
@@ -131,11 +175,18 @@ const VerFactura = (itemView) => {
                   </CardContent>
                 </Grid>
               </Grid>
-
+              
               <CardActions>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Remisiones item={itemView.producto_variante} open={open} setOpen={setOpen} />
+                    <Remisiones
+                      itemView = {itemView}
+                      remisiones={remisiones}
+                      setRemisiones={setRemisiones}
+                      render={render}
+                      renderizar={renderizar}
+                      setRenderizar={setRenderizar}
+                    />
                   </Grid>
                 </Grid>
               </CardActions>

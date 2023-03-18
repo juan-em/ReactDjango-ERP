@@ -32,34 +32,85 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 import Detalles from "./detalles";
-import "./index.css";
 
 import { alpha } from "@mui/material/styles";
+import { formateoFecha, deleteRemisionDetalle } from "../../../services/compras";
+import Swal from "sweetalert2";
+
+
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Remisiones = ({ item, open, setOpen }) => {
+const Remisiones = ({
+  itemView, 
+  remisiones, 
+  setRemisiones,
+  render,
+  renderizar,
+  setRenderizar, }) => {
   const [openModal, setOpenModal] = useState(false);
-  const [detalle, setDetalle] = useState();
-  const [variante, setVariante] = useState([]);
-  const handleOpenPost = () => {
-    setOpenModal(true);
-    setDetalle(item.producto_detalle);
-  };
+  
   const handleClickOpen = () => {
-    setOpen(true);
-    item !== undefined ? setVariante(item) : variante;
+    setOpenModal(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
-    setVariante({});
+    setOpenModal(false);
   };
 
+  const handleDelete = async(remisionId, detalleRemisionId) => {
+    var currentRemision = remisiones.find(item=> item.id == remisionId)
+    var indexCurrentRemision = remisiones.indexOf(currentRemision)
+    try {
+      Swal.fire({
+        title: '¿Desea eliminar la remision?',
+        showDenyButton: true,
+        confirmButtonText: 'SI',
+        denyButtonText: `NO`,
+        customClass: {
+          container: 'my-swal',
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          var res = await deleteRemisionDetalle(detalleRemisionId)
+          if (!res.status) throw res.message
+          if (currentRemision.remision_compra_detalle.length <= 1) {
+            remisiones.splice(indexCurrentRemision, 1)
+          }else {
+            var currentDetalleRemision = currentRemision.remision_compra_detalle.find(item=>item.id == detalleRemisionId)
+            var indexCurrentDetalleRemision = currentRemision.remision_compra_detalle.indexOf(currentDetalleRemision)
+            currentRemision.remision_compra_detalle.splice(indexCurrentDetalleRemision, 1)
+            remisiones.splice(indexCurrentRemision, 1, currentRemision)
+          }
+          setRemisiones([...remisiones])
+          render.current = true
+          setRenderizar(!renderizar)
+
+          Swal.fire({title:'Eliminado', icon:'success',customClass: {
+            container: 'my-swal',
+          }})
+        } 
+      })
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+        customClass: {
+          container: 'my-swal',
+        },
+      });
+    }
+
+  }
+
+  var i = 0
   return (
     <>
+      {itemView.id&&
       <Button
         fullWidth
         color="secondary"
@@ -69,10 +120,10 @@ const Remisiones = ({ item, open, setOpen }) => {
         onClick={handleClickOpen}
       >
         Ver remisiones
-      </Button>
+      </Button>}
       <Dialog
         fullScreen
-        open={open}
+        open={openModal}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
@@ -94,8 +145,7 @@ const Remisiones = ({ item, open, setOpen }) => {
             {/* <AddFormVariantes/> */}
           </Toolbar>
         </AppBar>
-        <DialogContent>
-          <TabContext centered>
+        <DialogContent centered="true">
             <TableContainer component={Paper} sx={{ mt: 0 }} elevation={0}>
               <Table
                 sx={{ minWidth: 650 }}
@@ -130,7 +180,13 @@ const Remisiones = ({ item, open, setOpen }) => {
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Nombre
+                      Código Detalle
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: "#633256", fontFamily: "inherit" }}
+                      align="right"
+                    >
+                      Fecha
                     </TableCell>
                     <TableCell
                       sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -142,13 +198,7 @@ const Remisiones = ({ item, open, setOpen }) => {
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Precio
-                    </TableCell>
-                    <TableCell
-                      sx={{ color: "#633256", fontFamily: "inherit" }}
-                      align="right"
-                    >
-                      Ubicación
+                      Subtotal
                     </TableCell>
                     <TableCell
                       sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -160,56 +210,54 @@ const Remisiones = ({ item, open, setOpen }) => {
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
+                      Trabajador
+                    </TableCell>
+                    <TableCell
+                      sx={{ color: "#633256", fontFamily: "inherit" }}
+                      align="right"
+                    >
                       Acciones
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {variante.length > 0 ? (
-                    variante.map((variante) => (
-                      <TableRow key={1}>
-                        <TableCell component="th" scope="row">
-                          1
-                        </TableCell>
-                        <TableCell align="right">{variante.id}</TableCell>
-                        <TableCell align="right">{variante.nombre}</TableCell>
-                        <TableCell align="right">
-                          {variante.precio_final}
-                        </TableCell>
-                        <TableCell align="right">{variante.color}</TableCell>
-                        <TableCell align="right">{variante.talla}</TableCell>
-                        <TableCell align="right">
-                          <Detalles
-                            item={variante.producto_detalle[0]}
-                            openModal={openModal}
-                            setOpenModal={setOpenModal}
-                          />
-                        </TableCell>
-                        <TableCell align="right" component="th" scope="row">
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            color="success"
-                          >
-                            <EditIcon fontSize="inherit" />
-                          </IconButton>
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            color="error"
-                          >
-                            <DeleteIcon fontSize="inherit" />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))
+                  {remisiones.length > 0 ? (
+                    
+                    remisiones.map((item) =>{return(
+                      item.remision_compra_detalle.map(detalle=>{i++; return(
+                        <TableRow key={i}>
+                          <TableCell component="th" scope="row">
+                            {i}
+                          </TableCell>
+                          <TableCell align="right">{item.codigo}</TableCell>
+                          <TableCell align="right">{detalle.codigo}</TableCell>
+                          <TableCell align="right">{formateoFecha(item.fecha)}</TableCell>
+                          <TableCell align="right"> {detalle.compra_detalle.nombre_articulo}</TableCell>
+                          <TableCell align="right">S/. {detalle.compra_detalle.cantidad*detalle.compra_detalle.precio_unitario}</TableCell>
+                          <TableCell align="right">{detalle.compra_detalle.articulo.almacen?.nombre}</TableCell>
+                          <TableCell align="right">{item.trabajador? item.trabajador.codigo: '-'}</TableCell>
+                          <TableCell align="right" component="th" scope="row">
+
+                            <IconButton
+                              aria-label="delete"
+                              size="small"
+                              color="error"
+                              onClick={()=>handleDelete(item.id, detalle.id)}
+                            >
+                              <DeleteIcon fontSize="inherit" />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    )
+                    )}
+                    )
                   ) : (
                     <>Esta factura no tiene remisiones</>
                   )}
                 </TableBody>
               </Table>
             </TableContainer>
-          </TabContext>
         </DialogContent>
       </Dialog>
       {/* <List
