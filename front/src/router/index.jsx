@@ -35,7 +35,10 @@ import Factura from "../pages/Compras/Facturas";
 import Remisiones from "../pages/Compras/Remisiones";
 import FacturaVentas from "../pages/Ventas/Facturas";
 import RemisionesVentas from "../pages/Ventas/Remisiones";
-import CajaDiaria from "../pages/Tesoreria/CajaDiaria";
+import Requerimientos from "../pages/Requerimientos/Requerimientos";
+import Servicios from "../pages/Servicios/Servicios";
+import CajaDiaria from "../pages/Tesorería/CajaDiaria";
+import Bien from "../pages/Servicios/Bien";
 
 // LAYOUTS
 
@@ -69,6 +72,9 @@ const Router = () => {
               {/* Produccion */}
               <Route path="/produccion/produccion" element={<Produccion />} />
 
+              {/* Tesoreria */}
+              <Route path="/tesoreria/cajadiaria" element={<CajaDiaria />} />
+
               {/* Otros */}
               <Route path="/mantenimientos/provincias" element={<Provincias />} />
               <Route path="/mantenimientos/categorias" element={<Categorias />} />
@@ -90,8 +96,12 @@ const Router = () => {
               <Route path="/compras/facturas" element={<Factura />} />
               <Route path="/compras/remisiones" element={<Remisiones />} />
 
-              {/* Caja Diaria */}
-              <Route path="/tesoreria/cajadiaria" element={<CajaDiaria />} />
+              {/* Servicios */}
+              <Route path="/servicios/servicios" element={<Servicios />} />
+              <Route path="/servicios/bien" element={<Bien/>} />
+
+              {/* Requerimientos */}
+              <Route path="/requerimientos/requerimientos" element={<Requerimientos />} />
 
             </Route>
           </Route>

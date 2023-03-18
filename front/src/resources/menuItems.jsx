@@ -29,6 +29,8 @@ import EngineeringIcon from '@mui/icons-material/Engineering';
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 import ClassIcon from '@mui/icons-material/Class';
 import CropIcon from '@mui/icons-material/Crop';
+import RequestPageIcon from '@mui/icons-material/RequestPage';
+import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 
 export const menuItems = [
     { url: "/", icon: <HomeIcon/>, name: "Inicio",
@@ -71,6 +73,10 @@ export const menuItems = [
         {name:'Cat. Artículos',icon: <AutoAwesomeMosaicIcon/>,url:'/mantenimientos/categorias'},
         {name:'Cat. Productos',icon: <ClassIcon/>,url:'/mantenimientos/categoriasproductos'},]},
 
-    { url: "#Setvicios", icon: <PrecisionManufacturingIcon/>, name: "Servicios",
-    item:[{name:'Servicios',icon: <ElectricalServicesIcon/>,url:'#cliente'}] },
+    { url: "#Servicios", icon: <PrecisionManufacturingIcon/>, name: "Servicios",
+    item:[{name:'Ord. Servicios',icon: <ElectricalServicesIcon/>,url:'/servicios/servicios'},
+    {name:'Ord. Bien',icon: <ElectricalServicesIcon/>,url:'/servicios/bien'},]},
+
+    { url: "#Requerimientos", icon: <RequestPageIcon />, name: "Requerimientos",
+    item:[{name:'Requerimientos',icon: <HomeRepairServiceIcon/>,url:'/requerimientos/requerimientos'}] },
 ];

@@ -1,7 +1,7 @@
 import "./index.css";
 import "../../../fonts/poppins.ttf";
 import { alpha } from "@mui/material/styles";
-
+import Radio from "@mui/material/Radio";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -17,79 +17,68 @@ import {
   Grid,
   TextField,
   Button,
+  FormControl,
   Accordion,
+  FormControlLabel,
+  FormLabel,
   AccordionSummary,
+  RadioGroup,
   AccordionDetails,
   Box,
-  Autocomplete
+  Autocomplete,
 } from "@mui/material";
-
-//Componentes pra el input de fecha
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
 
-import { useRef } from "react";
-import VerFactura from "./verfactura";
-import { getProveedores } from "../../../services/Proveedores";
 import AddForm from "./addform";
+import { useRef } from "react";
+import VerRequerimiento from "./verrequerimiento";
+import Notificaciones from "./notificaciones";
 
-const Factura = () => {
+const Requerimientos = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
-  const [itemView, setItemView] = useState({"remision":[]});
+  const [itemView, setItemView] = useState({});
 
-  //Renderizacion de tabla y buscador
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
-
-  //Autocomplete
-  const [proveedores, setProveedores] = useState([])
-  
-  
-  //para el input de fecha
-  const [value, setValue] = useState();
-  
-
-  const handlerSearcher = (e, val) => {
-    if (e.$d) {
-      setValue(e);
-      var fecha = new Date(e.$d)
-      var offsetPeru = -5; 
-      var fechaPeru = new Date(fecha.getTime() + offsetPeru * 60 * 60 * 1000);
-      var fechaConvertida = fechaPeru.toISOString().slice(0, 10);
-      fields.fecha = fechaConvertida
-    } else {
-      const { name, value } = e.target;
-      setFields({ ...fields, [name]: value });
-    }
-    val && setFields({...fields, ...val})
+  const handlerSearcher = (e) => {
+    const { name, value } = e.target;
+    setFields({ ...fields, [name]: value });
   };
   const handleClean = () => {
     searchform.reset();
   };
+  const top100Films = [
+    { label: 'Logistica'},
+    { label: 'Marketing'},
+    { label: 'Aministración'},
+    { label: 'Mantenimiento'},
+  ];
 
-  useEffect(()=>{
-    getProveedores(setProveedores)
-  },[])
+  const top101Films = [
+    { label: 'No Iniciado'},
+    { label: 'Aprobado'},
+    { label: 'En proceso'},
+    { label: 'Denegado'},
 
+  ];
 
   return (
     <section>
-      <div className="container">
+      <div className="container" style={{ marginTop: '30px'}}>
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={12} xl={4}>
+            <Notificaciones/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={5} xl={3}>
             <Paper
               elevation={10}
               className="paper"
               sx={{
-                mt: 4,
                 p: 0,
                 backgroundColor: alpha("#8D4C32", 0.2),
                 "&:hover": {
@@ -103,74 +92,69 @@ const Factura = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Factura (Compras)
+                  Buscar requerimientos
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
-                    <TextField
+                    <Autocomplete
                       fullWidth
-                      label="Código"
+                     
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="codigo"
+                      name="nombre"
                       id="textfields"
-                      variant="filled"
                       onChange={handlerSearcher}
+                      disablePortal
+                      options={top100Films}
+                      renderInput={(params) => <TextField {...params} variant="filled" label="Área" margin="dense" color="secondary" fullWidth />}
+                  
                     />
                     <Autocomplete
-                      disablePortal
-                      options={proveedores || []}
-                      getOptionLabel = {(option) => {
-                        if (option.persona) return option.persona.nombre 
-                        if (option.empresa) return option.empresa.nombre
-                        return ''
-                      }}
-                      size="small"
-                      id="textfields"
-                      variant="filled"
-                      renderInput={(params) => 
-                        <TextField 
-                          {...params} 
-                          label="Proveedor" 
-                          margin="dense" 
-                          color="secondary"
-                          variant="filled"
-                          fullWidth />}
-                      onChange={(e, value) => handlerSearcher(e, {"proveedor": value})}
-                    />
-                    
-                    <TextField
                       fullWidth
-                      label="N° de factura"
-                      type="number"
+
+                      type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="numero_factura"
+                      name="nombre"
                       id="textfields"
-                      variant="filled"
                       onChange={handlerSearcher}
+                      disablePortal
+                      options={top101Films}
+                      renderInput={(params) => <TextField {...params} variant="filled" label="Estado" margin="dense" color="secondary" fullWidth />}
+
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Fecha"
-                        inputFormat="DD/MM/YYYY"
-                        value={value}
-                        name="fecha"
+                    <FormControl margin="dense">
+                      <FormLabel
+                        id="demo-row-radio-buttons-group-label"
+                        color="secondary"
+                      >
+                        Tipo
+                      </FormLabel>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-row-radio-buttons-group-label"
+                        name="radio"
                         onChange={handlerSearcher}
-                        renderInput={(params) => <TextField 
-                          {...params}
-                          fullWidth
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          margin="dense"
-                          variant="filled"
-                          />}
+                      >
+                        <FormControlLabel                        
+                          labelPlacement="start"
+                          value="bien"
+                          control={<Radio color="secondary" />}
+                          label="Bien"
                         />
-                      </LocalizationProvider>
+                        <FormControlLabel
+                          labelPlacement="start"
+                          value="servicio"
+                          control={<Radio color="secondary" />}
+                          label="Servicio"
+                        />
+                       
+                      </RadioGroup>
+                    </FormControl>
+                   
                     
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
@@ -192,24 +176,21 @@ const Factura = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={7}>
-            <VerFactura 
-              itemView={itemView} 
+          <Grid item xs={12} sm={12} md={6} xl={4}>
+            <VerRequerimiento itemView={itemView} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={1} xl={1} sx={{ mt: 4 }}>
+            <AddForm
               render={render}
               renderizar={renderizar}
               setRenderizar={setRenderizar}
-              />
+              openModal={openModal}
+              setOpenModal={setOpenModal}
+              item={item}
+              setItem={setItem}
+            />
           </Grid>
         </Grid>
-        <AddForm 
-          item={item}
-          setItem={setItem}
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-        />
         <Box sx={{ overflow: "auto" }}>
           <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
             <Tabla
@@ -220,7 +201,6 @@ const Factura = () => {
               setOpenModal={setOpenModal}
               setItem={setItem}
               setItemView={setItemView}
-              itemView={itemView}
             />
           </Box>
         </Box>
@@ -228,4 +208,4 @@ const Factura = () => {
     </section>
   );
 };
-export default Factura;
+export default Requerimientos;
