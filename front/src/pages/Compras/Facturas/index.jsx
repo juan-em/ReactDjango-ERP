@@ -61,8 +61,10 @@ const Factura = () => {
     if (e.$d) {
       setValue(e);
       var fecha = new Date(e.$d)
-      fecha = fecha.toISOString()
-      fields.fecha = fecha
+      var offsetPeru = -5; 
+      var fechaPeru = new Date(fecha.getTime() + offsetPeru * 60 * 60 * 1000);
+      var fechaConvertida = fechaPeru.toISOString().slice(0, 10);
+      fields.fecha = fechaConvertida
     } else {
       const { name, value } = e.target;
       setFields({ ...fields, [name]: value });
