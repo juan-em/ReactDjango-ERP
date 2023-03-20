@@ -37,6 +37,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import VerProduccion from "./verproduccion";
 import Estados from "./estados";
+import Notificaciones from "./notificaciones";
 
 const Produccion = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -74,15 +75,17 @@ const Produccion = () => {
   return (
     <section>
       <div>
-        <Grid container spacing={4}>
+        <Grid container spacing={4} style={{ marginTop: '10px'}}>
         
-          <Grid item xs={12} sm={12} md={5}>
+        <Grid item xs={12} sm={12} md={12} xl={3}>
+          <Notificaciones/>
+        </Grid>
+          <Grid item xs={12} sm={12} md={5} xl={4}>
             
             <Paper
               elevation={10}
               className="paper"
               sx={{
-                mt: 3,
                 p: 0,
                 backgroundColor: alpha("#8D4C32", 0.2),
                 "&:hover": {
@@ -197,11 +200,11 @@ const Produccion = () => {
             </Paper>
             
           </Grid>
-          <Grid item xs={12} sm={12} md={6}>
+          <Grid item xs={12} sm={12} md={6} xl={4}>
             <VerProduccion itemView={itemView}/>
           </Grid>
           
-          <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
+          <Grid item xs={12} sm={12} md={1} sx={{ mt: 0 }}>
             <AddForm
               render={render}
               renderizar={renderizar}
