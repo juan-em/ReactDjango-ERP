@@ -82,7 +82,6 @@ const VerProduccion = (itemView) => {
         elevation={10}
         className="paper"
         sx={{
-          mt: 3,
           p: 0,
           backgroundColor: alpha("#633256", 0.2),
           "&:hover": {

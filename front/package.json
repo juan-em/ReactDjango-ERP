@@ -22,6 +22,7 @@
     "axios": "^1.3.2",
     "dayjs": "^1.11.7",
     "formik": "^2.2.9",
+    "internals": "^0.0.2",
     "jquery": "^3.6.3",
     "moment": "^2.29.4",
     "parse-nested-form-data": "^1.0.0",

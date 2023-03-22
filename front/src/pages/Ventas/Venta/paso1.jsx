@@ -134,10 +134,11 @@ const Paso1 = ({ state, dispatch }) => {
             <Grid item xs={12} sm={12} md={3}>
               <TextField
                 fullWidth
-                // label={"IDENTIFICACION CLIENTE"}
+                label={"Código Cliente"}
+                focused
                 type="text"
                 size="small"
-                color="secondary"
+                color="action"
                 margin="dense"
                 id="textfields"
                 disable="true"
@@ -152,10 +153,11 @@ const Paso1 = ({ state, dispatch }) => {
             <Grid item xs={12} sm={12} md={3}>
               <TextField
                 fullWidth
-                // label={"IDENTIFICACION CLIENTE"}
+                label={"Identificación"}
                 type="number"
                 size="small"
-                color="secondary"
+                focused
+                color="action"
                 margin="dense"
                 id="textfields"
                 disable="true"
