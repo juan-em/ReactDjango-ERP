@@ -79,17 +79,6 @@ const Registro = ({ openModal, setOpenModal}) => {
                 
             <Box maxWidth={'md'} sx={{ position: 'absolute', top: '50%', left: '50%', backgroundColor:'white' , transform: 'translate(-50%, -50%)', p:3}}>
             <h2 id="parent-modal-title">Caja Diaria</h2>
-            <IconButton
-              fullWidth
-              id="textfields"
-              color="secondary"
-              variant="contained"
-              type="reset"
-              value="limpiar"
-              onClick={handleClean}
-            >
-              <CleaningServicesIcon/>
-            </IconButton>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -212,7 +201,7 @@ const Registro = ({ openModal, setOpenModal}) => {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
-                      <Card variant="outlined">
+                      <Card variant="outlined" sx={{px:3}}>
                         <Grid container spacing={2}>
                           <Grid item xs={12} sm={12} md={6}>
                             <FormControl margin="dense">

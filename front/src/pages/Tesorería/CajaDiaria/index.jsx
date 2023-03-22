@@ -97,7 +97,7 @@ const CajaDiaria = () => {
                     variant="contained"
                     sx={{ m:1}}
                   >
-                    Abrir Caja
+                    Abrir/Cerrar Caja
                   </Button>
                 </Grid>
               </Grid>
