@@ -59,8 +59,6 @@ class ArticulosView(APIView):
         return Response(context)
 
     def post(self, request):
-        # print(request.data)
-        # print(querydict_to_dict(request.data))
         try:
             serializer = ArticuloSerializer(data=querydict_to_dict(request.data))
             serializer.is_valid(raise_exception=True)

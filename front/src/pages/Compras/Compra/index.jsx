@@ -3,7 +3,7 @@ import { useState, Fragment, useReducer } from "react";
 import "./index.css";
 
 import { Paper, Grid, Button, Alert, AlertTitle } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 //Componentes
 
 import Box from "@mui/material/Box";
@@ -23,6 +23,8 @@ import { RegistroComnpra, BuildCompraPayload } from "../../../services/compras";
 import Swal from "sweetalert2";
 
 const Compra = () => {
+  const navigate = useNavigate();
+
   //Registration's Fuctionality
   const [state, dispatch] = useReducer(comprasReducer, INITIAL_STATE);
 
@@ -158,6 +160,7 @@ const Compra = () => {
                         id="textfields"
                         color="secondary"
                         fullWidth
+                        onClick={()=>navigate("/compras/facturas")}
                       >
                         Ver facturas
                       </Button>

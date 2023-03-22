@@ -7,6 +7,7 @@ urlpatterns = [
     path('<int:id>/', ComprasDetailView.as_view()),
 
     path('remisiones/', RemisionesView.as_view()),
-    path('remisiones_detalles/<int:id>/', RemisionDetailView.as_view()),
-    path('entrada_almacen/<int:id>/', RemisionDetailView.as_view()),
+    path('remisiones/<int:id>/', RemisionDetailView.as_view()),
+    path('remisiones_detalles/<int:id>/', RemisionDetalleDetailView.as_view()),
+    path('entrada_almacen/<int:id>/', EntradasAlmacenComprasSerializer.as_view()),
 ]

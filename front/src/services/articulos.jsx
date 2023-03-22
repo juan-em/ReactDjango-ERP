@@ -6,7 +6,7 @@ export const searcher = (fields, list) => {
     let resultData = list;
     resultData = fields.codigo
         ? resultData.filter((item) =>
-            item.id === fields.codigo
+            item.id == fields.codigo
             )
         : resultData;
     resultData = fields.nombre

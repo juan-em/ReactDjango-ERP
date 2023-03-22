@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DescriptionIcon from '@mui/icons-material/Description';
 import Button from "@mui/material/MenuItem";
 
@@ -25,6 +26,9 @@ import {
 } from "../../../services/mantenimiento";
 import AddForm from "../Remisiones/addform";
 
+import { getCompras, formateoFecha, deleteCompra, searcherFacturas } from "../../../services/compras";
+import Swal from "sweetalert2";
+
 export const Tabla = ({
   fields,
   render,
@@ -33,18 +37,14 @@ export const Tabla = ({
   setOpenModal,
   setItem,
   setItemView,
+  itemView,
 }) => {
 
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
-  const [provincias, setProvincias] = useState([]);
-  useEffect(() => {
-    if (render.current) {
-      render.current = false;
-      get(setProvincias, URL);
-    }
-  }, [renderizar]);
+  
+  const [facturaCompras, setFacturaCompras] = useState([]);
+  
 
-  let data = searcherprov(fields, provincias);
+  let data = searcherFacturas(fields, facturaCompras);
 
   const handlePut = (row) => {
     setItem(row);
@@ -54,18 +54,39 @@ export const Tabla = ({
   const handleView = (row) => {
     setItemView(row);
   };
-
-  const handleDelete = async (id) => {
+  
+  const handleActiveDeactive = async (row) => {
     try {
-      let res = await del(id, URL);
-      render.current = true;
-      setRenderizar(!renderizar);
-      return res;
+      Swal.fire({
+        title: row?.borrado?'¿Desea activar la orden de compra?':'¿Desea anular la orden de compra?',
+        showDenyButton: true,
+        confirmButtonText: 'SI',
+        denyButtonText: `NO`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteCompra(row.id)
+          Swal.fire(row?.borrado?'Orden de Compra Activada':'Orden de Compra Anulada'
+          , '', 'info')
+          render.current = true;
+          setRenderizar(!renderizar);
+        } 
+      })
+      
     } catch (error) {
-      return error;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
     }
   };
 
+  useEffect(() => {
+    if (render.current) {
+      render.current = false;
+      getCompras(setFacturaCompras)
+    }
+  }, [renderizar]);
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -103,7 +124,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Fecha
+              Fecha de Compra
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -115,7 +136,13 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              N° de artículos
+              Remisión
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Estado
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -131,11 +158,12 @@ export const Tabla = ({
               <TableCell component="th" scope="row">
                 {i + 1}
               </TableCell>
-              <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
+              <TableCell align="right">{row.codigo}</TableCell>
+              <TableCell align="right">{row.numero_factura?row.numero_factura:"-"}</TableCell>
+              <TableCell align="right">{formateoFecha(row.fecha)}</TableCell>
+              <TableCell align="right">{row.nombre_proveedor}</TableCell>
+              <TableCell align="right">{row.estado_remision}</TableCell>
+              <TableCell align="right">{row.borrado?"Anulado":"Vigente"}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"
@@ -146,6 +174,7 @@ export const Tabla = ({
                   <VisibilityIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton
+                  disabled={row?.borrado?true:false}
                   onClick={() => handlePut(row)}
                   aria-label="delete"
                   size="small"
@@ -153,17 +182,27 @@ export const Tabla = ({
                 >
                   <EditIcon fontSize="inherit" />
                 </IconButton>
+                
                 <IconButton
-                  onClick={() => handleDelete(row.id)}
+                  disabled={row?.estado_remision=="-"|| row?.estado_remision=="Por Hacer" ? false : true}
+                  onClick={() => handleActiveDeactive(row)}
                   aria-label="delete"
                   size="small"
-                  color="error"
+                  color={row?.borrado?'success':'error'}
                 >
-                  <DeleteIcon fontSize="inherit" />
+                  {row.borrado?<CheckCircleIcon fontSize="inherit" />:<DeleteIcon fontSize="inherit"/>}
                 </IconButton>
 
-                <AddForm/>
-                
+                <AddForm 
+                  itemView={itemView}
+                  setItemView={setItemView}
+                  row={row}
+                  idCompra={row.id} 
+                  detalle_compra={row.detalle_compra}
+                  renderizar={renderizar}
+                  setRenderizar={setRenderizar}
+                  render={render}
+                />
               </TableCell>
             </TableRow>
           ))}
