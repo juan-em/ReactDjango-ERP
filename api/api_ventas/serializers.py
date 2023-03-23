@@ -48,3 +48,19 @@ class SalidaAlmacen(serializers.ModelSerializer):
     class Meta:
         model = SalidaVenta
         fields = '__all__'
+
+class DetalleVentaSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = Detalle_punto_venta
+        fields = '__all__'
+        
+class SesionVentaSerializer(WritableNestedModelSerializer):
+    class Meta:
+        models = Sesion_venta
+        fields = '__all__'
+
+class PuntoVentaSerializer(WritableNestedModelSerializer):
+    class Meta:
+        model = Punto_venta
+        fields = '__all__'
+

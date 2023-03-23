@@ -21,12 +21,21 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 import SearcherProductos from "./searcher";
-import { ACTION_TYPES } from "./reducerVenta";
+import { ACTION_TYPES, ACTION_PUNTO_VENTA_TYPES } from "./reducerVenta";
 import Table from "./table";
 import { searcher } from "../../../services/ventas";
-import {  get } from "../../../services/producto";
+import { get } from "../../../services/producto";
 
-const Paso2 = ({ state, dispatch }) => {
+const Paso2 = ({
+  state,
+  dispatch,
+  sesionIniciada,
+  setSesionIniciada,
+  stateSesion,
+  dispatchSesion,
+  statePuntoVenta,
+  dispatchPuntoVenta,
+}) => {
   //para la cuenta
   const handleAdd = (item) => {
     //building the payload
@@ -38,21 +47,26 @@ const Paso2 = ({ state, dispatch }) => {
       precio_unitario: item.precio_final,
     };
     var action = {
-      type: ACTION_TYPES.ADD_DETALLE,
+      type: !sesionIniciada
+        ? ACTION_TYPES.ADD_DETALLE
+        : ACTION_PUNTO_VENTA_TYPES.ADD_DETALLE_PUNTO_VENTA,
       payload,
     };
-    dispatch(action);
+    !sesionIniciada ? dispatch(action) : dispatchPuntoVenta(action);
+    console.log(action);
   };
 
   const handleRemove = (item) => {
     let payload = {
-      articulo: item.id,
+      producto: item.id,
     };
     var action = {
-      type: ACTION_TYPES.LOW_DETALLE,
+      type: !sesionIniciada
+        ? ACTION_TYPES.LOW_DETALLE
+        : ACTION_PUNTO_VENTA_TYPES.LOW_DETALLE_PUNTO_VENTA,
       payload,
     };
-    dispatch(action);
+    !sesionIniciada ? dispatch(action) : dispatchPuntoVenta(action);
   };
 
   //para el buscador de productos
@@ -67,6 +81,7 @@ const Paso2 = ({ state, dispatch }) => {
     }
   }, []);
   let data = searcher(fields, productos);
+  console.log(data)
 
   return (
     <>
@@ -91,8 +106,8 @@ const Paso2 = ({ state, dispatch }) => {
                       >
                         <CardHeader
                           title={
-                            <Typography fontFamily={"inherit"}>+
-                              {item.producto + "/" + item.nombre}
+                            <Typography fontFamily={"inherit"}>
+                              +{item.producto + "/" + item.nombre}
                             </Typography>
                           }
                           subheader={
@@ -138,7 +153,14 @@ const Paso2 = ({ state, dispatch }) => {
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={5} minWidth="400px">
                 {/* From tabla.jsx */}
-                <Table state={state} dispatch={dispatch} />
+                <Table
+                  state={state}
+                  dispatch={dispatch}
+                  sesionIniciada={sesionIniciada}
+                  setSesionIniciada={setSesionIniciada}
+                  statePuntoVenta={statePuntoVenta}
+                  dispatchPuntoVenta={dispatchPuntoVenta}
+                />
               </Grid>
             </Grid>
           </Paper>
