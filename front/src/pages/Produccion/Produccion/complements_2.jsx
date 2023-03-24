@@ -5,27 +5,20 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import {TableRow , Button} from "@mui/material";
+import TableRow from "@mui/material/TableRow";
 
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import MenuItem from "@mui/material/MenuItem";
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
+import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 import { useState, useEffect } from "react";
-import {
-  get,
-  searcherprov,
-  post_put,
-  del,
-} from "../../../services/mantenimiento";
-import AddForm from "./addform";
 
-export const Tabla = ({
+export const Tabla_2 = ({
   fields,
   render,
   renderizar,
@@ -34,16 +27,16 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
-  const [provincias, setProvincias] = useState([]);
+  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
+  const [categoria, setCategoria] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setProvincias, URL);
+      get(setCategoria, URL);
     }
   }, [renderizar]);
 
-  let data = searcherprov(fields, provincias);
+  let data = searcher(fields, categoria);
 
   const handlePut = (row) => {
     setItem(row);
@@ -90,37 +83,37 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Código
+              N° de producción
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Tipo de Bien
+              N° de factura
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              N° de productos
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Fecha Inicio
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Fecha Fin
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
               Estado
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Cotización
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Propuesta Técnica
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Propuesta Económica
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -137,43 +130,25 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right" >
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                  "&:hover": {
-                    backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                  }, }} 
-                 size="small">
-                  <span>Ver</span>
-                </Button>
-              </TableCell>
-              <TableCell align="right" >
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                  "&:hover": {
-                    backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                  }, }} 
-                 size="small">
-                  <span>Ver</span>
-                </Button>
-              </TableCell>
-              <TableCell align="right" >
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                  "&:hover": {
-                    backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                  }, }} 
-                 size="small">
-                  <span>Ver</span>
-                </Button>
-              </TableCell>
+              <TableCell align="right">{row.nombre}</TableCell>
+              <TableCell align="right">1000</TableCell>
+              <TableCell align="right">00/00/2023</TableCell>
+              <TableCell align="right">00/00/2023</TableCell>
+              <TableCell align="right">estado</TableCell>
               <TableCell align="right" component="th" scope="row">
+                <IconButton aria-label="delete" size="small" color="primary">
+                  <VisibilityIcon
+                    fontSize="inherit"
+                    onClick={() => handleView(row)}
+                  />
+                </IconButton>
                 <IconButton
+                  onClick={() => handlePut(row)}
                   aria-label="delete"
                   size="small"
-                  color="primary"
-                  onClick={() => handleView(row)}
+                  color="success"
                 >
-                  <VisibilityIcon fontSize="inherit" />
+                  <EditIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton
                   onClick={() => handleDelete(row.id)}
@@ -183,9 +158,6 @@ export const Tabla = ({
                 >
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
-
-                  <AddForm/>
-
               </TableCell>
             </TableRow>
           ))}
