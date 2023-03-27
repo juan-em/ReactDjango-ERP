@@ -1,5 +1,5 @@
 import { alpha } from "@mui/material/styles";
-import { useState, Fragment, useReducer } from "react";
+import { useState, Fragment, useReducer, useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -45,7 +45,9 @@ import {
   RegistroVenta,
   BuildVentaPayload,
   BuildPuntoVentaPayload,
+  BuildSesionVentaPayload,
   RegistroPuntoVenta,
+  AxiosSesionVenta
 } from "../../../services/ventas";
 
 import SeleccionVenta from "../PuntoVenta";
@@ -138,29 +140,71 @@ const Venta = () => {
     }
   };
 
+  // const setTotal = () => {
+  //   let suma = 0
+  //   stateSesion.sesion_venta.punto_venta.forEach((i)=>suma += i.precio_total)
+  //   let payload = suma
+  //   let action = {
+  //     type: ACTION_SESION_TYPES.SET_MONTO_FINAL,
+  //     payload
+  //   } 
+  //   dispatchSesion(action)
+  // }
+
+  // const setHoraFinal = () => {
+  //   let event = new Date();
+  //   let date = JSON.stringify(event);
+  //   date = date.slice(1, -1);
+  //   let payload = date;
+  //   let action = {
+  //     type:ACTION_SESION_TYPES.SET_HORA_FIN,
+  //     payload
+  //   }
+  //   dispatchSesion(action);  
+  //   console.log("horafin",stateSesion)  
+  // }
+  console.log("fuera",stateSesion)
+
   const handleRegisterPuntoVenta = () => {
-    var payload = BuildPuntoVentaPayload(statePuntoVenta.punto_venta);
-    console.log(payload);
-    var action = {
+    let event = new Date();
+    let date = JSON.stringify(event);
+    date = date.slice(1, -1);
+    dispatchSesion({
+      type: ACTION_SESION_TYPES.SET_HORA_FIN,
+      payload: date
+    });
+
+    let suma = 0
+    stateSesion.sesion_venta.punto_venta.forEach((i)=>suma += i.precio_total)
+    dispatchSesion({
+      type: ACTION_SESION_TYPES.SET_MONTO_FINAL,
+      payload: suma
+    });
+
+    dispatchSesion({
       type: ACTION_SESION_TYPES.ADD_PUNTO_VENTA,
-      payload,
-    };
-    dispatchSesion(action);
-    console.log(action);
+      payload: BuildPuntoVentaPayload(statePuntoVenta.punto_venta)
+    });
     handleNext();
   };
-  console.log(stateSesion);
-  console.log(statePuntoVenta);
-  console.log(state);
+
   const closeSesion = () => {
-    console.log(stateSesion.sesion_venta);
+    console.log(stateSesion);
+    console.log(statePuntoVenta);
     if (
-      Reflect.has(stateSesion.sesion_venta.responsable) &&
       stateSesion.sesion_venta.punto_venta.length
     ) {
-      var payload = BuildVentaPayload(stateSesion.sesion_venta);
-      // RegistroVenta(payload);
-      handleNext();
+      console.log(stateSesion.sesion_venta)
+      // console.log(BuildSesionVentaPayload(stateSesion.sesion_venta))
+      var payload = stateSesion.sesion_venta;
+      AxiosSesionVenta(payload);
+
+      Swal.fire({
+        icon: "success",
+        title: "Sesion de Venta Cerrada",
+        text: "La secion de Venta se cerro correctamente",
+      });
+      setSesionIniciada(false)
     } else {
       Swal.fire({
         icon: "error",
@@ -169,6 +213,7 @@ const Venta = () => {
       });
     }
   };
+
 
   return (
     <section>

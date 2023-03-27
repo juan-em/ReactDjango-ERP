@@ -44,7 +44,7 @@ const FormSesion = ({
         break;
 
       case ACTION_SESION_TYPES.SET_MONTO_INICIAL:
-        action.payload = e.target.value;
+        action.payload = parseFloat(e.target.value);
         dispatchSesion(action);
         break;
 

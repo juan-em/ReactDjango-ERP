@@ -39,8 +39,8 @@ export const BuildVentaPayload =(venta)=>{
     return venta
 }
 
-export const SesionVenta = (payload) => {
-    axios.post("http://localhost:8080/api/ventas/sesion/",payload)
+export const AxiosSesionVenta = (payload) => {
+    axios.post("http://localhost:8000/api/ventas/sesion/",payload)
         .then(res=>{console.log(res.data)})
         .catch(err=>{console.log(err)})
 }
@@ -52,7 +52,8 @@ export const RegistroPuntoVenta = (payload) => {
 }
 
 export const BuildPuntoVentaPayload = (punto_venta) => {
-    // punto_venta.cliente = punto_venta.cliente.id
+    console.log(punto_venta)
+    punto_venta.cliente = punto_venta.cliente.id
     punto_venta.detalle_punto_venta.forEach(item => {
         delete item.nombre
     })
@@ -62,7 +63,8 @@ export const BuildPuntoVentaPayload = (punto_venta) => {
 export const BuildSesionVentaPayload = (sesion_venta) => {
     // sesion_venta.responsable = sesion_venta.responsable.id
     sesion_venta.punto_venta.forEach(item => {
-        delete item.nombre
+        console.log(item)
+        item.cliente = item.cliente.id 
     })
-    return punto_venta
+    return sesion_venta
 }

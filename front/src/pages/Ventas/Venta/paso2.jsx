@@ -37,7 +37,9 @@ const Paso2 = ({
   dispatchPuntoVenta,
 }) => {
   //para la cuenta
+  const [click, setClick] = useState(0)
   const handleAdd = (item) => {
+    setClick(a => a+1)
     //building the payload
     let payload = {
       nombre: `${item.producto}/${item.nombre}`,
@@ -57,6 +59,7 @@ const Paso2 = ({
   };
 
   const handleRemove = (item) => {
+    setClick(a => a-1)
     let payload = {
       producto: item.id,
     };
@@ -160,6 +163,7 @@ const Paso2 = ({
                   setSesionIniciada={setSesionIniciada}
                   statePuntoVenta={statePuntoVenta}
                   dispatchPuntoVenta={dispatchPuntoVenta}
+                  click={click}
                 />
               </Grid>
             </Grid>

@@ -24,16 +24,37 @@ const Table = ({
   setSesionIniciada,
   statePuntoVenta,
   dispatchPuntoVenta,
+  click
 }) => {
   const [rowIndex, setRowIndex] = useState(-1);
   const [columnIndex, setColumnIndex] = useState(-1);
+  const [totalPuntoVenta, setTotalPuntoVenta] = useState(0);
+  const [totalVenta, setTotalVenta] = useState(0);
   const rows = !sesionIniciada
     ? state.venta.detalle_venta
     : statePuntoVenta.punto_venta.detalle_punto_venta;
   const handleChange = (i, prop, value) => {
     rows[i][prop] = parseInt(value, 10);
   };
-  console.log(rows);
+
+  const setTotal = () => {
+    if (!sesionIniciada) {
+      let payload = getTotal(state.venta.detalle_venta);
+      var action = {
+        type: ACTION_TYPES.SET_TOTAL,
+        payload,
+      };
+      dispatch(action);
+    } else {
+      let payload = getTotalPuntoVenta(statePuntoVenta.punto_venta.detalle_punto_venta);
+      var action = {
+        type: ACTION_PUNTO_VENTA_TYPES.SET_PRECIO_TOTAL,
+        payload,
+      };
+      dispatchPuntoVenta(action);
+    }
+  };
+
   const handleExit = () => {
     setRowIndex(-1);
     setColumnIndex(-1);
@@ -52,6 +73,16 @@ const Table = ({
     console.log(action);
     !sesionIniciada ? dispatch(action) : dispatchPuntoVenta(action);
   };
+
+  useEffect(() => {
+    !sesionIniciada
+      ? setTotalVenta(getTotal(state.venta.detalle_venta))
+      : setTotalPuntoVenta(
+          getTotalPuntoVenta(statePuntoVenta.punto_venta.detalle_punto_venta)
+        );
+
+    setTotal()
+  },[click]);
 
   return (
     <List sx={{ overflow: "scroll" }}>
@@ -227,7 +258,9 @@ const Table = ({
               S/.{" "}
               {!sesionIniciada
                 ? getTotal(state.venta.detalle_venta)
-                : getTotalPuntoVenta(statePuntoVenta.punto_venta.detalle_punto_venta)}
+                : getTotalPuntoVenta(
+                    statePuntoVenta.punto_venta.detalle_punto_venta
+                  )}
             </Typography>
           </Grid>
         </Grid>
@@ -259,10 +292,7 @@ const Table = ({
           </Grid>
           <Grid item xs>
             <Typography align="right" sx={{ fontFamily: "inherit" }}>
-              S/.{" "}
-              {!sesionIniciada
-                ? getTotal(state.venta.detalle_venta)
-                : getTotalPuntoVenta(statePuntoVenta.punto_venta.detalle_punto_venta)}
+              S/. {!sesionIniciada ? totalVenta : totalPuntoVenta}
             </Typography>
           </Grid>
         </Grid>

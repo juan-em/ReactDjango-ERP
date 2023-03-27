@@ -444,7 +444,7 @@ class Venta(models.Model):
     total = models.FloatField(default=0, null=True)
     descuento = models.FloatField(default=0, null=True)
     def __str__(self):
-        return 'C-'+str(self.pk)
+        return 'V-'+str(self.pk)
 
     @property
     def nombre_cliente(self):
@@ -484,25 +484,46 @@ class Remision_venta_detalle(models.Model):
 #### Punto de Venta
 
 class Sesion_venta(models.Model):
-    fecha = models.DateTimeField(auto_now_add=True)
+    fecha = models.DateTimeField(null=True)
     monto_inicial = models.FloatField(default=0, null=True)
     responsable = models.CharField(max_length=100)
     # trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True)
-    hora_fin = models.DateTimeField()
+    hora_fin = models.DateTimeField(null=True)
     monto_final = models.FloatField(default=0, null=True)
+    
+    def __str__(self):
+        return 'SVM-'+str(self.pk)
+
 
 class Punto_venta(models.Model):
     sesion_venta = models.ForeignKey(Sesion_venta, on_delete=models.CASCADE, related_name='punto_venta')
     fecha = models.DateTimeField(auto_now=True)
     precio_total = models.FloatField(default=0)
     cliente = models.ForeignKey(Clientes, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return 'PV-'+str(self.pk)
+
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'VNCLIE-'+'0'*(10-len(id))+id
+    
+    def nombre_cliente(self):
+        if self.cliente.persona:
+            return f'{self.cliente.persona.nombre}'
+        else:
+            return f'{self.cliente.empresa.nombre}'
     
 class Detalle_punto_venta(models.Model):
-    punto_venta = models.ForeignKey(Punto_venta, on_delete=models.CASCADE, related_name='detalle_venta')
+    punto_venta = models.ForeignKey(Punto_venta, on_delete=models.CASCADE, related_name='detalle_punto_venta')
     Producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True)
     cantidad = models.PositiveIntegerField(default=0)
     precio_unitario = models.FloatField(default=0)
 
+    def __str__(self):
+        return 'PV-'+str(self.punto_venta.pk)+'-D'+str(self.pk)
+    
 
 #################################################################
 #----------------------- ENTRADA ALMACEN -----------------------#

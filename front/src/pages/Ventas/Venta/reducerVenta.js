@@ -19,7 +19,7 @@ export const INITIAL_STATE = {
     venta: {
         fecha:setInitialDate(),
         cliente:{persona:{nombre:""}},
-        total:0,
+        total:0.0,
         detalle_venta:[]
     }
 }
@@ -135,14 +135,6 @@ export const INITIAL_SESION_STATE = {
 
 export const sesionVentaReducer = (state, action) => {
     switch(action.type) {
-        // case ACTION_SESION_TYPES.SET_ESTADO:
-        //     return  {
-        //         ...state,
-        //         sesion_veta:{
-        //             ...state.sesion_veta,
-        //             estado:action.payload
-        //         }
-        //     }
         case ACTION_SESION_TYPES.SET_FECHA:
             return {
                 ...state,
@@ -176,6 +168,7 @@ export const sesionVentaReducer = (state, action) => {
                 }
             }
         case ACTION_SESION_TYPES.SET_MONTO_FINAL:
+            
             return {
                 ...state,
                 sesion_venta:{
@@ -184,6 +177,11 @@ export const sesionVentaReducer = (state, action) => {
                 }
             }
         case ACTION_SESION_TYPES.ADD_PUNTO_VENTA:
+            // state.sesion_venta.punto_venta.forEach((i)=>{
+            //     let montoInicial = state.sesion_venta.monto_inicial
+            //     console.log(montoInicial + i.detalle_punto_venta)                
+            // })
+            
             return {
                 ...state,
                 sesion_venta:{
@@ -214,6 +212,7 @@ export const sesionVentaReducer = (state, action) => {
 export const ACTION_PUNTO_VENTA_TYPES ={
     SET_FECHA: "SET_FECHA",
     SET_CLIENTE:"SET_CLIENTE",
+    SET_PRECIO_TOTAL:"SET_PRECIO_TOTAL",
     ADD_DETALLE_PUNTO_VENTA: "ADD_DETALLE_PUNTO_VENTA",
     LOW_DETALLE_PUNTO_VENTA: "LOW_DETALLE_PUNTO_VENTA",
     REMOVE_DETALLE_PUNTO_VENTA: "REMOVE_DETALLE_PUNTO_VENTA",
@@ -223,6 +222,7 @@ export const ACTION_PUNTO_VENTA_TYPES ={
 export const INITIAL_PUNTO_VENTA_STATE = {
     punto_venta:{
         fecha:setInitialDate(),
+        precio_total:0.0,
         cliente:{persona:{nombre:""}},
         detalle_punto_venta:[]
     }
@@ -254,6 +254,14 @@ export const puntoVentasReducer = (state, action) => {
                 punto_venta:{
                     ...state.punto_venta,
                     cliente:action.payload
+                }
+            }
+        case ACTION_PUNTO_VENTA_TYPES.SET_PRECIO_TOTAL:
+            return {
+                ...state,
+                punto_venta:{
+                    ...state.punto_venta,
+                    precio_total:action.payload
                 }
             }
         case ACTION_PUNTO_VENTA_TYPES.ADD_DETALLE_PUNTO_VENTA:

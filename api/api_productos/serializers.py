@@ -94,9 +94,10 @@ class Producto_varianteSerializer(WritableNestedModelSerializer):
             'costo_manufactura':instance.costo_manufactura,
             'gastos_generales':instance.gastos_generales,
             'precio_final':operacion,
-            'producto': instance.producto.id,
+            'producto': instance.producto.nombre,
             'imagen': "http://localhost:8000"+instance.producto.imagen.url,
-            'producto_detalle' : ser_detalle.data
+            'producto_detalle' : ser_detalle.data,
+            'producto_id':instance.producto.id
             
         }
 
