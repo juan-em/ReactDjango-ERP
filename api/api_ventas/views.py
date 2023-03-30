@@ -66,8 +66,8 @@ class VentasDetailView(APIView):
 
 class Sesion_ventaView(APIView):
     def get(self, request):
-        data = Sesion_venta.objects.all()
-        serializer = SesionVentaSerializer(data, many=True)
+        sesion_data = Sesion_venta.objects.all()
+        serializer = SesionVentaSerializer(sesion_data, many=True)
         context = {
            'status': True,
             'content': serializer.data

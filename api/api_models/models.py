@@ -499,7 +499,7 @@ class Punto_venta(models.Model):
     sesion_venta = models.ForeignKey(Sesion_venta, on_delete=models.CASCADE, related_name='punto_venta')
     fecha = models.DateTimeField(auto_now=True)
     precio_total = models.FloatField(default=0)
-    cliente = models.ForeignKey(Clientes, on_delete=models.SET_NULL, null=True)
+    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return 'PV-'+str(self.pk)
@@ -509,6 +509,7 @@ class Punto_venta(models.Model):
         id = str(self.pk)
         return 'VNCLIE-'+'0'*(10-len(id))+id
     
+    @property
     def nombre_cliente(self):
         if self.cliente.persona:
             return f'{self.cliente.persona.nombre}'
@@ -517,7 +518,7 @@ class Punto_venta(models.Model):
     
 class Detalle_punto_venta(models.Model):
     punto_venta = models.ForeignKey(Punto_venta, on_delete=models.CASCADE, related_name='detalle_punto_venta')
-    Producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, null=True)
+    producto = models.ForeignKey(Producto_variante, on_delete=models.CASCADE, null=True)
     cantidad = models.PositiveIntegerField(default=0)
     precio_unitario = models.FloatField(default=0)
 
