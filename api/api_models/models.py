@@ -29,16 +29,42 @@ def upload_toCom(instance, filename):
 
 # USER AUTHENTICATION
 class Profile_User(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile_User.objects.create(user=instance)
+    NINGUNO = "Ninguno"
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile_user.save()
+    LOGISTICA = "Logística"
+
+    TRABAJADOR = "Trabajador"
+    GERENTE = "Gerente"
+
+    AREAS = [
+        (NINGUNO, "Ninguno"),
+        (LOGISTICA, "Logística"),
+    ]
+
+    ROLES = [
+        (NINGUNO, "Ninguno"),
+        (TRABAJADOR, "Trabajador"),
+        (GERENTE, "Gerente")
+    ]
+ 
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile_user")
+    rol = models.CharField(max_length=100, choices=ROLES, default=NINGUNO)
+    area = models.CharField(max_length=50, choices=AREAS, default=NINGUNO)
+    fecha_registro = models.DateField(auto_now_add=True)
+    fecha_ultima_modificacion = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return "Usuario:{}, Rol:{}, Area:{}",format(self.profile_user.username, self.rol, self.area)
+
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Profile_User.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.profile_user.save()
         
 ############################################################
 # MODELOS DE MANTENIMIENTO
@@ -390,10 +416,11 @@ class Compra(models.Model):
     fecha = models.DateTimeField(null=True)
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
-    detalle_entrega = models.TextField(null=True, blank=True)
-    totalCompra = models.FloatField(default=0, null=True)
+    detalle_entrega = models.TextField(default='-', null=True, blank=True)
     imagen_fac_compra = models.ImageField( _("Image") ,upload_to=upload_toCom,default='blancos.png', blank=True)
     descuento = models.FloatField(default=0, null=True)
+    numero_factura = models.TextField(default='-', null=True, blank=True)
+    borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return 'C-'+str(self.pk)
 
@@ -403,6 +430,35 @@ class Compra(models.Model):
             return f'{self.proveedor.persona.nombre}'
         else:
             return f'{self.proveedor.empresa.nombre}'
+    
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'C-'+'0'*(5-len(id))+id
+
+    @property
+    def estado_remision (self):
+        if self.borrado == True:
+            return "-"
+        detallesCompra = CompraDetalle.objects.filter(compra=self.id)
+        cant = 0
+        for item in detallesCompra:
+            if item.remision_hecha == False:
+                cant += 1
+        if cant == len(detallesCompra):
+            return "Por Hacer"
+        elif cant == 0:
+            return "Hecha"
+        else:
+            return "Incompleta"
+
+    @property
+    def totalCompra (self):
+        total = 0
+        detallesCompra = CompraDetalle.objects.filter(compra=self.id)
+        for item in detallesCompra:
+            total += item.cantidad * item.precio_unitario
+        return total
 
 
 class CompraDetalle(models.Model):
@@ -417,22 +473,44 @@ class CompraDetalle(models.Model):
     def __str__(self):
         return 'C-'+str(self.compra.pk)+'-D'+str(self.pk)
 
+    @property
+    def nombre_articulo(self):
+        return self.articulo.articulo.nombre+'/'+self.articulo.nombre
+
 class RemisionCompra(models.Model):
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE, related_name='remision_compra')
-    
+    fecha = models.DateTimeField(auto_now_add=True)
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
+
 
     def __str__(self):
         return 'RC-'+str(self.pk)
 
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'RC-'+'0'*(5-len(id))+id
+
+    @property
+    def totalRemision(self):
+        total = 0
+        detallesRemision = RemisionDetalleCompra.objects.filter(remision_compra=self.id)
+        for item in detallesRemision:
+            total += item.compra_detalle.cantidad * item.compra_detalle.precio_unitario
+        return total
+        
+
 class RemisionDetalleCompra(models.Model):
     remision_compra = models.ForeignKey(RemisionCompra, on_delete=models.CASCADE, related_name='remision_compra_detalle')
     compra_detalle = models.ForeignKey(CompraDetalle, on_delete=models.CASCADE, null=True)
-    fecha = models.DateField(auto_now_add=True)
-    trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
-
+    
     def __str__(self):
         return 'RCD-'+str(self.pk)
     
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'RDC-'+'0'*(5-len(id))+id
 ###########################################################
 #----------------------- VENTAS -----------------------#
 ###########################################################

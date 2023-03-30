@@ -46,19 +46,27 @@ const Remisiones = () => {
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
   const handlerSearcher = (e) => {
-    const { name, value } = e.target;
-    setFields({ ...fields, [name]: value });
+    if (e.$d) {
+      setValue(e);
+      var fecha = new Date(e.$d)
+      var offsetPeru = -5; 
+      var fechaPeru = new Date(fecha.getTime() + offsetPeru * 60 * 60 * 1000);
+      var fechaConvertida = fechaPeru.toISOString().slice(0, 10);
+      fields.fecha = fechaConvertida
+    } else {
+      const { name, value } = e.target;
+      setFields({ ...fields, [name]: value });
+    }
   };
+
   const handleClean = () => {
     searchform.reset();
   };
-    //para el input de fecha
-    const [value, setValue] = useState(dayjs(new Date()));
 
-    const handleChange = (newValue) => {
-        setValue(newValue);
-    };
-  
+  //para el input de fecha
+  const [value, setValue] = useState(dayjs(new Date()));
+
+  //console.log(fields,"=================================")
     
   return (
     <section>
@@ -90,11 +98,23 @@ const Remisiones = () => {
                   <TextField
                       fullWidth
                       label="Codigo"
-                      type="text"
+                      type="number"
                       size="small"
                       color="secondary"
                       margin="dense"
                       name="codigo"
+                      variant="filled"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Código Orden de Compra"
+                      type="number"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="compra"
                       variant="filled"
                       id="textfields"
                       onChange={handlerSearcher}
@@ -106,7 +126,7 @@ const Remisiones = () => {
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="proveedor"
                       variant="filled"
                       id="textfields"
                       onChange={handlerSearcher}
@@ -114,23 +134,11 @@ const Remisiones = () => {
                      <TextField
                       fullWidth
                       label="N° de factura"
-                      type="text"
+                      type="number"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
-                      id="textfields"
-                      variant="filled"
-                      onChange={handlerSearcher}
-                    />
-                      <TextField
-                      fullWidth
-                      label="RUC"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="ruc"
+                      name="numero_factura"
                       id="textfields"
                       variant="filled"
                       onChange={handlerSearcher}
@@ -140,7 +148,7 @@ const Remisiones = () => {
                         label="Fecha"
                         inputFormat="DD/MM/YYYY"
                         value={value}
-                        onChange={handleChange}
+                        onChange={handlerSearcher}
                         renderInput={(params) => <TextField 
                           {...params} 
                           fullWidth
