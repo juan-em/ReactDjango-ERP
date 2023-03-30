@@ -38,3 +38,33 @@ export const BuildVentaPayload =(venta)=>{
     })
     return venta
 }
+
+export const AxiosSesionVenta = (payload) => {
+    axios.post("http://localhost:8000/api/ventas/sesion/",payload)
+        .then(res=>{console.log(res.data)})
+        .catch(err=>{console.log(err)})
+}
+
+export const RegistroPuntoVenta = (payload) => {
+    axios.post("http://localhost:8000/api/ventas/puntoventa/",payload)
+        .then(res=>{console.log(res.data)})
+        .catch(err=>{console.log(err)})
+}
+
+export const BuildPuntoVentaPayload = (punto_venta) => {
+    console.log(punto_venta)
+    punto_venta.cliente = punto_venta.cliente.id
+    punto_venta.detalle_punto_venta.forEach(item => {
+        delete item.nombre
+    })
+    return punto_venta
+}
+
+export const BuildSesionVentaPayload = (sesion_venta) => {
+    // sesion_venta.responsable = sesion_venta.responsable.id
+    sesion_venta.punto_venta.forEach(item => {
+        console.log(item)
+        item.cliente = item.cliente.id 
+    })
+    return sesion_venta
+}

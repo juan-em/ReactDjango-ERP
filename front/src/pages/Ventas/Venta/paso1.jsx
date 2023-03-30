@@ -10,37 +10,69 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 
-import { ACTION_TYPES } from "./reducerVenta";
+import { ACTION_TYPES, ACTION_PUNTO_VENTA_TYPES } from "./reducerVenta";
 import { useEffect, useRef } from "react";
 import { getClientes } from "../../../services/clientes";
 
-const Paso1 = ({ state, dispatch }) => {
+const Paso1 = ({
+  state,
+  dispatch,
+  sesionIniciada,
+  setSesionIniciada,
+  statePuntoVenta,
+  dispatchPuntoVenta,
+}) => {
   const render = useRef(true);
   const [dataClientes, setDataClientes] = useState([]);
-
+  console.log(sesionIniciada);
 
   const handleChange = (e, value, ac) => {
     let action = {
       type: ac,
     };
-    switch (ac) {
-      case ACTION_TYPES.SET_FECHA:
-        var event = new Date(e.$d);
-        let date = JSON.stringify(event);
-        date = date.slice(1, -1);
-        action.payload = date;
-        dispatch(action);
-        break;
 
-      case ACTION_TYPES.SET_CLIENTE:
-        if (value.id) {
-          action.payload = value;
+    if (sesionIniciada) {
+      console.log("sesion Iniciada");
+      switch (ac) {
+        case ACTION_PUNTO_VENTA_TYPES.SET_FECHA:
+          var event = new Date(e.$d);
+          let date = JSON.stringify(event);
+          date = date.slice(1, -1);
+          action.payload = date;
+          dispatchPuntoVenta(action);
+          break;
+
+        case ACTION_PUNTO_VENTA_TYPES.SET_CLIENTE:
+          if (value.id) {
+            action.payload = value;
+            dispatchPuntoVenta(action);
+          }
+          break;
+        default:
+          console.log("Acción no definida");
+      }
+    } else {
+      console.log("sesion no Iniciada");
+      switch (ac) {
+        case ACTION_TYPES.SET_FECHA:
+          var event = new Date(e.$d);
+          let date = JSON.stringify(event);
+          date = date.slice(1, -1);
+          action.payload = date;
           dispatch(action);
-        }
-        break;
-      default:
-        console.log("Acción no definida");
+          break;
+
+        case ACTION_TYPES.SET_CLIENTE:
+          if (value.id) {
+            action.payload = value;
+            dispatch(action);
+          }
+          break;
+        default:
+          console.log("Acción no definida");
+      }
     }
+    console.log(action);
   };
 
   useEffect(() => {
@@ -48,6 +80,7 @@ const Paso1 = ({ state, dispatch }) => {
       render.current = false;
       getClientes(setDataClientes);
     }
+    console.log(dataClientes)
   }, []);
 
   return (
@@ -62,13 +95,24 @@ const Paso1 = ({ state, dispatch }) => {
                     disableClearable
                     options={dataClientes}
                     getOptionLabel={(option) => {
+                      // console.log(option)
                       if (option.persona) return option.persona.nombre;
                       return option.empresa.nombre;
                     }}
                     onChange={(e, value) => {
-                      handleChange(e, value, ACTION_TYPES.SET_CLIENTE);
+                      handleChange(
+                        e,
+                        value,
+                        !sesionIniciada
+                          ? ACTION_TYPES.SET_CLIENTE
+                          : ACTION_PUNTO_VENTA_TYPES.SET_CLIENTE
+                      );
                     }}
-                    value={state.venta.cliente}
+                    value={
+                      !sesionIniciada
+                        ? state.venta.cliente
+                        : statePuntoVenta.punto_venta.cliente
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -113,7 +157,11 @@ const Paso1 = ({ state, dispatch }) => {
                   label="Fecha"
                   name="fecha"
                   inputFormat="DD/MM/YYYY"
-                  value={state.venta.fecha}
+                  value={
+                    !sesionIniciada
+                      ? state.venta.fecha
+                      : statePuntoVenta.punto_venta.fecha
+                  }
                   onChange={(value) => {
                     handleChange(value, null, ACTION_TYPES.SET_FECHA);
                   }}
@@ -144,9 +192,9 @@ const Paso1 = ({ state, dispatch }) => {
                 disable="true"
                 variant="filled"
                 value={
-                  state.venta.cliente
+                  !sesionIniciada
                     ? state.venta.cliente.codigo
-                    : state.venta.cliente.codigo
+                    : statePuntoVenta.punto_venta.cliente.codigo
                 }
               />
             </Grid>
@@ -163,9 +211,13 @@ const Paso1 = ({ state, dispatch }) => {
                 disable="true"
                 variant="filled"
                 value={
-                  state.venta.cliente.persona
-                    ? state.venta.cliente.persona.dni
-                    : state.venta.cliente.empresa.ruc
+                  !sesionIniciada
+                    ? state.venta.cliente.persona
+                      ? state.venta.cliente.persona.dni
+                      : state.venta.cliente.empresa.ruc
+                    : statePuntoVenta.punto_venta.cliente.persona
+                      ? statePuntoVenta.punto_venta.cliente.persona.dni
+                      : statePuntoVenta.punto_venta.cliente.empresa.ruc
                 }
               />
             </Grid>

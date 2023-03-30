@@ -18,7 +18,8 @@ import {
 
 import { Field, FieldArray, Formik } from "formik";
 
-import { post, put, artget } from "../../../services/producto";
+import { postVar, putVar, artget } from "../../../services/producto";
+import { get } from "../../../services/mantenimiento";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -33,6 +34,7 @@ const AddVariante = ({
   const [art, setArt] = useState([]);
   const [vArt, setVArt] = useState([]);
   const [filterVarianteArt, setFilterVarianteArt] = useState([]);
+  const [almacenes, setAlmacenes] = useState([]);
 
   const handleOpen = () => {
     setOpenModalVariante(true);
@@ -43,26 +45,31 @@ const AddVariante = ({
   };
 
   const InSub = async (val) => {
+    val["producto"] = id;
+    console.log(val);
     try {
-    //   URL = "http://localhost:8000/api/productos/prodvar/";
-      !variante.id ? await post(val, 'http://localhost:8000/api/productos/prodvar/') : await put(val, `http://localhost:8000/api/productos/prodvar/${id}/`);
-      Swal.fire({
-        icon: "success",
-        title: "Ok",
-        text: "Se registro el impuesto",
-      });
+      if(!variante.id){
+        await postVar(val)
+        variante.push()
+      } else {
+        await put(`http://localhost:8000/api/productos/prodvar/${id}/`, val);
+      }
+      
+      // Swal.fire({
+      //   icon: "success",
+      //   title: "Ok",
+      //   text: "Se registro el impuesto",
+      // });
       if (variante.id) setVariante({});
-      setRenderizar(!renderizar);
-      render.current = true;
     } catch (error) {
       console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${error}`,
-      });
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops...",
+      //   text: `${error}`,
+      // });
     }
-    setOpenModal(false);
+    setOpenModalVariante(false);
   };
 
   const varianteHandleChange = (event, newValue) => {
@@ -74,9 +81,12 @@ const AddVariante = ({
   useEffect(() => {
     const URLA = "http://localhost:8000/api/articulos/";
     const URLAV = "http://localhost:8000/api/articulos/variantes/";
+    const URL_AL = "http://localhost:8000/api/mantenimientos/almacenes/";
     artget(setArt, URLA);
     artget(setVArt, URLAV);
+    get(setAlmacenes, URL_AL);
   }, []);
+  console.log(variante);
 
   return (
     <>
@@ -148,6 +158,29 @@ const AddVariante = ({
                       onChange={handleChange}
                       value={values.talla}
                     />
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                    >
+                      <InputLabel>Almacenes</InputLabel>
+                      <Select
+                        label="Almacenes"
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        name={'almacen'}
+                        value={values.almacenes}
+                        onChange={handleChange}
+                      >
+                        {almacenes.map((item, i) => (
+                          <MenuItem key={i} value={item.id}>
+                            {item.nombre}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
                     <TextField
@@ -292,6 +325,7 @@ const AddVariante = ({
                                   fullWidth
                                   label="Cantidad"
                                   required
+                                  type="number"
                                   size="small"
                                   color="secondary"
                                   id="textfields"
