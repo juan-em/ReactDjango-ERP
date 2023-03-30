@@ -30,6 +30,7 @@ const Productos = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
+  const [fullProduct, setFullProduct] = useState({})
 
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
@@ -151,7 +152,7 @@ const Productos = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <Ver itemView={itemView}/>
+            <Ver itemView={itemView} setFullProduct={setFullProduct} fullProduct={fullProduct} />
           </Grid>
           <Grid item xs={12} sm={12} md={1} sx={{ mt: 4 }}>
             <AddForm
@@ -174,6 +175,7 @@ const Productos = () => {
           setOpenModal={setOpenModal}
           setItem={setItem}
           setItemView={setItemView}
+          setFullProduct={setFullProduct}
         />
       </div>
     </section>

@@ -44,7 +44,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Variante = ({ item, prodid, open, setOpen }) => {
+const Variante = ({ item, itemId, prodid, open, setOpen }) => {
   const [openModalVariante, setOpenModalVariante] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [detalle, setDetalle] = useState();
@@ -59,7 +59,7 @@ const Variante = ({ item, prodid, open, setOpen }) => {
   // };
   const handleClickOpen = () => {
     setOpen(true);
-    item !== undefined ? setVariante(item) : variante;
+    // item !== undefined ? setVariante(item) : variante;
   };
 
   const handlePutVariante = (row) => {
@@ -109,7 +109,7 @@ const Variante = ({ item, prodid, open, setOpen }) => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Variantes
             </Typography>
-            <AddVariante variante={variante} setVariante={setVariante} id={prodid} openModalVariante={openModalVariante} setOpenModalVariante={setOpenModalVariante} />
+            <AddVariante item={item} itemId={itemId} variante={variante} setVariante={setVariante} id={prodid} openModalVariante={openModalVariante} setOpenModalVariante={setOpenModalVariante} />
           </Toolbar>
         </AppBar>
         <DialogContent>
@@ -198,7 +198,7 @@ const Variante = ({ item, prodid, open, setOpen }) => {
                         <TableCell align="right">{vari.talla}</TableCell>
                         <TableCell align="right">
                           <Detalles
-                            item={vari.producto_detalle[0]}
+                            item={vari.producto_detalle}
                             openModal={openModal}
                             setOpenModal={setOpenModal}
                           />

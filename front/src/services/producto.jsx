@@ -28,7 +28,8 @@ export const postProd = async (data) => {
 
 export const putProd = async (data, id) => {
   try {
-    const response = await axios.put(`${URL}${id}/`, data);
+    const response = await axios.patch(`${URL}${id}/`, data);
+    console.log(response)
     return response.data;
   } catch (error) {
     console.log(error);
@@ -82,18 +83,19 @@ export const get = async (set, url) => {
   }
 }
 
-export const post = async (data, url) => {
+export const postVar = async (data) => {
   try {
-    const response = await axios.post('http://localhost:8000/api/productos/variantes/', data);
+    console.log(data)
+    const response = await axios.post("http://localhost:8000/api/productos/variantes/",data);
     return response.data;
   } catch (error) {
     console.log(error);
     return error;
   }
 }
-export const put = async (data, url) => {
+export const putVar = async (url, data) => {
   try {
-    const response = await axios.put(data, url);
+    const response = await axios.patch(url, data);
     return response.data;
   } catch (error) {
     console.log(error);

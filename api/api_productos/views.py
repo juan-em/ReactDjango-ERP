@@ -55,7 +55,6 @@ def parse_querydict(query_dict):
                     if part not in current:
                         current[part] = {}
                     current = current[part]
-    print(result)
     return result
 
 # @permission_classes([IsAuthenticated])
@@ -71,9 +70,6 @@ class ProductoView(APIView):
         return Response(context)
 
     def post(self, request, format=None):
-        # print('nested')
-        print(request.data)
-        print(parse_querydict(request.data))
         serializer = ProductoSerializer(data = parse_querydict(request.data))
         if serializer.is_valid():
             serializer.save()
@@ -110,25 +106,25 @@ class ProductoDetailView(APIView):
             }
         return Response(context)
     
-    def put(self, request, id):
-        try:            
-            dataProducto = Producto.objects.filter(borrado=False).get(pk=id)
-            serializer = ProductoSerializer(dataProducto, data=parse_querydict(request.data), partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                context = {
-                    'data':'OK',
-                    'status':status.HTTP_201_CREATED,
-                    'content':serializer.data
-                }
-                return Response(context)
-        except Exception as Error:
-            print(Error)
-            return Response({
-                'status': False,
-                'content': 'Error',
-                'message': 'Internal server error'
-            }) 
+    def patch(self, request, id):
+        print(request.data)
+        data = Producto.objects.filter(borrado=False).get(id=id)
+        serializer = ProductoSerializer(data, data= request.data,
+                                              partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            context = {
+                'status':True,
+                'content':serializer.data,
+                'status':status.HTTP_202_ACCEPTED
+            }
+        else:
+            context = {
+                'status':False,
+                'message':'serialize error',
+                'status':status.HTTP_400_BAD_REQUEST
+            }
+        return Response(context)
 
     
     def delete(self, request, id):
@@ -146,7 +142,7 @@ class ProductoDetailView(APIView):
 class Producto_varianteView(APIView):
     def get(self, request):
         dataProductoVariante = Producto_variante.objects.filter(borrado=False)
-        serializer = PVSerializer(dataProductoVariante, many=True)
+        serializer = Producto_varianteSerializer(dataProductoVariante, many=True)
         context = {
             'status':True,
             'content':serializer.data
@@ -155,7 +151,7 @@ class Producto_varianteView(APIView):
 
     def post(self, request):
         try:
-            serializer = ProductoSerializer(data=request.data)
+            serializer = Producto_varianteSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 context = {
@@ -168,7 +164,7 @@ class Producto_varianteView(APIView):
         except Exception as Error:
             print(Error)
             return Response({
-                'status': False,
+                'status': status.HTTP_400_BAD_REQUEST,
                 'content': 'Error',
                 'message': 'Internal server error'
             }) 
@@ -176,7 +172,24 @@ class Producto_varianteView(APIView):
 # @permission_classes([IsAuthenticated])
 class Producto_varianteDetailView(APIView):
 
-    def put(self, request, id):
+    def post(self, request, id):
+        dataProducto_variante = Producto_variante.objects.filter(borrado=False).get(pk=id)
+        serializer = Producto_varianteSerializer(dataProducto_variante, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            context = {
+                'status':status.HTTP_201_CREATED,
+                'content':serializer.data
+            }    
+            return Response(context)
+        else:
+            context = {
+                'data':'ERROR',
+                'status':status.HTTP_400_BAD_REQUEST
+            }
+            return Response(context)
+
+    def patch(self, request, id):
         dataProducto_variante = Producto_variante.objects.filter(borrado=False).get(pk=id)
         serializer = Producto_varianteSerializer(dataProducto_variante, data=request.data, partial=True)
         if serializer.is_valid():
@@ -228,7 +241,7 @@ class Producto_detallelView(APIView):
 # @permission_classes([IsAuthenticated])
 class Producto_detalleDetailView(APIView):
 
-    def put(self, request, id):
+    def patch(self, request, id):
         dataProducto_detalle = Producto_detalle.objects.filter(borrado=False).get(pk=id)
         serializer = Producto_detalleSerializer(dataProducto_detalle, data=request.data, partial=True)
         if serializer.is_valid():
@@ -240,7 +253,8 @@ class Producto_detalleDetailView(APIView):
             return Response(context)
         else:
             context = {
-                'data':'ERROR',
+                'status':False,
+                'message':'serialize error',
                 'status':status.HTTP_400_BAD_REQUEST
             }
             return Response(context)
