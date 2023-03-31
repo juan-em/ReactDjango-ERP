@@ -1,5 +1,4 @@
 import "./index.css";
-import "../../fonts/poppins.ttf";
 
 import {
   Paper,
@@ -21,6 +20,11 @@ import {
 import Radio from "@mui/material/Radio";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { alpha } from "@mui/material/styles";
+//Componentes pra el input de fecha
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 //Componentes
 import { useState, useRef, useEffect } from "react";
@@ -83,7 +87,7 @@ const Trabajadores = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Cliente
+                  Buscar trabajador
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
@@ -99,19 +103,7 @@ const Trabajadores = () => {
                       variant="filled"
                       onChange={handlerSearcher}
                     />
-                    <TextField
-                      fullWidth
-                      label="RUC/DNI"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      id="textfields"
-                      name="dni"
-                      variant="filled"
-                      onChange={handlerSearcher}
-                    />
-                    <TextField
+                      <TextField
                       fullWidth
                       label="Nombre"
                       type="text"
@@ -125,85 +117,36 @@ const Trabajadores = () => {
                     />
                     <TextField
                       fullWidth
-                      label="Teléfono"
+                      label="DNI"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
                       id="textfields"
-                      name="telefono"
+                      name="dni"
                       variant="filled"
                       onChange={handlerSearcher}
                     />
-                    <FormControl
-                      fullWidth
-                      margin="dense"
-                      size="small"
-                      color="secondary"
-                      variant="filled"
-                    >
-                      <InputLabel>Provincia</InputLabel>
-                      <Select
-                        label="Provincia"
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        onChange={handlerSearcher}
-                        defaultValue=""
-                        name="codprovincia"
-                      >
-                        {provincias.map((item, i) => (
-                          <MenuItem key={i} value={item.id}>
-                            {item.nombreprovincia}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <TextField
-                      fullWidth
-                      label="Localidad"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                      name="localidad"
-                      variant="filled"
-                    />
-                    <FormControl margin="dense">
-                      <FormLabel
-                        id="demo-row-radio-buttons-group-label"
-                        color="secondary"
-                      >
-                        Tipo
-                      </FormLabel>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="radio"
-                        onChange={handlerSearcher}
-                      >
-                        <FormControlLabel                        
-                          labelPlacement="start"
-                          value=""
-                          control={<Radio color="secondary" />}
-                          label="all"
-                        />
-                        <FormControlLabel
-                          labelPlacement="start"
-                          value="persona"
-                          control={<Radio color="secondary" />}
-                          label="persona"
-                        />
-                        <FormControlLabel
-                          labelPlacement="start"
-                          value="empresa"
-                          control={<Radio color="secondary" />}
-                          label="empresa"
-                        />
-                      </RadioGroup>
-                    </FormControl>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DesktopDatePicker
+                          label="Fecha de nacimiento"
+                          name="fecha"
+                          inputFormat="DD/MM/YYYY"
+                         
+                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
+                          renderInput={(params) => <TextField 
+                            {...params} 
+                            fullWidth
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            margin="dense"
+                            variant="filled"
+                            />}
+                          />
+                        </LocalizationProvider>
+                  
+              
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button

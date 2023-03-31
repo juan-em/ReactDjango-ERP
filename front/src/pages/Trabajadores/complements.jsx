@@ -11,6 +11,11 @@ import {
   TableRow,
 } from "@mui/material";
 
+import { TabContext } from '@mui/lab';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -102,9 +107,9 @@ export const Tabla = ({
             <TableCell sx={{ color: "#633256" , fontFamily:'inherit' , fontStyle: "italic"}}>Item</TableCell>
             <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Código</TableCell>
             <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Nombre</TableCell>
-            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">RUC</TableCell>
-            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Teléfono</TableCell>
-            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Empresa</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Apellidos</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">DNI</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Telefono</TableCell>
             <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
@@ -120,12 +125,15 @@ export const Tabla = ({
                 {row.persona ? row.persona.nombre : row.empresa.nombre}
               </TableCell>
               <TableCell align="right">
+                {row.persona ? row.persona.nombre : row.empresa.nombre}
+              </TableCell>
+              <TableCell align="right">
                 {row.persona ? row.persona.dni : row.empresa.ruc}
               </TableCell>
               <TableCell align="right">
                 {row.persona ? row.persona.telefono : row.empresa.telefono}
               </TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              
               <TableCell align="right">
                 <IconButton
                   aria-label="delete"

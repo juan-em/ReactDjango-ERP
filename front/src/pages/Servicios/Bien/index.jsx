@@ -30,6 +30,7 @@ import { Tabla } from "./complements";
 import { useRef } from "react";
 import VerBien from "./verbien";
 import Notificaciones from "./notificaciones";
+import VerMayor500 from "./vermayor500";
 
 const Bien = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -140,6 +141,7 @@ const Bien = () => {
             />
           </Box>
         </Box>
+        <VerMayor500/>
       </div>
     </section>
   );

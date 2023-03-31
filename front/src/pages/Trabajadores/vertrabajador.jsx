@@ -34,8 +34,10 @@ import Swal from "sweetalert2";
 const VerTrabajador = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
-    { icon: <FingerprintIcon />, primary: "RUC o DNI", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombres", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Apellidos", secondary: "" },
+    { icon: <FingerprintIcon />, primary: "DNI", secondary: "" },
+    { icon: <FingerprintIcon />, primary: "Fecha de nacimiento", secondary: "" },
     { icon: <DeckIcon />, primary: "Provincia", secondary: "" },
     { icon: <HomeWorkIcon />, primary: "Localidad", secondary: "" },
     { icon: <MyLocationIcon />, primary: "Dirección", secondary: "" },
@@ -44,6 +46,8 @@ const VerTrabajador = ({ itemView }) => {
     { icon: <LocalPhoneIcon />, primary: "Teléfono", secondary: "" },
     { icon: <PhoneAndroidIcon />, primary: "Móvil", secondary: "" },
     { icon: <AttachMoneyIcon />, primary: "Forma de Pago", secondary: "" },
+    { icon: <AttachMoneyIcon />, primary: "Tipo de contrato", secondary: "" },
+    { icon: <AttachMoneyIcon />, primary: "Cargo que ocupa en la empresa", secondary: "" },
   ]);
 
   const seti = () => {
@@ -64,11 +68,21 @@ const VerTrabajador = ({ itemView }) => {
             ...i,
             secondary: itemView.persona ? itemView.persona.nombre : itemView.empresa.nombre,
           };
-        } else if (i.primary === "RUC o DNI") {
+         } else if (i.primary === "Apellidos") {
+            return {
+              ...i,
+              secondary: itemView.persona ? itemView.persona.nombre : itemView.empresa.nombre,
+            };
+        } else if (i.primary === "DNI") {
           return {
             ...i,
             secondary: itemView.persona ? itemView.persona.dni : itemView.empresa.ruc,
           };
+        }else if (i.primary === "Fecha de nacimiento") {
+            return {
+              ...i,
+              secondary: itemView.persona ? itemView.persona.dni : itemView.empresa.ruc,
+            };
         } else if (i.primary === "Provincia") {
           return {
             ...i,
@@ -122,6 +136,18 @@ const VerTrabajador = ({ itemView }) => {
             secondary: itemView.codformapago,
           };
         }
+        else if (i.primary === "Tipo de contrato") {
+          return {
+            ...i,
+            secondary: itemView.codformapago,
+          };
+        }
+        else if (i.primary === "Cargo que ocupa en la empresa") {
+          return {
+            ...i,
+            secondary: itemView.codformapago,
+          };
+        }
       }
     });
     setItemsPer(newItem);
@@ -140,33 +166,36 @@ const VerTrabajador = ({ itemView }) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Cliente seleccionado
+            Trabajador seleccionado
           </AccordionSummary>
           <AccordionDetails>
-            <List
-              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-            >
-              <Grid container spacing={0}>
-                {itemsPer.map((i) => (
-                  <Grid key={i.primary} item xs={12} sm={6} md={6}>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar sx={{ 
-                                backgroundColor: alpha('#633256', 0.20),
-                                '&:hover': {
-                                    backgroundColor: alpha('#633256', 0.25),
-                                }, color:'#633256'
-                                }}>{i.icon}</Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={<span>{i.primary}</span>}
-                        secondary={i.secondary}
-                      />
-                    </ListItem>
+                    <List>
+                      <Grid container spacing={0}>
+                          {itemsPer.map((i) => (
+                            <Grid key={i.primary} item xs={12} sm={6} md={6}>
+                            <ListItem>
+                              <ListItemAvatar>
+                                <Avatar sx={{ 
+                                        backgroundColor: alpha('#633256', 0.20),
+                                        '&:hover': {
+                                            backgroundColor: alpha('#633256', 0.25),
+                                        }, color:'#633256'
+                                        }}>{i.icon}</Avatar>
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary={<span>{i.primary}</span>}
+                                secondary={i.secondary}
+                              />
+                            </ListItem>
+                          </Grid>
+                          ))}
+                        </Grid>
+                    </List>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12} md={12} lg={12}>
+                   
                   </Grid>
-                ))}
-              </Grid>
-            </List>
+                </Grid>
           </AccordionDetails>
         </Accordion>
       </Paper>

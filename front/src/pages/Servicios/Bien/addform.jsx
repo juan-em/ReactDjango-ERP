@@ -10,7 +10,8 @@ import {
   DialogTitle,
   Tab,
   Alert,
-  AlertTitle
+  AlertTitle,
+  Modal,Box
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
 import { DataGrid, renderEditInputCell } from '@mui/x-data-grid';
@@ -53,6 +54,11 @@ const AddForm = ({
     setOpenModal(false)
   }
 
+  //modal
+  const [openmodalAhora, setOpenModalAhora] = useState(false);
+  const handleOpenModalAhora = () => setOpenModalAhora(true);
+  const handleCloseModalAhora = () => setOpenModalAhora(false);
+
   return (
     <>
       <IconButton
@@ -88,10 +94,30 @@ const AddForm = ({
                   variant="contained"
                   type="reset"
                   value="limpiar"
-                  onClick={handlePostPut}
+                  onClick={handleOpenModalAhora}
                 >
                   Generar
                 </Button>
+                <Modal
+                  open={openmodalAhora}
+                  onClose={handleCloseModalAhora}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      bgcolor: 'background.paper',
+                      boxShadow: 24,
+                      p: 1,
+                  }}>
+                    <Alert variant="filled" severity="success" sx={{p:4}}>
+                      Se registró la orden de compra
+                    </Alert>
+                  </Box>
+                </Modal>
               </Grid>
               <Grid item xs={12} sm={12} md={6} xl={6}>
                 <Button
