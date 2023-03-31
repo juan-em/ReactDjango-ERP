@@ -44,14 +44,9 @@ const AddFormVariantes = ({
   };
 
   const artVarSubmit = async (val) => {
-    let {embalaje, almacen} = val
-    var dataToSubmit = {
-      "embalaje":embalaje ? embalaje.id : null, 
-      "almacen":almacen ? almacen.id : null
-    }
-    dataToSubmit = {...val,...dataToSubmit, "articulo":itemView.id};
+    console.log(val)
     try {
-      if (!item.id) {
+      if (!variantes.id) {
         var res = await postArticulosVariantes(dataToSubmit)
         itemView.variantes.push(res.content)
       } else {

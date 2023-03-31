@@ -57,7 +57,8 @@ const AddForm = ({
     setOpenModal(false)
   };
 
-  const artSubmit = async (val) => {    
+  const artSubmit = async (val) => { 
+    console.log(val)   
     let {proveedor, categoria} = val
     let dataToSubmit
     dataToSubmit = {
@@ -72,6 +73,7 @@ const AddForm = ({
       dataToSubmit =  {nombre, descripcion, marca, imagen, ...dataToSubmit}
       typeof dataToSubmit.imagen === 'string' && delete dataToSubmit.imagen
     }
+    console.log(dataToSubmit)
     try {
       var payload = transformObjectToFormData(dataToSubmit)
       !item.id

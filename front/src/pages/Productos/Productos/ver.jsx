@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Paper,
   List,
@@ -14,7 +14,6 @@ import {
   CardContent,
   CardActions,
   Skeleton,
-  Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
@@ -22,12 +21,14 @@ import Variante from "./variantes";
 
 //icons
 import NumbersIcon from "@mui/icons-material/Numbers";
+import DescriptionIcon from '@mui/icons-material/Description';
+import CategoryIcon from '@mui/icons-material/Category';
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Swal from "sweetalert2";
 
-const Ver = ({ itemView }) => {
+const Ver = ({ itemView, setFullProduct, fullProduct }) => {
   const [open, setOpen] = useState(false);
+  console.log(itemView)
 
   return (
     <section>
@@ -51,8 +52,8 @@ const Ver = ({ itemView }) => {
             <Card sx={{ p: 3 }} elevation={0}>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                  {!itemView ? (
-                    <Skeleton variant="rectangular" width={250} height={200} />
+                  {!itemView.id ? (
+                    <Skeleton variant="rectangular" width={350} height={50} />
                   ) : (
                     <img src={itemView.imagen} width={200} height={200} />
                   )}
@@ -67,7 +68,7 @@ const Ver = ({ itemView }) => {
                               <ListItem>
                                 <ListItemAvatar>
                                   <Avatar>
-                                    <NumbersIcon />
+                                  <DriveFileRenameOutlineIcon />
                                   </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
@@ -93,7 +94,7 @@ const Ver = ({ itemView }) => {
                               <ListItem>
                                 <ListItemAvatar>
                                   <Avatar>
-                                    <NumbersIcon />
+                                    <DescriptionIcon />
                                   </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
@@ -106,25 +107,12 @@ const Ver = ({ itemView }) => {
                               <ListItem>
                                 <ListItemAvatar>
                                   <Avatar>
-                                    <NumbersIcon />
+                                    <CategoryIcon />
                                   </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
                                   primary="Categoria"
-                                  secondary={itemView.categoria}
-                                />
-                              </ListItem>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={12} lg={6}>
-                              <ListItem>
-                                <ListItemAvatar>
-                                  <Avatar>
-                                    <NumbersIcon />
-                                  </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                  primary="Almacen"
-                                  secondary={itemView.almacen}
+                                  secondary={itemView.nombre_categoria}
                                 />
                               </ListItem>
                             </Grid>
@@ -141,9 +129,12 @@ const Ver = ({ itemView }) => {
                   <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Variante
                       item={itemView.producto_variante}
+                      itemId={itemView.id}
                       prodid={itemView.id}
                       open={open}
                       setOpen={setOpen}
+                      setFullProduct={setFullProduct}
+                      fullProduct={fullProduct}
                     />
                   </Grid>
                 </Grid>
