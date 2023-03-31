@@ -23,6 +23,7 @@ import {
   post_put,
   del,
 } from "../../../services/mantenimiento";
+import AddForm from "./addform";
 
 export const Tabla = ({
   fields,
@@ -182,6 +183,9 @@ export const Tabla = ({
                 >
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
+
+                  <AddForm/>
+
               </TableCell>
             </TableRow>
           ))}
