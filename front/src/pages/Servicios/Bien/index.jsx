@@ -25,12 +25,11 @@ import {
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
-import { Tabla } from "./complements";
 
 import { useRef } from "react";
-import VerBien from "./verbien";
 import Notificaciones from "./notificaciones";
 import VerMayor500 from "./vermayor500";
+import VerMenor500 from "./vermenor500";
 
 const Bien = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -60,10 +59,10 @@ const Bien = () => {
     <section>
       <div className="container" style={{ marginTop: '30px'}}>
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={12} xl={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <Notificaciones/>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} xl={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <Paper
               elevation={10}
               className="paper"
@@ -125,23 +124,19 @@ const Bien = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6} xl={4}>
-            <VerBien itemView={itemView} />
+
           </Grid>
         </Grid>
-        <Box sx={{ overflow: "auto" }}>
-          <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
-            <Tabla
-              fields={fields}
-              render={render}
-              renderizar={renderizar}
-              setRenderizar={setRenderizar}
-              setOpenModal={setOpenModal}
-              setItem={setItem}
-              setItemView={setItemView}
-            />
-          </Box>
-        </Box>
-        <VerMayor500/>
+      
+        <Grid container spacing={1} sx={{ mt: 0 }}>
+          <Grid item xs={12} sm={12} md={6}>
+            <VerMayor500/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            <VerMenor500/>
+          </Grid>
+        </Grid>
+        
       </div>
     </section>
   );

@@ -39,7 +39,7 @@ import Swal from "sweetalert2";
 import AddForm from "./addform";
 
 
-const VerMayor500 = ({
+const VerMenor500 = ({
 }) => {
   const [openModal, setOpenModal] = useState(false);
 
@@ -60,71 +60,40 @@ const VerMayor500 = ({
       acciones,
       cotizaciones: [
         {
-          cotizaciones_: <div> Cotización 1 
-            <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-            mx:2,
-          "&:hover": {
-            backgroundColor: alpha("#633256", 0.25), color:'#633256'
-          }, }} 
-         size="small">
-          <span>Ver</span>
-        </Button>
-          </div>,
-          propuestas_: <div> Propuesta econónica 1 
-          <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-          mx:2,
-        "&:hover": {
-          backgroundColor: alpha("#633256", 0.25), color:'#633256'
-        }, }} 
-       size="small">
-        <span>Ver</span>
-      </Button>
-        </div>,
-        },
-        {
-          cotizaciones_: <div> Cotización 2 
-            <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-            mx:2,
-          "&:hover": {
-            backgroundColor: alpha("#633256", 0.25), color:'#633256'
-          }, }} 
-         size="small">
-          <span>Ver</span>
-        </Button>
-          </div>,
-          propuestas_: <div> Propuesta econónica 2 
-          <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-          mx:2,
-        "&:hover": {
-          backgroundColor: alpha("#633256", 0.25), color:'#633256'
-        }, }} 
-       size="small">
-        <span>Ver</span>
-      </Button>
-        </div>,
-        },
-        {
-          cotizaciones_: <div> Cotización 3 
-            <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-            mx:2,
-          "&:hover": {
-            backgroundColor: alpha("#633256", 0.25), color:'#633256'
-          }, }} 
-         size="small">
-          <span>Ver</span>
-        </Button>
-          </div>,
-          propuestas_: <div> Propuesta econónica 3 
-          <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-          mx:2,
-        "&:hover": {
-          backgroundColor: alpha("#633256", 0.25), color:'#633256'
-        }, }} 
-       size="small">
-        <span>Ver</span>
-      </Button>
-        </div>,
-        },
+         cotizaciones_:
+            <div> Cotización 1 
+               <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                     mx:2,
+                  "&:hover": {
+                     backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                  }, }} 
+                  size="small">
+                  <span>Ver</span>
+               </Button>
+            </div>,
+         propuestas_tecnicas:
+            <div> Propuesta técnica 1 
+               <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                  mx:2,
+               "&:hover": {
+                  backgroundColor: alpha("#633256", 0.25), color:'#633256'
+               }, }} 
+               size="small">
+               <span>Ver</span>
+               </Button>
+            </div>,
+         propuestas_economicas:
+            <div> Propuesta econónica 1 
+               <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                  mx:2,
+               "&:hover": {
+                  backgroundColor: alpha("#633256", 0.25), color:'#633256'
+               }, }} 
+               size="small">
+               <span>Ver</span>
+               </Button>
+            </div>,
+        }
       ],
     };
   }
@@ -167,6 +136,7 @@ const VerMayor500 = ({
                         }}>
                     <TableRow>
                       <TableCell align="center"> <span>Cotización</span></TableCell>
+                      <TableCell align="center"><span>Propuesta técnica</span></TableCell>
                       <TableCell align="center"><span>Propuesta económica</span></TableCell>
                     </TableRow>
                   </TableHead>
@@ -176,7 +146,8 @@ const VerMayor500 = ({
                         <TableCell component="th" scope="row" align="center">
                           {cotizacionesRow.cotizaciones_}
                         </TableCell>
-                        <TableCell align="center">{cotizacionesRow.propuestas_}</TableCell>
+                        <TableCell align="center">{cotizacionesRow.propuestas_tecnicas}</TableCell>
+                        <TableCell align="center">{cotizacionesRow.propuestas_economicas}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -241,7 +212,7 @@ const VerMayor500 = ({
           },
         }}
       >
-      <span>Ver mayores a 500</span>
+      <span>Ver menores a 500</span>
       </Button>
       <Dialog open={openModal} maxWidth={'xl'}>
         <DialogTitle>
@@ -249,7 +220,7 @@ const VerMayor500 = ({
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            Órdenes de bienes con cotización mayor a 500
+            Órdenes de bienes con cotización menor a 500
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -267,7 +238,7 @@ const VerMayor500 = ({
                           },
                         }}>
                           <TableRow>
-                            <TableCell />
+                            <TableCell/>
                             <TableCell><span>Item</span></TableCell>
                             <TableCell><span>Código</span></TableCell>
                             <TableCell><span>Tipo de bien</span></TableCell>
@@ -318,4 +289,4 @@ const VerMayor500 = ({
   );
 };
 
-export default VerMayor500;
+export default VerMenor500;
