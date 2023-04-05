@@ -112,9 +112,20 @@ const AddForm = ({
                       bgcolor: 'background.paper',
                       boxShadow: 24,
                       p: 1,
+                      borderRadius:2,
                   }}>
-                    <Alert variant="filled" severity="success" sx={{p:4}}>
+
+                    <Alert variant="outlined" severity="success" sx={{p:4}} onTimeUpdate={5000}>
                       Se registró la orden de compra
+                      {/*
+                        Swal.fire({
+                          icon: "success",
+                          title: "Ok",
+                          text: "Se registró la orden de compra",
+                        }).then(function() {
+                          window.location = "/servicios/bien";
+                        })
+                      */}
                     </Alert>
                   </Box>
                 </Modal>
