@@ -63,7 +63,7 @@ export const Tabla = ({
 
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+      <Table size="small" aria-label="a dense table">
         <TableHead
           sx={{
             backgroundColor: alpha("#633256", 0.2),
