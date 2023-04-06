@@ -109,7 +109,7 @@ const Registar = ({ openModal, setOpenModal}) => {
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
             
-            Registrar Requerimeinto de Bien
+            Registrar Requerimiento de Bien
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -128,7 +128,7 @@ const Registar = ({ openModal, setOpenModal}) => {
                         <Grid item xs={12} sm={6} md={6}>
                           <TextField
                             fullWidth
-                            label="Tipo de servicio (Viene al seleccionarlo)"
+                            label="Tipo de bien (Viene al seleccionarlo)"
                             required
                             size="small"
                             color="secondary"
