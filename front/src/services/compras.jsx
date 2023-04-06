@@ -38,6 +38,8 @@ export const BuildCompraPayload =(compra)=>{
     compra.detalle_compra.forEach(item => {
         delete item.nombre
     })
+    // compra.caja = 4
+    // compra.tipo_pago = 1
     return compra
 }
 
