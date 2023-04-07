@@ -39,6 +39,7 @@ const Paso2 = ({
   //para la cuenta
   const [click, setClick] = useState(0)
   const handleAdd = (item) => {
+    console.log(item)
     setClick(a => a+1)
     //building the payload
     let payload = {
@@ -46,7 +47,7 @@ const Paso2 = ({
       producto: item.id,
       unidad: 1,
       cantidad: 1,
-      precio_unitario: item.precio_final,
+      precio_unitario: item.precio_venta,
     };
     var action = {
       type: !sesionIniciada

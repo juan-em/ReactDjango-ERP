@@ -286,13 +286,28 @@ class Producto_variante(models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.SET_NULL, null=True, blank=True)  #ALmacen de Prod Terminado o Almacen Tienda #x
     color = models.CharField(max_length=100, null=True, blank=True, default='-')
     talla = models.CharField(max_length=100, null=True, blank=True, default='-')
-    horas_manufactura=models.IntegerField(default=0)
-    costo_manufactura=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
-    gastos_generales=models.FloatField(validators=[MinValueValidator(0.0)], default=30.0)
-    precio_final = models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
+    # horas_manufactura=models.IntegerField(default=0)
+    # costo_manufactura=models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
+    costo_produccion=models.FloatField(validators=[MinValueValidator(0.0)], default=30.0)
+    # precio_final = models.FloatField(validators=[MinValueValidator(0.0)], default=0.0)
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.producto.nombre +'-'+ self.nombre
+
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'PV-'+'0'*(5-len(id))+id
+    
+    @property
+    def precio_venta(self):
+        suma = 0
+        prodDetalle = Producto_detalle.objects.filter(variante = self.id)
+        # artProd = Articulo.objects.filter(prod)
+        for item in prodDetalle:
+            suma += item.precio + self.costo_produccion
+        return suma
+    
 
 class Producto_detalle(models.Model):
     variante = models.ForeignKey(Producto_variante,related_name='producto_detalle', on_delete=models.CASCADE, null=True)
@@ -301,6 +316,13 @@ class Producto_detalle(models.Model):
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.variante.producto.nombre + "-" + self.variante.nombre + "-" + self.articulo.nombre
+
+    @property
+    def precio(self):
+        suma = 0
+        for item in range(self.cantidad):
+            suma += self.cantidad * self.articulo.precio_unitario
+        return suma
 
 ############################################################
 #FACTURAS
@@ -519,7 +541,7 @@ class Venta(models.Model):
     fecha = models.DateTimeField(null=True)
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
-    total = models.FloatField(default=0, null=True)
+    detalle_entrega = models.TextField(default='-', null=True, blank=True)
     descuento = models.FloatField(default=0, null=True)
     numero_factura = models.TextField(default='-', null=True, blank=True)
     borrado = models.BooleanField(default=False, null=True)
@@ -553,6 +575,14 @@ class Venta(models.Model):
             return "Hecha"
         else:
             return "Incompleta"
+    
+    @property
+    def total (self):
+        total = 0
+        detallesVenta = Venta_detalle.objects.filter(venta=self.id)
+        for item in detallesVenta:
+            total += ((item.cantidad * item.precio_unitario)*0.18)+(item.cantidad * item.precio_unitario)
+        return total
 
 class Venta_detalle(models.Model):
     venta = models.ForeignKey(Venta, on_delete=models.CASCADE,related_name='detalle_venta')
@@ -590,7 +620,8 @@ class Sesion_venta(models.Model):
     responsable = models.CharField(max_length=100)
     # trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True)
     hora_fin = models.DateTimeField(null=True)
-    monto_final = models.FloatField(default=0, null=True)
+    # monto_final = models.FloatField(default=0, null=True)
+    borrado = models.BooleanField(default=False, null=True)
     
     def __str__(self):
         return 'SVM-'+str(self.pk)
@@ -599,13 +630,25 @@ class Sesion_venta(models.Model):
     def codigo(self):
         id = str(self.pk)
         return 'SV-'+'0'*(5-len(id))+id
+    
+    @property
+    def total (self):
+        total = 0
+        puntoVenta = Punto_venta.objects.filter(sesion_venta=self.id)
+        for item in puntoVenta:
+            total += item.total
+        return total
+
+    
 
 
 class Punto_venta(models.Model):
     sesion_venta = models.ForeignKey(Sesion_venta, on_delete=models.CASCADE, related_name='punto_venta')
     fecha = models.DateTimeField(auto_now=True)
-    precio_total = models.FloatField(default=0)
+    detalle_entrega = models.TextField(default='-', null=True, blank=True)
+    # precio_total = models.FloatField(default=0)
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE, null=True)
+    borrado = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return 'PV-'+str(self.pk)
@@ -621,6 +664,18 @@ class Punto_venta(models.Model):
             return f'{self.cliente.persona.nombre}'
         else:
             return f'{self.cliente.empresa.nombre}'
+    
+    @property
+    def estado_remision (self):
+        return "Hecha"
+
+    @property
+    def total (self):
+        total = 0
+        detallePuntoVenta = Detalle_punto_venta.objects.filter(punto_venta=self.id)
+        for item in detallePuntoVenta:
+            total += ((item.cantidad * item.precio_unitario)*0.18)+(item.cantidad * item.precio_unitario)
+        return total
     
 class Detalle_punto_venta(models.Model):
     punto_venta = models.ForeignKey(Punto_venta, on_delete=models.CASCADE, related_name='detalle_punto_venta')

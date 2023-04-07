@@ -3,6 +3,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionIcon from "@mui/icons-material/Description";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import {
   Paper,
@@ -37,13 +39,14 @@ import {
 } from "../../../services/ventas";
 import AddForm from "../Remisiones/addform";
 
-const SubRowAsync = ({ row, rowProps, visibleColumns }) => {
-  const [loading, setLoading] = React.useState(true);
-  const [data, setData] = React.useState([]);
+const SubRowAsync = ({ row, rowProps, visibleColumns, data }) => {
+  const [loading, setLoading] = useState(true);
+  const [newData, setNewData] = useState([]);
 
   useEffect(() => {
+    console.log(row.original.punto_venta);
     const timer = setTimeout(() => {
-      setData(makeData(3));
+      setNewData(row.original.punto_venta);
       setLoading(false);
     }, 500);
 
@@ -54,10 +57,10 @@ const SubRowAsync = ({ row, rowProps, visibleColumns }) => {
 
   if (loading) {
     return (
-      <tr>
-        <td />
-        <td colSpan={visibleColumns.length - 1}>Loading...</td>
-      </tr>
+      <TableRow>
+        <TableCell />
+        <TableCell colSpan={visibleColumns.length - 1}>Loading...</TableCell>
+      </TableRow>
     );
   }
 
@@ -65,20 +68,20 @@ const SubRowAsync = ({ row, rowProps, visibleColumns }) => {
 
   return (
     <>
-      {data.map((x, i) => {
+      {newData.map((x, i) => {
         return (
-          <tr {...rowProps} key={`${rowProps.key}-expanded-${i}`}>
+          <TableRow {...rowProps} key={`${rowProps.key}-expanded-${i}`}>
             {row.cells.map((cell) => {
               return (
-                <td {...cell.getCellProps()}>
+                <TableCell {...cell.getCellProps()}>
                   {cell.render(cell.column.SubCell ? "SubCell" : "Cell", {
                     value: cell.column.accessor && cell.column.accessor(x, i),
                     row: { ...row, original: x },
                   })}
-                </td>
+                </TableCell>
               );
             })}
-          </tr>
+          </TableRow>
         );
       })}
     </>
@@ -143,13 +146,15 @@ const ChildTable = ({ columns: userColumns, data, renderRowSubComponent }) => {
             return (
               // Use a React.Fragment here so the table markup is still valid
               <Fragment key={rowProps.key}>
-                <TableCell {...rowProps}>
+                <TableRow {...rowProps}>
                   {row.cells.map((cell) => {
                     return (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      <TableCell {...cell.getCellProps()}>
+                        {cell.render("Cell")}
+                      </TableCell>
                     );
                   })}
-                </TableCell>
+                </TableRow>
                 {/* We could pass anything into this */}
                 {row.isExpanded &&
                   renderRowSubComponent({ row, rowProps, visibleColumns })}
@@ -191,6 +196,8 @@ export const Tabla = ({
     fields,
     !sesion ? facturasVentas : facturasSesionVentas
   );
+
+  console.log(data);
 
   const handlePut = (row) => {
     setItem(row);
@@ -236,26 +243,24 @@ export const Tabla = ({
   const columns = useMemo(
     () => [
       {
-        // Make an expander cell
-        Header: () => null, // No header
-        id: "expander", // It needs an ID
+        Header: () => null,
+        id: "expander",
         Cell: ({ row }) => (
           // Use Cell to render an expander for each row.
           // We can use the getToggleRowExpandedProps prop-getter
           // to build the expander.
           <span {...row.getToggleRowExpandedProps()}>
-            {row.isExpanded ? "👇" : "👉"}
+            {row.isExpanded ? "v" : ">"}
           </span>
         ),
-        // We can override the cell renderer with a SubCell to be used with an expanded row
-        SubCell: () => null, // No expander on an expanded row
+        SubCell: () => null,
       },
       {
         Header: "Factura Venta",
         columns: [
           {
             Header: "Item",
-            accessor: (d) => d.age,
+            accessor: (d) => 1,
           },
           {
             Header: "Codigo",
@@ -275,22 +280,64 @@ export const Tabla = ({
           },
           {
             Header: "Remision",
-            accessor: (d) => d.remision,
-          },
-          {
-            Header: "Estado",
             accessor: (d) => d.estado_remision,
           },
           {
+            Header: "Estado",
+            accessor: (d) => (d.borrado ? "Anulado" : "Vigente"),
+          },
+          {
             Header: "Acciones",
-            accessor: (d) => d.status,
+            accessor: (d) => (
+              <>
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  color="primary"
+                  onClick={() => handleView(d)}
+                >
+                  <VisibilityIcon fontSize="inherit" />
+                </IconButton>
+                {/* <IconButton
+              disabled={d?.borrado ? true : false}
+              onClick={() => handlePut(d)}
+              aria-label="delete"
+              size="small"
+              color="success"
+            >
+              <EditIcon fontSize="inherit" />
+            </IconButton> */}
+
+                <IconButton
+                  onClick={() => handleActiveDeactive(d)}
+                  aria-label="delete"
+                  size="small"
+                  color={d?.borrado ? "success" : "error"}
+                >
+                  {d.borrado ? (
+                    <CheckCircleIcon fontSize="inherit" />
+                  ) : (
+                    <DeleteIcon fontSize="inherit" />
+                  )}
+                </IconButton>
+                <AddForm
+                  itemView={itemView}
+                  setItemView={setItemView}
+                  row={d}
+                  idVenta={d.id}
+                  detalle_venta={d.detalle_venta}
+                  renderizar={renderizar}
+                  setRenderizar={setRenderizar}
+                  render={render}
+                />
+              </>
+            ),
           },
         ],
       },
     ],
     []
   );
-
   const renderRowSubComponent = useCallback(
     ({ row, rowProps, visibleColumns }) => (
       <SubRowAsync
@@ -310,139 +357,5 @@ export const Tabla = ({
         renderRowSubComponent={renderRowSubComponent}
       />
     </>
-    // <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
-    //   <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-    //     <TableHead
-    //       sx={{
-    //         backgroundColor: alpha("#633256", 0.2),
-    //         "&:hover": {
-    //           backgroundColor: alpha("#633256", 0.25),
-    //         },
-    //       }}
-    //     >
-    //       <TableRow>
-    //         <TableCell
-    //           sx={{
-    //             color: "#633256",
-    //             fontFamily: "inherit",
-    //             fontStyle: "italic",
-    //           }}
-    //         >
-    //           Item
-    //         </TableCell>
-    //         <TableCell
-    //           sx={{ color: "#633256", fontFamily: "inherit" }}
-    //           align="right"
-    //         >
-    //           Código
-    //         </TableCell>
-    //         <TableCell
-    //           sx={{ color: "#633256", fontFamily: "inherit" }}
-    //           align="right"
-    //         >
-    //           N° de factura
-    //         </TableCell>
-    //         <TableCell
-    //           sx={{ color: "#633256", fontFamily: "inherit" }}
-    //           align="right"
-    //         >
-    //           Fecha de Venta
-    //         </TableCell>
-    //         <TableCell
-    //           sx={{ color: "#633256", fontFamily: "inherit" }}
-    //           align="right"
-    //         >
-    //           Cliente
-    //         </TableCell>
-    //         <TableCell
-    //           sx={{ color: "#633256", fontFamily: "inherit" }}
-    //           align="right"
-    //         >
-    //           Remisión
-    //         </TableCell>
-    //         <TableCell
-    //           sx={{ color: "#633256", fontFamily: "inherit" }}
-    //           align="right"
-    //         >
-    //           Estado
-    //         </TableCell>
-    //         <TableCell
-    //           sx={{ color: "#633256", fontFamily: "inherit" }}
-    //           align="right"
-    //         >
-    //           Acciones
-    //         </TableCell>
-    //       </TableRow>
-    //     </TableHead>
-    //     <TableBody>
-    //       {data.map((row, i) => (
-    //         <TableRow key={i}>
-    //           <TableCell component="th" scope="row">
-    //             {i + 1}
-    //           </TableCell>
-    //           <TableCell align="right">{row.codigo}</TableCell>
-    //           <TableCell align="right">
-    //             {row.numero_factura ? row.numero_factura : "-"}
-    //           </TableCell>
-    //           <TableCell align="right">{formateoFecha(row.fecha)}</TableCell>
-    //           <TableCell align="right">{row.nombre_cliente}</TableCell>
-    //           <TableCell align="right">{row.estado_remision}</TableCell>
-    //           <TableCell align="right">
-    //             {row.borrado ? "Anulado" : "Vigente"}
-    //           </TableCell>
-    //           <TableCell align="right" component="th" scope="row">
-    //             <IconButton
-    //               aria-label="delete"
-    //               size="small"
-    //               color="primary"
-    //               onClick={() => handleView(row)}
-    //             >
-    //               <VisibilityIcon fontSize="inherit" />
-    //             </IconButton>
-    //             <IconButton
-    //               disabled={row?.borrado ? true : false}
-    //               onClick={() => handlePut(row)}
-    //               aria-label="delete"
-    //               size="small"
-    //               color="success"
-    //             >
-    //               <EditIcon fontSize="inherit" />
-    //             </IconButton>
-
-    //             <IconButton
-    //               disabled={
-    //                 row?.estado_remision == "-" ||
-    //                 row?.estado_remision == "Por Hacer"
-    //                   ? false
-    //                   : true
-    //               }
-    //               onClick={() => handleActiveDeactive(row)}
-    //               aria-label="delete"
-    //               size="small"
-    //               color={row?.borrado ? "success" : "error"}
-    //             >
-    //               {row.borrado ? (
-    //                 <CheckCircleIcon fontSize="inherit" />
-    //               ) : (
-    //                 <DeleteIcon fontSize="inherit" />
-    //               )}
-    //             </IconButton>
-
-    //             <AddForm
-    //               itemView={itemView}
-    //               setItemView={setItemView}
-    //               row={row}
-    //               idCompra={row.id}
-    //               detalle_compra={row.detalle_compra}
-    //               renderizar={renderizar}
-    //               setRenderizar={setRenderizar}
-    //               render={render}
-    //             />
-    //           </TableCell>
-    //         </TableRow>
-    //       ))}
-    //     </TableBody>
-    //   </Table>
-    // </TableContainer>
   );
 };

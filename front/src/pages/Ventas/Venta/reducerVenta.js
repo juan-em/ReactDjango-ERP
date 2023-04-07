@@ -8,7 +8,6 @@ const setInitialDate = () => {
 export const ACTION_TYPES = {
     SET_FECHA:"SET_FECHA",
     SET_CLIENTE:"SET_CLIENTE",
-    SET_TOTAL:"SET_TOTAL",
     ADD_DETALLE: "ADD_DETALLE",
     LOW_DETALLE: "LOW_DETALLE",
     REMOVE_DETALLE: "REMOVE_DETALLE",
@@ -19,14 +18,14 @@ export const INITIAL_STATE = {
     venta: {
         fecha:setInitialDate(),
         cliente:{persona:{nombre:""}},
-        total:0.0,
         detalle_venta:[]
     }
 }
 
 export const getTotal = (detalle_venta) =>{
     if (detalle_venta != []){
-        let sum = detalle_venta.reduce((amount, item) => ((item.precio_unitario*item.cantidad)*0.18)+(item.precio_unitario*item.cantidad) + amount, 0)
+        console.log(detalle_venta)
+        let sum = detalle_venta.reduce((amount, item) =>((item.precio_unitario*item.cantidad)*0.18)+(item.precio_unitario*item.cantidad) + amount, 0)
         return sum
     }
     return 0
@@ -49,14 +48,6 @@ export const ventasReducer = (state, action) => {
                 venta:{
                     ...state.venta,
                     cliente:action.payload
-                }
-            }
-        case ACTION_TYPES.SET_TOTAL:
-            return {
-                ...state,
-                venta:{
-                    ...state.venta,
-                    total:action.payload
                 }
             }
         case ACTION_TYPES.ADD_DETALLE:
@@ -114,8 +105,6 @@ export const ACTION_SESION_TYPES ={
     SET_MONTO_INICIAL: "SET_MONTO_INICIAL",
     SET_RESPONSABLE:"SET_RESPONSABLE",
     SET_HORA_FIN:"SET_HORA_FIN",
-    SET_MONTO_FINAL:"SET_MONTO_FINAL",
-    // SET_ESTADO: "SET_ESTADO",
     ADD_PUNTO_VENTA: "ADD_PUNTO_VENTA",
     REMOVE_PUNTO_VENTA: "REMOVE_PUNTO_VENTA",
     RESET_PUNTO_VENTA: "RESET_PUNTO_VENTA"
@@ -128,7 +117,6 @@ export const INITIAL_SESION_STATE = {
         monto_inicial:0.0,
         responsable:"",
         hora_fin:"",
-        monto_final:0.0,
         punto_venta:[]
     }
 }
@@ -167,20 +155,7 @@ export const sesionVentaReducer = (state, action) => {
                     monto_inicial:action.payload
                 }
             }
-        case ACTION_SESION_TYPES.SET_MONTO_FINAL:
-            
-            return {
-                ...state,
-                sesion_venta:{
-                   ...state.sesion_venta,
-                    monto_final:action.payload
-                }
-            }
         case ACTION_SESION_TYPES.ADD_PUNTO_VENTA:
-            // state.sesion_venta.punto_venta.forEach((i)=>{
-            //     let montoInicial = state.sesion_venta.monto_inicial
-            //     console.log(montoInicial + i.detalle_punto_venta)                
-            // })
             
             return {
                 ...state,
@@ -212,7 +187,6 @@ export const sesionVentaReducer = (state, action) => {
 export const ACTION_PUNTO_VENTA_TYPES ={
     SET_FECHA: "SET_FECHA",
     SET_CLIENTE:"SET_CLIENTE",
-    SET_PRECIO_TOTAL:"SET_PRECIO_TOTAL",
     ADD_DETALLE_PUNTO_VENTA: "ADD_DETALLE_PUNTO_VENTA",
     LOW_DETALLE_PUNTO_VENTA: "LOW_DETALLE_PUNTO_VENTA",
     REMOVE_DETALLE_PUNTO_VENTA: "REMOVE_DETALLE_PUNTO_VENTA",
@@ -222,7 +196,6 @@ export const ACTION_PUNTO_VENTA_TYPES ={
 export const INITIAL_PUNTO_VENTA_STATE = {
     punto_venta:{
         fecha:setInitialDate(),
-        precio_total:0.0,
         cliente:{persona:{nombre:""}},
         detalle_punto_venta:[]
     }
@@ -254,14 +227,6 @@ export const puntoVentasReducer = (state, action) => {
                 punto_venta:{
                     ...state.punto_venta,
                     cliente:action.payload
-                }
-            }
-        case ACTION_PUNTO_VENTA_TYPES.SET_PRECIO_TOTAL:
-            return {
-                ...state,
-                punto_venta:{
-                    ...state.punto_venta,
-                    precio_total:action.payload
                 }
             }
         case ACTION_PUNTO_VENTA_TYPES.ADD_DETALLE_PUNTO_VENTA:

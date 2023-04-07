@@ -19,7 +19,7 @@ class VentaSerializer(WritableNestedModelSerializer):
     detalle_venta = VentaDetalleSerializer(many=True)
     class Meta:
         model = Venta
-        fields = ['id', 'cliente', 'estado', 'fecha', 'descuento','total', 'detalle_venta', 'codigo', 'estado_remision', 'nombre_cliente']
+        fields = ['id', 'cliente', 'estado', 'fecha', 'descuento','total', 'detalle_venta', 'codigo', 'estado_remision', 'nombre_cliente', 'borrado']
     def to_representation(self, instance):
         venta_detalle = Venta_detalle.objects.filter(venta = instance.pk)
         ser_venta_detalle = Venta_DetalleSerializer(venta_detalle, many=True)
@@ -33,7 +33,8 @@ class VentaSerializer(WritableNestedModelSerializer):
             'descuento': instance.descuento,
             'total':instance.total,
             'estado_remision':instance.estado_remision,
-            'detalle_venta':ser_venta_detalle.data
+            'detalle_venta':ser_venta_detalle.data,
+            'borrado':instance.borrado
         }
 
 class RemisionDetalleSerializer(serializers.ModelSerializer):
@@ -69,7 +70,7 @@ class PuntoVentaSerializer(WritableNestedModelSerializer):
     detalle_punto_venta = DetallePuntoVentaSerializer(many=True)
     class Meta:
         model = Punto_venta
-        fields = ['fecha', 'precio_total', 'cliente', 'detalle_punto_venta', 'codigo', 'nombre_cliente']
+        fields = ['fecha', 'total', 'cliente', 'detalle_punto_venta', 'codigo', 'nombre_cliente', 'estado_remision', 'borrado']
     def to_representation(self, instance):
         punto_venta_detalle = Detalle_punto_venta.objects.filter(punto_venta = instance.id)
         ser_punto_venta_detalle = Detalle_PuntoVentaSerializer(punto_venta_detalle, many=True)
@@ -77,10 +78,13 @@ class PuntoVentaSerializer(WritableNestedModelSerializer):
             'id': instance.id,
             'codigo':instance.codigo,
             'fecha':instance.fecha,
-            'precio_total':instance.precio_total,
+            # 'precio_total':instance.precio_total,
+            'total':instance.total,
             'cliente':instance.nombre_cliente if instance.cliente else None,
             'nombre_cliente':instance.nombre_cliente,
-            'detalle_punto_venta': ser_punto_venta_detalle.data
+            'detalle_punto_venta': ser_punto_venta_detalle.data,
+            'estado_remision': instance.estado_remision,
+            'borrado':instance.borrado
         }
 
 # class PVSerializer(WritableNestedModelSerializer):
@@ -93,7 +97,7 @@ class SesionVentaSerializer(WritableNestedModelSerializer):
     punto_venta = PuntoVentaSerializer(many=True)
     class Meta:
         model = Sesion_venta
-        fields = ['fecha', 'monto_inicial', 'responsable', 'hora_fin', 'monto_final', 'punto_venta', 'codigo']
+        fields = ['fecha', 'monto_inicial', 'responsable', 'hora_fin', 'total', 'punto_venta', 'codigo', 'borrado']
     def to_representation(self, instance):
         punto_venta = Punto_venta.objects.filter(sesion_venta = instance.id)
         ser_punto_venta = PuntoVentaSerializer(punto_venta, many=True)
@@ -105,6 +109,7 @@ class SesionVentaSerializer(WritableNestedModelSerializer):
             'monto_inicial':instance.monto_inicial,
             'responsable':instance.responsable,
             'hora_fin':instance.hora_fin,
-            'monto_final':instance.monto_inicial,
-            'punto_venta': ser_punto_venta.data
+            'total':instance.total,
+            'punto_venta': ser_punto_venta.data,
+            'borrado':instance.borrado
         }

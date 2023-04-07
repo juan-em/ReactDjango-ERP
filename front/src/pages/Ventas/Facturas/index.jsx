@@ -32,7 +32,7 @@ import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
 
 import { useRef } from "react";
-import VerProvincia from "./verfactura";
+import VerFactura from "./verfactura";
 
 import { getClientes } from "../../../services/clientes";
 
@@ -190,12 +190,16 @@ const FacturaVentas = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={7}>
-            <VerProvincia itemView={itemView} />
+            <VerFactura 
+              itemView={itemView} 
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar} />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <FormControlLabel
               control={<Switch color="secondary" onChange={switchChange} />}
-              label="Label"
+              label="Ver Sesiones de Venta"
             />
           </Grid>
         </Grid>

@@ -9,23 +9,35 @@ import {
   DialogContent,
   DialogTitle,
   Tab,
+  Alert,
+  AlertTitle
 } from "@mui/material";
 import { TabContext, TabPanel, TabList } from "@mui/lab";
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, renderEditInputCell } from '@mui/x-data-grid';
 //iconos
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from '@mui/icons-material/Description';
 //componentes
 import { get, searcher, post_put, del } from "../../../services/mantenimiento";
-
+import { BuildRemissionPayload, postRemision } from "../../../services/compras";
 
 
 import Swal from "sweetalert2";
 
 
-const AddForm = () => {
+const AddForm = ({
+  itemView,
+  setItemView,
+  row,
+  idVenta,
+  detalle_venta,
+  renderizar,
+  setRenderizar,
+  render
+  }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
   const URL = "http://localhost:8000/api/mantenimientos/provincias/";
   const handleOpenPost = () => {
     setOpenModal(true);
@@ -36,23 +48,46 @@ const AddForm = () => {
   };
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'nombre', headerName: 'Nombre', width: 150 },
-    { field: 'descripcion', headerName: 'Descripción', width: 200 },
-    { field: 'categoria', headerName: 'Categoría', width: 150 },
+    { field: 'id', headerName: 'ID' },
+    { field: 'producto', headerName: 'Nombre', minWidth:130, valueFormatter: ({value}) => `${value.producto.nombre}/${value.nombre}` },
+    { field: 'almacen', headerName: 'Almacen', minWidth:130, valueFormatter: ({value}) => value?value.nombre:'-' },
+    { field: 'cantidad', headerName: 'Cantidad', type: 'number' },
+    { field: 'precio_venta', headerName: 'Precio', type: 'number', valueFormatter: ({value}) => `S./ ${value}` },
+    { field: 'subtotal', headerName: 'Subtotal', type: 'number', valueFormatter: ({value}) => `S./ ${value}` },
+    
   ];
 
-  const rows = [
-    { id: 1, descripcion: 'Snow', nombre: 'Jon', categoria: '35' },
-    { id: 2, descripcion: 'Lannister', nombre: 'Cersei', categoria: '42' },
-    { id: 3, descripcion: 'Lannister', nombre: 'Jaime', categoria: '45' },
-    { id: 4, descripcion: 'Stark', nombre: 'Arya', categoria: '16' },
-    { id: 5, descripcion: 'Targaryen', nombre: 'Daenerys', categoria: null },
-    { id: 6, descripcion: 'Melisandre', nombre: null, categoria: '150' },
-    { id: 7, descripcion: 'Clifford', nombre: 'Ferrara', categoria:' 44' },
-    { id: 8, descripcion: 'Frances', nombre: 'Rossini', categoria: '36' },
-    { id: 9, descripcion: 'Roxie', nombre: 'Harvey', categoria:' 65' },
-  ];
+  const rows = detalle_venta.map(item => {
+    item.subtotal = item.precio_unitario * item.cantidad 
+    return item
+  })
+
+  const handleSelectedRows = (idsArray) => {
+    setSelectedRows(idsArray)
+  }
+
+  const handleDoRemission = async () => {
+    var payload = BuildRemissionPayload(idVenta, selectedRows)
+    try {
+      const res = await postRemision(payload)
+      Swal.fire({
+        icon: "success",
+        title: "Ok",
+        text: "Se realizó la remisión",
+      })
+      if (itemView.id && itemView.id == idVenta) setItemView(res.content)
+      setRenderizar(!renderizar)
+      render.current = true;
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${err}`,
+      });
+    }
+    setOpenModal(false);
+  }
+
 
   return (
     <>
@@ -61,8 +96,9 @@ const AddForm = () => {
         color="secondary"
         size="small"
         onClick={handleOpenPost}
+        disabled={row?.borrado?true:false}
       >
-        <DescriptionIcon fontSize="inherit" />
+      <DescriptionIcon fontSize="inherit" />
       </IconButton>
       <Dialog open={openModal} maxWidth={'xl'}>
         <DialogTitle>
@@ -70,12 +106,10 @@ const AddForm = () => {
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            Nueva Remisión (Ventas)
+            Nueva Remisión
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <TabContext centered>
-
                 {/*item.id && <input type="hidden" name="cod" value={item.id}/>*/}
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12}>
@@ -86,11 +120,22 @@ const AddForm = () => {
                         pageSize={5}
                         rowsPerPageOptions={[5]}
                         checkboxSelection
+                        isRowSelectable={(params) => params.row.remision_hecha == false}
+                        onRowSelectionModelChange={handleSelectedRows}
                       />
                     </div>
                   </Grid>
-
-                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                  { row.estado_remision == "Hecha" ?
+                    <Grid item xs={12} sm={12} md={12} sx={{ mt: 1 }}>
+                    <Alert severity="success">
+                    <AlertTitle>
+                      Remisiones Completas
+                    </AlertTitle>
+                    </Alert>
+                    </Grid>
+                    :
+                    <>
+                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 2 }}>
                     <Button
                       fullWidth
                       id="btnClick"
@@ -99,12 +144,12 @@ const AddForm = () => {
                       className="navbar-btn-single"
                       variant="contained"
                       type="submit"
-                      
+                      onClick={handleDoRemission}
                     >
                       <span>Registrar</span>
                     </Button>
                     </Grid>
-                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 2 }}>
                     <Button
                       fullWidth
                       id="btnClick"
@@ -117,9 +162,8 @@ const AddForm = () => {
                       <span>Cancelar</span>
                     </Button>
                   </Grid>
-                </Grid>
-
-          </TabContext>
+                  </>}
+              </Grid>
         </DialogContent>
       </Dialog>
     </>
