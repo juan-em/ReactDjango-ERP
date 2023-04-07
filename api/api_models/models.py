@@ -689,28 +689,23 @@ class SalidaVenta(Salidas):
 #----------------------- TESORERIA -----------------------#
 ###########################################################
 class Caja_diaria(models.Model):
+    descripcion = models.CharField(max_length=300, default='-')
     fecha_apertura = models.DateTimeField(null=True, auto_now_add=True)
-    fecha_cierre = models.DateTimeField(null=True, auto_now_add=True)
-    monto_total_inicial = models.FloatField(null=True, default=0)
-    monto_total_final = models.FloatField(null=True, default=0)
-    total_ventas = models.FloatField(null=True, default=0)
-    total_compras = models.FloatField(null=True, default=0)
-    estado = models.BooleanField(default=False)
+    fecha_cierre = models.DateTimeField(null=True)
+    monto_inicial = models.FloatField(null=True, default=0)
+    monto_final = models.FloatField(null=True, default=0)
+    responsable = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
+    estado = models.BooleanField(default=True)
 
     def __str__(self):
-        return "Monto inicial:{}, Monto final:{}, Estado:{}".format(self.monto_total_inicial, self.monto_total_final, self.estado)
+        return "Monto inicial:{}, Monto final:{}, Estado:{}".format(self.monto_inicial, self.monto_final, self.estado)
 
-class Caja_tipo_pago(models.Model):
-    venta = models.ForeignKey(Venta, on_delete=models.CASCADE, null=True, blank=True)
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=True, blank=True)
-    tipo_pago = models.ForeignKey(Formapago, on_delete=models.CASCADE, null=True)
-    caja_diaria = models.ForeignKey(Caja_diaria, on_delete=models.CASCADE, null=True)
-    total_tipo_pago = models.FloatField(null=True)
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'CD-'+'0'*(5-len(id))+id
 
-##############################################################
-#----------------------- LIBRO DIARIO -----------------------#
-##############################################################
-class Libro_diario(models.Model):
+class Caja_diaria_movimientos(models.Model):
     COMPRA = 'Compra'
     VENTA = 'Venta'
     NINGUNO = 'Ninguno'
@@ -720,13 +715,47 @@ class Libro_diario(models.Model):
         (VENTA, 'Venta'),
         (NINGUNO, 'Ninguno')
     ]
+    tipo_movimiento = models.CharField(max_length=20, choices=TIPOS, default=NINGUNO)
+    venta = models.ForeignKey(Venta, on_delete=models.CASCADE, null=True, blank=True)
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=True, blank=True)
+    tipo_pago = models.ForeignKey(Formapago, on_delete=models.CASCADE, null=True)
+    caja_diaria = models.ForeignKey(Caja_diaria, on_delete=models.CASCADE, null=True)
+    
+    @property
+    def total_movimiento(self):
+        if (self.venta):
+            return self.venta.total
+        if (self.compra):
+            return self.compra.totalCompra
 
-    obtener_factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
-    tipo = models.CharField(max_length=20, choices=TIPOS, default=NINGUNO)
 
-    def __str__(self):
-        return "Factura:{}, Tipo:{}".format(self.factura.id, self.tipo)
+##############################################################
+#----------------------- LIBRO DIARIO -----------------------#
+##############################################################
+# class Libro_diario(models.Model):
+#     COMPRA = 'Compra'
+#     VENTA = 'Venta'
+#     NINGUNO = 'Ninguno'
 
+#     TIPOS = [
+#         (COMPRA, 'Compra'),
+#         (VENTA, 'Venta'),
+#         (NINGUNO, 'Ninguno')
+#     ]
+
+#     obtener_factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
+#     tipo = models.CharField(max_length=20, choices=TIPOS, default=NINGUNO)
+
+#     def __str__(self):
+#         return "Factura:{}, Tipo:{}".format(self.factura.id, self.tipo)
+
+# class LibroDiario(models.Model):
+#     fecha = models.DateField()
+#     descripcion = models.CharField(max_length=255)
+#     cuenta_debito = models.CharField(max_length=255)
+#     cuenta_credito = models.CharField(max_length=255)
+#     monto = models.DecimalField(max_digits=10, decimal_places=2)
+#     transaccion = models.ForeignKey(Transaccion, on_delete=models.CASCADE)
 
 ############################################################
 #----------------------- PRODUCCION -----------------------#
