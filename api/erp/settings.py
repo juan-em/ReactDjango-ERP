@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'api_productos',
     'api_articulos',
     'api_compras',
+    'api_cajadiaria',
     'corsheaders',
     'cloudinary',
     'rest_framework',

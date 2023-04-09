@@ -14,10 +14,8 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 //Componentes
 import { useState, useEffect, useContext } from "react";
-import { Tabla } from "./complements";
 
 import { useRef } from "react";
-import VerBien from "./verbien";
 import Registar from "./registro/registrar";
   
   const Notificaciones = () => {

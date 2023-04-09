@@ -19,6 +19,7 @@ import { Tabla } from "./complements";
 import { useNavigate } from 'react-router-dom';
 
 import { useRef } from "react";
+import Registar from "../../Requerimientos/Requerimientos/registrar";
   
   const Notificaciones = () => {
     const [openModal, setOpenModal] = useState(false);
@@ -62,21 +63,13 @@ import { useRef } from "react";
                   Stocks bajos
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Alert variant="outlined" severity="warning">
+                    <Alert variant="outlined" severity="warning"
+                    action={
+
+                      <Registar/>
+                    }>
                         Artículo 1 — <strong>Stock actual: 5</strong>
                     </Alert>
-                <Button
-                  fullWidth
-                  color="secondary"
-                  variant="contained"
-                  size="small"
-                  id="textfields"
-                  onClick={requerimientos}
-                  sx={{ mt:3}}>
-                    Registrar requerimientos
-                  </Button>
-                    
-
                 </AccordionDetails>
               </Accordion>
             </Paper>
