@@ -18,7 +18,7 @@ import { Tabla } from "./complements";
 
 import { useRef } from "react";
 import VerBien from "./verbien";
-import Registar from "./registrar";
+import Registar from "./registro/registrar";
   
   const Notificaciones = () => {
     const [openModal, setOpenModal] = useState(false);
