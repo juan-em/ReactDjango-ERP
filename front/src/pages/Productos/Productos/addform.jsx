@@ -92,16 +92,8 @@ const AddForm = ({
           val.producto_variante[index].talla
         );
         formData.append(
-          `producto_variante[${index}].horas_manufactura`,
-          val.producto_variante[index].horas_manufactura
-        );
-        formData.append(
-          `producto_variante[${index}].costo_manufactura`,
-          val.producto_variante[index].costo_manufactura
-        );
-        formData.append(
-          `producto_variante[${index}].gastos_generales`,
-          val.producto_variante[index].gastos_generales
+          `producto_variante[${index}].costo_produccion`,
+          val.producto_variante[index].costo_produccion
         );
         formData.append(`producto_variante[${index}].precio_final`, 0);
         it.producto_detalle.forEach((i, ind) => {
@@ -362,6 +354,8 @@ const AddForm = ({
                                                 ))}
                                               </Select>
                                             </FormControl>
+                                          </Grid>
+                                          <Grid item xs={12} sm={6} md={6}>
                                             <TextField
                                               fullWidth
                                               label="Color"
@@ -386,27 +380,6 @@ const AddForm = ({
                                               onChange={handleChange}
                                               value={variante.talla}
                                             />
-                                          </Grid>
-                                          <Grid item xs={12} sm={6} md={6}>
-                                            <TextField
-                                              fullWidth
-                                              label="Horas de Manufactura"
-                                              required
-                                              size="small"
-                                              color="secondary"
-                                              id="textfields"
-                                              margin="dense"
-                                              name={`producto_variante.${index}.horas_manufactura`}
-                                              onChange={handleChange}
-                                              value={variante.horas_manufactura}
-                                              InputProps={{
-                                                endAdornment: (
-                                                  <InputAdornment position="end">
-                                                    h
-                                                  </InputAdornment>
-                                                ),
-                                              }}
-                                            />
                                             <TextField
                                               fullWidth
                                               label="Costos de Manufactura"
@@ -415,56 +388,9 @@ const AddForm = ({
                                               color="secondary"
                                               id="textfields"
                                               margin="dense"
-                                              name={`producto_variante.${index}.costo_manufactura`}
+                                              name={`producto_variante.${index}.costo_produccion`}
                                               onChange={handleChange}
                                               value={variante.costo_manufactura}
-                                              InputProps={{
-                                                startAdornment: (
-                                                  <InputAdornment position="start">
-                                                    S/.
-                                                  </InputAdornment>
-                                                ),
-                                              }}
-                                            />
-                                            <TextField
-                                              fullWidth
-                                              label="Gastos Generales"
-                                              required
-                                              size="small"
-                                              color="secondary"
-                                              id="textfields"
-                                              margin="dense"
-                                              name={`producto_variante.${index}.gastos_generales`}
-                                              onChange={handleChange}
-                                              value={variante.gastos_generales}
-                                              InputProps={{
-                                                startAdornment: (
-                                                  <InputAdornment position="start">
-                                                    S/.
-                                                  </InputAdornment>
-                                                ),
-                                              }}
-                                            />
-                                            <TextField
-                                              fullWidth
-                                              label="Precio Final"
-                                              size="small"
-                                              color="secondary"
-                                              id="textfields"
-                                              margin="dense"
-                                              name={`producto_variante.${index}.precio_final`}
-                                              onChange={handleChange}
-                                              value={
-                                                parseInt(
-                                                  variante.gastos_generales
-                                                ) +
-                                                parseInt(
-                                                  variante.costo_manufactura
-                                                ) *
-                                                  parseInt(
-                                                    variante.horas_manufactura
-                                                  )
-                                              }
                                               InputProps={{
                                                 startAdornment: (
                                                   <InputAdornment position="start">

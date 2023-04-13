@@ -72,6 +72,7 @@ class VentasDetailView(APIView):
     
     def delete(self, request, id):
         data = Venta.objects.get(id=id)
+        data.borrado = not data.borrado
         data.delete()
         context = {
             'status':True,
