@@ -22,47 +22,90 @@ import CardContent from "@mui/material/CardContent";
 
 //icons
 import NumbersIcon from "@mui/icons-material/Numbers";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PersonIcon from '@mui/icons-material/Person';
+import DiscountIcon from '@mui/icons-material/Discount';
+import StoreIcon from '@mui/icons-material/Store';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import DescriptionIcon from '@mui/icons-material/Description';
 import InfoIcon from '@mui/icons-material/Info';
-import InventoryIcon from '@mui/icons-material/Inventory';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import RemisionesVentas from "../Remisiones";
 import Remisiones from "./remisiones";
 
-const VerFactura = (itemView) => {
+import { formateoFecha } from "../../../services/compras";
+
+const VerFactura = ({itemView}) => {
   const [openModal, setOpenModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [itemsPer, setItemsPer] = useState([
-    { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DescriptionIcon />, primary: "Factura", secondary: "" },
-    { icon: <PersonIcon />, primary: "Cliente", secondary: "" },
-    { icon: <InventoryIcon />, primary: "N° Productos", secondary: "" },
-    { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" }
+    { icon: <NumbersIcon />, primary: "Codigo", secondary: "" },
+    { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" },
+    { icon: <StoreIcon />, primary: "Cliente", secondary: "" },
+    { icon: <InfoIcon />, primary: "Estado", secondary: "" },
+    { icon: <InfoIcon />, primary: "Estado Remision", secondary: "" },
+    { icon: <DiscountIcon />, primary: "N° Factura", secondary: "" },
+    { icon: <InfoIcon />, primary: "Detalle de entrega", secondary: "" },
+    { icon: <AttachMoneyIcon />, primary: "Total de venta", secondary: "" },
   ]);
 
+  const [remisiones, setRemisiones] = useState([]);
+  console.log(itemView)
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      if (!itemView.itemView.id) {
+      if (!itemView.id) {
         return {
           ...i,
         };
       } else {
-        if (i.primary === "Código") {
+        if (i.primary === "Codigo") {
           return {
             ...i,
-            secondary: itemView.itemView.id,
+            secondary: itemView.codigo,
           };
-        } else if (i.primary === "Nombre") {
+        } else if (i.primary === "Fecha") {
           return {
             ...i,
-            secondary: itemView.itemView.nombre,
+            secondary: formateoFecha(itemView.fecha),
+          };
+        } else if (i.primary === "Cliente") {
+          return {
+            ...i,
+            secondary: itemView.nombre_cliente,
+          };
+        }else if (i.primary === "Estado") {
+          return {
+            ...i,
+            secondary: itemView.borrado?"Anulado":"Vigente",
+          };
+        }
+        else if (i.primary === "Estado Remision") {
+          return {
+            ...i,
+            secondary: itemView.estado_remision,
+          };
+        }
+        else if (i.primary === "N° Factura") {
+          return {
+            ...i,
+            secondary: itemView.numero_factura,
+          };
+        }
+        else if (i.primary === "Detalle de entrega") {
+          return {
+            ...i,
+            secondary: itemView.detalle_entrega,
+          };
+        }
+        else if (i.primary === "Total de venta") {
+          return {
+            ...i,
+            secondary: `S/. ${itemView.total}`,
           };
         }
       }
     });
     setItemsPer(newItem);
+    setRemisiones(itemView.remision?itemView.remision:[])
   };
 
   useEffect(() => {

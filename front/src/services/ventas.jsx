@@ -68,3 +68,62 @@ export const BuildSesionVentaPayload = (sesion_venta) => {
     })
     return sesion_venta
 }
+
+// -------------- Facturas --------------//
+
+export const searcherFacturas = (fields, list) => {
+    let resultData = list;
+    resultData = fields.cliente
+        ? resultData.filter((item) => 
+            item.cliente ? item.cliente.id == fields.cliente.id : false
+        )
+        : resultData;
+    resultData = fields.codigo
+        ? resultData.filter((item) =>
+            item.id == fields.codigo
+            )
+        : resultData;
+    resultData = fields.numero_factura
+        ? resultData.filter((item) =>
+            (item.numero_factura.toString()).toLowerCase().includes(fields.numero_factura.toString())
+            )
+        : resultData;
+    resultData = fields.fecha
+        ? resultData.filter((item) => 
+            item.fecha.slice(0, 10) == fields.fecha.slice(0, 10)
+        )
+        : resultData;
+    return resultData;
+};
+
+export const getVenta = async (set, url) => {
+    try {
+        const response = await axios.get(url);
+        set(response.data.content);
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+}
+
+export const delVenta = async (url) => {
+    try{
+        const response = await axios.delete(url);
+        return response.data
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+}
+
+export const getSesionVenta = async (set, url) => {
+    try {
+        const response = await axios.get(url);
+        set(response.data.content);
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+}

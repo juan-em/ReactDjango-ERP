@@ -14,26 +14,18 @@ from api_articulos.serializers import *
 class Producto_detalleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Producto_detalle
-        fields = ['id', 'cantidad', 'articulo', 'borrado']
+        fields = ['id', 'cantidad', 'articulo', 'precio', 'borrado']
 
     def to_representation(self, instance):
         print("articulo")
         print(instance.articulo.id)
-        # print(instance.articulo.id)
         variantes = ArticuloVariante.objects.filter(id=instance.articulo.id)
-        # articulo = Articulo.objects.filter(variantes=instance.articulo.id)
-        # ser_articulo = ArticuloSerializer(articulo, many=True)
         ser_variantes = ArticuloVarianteSerializer(variantes, many=True)
-        # print(ser_articulo.data)
         return{
             'id':instance.id,
             'cantidad':instance.cantidad,
             'articulo':ser_variantes.data if instance.articulo else None,
-            # 'articulo_imagen':ser_articulo.data.imagen if instance.articulo else None,
-            # 'articulo_variante': ser_articulo
-            # 'articulo_id':ser_articulo.data.id,
-            # 'articulo_nombre':ser_articulo.data.nombre,
-            # 'variante':instance.articulo,
+            'precio':instance.precio,
             'borrado':instance.borrado,
         }    
 
@@ -42,33 +34,8 @@ class PVSerializer(WritableNestedModelSerializer):
     producto_detalle = Producto_detalleSerializer(many=True)
     class Meta:
         model = Producto_variante
-        fields = ['id', 'nombre','descripcion', 'almacen', 'color', 'talla', 'horas_manufactura', 'costo_manufactura', 'gastos_generales', 'precio_final', 'borrado', 'producto_detalle']
+        fields = ['id', 'nombre','descripcion', 'almacen', 'color', 'talla', 'costo_produccion', 'precio_venta', 'borrado', 'producto_detalle']
         depth = 4
-    # def to_representation(self, instance):
-    #     detalle = Producto_detalle.objects.filter(variante=instance.id)
-    #     ser_detalle = Producto_detalleSerializer(detalle, many=True)
-    #     operacion = (float(instance.horas_manufactura)*float(instance.costo_manufactura))+float(instance.gastos_generales)
-    #     if instance.almacen:
-    #         almacen = Almacen.objects.get(id=instance.almacen.id)
-    #         ser_almacen = AlmacenSerializer(almacen) 
-    #     return{
-    #         'id':instance.id,
-    #         'nombre':instance.nombre,
-    #         'descripcion':instance.descripcion,
-    #         # 'almacen_nombre':instance.almacen.nombre,
-    #         'almacen':ser_almacen.data if instance.almacen else None,
-    #         'color':instance.color,
-    #         'talla':instance.talla,
-    #         'horas_manufactura':instance.horas_manufactura,
-    #         'costo_manufactura':instance.costo_manufactura,
-    #         'gastos_generales':instance.gastos_generales,
-    #         'precio_final':operacion,
-    #         # 'producto': instance.producto.nombre,
-    #         # 'categoria':instance.producto.categoria.id if instance.producto.categoria else None,
-    #         # 'imagen': "http://localhost:8000"+instance.producto.imagen.url,
-    #         'producto_detalle':ser_detalle.data,
-            
-    #     }
 
 class Producto_varianteSerializer(WritableNestedModelSerializer):
     producto_detalle = Producto_detalleSerializer(many=True)
@@ -79,7 +46,6 @@ class Producto_varianteSerializer(WritableNestedModelSerializer):
     def to_representation(self, instance):
         detalle = Producto_detalle.objects.filter(variante=instance.id)
         ser_detalle = Producto_detalleSerializer(detalle, many=True)
-        operacion = (float(instance.horas_manufactura)*float(instance.costo_manufactura))+float(instance.gastos_generales)
         if instance.almacen:
             almacen = Almacen.objects.get(id=instance.almacen.id)
             ser_almacen = AlmacenSerializer(almacen)
@@ -90,10 +56,8 @@ class Producto_varianteSerializer(WritableNestedModelSerializer):
             'almacen':ser_almacen.data if instance.almacen else None,
             'color':instance.color,
             'talla':instance.talla,
-            'horas_manufactura':instance.horas_manufactura,
-            'costo_manufactura':instance.costo_manufactura,
-            'gastos_generales':instance.gastos_generales,
-            'precio_final':operacion,
+            'costo_produccion':instance.costo_produccion,
+            'precio_venta':instance.precio_venta,
             'producto': instance.producto.nombre,
             'imagen': "http://localhost:8000"+instance.producto.imagen.url,
             'producto_detalle' : ser_detalle.data,

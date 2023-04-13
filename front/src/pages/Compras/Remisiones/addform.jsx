@@ -57,7 +57,7 @@ const AddForm = ({
     { field: 'subtotal', headerName: 'Subtotal', type: 'number', valueFormatter: ({value}) => `S./ ${value}` },
     
   ];
-
+  
   const rows = detalle_compra.map(item => {
     item.subtotal = item.precio_unitario * item.cantidad 
     return item
