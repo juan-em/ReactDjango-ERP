@@ -21,6 +21,7 @@ const steps = ["Registro", "Agregar Artículo"];
 import { INITIAL_STATE, comprasReducer, ACTION_TYPES } from "./reducerCompra";
 import { RegistroComnpra, BuildCompraPayload } from "../../../services/compras";
 import Swal from "sweetalert2";
+import Notificaciones from "./notificaciones";
 
 const Compra = () => {
   const navigate = useNavigate();
@@ -93,22 +94,28 @@ const Compra = () => {
   return (
     <section>
       <div className="container">
+        
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={12}>
-            <Typography
-              fontFamily={"inherit"}
-              align={"center"}
-              sx={{
-                mt: 3,
-                p: 3,
-                backgroundColor: alpha("#633256", 0.2),
-                "&:hover": {
-                  backgroundColor: alpha("#633256", 0.25),
-                },
-              }}
-            >
-              Nueva Compra
-            </Typography>
+
+              
+                <Typography
+                  fontFamily={"inherit"}
+                  align={"center"}
+                  sx={{
+                    mt: 3,
+                    p: 3,
+                    backgroundColor: alpha("#633256", 0.2),
+                    "&:hover": {
+                      backgroundColor: alpha("#633256", 0.25),
+                    },
+                  }}
+                >
+                  Nueva Compra
+                </Typography>
+                <Grid item xs={12} sm={12} md={12}>
+                    <Notificaciones/>
+                </Grid>
             <Stepper activeStep={activeStep} sx={{ p: 5 }}>
               {steps.map((label, index) => {
                 const stepProps = {};
