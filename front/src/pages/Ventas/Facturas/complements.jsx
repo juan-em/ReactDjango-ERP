@@ -320,16 +320,20 @@ export const Tabla = ({
                     <DeleteIcon fontSize="inherit" />
                   )}
                 </IconButton>
-                <AddForm
-                  itemView={itemView}
-                  setItemView={setItemView}
-                  row={d}
-                  idVenta={d.id}
-                  detalle_venta={d.detalle_venta}
-                  renderizar={renderizar}
-                  setRenderizar={setRenderizar}
-                  render={render}
-                />
+                {!sesion ? (
+                  <></>
+                ) : (
+                  <AddForm
+                    itemView={itemView}
+                    setItemView={setItemView}
+                    row={d}
+                    idVenta={d.id}
+                    detalle_venta={d.detalle_venta}
+                    renderizar={renderizar}
+                    setRenderizar={setRenderizar}
+                    render={render}
+                  />
+                )}
               </>
             ),
           },

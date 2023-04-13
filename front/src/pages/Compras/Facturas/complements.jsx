@@ -193,16 +193,7 @@ export const Tabla = ({
                   {row.borrado?<CheckCircleIcon fontSize="inherit" />:<DeleteIcon fontSize="inherit"/>}
                 </IconButton>
 
-                <AddForm 
-                  itemView={itemView}
-                  setItemView={setItemView}
-                  row={row}
-                  idCompra={row.id} 
-                  detalle_compra={row.detalle_compra}
-                  renderizar={renderizar}
-                  setRenderizar={setRenderizar}
-                  render={render}
-                />
+                
               </TableCell>
             </TableRow>
           ))}

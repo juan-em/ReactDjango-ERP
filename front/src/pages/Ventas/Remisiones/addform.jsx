@@ -52,11 +52,11 @@ const AddForm = ({
     { field: 'producto', headerName: 'Nombre', minWidth:130, valueFormatter: ({value}) => `${value.producto.nombre}/${value.nombre}` },
     { field: 'almacen', headerName: 'Almacen', minWidth:130, valueFormatter: ({value}) => value?value.nombre:'-' },
     { field: 'cantidad', headerName: 'Cantidad', type: 'number' },
-    { field: 'precio_venta', headerName: 'Precio', type: 'number', valueFormatter: ({value}) => `S./ ${value}` },
+    { field: 'precio_unitario', headerName: 'Precio', type: 'number', valueFormatter: ({value}) => `S./ ${value}` },
     { field: 'subtotal', headerName: 'Subtotal', type: 'number', valueFormatter: ({value}) => `S./ ${value}` },
     
   ];
-
+  console.log(detalle_venta)
   const rows = detalle_venta.map(item => {
     item.subtotal = item.precio_unitario * item.cantidad 
     return item
