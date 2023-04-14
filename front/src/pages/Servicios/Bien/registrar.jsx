@@ -12,7 +12,9 @@ import {
   DialogContent,
   DialogTitle,
   Tab, Tabs, Box,
-  Autocomplete, Card
+  Autocomplete, Card,
+  Select, MenuItem,
+  FormControl, InputLabel
 } from "@mui/material";
 
 import { TabContext } from "@mui/lab";
@@ -30,7 +32,10 @@ import { postBienes } from '../../../services/Servicios/bienes';
 
 const Registar = () => {
   // POST request para la orden de bien
-  const perSubmitBien = async (data) => {
+  const ordenBienMenorSubmit = async (data) => {
+    data.orden_bien_economico = [{}]
+    data.orden_bien_tecnico = [{}]
+    console.log(data,"<===============")
     var testingBienes = {
       "bien_nombre":"bien1",
       "bien_estado":"Denegado",
@@ -49,8 +54,8 @@ const Registar = () => {
       "bien_cotizacion":12.30
     }
 
-    await postBienes(testingBienes)
-
+    var res = await postBienes(data)
+    console.log("====================> ", res)
   }
 
   // Funcionamiento relacion a la interfaz de registro con Tabs
@@ -118,13 +123,15 @@ const Registar = () => {
   ];
 
   const top101Films = [
-    { label: 'No Iniciado'},
-    { label: 'Solicitando cotización'},
-    { label: 'Aprobado'},
-    { label: 'En proceso'},
-    { label: 'Denegado'},
+    'No Iniciado',
+    'Solicitando cotización',
+    'Aprobado',
+    'En proceso',
+    'Denegado',
 
   ];
+
+  const item = {}
 
   return (
     <div>
@@ -168,17 +175,30 @@ const Registar = () => {
                           value={values.bien_nombre}
                           onChange={handleChange}
                         />
-                        <Field as={Autocomplete}
-                          type="text"
+                        <FormControl
+                          fullWidth
+                          margin="dense"
                           size="small"
                           color="secondary"
-                          margin="dense"
-                          name="nombre"
+                        >
+                          <InputLabel>Estado (viene al seleccionarlo)</InputLabel>
+                          <Select
+                          label="Estado (viene al seleccionarlo)"
+                          size="small"
+                          color="secondary"
                           id="textfields"
-                          required
-                          options={top101Films}
-                          renderInput={(params) => <TextField {...params} label="Estado (Viene al seleccionarlo)" margin="dense" color="secondary" fullWidth />}
-                        />
+                          onChange={handleChange}
+                          name="bien_estado"
+                          
+                          >
+                            {top101Films.map((item, i) => (
+                              <MenuItem key={i} value={item}>
+                                {item}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        
                         <Grid item xs={12} sm={12} md={12}>
                           <Card variant="outlined" sx={{px:2, py:1}}>
                             <Grid container spacing={1}>
@@ -188,7 +208,10 @@ const Registar = () => {
                               <Grid item xs={12} sm={12} md={12}>
                                 <Button variant="outlined" component="label" fullWidth size="small">
                                   <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
+                                  <input hidden accept="image/*" multiple type="file" 
+
+                                  
+                                  />
                                 </Button>
                               </Grid>
                             </Grid>
@@ -264,7 +287,7 @@ const Registar = () => {
                   {/* Registro de bien en el que la cotizacion es mayor a 500 */}
                   
                   <Grid container spacing={1}>
-                    <Formik initialValues={item} onSubmit={ordenBienMayorSubmit}>
+                    <Formik initialValues={item} onSubmit={ordenBienMenorSubmit}>
                         {({ values, handleSubmit, handleChange }) => (
                         <Form onSubmit={handleSubmit}>
                           <Grid item xs={12} sm={6} md={6}>
@@ -276,25 +299,35 @@ const Registar = () => {
                               color="secondary"
                               id="textfields"
                               margin="dense"
-                              name="bien_mayor"
-                              value={values.bien_nombre}
-                              onChange={handleChange}
+                              name="bien_nombre"
+                              //value={values.bien_nombre}
+                              //onChange={handleChange}
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={6}>
-                            <Autocomplete
-                              fullWidth
-                              type="text"
-                              size="small"
-                              color="secondary"
-                              margin="dense"
-                              name="nombre"
-                              id="textfields"
-                              disablePortal
-                              required
-                              options={top101Films}
-                              renderInput={(params) => <TextField {...params} label="Estado (Viene al seleccionarlo)" margin="dense" color="secondary" fullWidth />}
-                            />
+                          <FormControl
+                            fullWidth
+                            margin="dense"
+                            size="small"
+                            color="secondary"
+                          >
+                            <InputLabel>Estado (viene al seleccionarlo)</InputLabel>
+                            <Select
+                            label="Estado (viene al seleccionarlo)"
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            onChange={handleChange}
+                            name="bien_estado"
+                            
+                            >
+                              {top101Films.map((item, i) => (
+                                <MenuItem key={i} value={item}>
+                                  {item}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
                           </Grid>
                           <Grid item xs={12} sm={12} md={12}>
                             <Card variant="outlined" sx={{px:2, py:1}}>
