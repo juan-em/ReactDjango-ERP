@@ -34,7 +34,7 @@ class Orden_bien(models.Model):
         return self.bien_nombre
 
 class Propuesta_tecnica(models.Model):
-    propuesta_tecnica_nombre = models.CharField(max_length=100)
+    propuesta_tecnica_nombre = models.CharField(max_length=100, default=NINGUNO)
     orden_bien_tecnico = models.ForeignKey(Orden_bien, related_name="orden_bien_tecnico", on_delete=models.CASCADE, null=True)
     propuesta_tecnica_tipo = models.CharField(max_length=50, choices=PROPUESTA_TIPO, default=NINGUNO, null=True)
     fecha_registro = models.DateField(auto_now_add=True)
@@ -44,7 +44,7 @@ class Propuesta_tecnica(models.Model):
         return self.propuesta_tecnica_nombre
 
 class Propuesta_economica(models.Model):
-    propuesta_economica_nombre = models.CharField(max_length=100)
+    propuesta_economica_nombre = models.CharField(max_length=100, default=NINGUNO)
     orden_bien_economico = models.ForeignKey(Orden_bien, related_name="orden_bien_economico", on_delete=models.CASCADE, null=True)
     propuesta_economica_tipo = models.CharField(max_length=50, choices=PROPUESTA_TIPO, default=NINGUNO, null=True)
     fecha_registro = models.DateField(auto_now_add=True)
