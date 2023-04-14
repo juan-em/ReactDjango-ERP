@@ -110,7 +110,6 @@ const Registar = () => {
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            
             Registrar Requerimiento de Bien
           </Typography>
         </DialogTitle>
@@ -128,8 +127,9 @@ const Registar = () => {
                   {/* Registro de bien en el que la cotizacion es menor a 500 */}
                   
                   <Grid container spacing={1}>
-                    <Formik>
-                      <Form>
+                    <Formik initialValues={item} onSubmit={ordenBienMenorSubmit}>
+                      {({ values, handleSubmit, handleChange }) => (
+                      <Form onSubmit={handleSubmit}>
                         <Field as={TextField}
                           label="Tipo de bien (Viene al seleccionarlo)"
                           required
@@ -137,7 +137,9 @@ const Registar = () => {
                           color="secondary"
                           id="textfields"
                           margin="dense"
-                          name="persona.nombre"
+                          name="bien_nombre"
+                          value={values.bien_nombre}
+                          onChange={handleChange}
                         />
                         <Field as={Autocomplete}
                           type="text"
@@ -150,8 +152,6 @@ const Registar = () => {
                           options={top101Films}
                           renderInput={(params) => <TextField {...params} label="Estado (Viene al seleccionarlo)" margin="dense" color="secondary" fullWidth />}
                         />
-
-                        
                         <Grid item xs={12} sm={12} md={12}>
                           <Card variant="outlined" sx={{px:2, py:1}}>
                             <Grid container spacing={1}>
@@ -191,7 +191,9 @@ const Registar = () => {
                               <Grid item xs={12} sm={12} md={12}>
                                 <Button variant="outlined" component="label" fullWidth size="small">
                                   <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
+                                  <input hidden accept="image/*" multiple type="file" 
+                                    
+                                  />
                                 </Button>
                               </Grid>
                             </Grid>
@@ -225,6 +227,7 @@ const Registar = () => {
                           </Button>
                         </Grid>
                       </Form>
+                      )}
                     </Formik>
                   </Grid>
                 </TabPanel>
@@ -232,164 +235,172 @@ const Registar = () => {
                 <TabPanel value={value} index={1}>
 
                   {/* Registro de bien en el que la cotizacion es mayor a 500 */}
-
+                  
                   <Grid container spacing={1}>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <TextField
-                      fullWidth
-                      label="Tipo de servicio (Viene al seleccionarlo)"
-                      required
-                      size="small"
-                      color="secondary"
-                      id="textfields"
-                      margin="dense"
-                      name="persona.nombre"
-                    />
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={6}>
-                      <Autocomplete
-                        fullWidth
-                        type="text"
-                        size="small"
-                        color="secondary"
-                        margin="dense"
-                        name="nombre"
-                        id="textfields"
-                        disablePortal
-                        required
-                        options={top101Films}
-                        renderInput={(params) => <TextField {...params} label="Estado (Viene al seleccionarlo)" margin="dense" color="secondary" fullWidth />}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12}>
-                      <Card variant="outlined" sx={{px:2, py:1}}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={12} sm={12} md={6} >
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Cotización 1</span>
+                    <Formik initialValues={item} onSubmit={ordenBienMayorSubmit}>
+                        {({ values, handleSubmit, handleChange }) => (
+                        <Form onSubmit={handleSubmit}>
+                          <Grid item xs={12} sm={6} md={6}>
+                            <TextField
+                              fullWidth
+                              label="Tipo de servicio (Viene al seleccionarlo)"
+                              required
+                              size="small"
+                              color="secondary"
+                              id="textfields"
+                              margin="dense"
+                              name="bien_mayor"
+                              value={values.bien_nombre}
+                              onChange={handleChange}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={6}>
+                            <Autocomplete
+                              fullWidth
+                              type="text"
+                              size="small"
+                              color="secondary"
+                              margin="dense"
+                              name="nombre"
+                              id="textfields"
+                              disablePortal
+                              required
+                              options={top101Films}
+                              renderInput={(params) => <TextField {...params} label="Estado (Viene al seleccionarlo)" margin="dense" color="secondary" fullWidth />}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={12}>
+                            <Card variant="outlined" sx={{px:2, py:1}}>
+                              <Grid container spacing={1}>
+                                <Grid item xs={12} sm={12} md={6} >
+                                  <Grid container spacing={1}>
+                                    <Grid item xs={12} sm={12} md={12} >
+                                      <span>Cotización 1</span>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12}>
+                                      <Button variant="outlined" component="label" fullWidth size="small">
+                                        <span>Subir</span>
+                                        <input hidden accept="image/*" multiple type="file" />
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </Grid>
+
+                                <Grid item xs={12} sm={12} md={6} >
+                                  <Grid container spacing={1}>
+                                    <Grid item xs={12} sm={12} md={12} >
+                                      <span>Propuesta económica 1</span>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12}>
+                                      <Button variant="outlined" component="label" fullWidth size="small">
+                                        <span>Subir</span>
+                                        <input hidden accept="image/*" multiple type="file" />
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </Grid>
                               </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
-                                </Button>
-                              </Grid>
-                            </Grid>
+                            </Card>
                           </Grid>
 
-                          <Grid item xs={12} sm={12} md={6} >
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Propuesta económica 1</span>
-                              </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
-                                </Button>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Card>
-                    </Grid>
+                          <Grid item xs={12} sm={12} md={12}>
+                            <Card variant="outlined" sx={{px:2, py:1}}>
+                              <Grid container spacing={1}>
+                                <Grid item xs={12} sm={12} md={6} >
+                                  <Grid container spacing={1}>
+                                    <Grid item xs={12} sm={12} md={12} >
+                                      <span>Cotización 2</span>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12}>
+                                      <Button variant="outlined" component="label" fullWidth size="small">
+                                        <span>Subir</span>
+                                        <input hidden accept="image/*" multiple type="file" />
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </Grid>
 
-                    <Grid item xs={12} sm={12} md={12}>
-                      <Card variant="outlined" sx={{px:2, py:1}}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={12} sm={12} md={6} >
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Cotización 2</span>
+                                <Grid item xs={12} sm={12} md={6} >
+                                  <Grid container spacing={1}>
+                                    <Grid item xs={12} sm={12} md={12} >
+                                      <span>Propuesta económica 2</span>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12}>
+                                      <Button variant="outlined" component="label" fullWidth size="small">
+                                        <span>Subir</span>
+                                        <input hidden accept="image/*" multiple type="file" />
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </Grid>
                               </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
-                                </Button>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-
-                          <Grid item xs={12} sm={12} md={6} >
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Propuesta económica 2</span>
-                              </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
-                                </Button>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Card>
-                    </Grid>
-
-                    <Grid item xs={12} sm={12} md={12}>
-                      <Card variant="outlined" sx={{px:2, py:1}}>
-                        <Grid container spacing={1}>
-                          <Grid item xs={12} sm={12} md={6} >
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Cotización 3</span>
-                              </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
-                                </Button>
-                              </Grid>
-                            </Grid>
+                            </Card>
                           </Grid>
 
-                          <Grid item xs={12} sm={12} md={6} >
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Propuesta económica 3</span>
-                              </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
-                                </Button>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Card>
-                    </Grid>
+                          <Grid item xs={12} sm={12} md={12}>
+                            <Card variant="outlined" sx={{px:2, py:1}}>
+                              <Grid container spacing={1}>
+                                <Grid item xs={12} sm={12} md={6} >
+                                  <Grid container spacing={1}>
+                                    <Grid item xs={12} sm={12} md={12} >
+                                      <span>Cotización 3</span>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12}>
+                                      <Button variant="outlined" component="label" fullWidth size="small">
+                                        <span>Subir</span>
+                                        <input hidden accept="image/*" multiple type="file" />
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </Grid>
 
-                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                      <Button
-                        fullWidth
-                        id="btnClick"
-                        size="medium"
-                        color="secondary"
-                        className="navbar-btn-single"
-                        variant="contained"
-                        type="submit"
-                        
-                      >
-                        <span>Registrar</span>
-                      </Button>
-                      </Grid>
-                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                      <Button
-                        fullWidth
-                        id="btnClick"
-                        size="medium"
-                        color="error"
-                        className="navbar-btn-single"
-                        variant="contained"
-                        onClick={handleClose}
-                      >
-                        <span>Cancelar</span>
-                      </Button>
-                    </Grid>
+                                <Grid item xs={12} sm={12} md={6} >
+                                  <Grid container spacing={1}>
+                                    <Grid item xs={12} sm={12} md={12} >
+                                      <span>Propuesta económica 3</span>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12}>
+                                      <Button variant="outlined" component="label" fullWidth size="small">
+                                        <span>Subir</span>
+                                        <input hidden accept="image/*" multiple type="file" />
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            </Card>
+                          </Grid>
+
+                          <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                            <Button
+                              fullWidth
+                              id="btnClick"
+                              size="medium"
+                              color="secondary"
+                              className="navbar-btn-single"
+                              variant="contained"
+                              type="submit"
+                              
+                            >
+                              <span>Registrar</span>
+                            </Button>
+                            </Grid>
+                          <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
+                            <Button
+                              fullWidth
+                              id="btnClick"
+                              size="medium"
+                              color="error"
+                              className="navbar-btn-single"
+                              variant="contained"
+                              onClick={handleClose}
+                            >
+                              <span>Cancelar</span>
+                            </Button>
+                          </Grid>
+                          </Form>
+                      )}
+                    </Formik>
                   </Grid>
                 </TabPanel>
               </Box>
