@@ -40,14 +40,39 @@ class VentaSerializer(WritableNestedModelSerializer):
 class RemisionDetalleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Remision_venta_detalle
-        fields = '__all__'
+        fields = ['id', 'codigo', 'venta_detalle']
+
+    def to_representatin(self, instance):
+        venta_detalle = Venta_detalle.objects.filter(id = instance.venta_detalle.id)
+        ser_venta_detalle = Venta_DetalleSerializer(venta_detalle)
+        return {
+            'id':instance.id,
+            'codigo':instance.codigo,
+            'venta_detalle':ser_venta_detalle
+        }
 
 
-class RemisionesSerializer(WritableNestedModelSerializer):
+
+class RemisionesSerializer(serializers.ModelSerializer):
     remision_venta = RemisionDetalleSerializer(many=True)
     class Meta:
         model = Remision_venta
-        fields = ['id', 'compra', 'remision_venta']
+        fields = '__all__ '
+    def to_representation(self, instance):
+        detalle_remision_venta = Remision_venta_detalle.objects.filter(remision_venta=instance.pk)
+        ser_detalle_remision_venta = RemisionDetalleSerializer(detalle_remision_venta, many=True)
+        return {
+            'id': instance.id,
+            'codigo': instance.codigo,
+            'fecha': instance.fecha,
+            'trabajador': instance.trabajador,
+            'remision_venta_detalle': ser_detalle_remision_venta.data,
+            'venta': instance.venta.id,
+            'codigo_venta':instance.venta.codigo,
+            'totalRemision':instance.totalRemision,
+            'proveedor': instance.venta.nombre_cliente,
+            'numero_factura': instance.venta.numero_factura,
+        }
 
 
 class SalidaAlmacen(serializers.ModelSerializer):

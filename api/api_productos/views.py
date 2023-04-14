@@ -55,6 +55,7 @@ def parse_querydict(query_dict):
                     if part not in current:
                         current[part] = {}
                     current = current[part]
+    print(result)
     return result
 
 # @permission_classes([IsAuthenticated])
@@ -71,6 +72,7 @@ class ProductoView(APIView):
 
     def post(self, request, format=None):
         serializer = ProductoSerializer(data = parse_querydict(request.data))
+        # serializer = ProductoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status = status.HTTP_200_OK)
