@@ -15,8 +15,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from api_models.views import export_csv 
+
 urlpatterns = [
     path('api/', include('api_autenticacion_usuarios.urls')),
     path('admin/', admin.site.urls),
+    # TEMPORAL
+    path('export/', export_csv)
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

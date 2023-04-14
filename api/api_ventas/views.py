@@ -20,9 +20,26 @@ class VentasView(APIView):
         return Response(context)
     
     def post(self, request):
+        #registro caja
+        # tipo_pago = request.data.pop('tipo_pago', None)
+        
+
         serializer = VentaSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+        #registro caja
+        # if tipo_pago:
+        #     data = {
+        #         'tipo_movimiento': 'Venta',
+        #         'venta': Venta.objects.get(id=serializer.data["id"]),
+        #         'tipo_pago': Formapago.objects.get(id=tipo_pago),
+        #         'caja_diaria': Caja_diaria.objects.get(estado=True)
+        #     }
+        #     cajaMovimiento = Caja_diaria_movimientos.objects.create(**data)
+        #     cajaMovimiento.save()
+
+
         context = {
                 'data':'OK',
                 'status':status.HTTP_201_CREATED,
@@ -55,6 +72,7 @@ class VentasDetailView(APIView):
     
     def delete(self, request, id):
         data = Venta.objects.get(id=id)
+        data.borrado = not data.borrado
         data.delete()
         context = {
             'status':True,

@@ -111,6 +111,7 @@ const Venta = () => {
   };
 
   const handleReset = () => {
+    console.log("sesion", stateSesion)
     if (!sesionIniciada) {
       dispatch({
         type: ACTION_TYPES.RESET_VENTA,
@@ -130,6 +131,7 @@ const Venta = () => {
     ) {
       var payload = BuildVentaPayload(state.venta);
       RegistroVenta(payload);
+      console.log(payload)
       handleNext();
     } else {
       Swal.fire({
@@ -140,29 +142,6 @@ const Venta = () => {
     }
   };
 
-  // const setTotal = () => {
-  //   let suma = 0
-  //   stateSesion.sesion_venta.punto_venta.forEach((i)=>suma += i.precio_total)
-  //   let payload = suma
-  //   let action = {
-  //     type: ACTION_SESION_TYPES.SET_MONTO_FINAL,
-  //     payload
-  //   } 
-  //   dispatchSesion(action)
-  // }
-
-  // const setHoraFinal = () => {
-  //   let event = new Date();
-  //   let date = JSON.stringify(event);
-  //   date = date.slice(1, -1);
-  //   let payload = date;
-  //   let action = {
-  //     type:ACTION_SESION_TYPES.SET_HORA_FIN,
-  //     payload
-  //   }
-  //   dispatchSesion(action);  
-  //   console.log("horafin",stateSesion)  
-  // }
   console.log("fuera",stateSesion)
 
   const handleRegisterPuntoVenta = () => {
@@ -173,14 +152,6 @@ const Venta = () => {
       type: ACTION_SESION_TYPES.SET_HORA_FIN,
       payload: date
     });
-
-    let suma = 0
-    stateSesion.sesion_venta.punto_venta.forEach((i)=>suma += i.precio_total)
-    dispatchSesion({
-      type: ACTION_SESION_TYPES.SET_MONTO_FINAL,
-      payload: suma
-    });
-
     dispatchSesion({
       type: ACTION_SESION_TYPES.ADD_PUNTO_VENTA,
       payload: BuildPuntoVentaPayload(statePuntoVenta.punto_venta)

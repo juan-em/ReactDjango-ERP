@@ -34,4 +34,7 @@ urlpatterns = [
 
     #Ventas
     path('ventas/', include('api_ventas.urls')),
+
+    #CajaDiaria
+    path('cajadiaria/', include('api_cajadiaria.urls')),
 ]

@@ -2,11 +2,6 @@ import "./index.css";
 import "../../../fonts/poppins.ttf";
 import { alpha } from "@mui/material/styles";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
 import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NumbersIcon from "@mui/icons-material/Numbers";
@@ -21,20 +16,25 @@ import {
   AccordionSummary,
   AccordionDetails,
   Box,
+  Autocomplete,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
-import { TabContext } from '@mui/lab';
+import { TabContext } from "@mui/lab";
 //Componentes pra el input de fecha
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 //Componentes
 import { useState, useEffect, useContext } from "react";
 import { Tabla } from "./complements";
 
 import { useRef } from "react";
-import VerProvincia from "./verfactura";
+import VerFactura from "./verfactura";
+
+import { getClientes } from "../../../services/clientes";
 
 const FacturaVentas = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -44,6 +44,10 @@ const FacturaVentas = () => {
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
+
+  const [clientes, setClientes] = useState([]);
+  const [sesion, setSesion] = useState(false);
+
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
@@ -56,9 +60,16 @@ const FacturaVentas = () => {
   const [value, setValue] = useState(dayjs(new Date()));
 
   const handleChange = (newValue) => {
-      setValue(newValue);
+    setValue(newValue);
   };
-  
+
+  const switchChange = () => {
+    !sesion ? setSesion(true) : setSesion(false);
+  };
+
+  useEffect(() => {
+    getClientes(setClientes);
+  }, []);
 
   return (
     <section>
@@ -89,26 +100,50 @@ const FacturaVentas = () => {
                   <form id="searchform">
                     <TextField
                       fullWidth
+                      label="Código"
+                      type="text"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="codigo"
+                      id="textfields"
+                      variant="filled"
+                      onChange={handlerSearcher}
+                    />
+                    <Autocomplete
+                      disablePortal
+                      options={clientes || []}
+                      getOptionLabel={(option) => {
+                        if (option.persona) return option.persona.nombre;
+                        if (option.empresa) return option.empresa.nombre;
+                        return "";
+                      }}
+                      size="small"
+                      id="textfields"
+                      variant="filled"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Cliente"
+                          margin="dense"
+                          color="secondary"
+                          variant="filled"
+                          fullWidth
+                        />
+                      )}
+                      onChange={(e, value) =>
+                        handlerSearcher(e, { cliente: value })
+                      }
+                    />
+
+                    <TextField
+                      fullWidth
                       label="N° de factura"
                       type="number"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
-                      variant="filled"
-                      id="textfields"
-                      onChange={handlerSearcher}
-                    />
-                    <TextField
-                      fullWidth
-                      label="RUC/DNI Cliente"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      maxlength="8"
-                     
-                      name="nombre"
+                      name="numero_factura"
                       id="textfields"
                       variant="filled"
                       onChange={handlerSearcher}
@@ -118,19 +153,22 @@ const FacturaVentas = () => {
                         label="Fecha"
                         inputFormat="DD/MM/YYYY"
                         value={value}
-                        onChange={handleChange}
-                        renderInput={(params) => <TextField 
-                          {...params} 
-                          fullWidth
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          margin="dense"
-                          variant="filled"
-                          />}
-                        />
-                      </LocalizationProvider>
-                    
+                        name="fecha"
+                        onChange={handlerSearcher}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            fullWidth
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            margin="dense"
+                            variant="filled"
+                          />
+                        )}
+                      />
+                    </LocalizationProvider>
+
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -152,7 +190,17 @@ const FacturaVentas = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={7}>
-            <VerProvincia itemView={itemView} />
+            <VerFactura 
+              itemView={itemView} 
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar} />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <FormControlLabel
+              control={<Switch color="secondary" onChange={switchChange} />}
+              label="Ver Sesiones de Venta"
+            />
           </Grid>
         </Grid>
         <Box sx={{ overflow: "auto" }}>
@@ -164,7 +212,9 @@ const FacturaVentas = () => {
               setRenderizar={setRenderizar}
               setOpenModal={setOpenModal}
               setItem={setItem}
+              itemView={itemView}
               setItemView={setItemView}
+              sesion={sesion}
             />
           </Box>
         </Box>
