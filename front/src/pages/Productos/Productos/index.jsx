@@ -15,7 +15,7 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem, Box
 } from "@mui/material";
 
 //Componentes
@@ -170,18 +170,26 @@ const Productos = () => {
               setItem={setItem}
             />
           </Grid>
+
+          <Grid item xs={12} sm={12} md={12} xl={12} sx={{ mt: -5 }}>
+            <Box sx={{ overflow: "auto" }}>
+              <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+              <Tabla
+                fields={fields}
+                render={render}
+                renderizar={renderizar}
+                setRenderizar={setRenderizar}
+                setOpenModal={setOpenModal}
+                setItem={setItem}
+                setItemView={setItemView}
+                setFullProduct={setFullProduct}
+              />
+              </Box>
+            </Box>
+          </Grid>
         </Grid>
 
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          setItem={setItem}
-          setItemView={setItemView}
-          setFullProduct={setFullProduct}
-        />
+
       </div>
     </section>
   );
