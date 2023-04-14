@@ -20,13 +20,40 @@ import { TabContext } from "@mui/lab";
 // Imports relacionado con Formik
 import { Formik, Form, Field } from 'formik';
 
-//iconos
+// Imports relacionado a los iconos
 import CloseIcon from "@mui/icons-material/Close";
 
 import PropTypes from 'prop-types';
 
+// Imports relacionado a las peticiones
+import { postBienes } from '../../../services/Servicios/bienes';
+
 const Registar = () => {
-  
+  // POST request para la orden de bien
+  const perSubmitBien = async (data) => {
+    var testingBienes = {
+      "bien_nombre":"bien1",
+      "bien_estado":"Denegado",
+      "orden_bien_tecnico":[
+          {
+              "propuesta_tecnica_nombre":"p1",
+              "propuesta_tecnica_tipo":"Bien"
+          }
+      ],
+      "orden_bien_economico":[
+          {
+              "propuesta_economica_nombre":"pe1",
+              "propuesta_economica_tipo":"Bien"
+          }
+      ],
+      "bien_cotizacion":12.30
+    }
+
+    await postBienes(testingBienes)
+
+  }
+
+  // Funcionamiento relacion a la interfaz de registro con Tabs
   const [open, setOpen] = useState(false);
   
   const handleOpen = () => {
