@@ -16,7 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState, useEffect, useContext } from "react";
 
 import { useRef } from "react";
-import Registar from "./registro/registrar";
+import Registar from "./registrar";
   
   const Notificaciones = () => {
     const [openModal, setOpenModal] = useState(false);
