@@ -46,7 +46,7 @@ const FacturaVentas = () => {
   const [fields, setFields] = useState({});
 
   const [clientes, setClientes] = useState([]);
-  const [sesion, setSesion] = useState(false);
+  const [sesionCambio, setSesionCambio] = useState(false);
 
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
@@ -64,7 +64,7 @@ const FacturaVentas = () => {
   };
 
   const switchChange = () => {
-    !sesion ? setSesion(true) : setSesion(false);
+    !sesionCambio ? setSesionCambio(true) : setSesionCambio(false);
   };
 
   useEffect(() => {
@@ -214,7 +214,7 @@ const FacturaVentas = () => {
               setItem={setItem}
               itemView={itemView}
               setItemView={setItemView}
-              sesion={sesion}
+              sesionCambio={sesionCambio}
             />
           </Box>
         </Box>

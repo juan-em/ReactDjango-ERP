@@ -201,6 +201,8 @@ class Proveedores(models.Model):
 #ARTICULOS
 ############################################################
 
+ 
+
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
     borrado = models.BooleanField(default=False, null=True)
@@ -257,6 +259,7 @@ class ArticuloVariante(models.Model):
 #PRODUCTO
 ############################################################
 
+
 class Categoria_producto(models.Model):
     nombre = models.CharField(max_length=100)
     borrado = models.BooleanField(default=False, null=True)
@@ -265,7 +268,7 @@ class Categoria_producto(models.Model):
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
-    cantidad = models.IntegerField(default=0)
+    # cantidad = models.IntegerField(default=0)
     descripcion_producto = models.TextField(null=True, blank=True)
     categoria=models.ForeignKey(Categoria_producto, related_name='categoria_producto', on_delete=models.SET_NULL, null=True)
     imagen = models.ImageField( _("Image") ,upload_to=upload_toProd,default='blancos.png', blank=True)
@@ -279,11 +282,13 @@ class Producto(models.Model):
         id = str(self.pk)
         return 'PROD-'+'0'*(5-len(id))+id
 
+
 class Producto_variante(models.Model):
     producto = models.ForeignKey(Producto,related_name='producto_variante', on_delete=models.CASCADE, null=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=100, null=True, blank=True)
-    almacen = models.ForeignKey(Almacen, on_delete=models.SET_NULL, null=True, blank=True)  #ALmacen de Prod Terminado o Almacen Tienda #x
+    # almacen = models.ForeignKey(Almacen, on_delete=models.SET_NULL, null=True, blank=True)  #ALmacen de Prod Terminado o Almacen Tienda #x
+    # almacen = models.ForeignKey(Ubicacion_almacen, on_delete=models.CASCADE, null=True)
     color = models.CharField(max_length=100, null=True, blank=True, default='-')
     talla = models.CharField(max_length=100, null=True, blank=True, default='-')
     # horas_manufactura=models.IntegerField(default=0)
@@ -303,11 +308,14 @@ class Producto_variante(models.Model):
     def precio_venta(self):
         suma = 0
         prodDetalle = Producto_detalle.objects.filter(variante = self.id)
-        # artProd = Articulo.objects.filter(prod)
         for item in prodDetalle:
             suma += item.precio + self.costo_produccion
         return suma
-    
+
+class Ubicacion_almacen_producto(models.Model):
+    almacen = models.ForeignKey(Almacen, on_delete=models.CASCADE, null=True)
+    cantidad = models.IntegerField(default=0, null=True)
+    producto_variante = models.ForeignKey(Producto_variante, on_delete=models.CASCADE, null=True, related_name='ubicacion_producto')
 
 class Producto_detalle(models.Model):
     variante = models.ForeignKey(Producto_variante,related_name='producto_detalle', on_delete=models.CASCADE, null=True)
@@ -599,18 +607,37 @@ class Venta_detalle(models.Model):
 
 class Remision_venta(models.Model):
     venta = models.ForeignKey(Venta, on_delete=models.CASCADE, related_name='remision_venta', null=True)
+    fecha = models.DateTimeField(auto_now_add=True)
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
+
 
     def __str__(self):
         return 'RC-'+str(self.pk)
 
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'RC-'+'0'*(5-len(id))+id
+
+    @property
+    def totalRemision(self):
+        total = 0
+        detallesRemision = Remision_venta_detalle.objects.filter(remision_venta=self.id)
+        for item in detallesRemision:
+            total += item.venta_detalle.cantidad * item.venta_detalle.precio_unitario
+        return total
+
 class Remision_venta_detalle(models.Model):
     remision_venta = models.ForeignKey(Remision_venta, on_delete=models.CASCADE, related_name='remision_venta_detalle', null=True)
     venta_detalle = models.ForeignKey(Venta_detalle, on_delete=models.CASCADE, null=True)
-    fecha = models.DateField(auto_now_add=True, null=True)
-    trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
-
+    
     def __str__(self):
         return 'RCD-'+str(self.pk)
+    
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'RDC-'+'0'*(5-len(id))+id
 
 #### Punto de Venta
 
