@@ -206,13 +206,26 @@ const Registar = () => {
                                 <span>Cotización</span>
                               </Grid>
                               <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
+                                {/* <Button variant="outlined" component="label" fullWidth size="small">
                                   <span>Subir</span>
                                   <input hidden accept="image/*" multiple type="file" 
-
-                                  
                                   />
-                                </Button>
+                                </Button> */}
+                                <Field name="file" variant="outlined" size="small" component="label">
+                                  {({ field, form }) => (
+                                    <TextField
+                                      type="file"
+                                      {...field}
+                                      inputProps={{
+                                        accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                      }}
+                                      onBlur={() => form.setTouched({ file: true })}
+                                      onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                                      error={form.touched.file && form.errors.file}
+                                      helperText={form.touched.file && form.errors.file}
+                                    />
+                                  )}
+                                </Field>
                               </Grid>
                             </Grid>
                           </Card>
@@ -224,10 +237,21 @@ const Registar = () => {
                                 <span>Propuesta técnica</span>
                               </Grid>
                               <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" />
-                                </Button>
+                                <Field name="file" variant="outlined" size="small" component="label">
+                                  {({ field, form }) => (
+                                    <TextField
+                                      type="file"
+                                      {...field}
+                                      inputProps={{
+                                        accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                      }}
+                                      onBlur={() => form.setTouched({ file: true })}
+                                      onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                                      error={form.touched.file && form.errors.file}
+                                      helperText={form.touched.file && form.errors.file}
+                                    />
+                                  )}
+                                </Field>
                               </Grid>
                             </Grid>
                           </Card>
@@ -239,12 +263,21 @@ const Registar = () => {
                                 <span>Propuesta económica</span>
                               </Grid>
                               <Grid item xs={12} sm={12} md={12}>
-                                <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" 
-                                    
-                                  />
-                                </Button>
+                              <Field name="file" variant="outlined" size="small" component="label">
+                                  {({ field, form }) => (
+                                    <TextField
+                                      type="file"
+                                      {...field}
+                                      inputProps={{
+                                        accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                      }}
+                                      onBlur={() => form.setTouched({ file: true })}
+                                      onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                                      error={form.touched.file && form.errors.file}
+                                      helperText={form.touched.file && form.errors.file}
+                                    />
+                                  )}
+                                </Field>
                               </Grid>
                             </Grid>
                           </Card>
@@ -285,11 +318,10 @@ const Registar = () => {
                 <TabPanel value={value} index={1}>
 
                   {/* Registro de bien en el que la cotizacion es mayor a 500 */}
-                  
-                  <Grid container spacing={1}>
-                    <Formik initialValues={item} onSubmit={ordenBienMenorSubmit}>
-                        {({ values, handleSubmit, handleChange }) => (
-                        <Form onSubmit={handleSubmit}>
+                  <Formik initialValues={item} onSubmit={ordenBienMenorSubmit}>
+                      {({ values, handleSubmit, handleChange }) => (
+                      <Form onSubmit={handleSubmit}>
+                        <Grid container spacing={1}>
                           <Grid item xs={12} sm={6} md={6}>
                             <TextField
                               fullWidth
@@ -338,10 +370,25 @@ const Registar = () => {
                                       <span>Cotización 1</span>
                                     </Grid>
                                     <Grid item xs={12} sm={12} md={12}>
-                                      <Button variant="outlined" component="label" fullWidth size="small">
+                                      {/* <Button variant="outlined" component="label" fullWidth size="small">
                                         <span>Subir</span>
                                         <input hidden accept="image/*" multiple type="file" />
-                                      </Button>
+                                      </Button> */}
+                                      <Field name="file" variant="outlined" size="small" component="label">
+                                        {({ field, form }) => (
+                                          <TextField
+                                            type="file"
+                                            {...field}
+                                            inputProps={{
+                                              accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                            }}
+                                            onBlur={() => form.setTouched({ file: true })}
+                                            onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                                            error={form.touched.file && form.errors.file}
+                                            helperText={form.touched.file && form.errors.file}
+                                          />
+                                        )}
+                                      </Field>
                                     </Grid>
                                   </Grid>
                                 </Grid>
@@ -352,10 +399,21 @@ const Registar = () => {
                                       <span>Propuesta económica 1</span>
                                     </Grid>
                                     <Grid item xs={12} sm={12} md={12}>
-                                      <Button variant="outlined" component="label" fullWidth size="small">
-                                        <span>Subir</span>
-                                        <input hidden accept="image/*" multiple type="file" />
-                                      </Button>
+                                    <Field name="file" variant="outlined" size="small" component="label">
+                                      {({ field, form }) => (
+                                        <TextField
+                                          type="file"
+                                          {...field}
+                                          inputProps={{
+                                            accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                          }}
+                                          onBlur={() => form.setTouched({ file: true })}
+                                          onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                                          error={form.touched.file && form.errors.file}
+                                          helperText={form.touched.file && form.errors.file}
+                                        />
+                                      )}
+                                    </Field>
                                     </Grid>
                                   </Grid>
                                 </Grid>
@@ -458,10 +516,10 @@ const Registar = () => {
                               <span>Cancelar</span>
                             </Button>
                           </Grid>
-                          </Form>
-                      )}
-                    </Formik>
-                  </Grid>
+                        </Grid>
+                      </Form>
+                    )}
+                  </Formik>
                 </TabPanel>
               </Box>
           </TabContext>
