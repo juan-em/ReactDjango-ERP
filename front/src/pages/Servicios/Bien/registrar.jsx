@@ -28,13 +28,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from 'prop-types';
 
 // Imports relacionado a las peticiones
-import { postBienes } from '../../../services/Servicios/bienes';
+import { postBienes, transformToFormData } from '../../../services/Servicios/bienes';
 
 const Registar = () => {
   // POST request para la orden de bien
   const ordenBienMenorSubmit = async (data) => {
-    data.orden_bien_economico = [{}]
-    data.orden_bien_tecnico = [{}]
+    var payload = transformToFormData(data)
     console.log(data,"<===============")
     var testingBienes = {
       "bien_nombre":"bien1",
@@ -54,7 +53,7 @@ const Registar = () => {
       "bien_cotizacion":12.30
     }
 
-    var res = await postBienes(data)
+    var res = await postBienes(payload)
     console.log("====================> ", res)
   }
 
@@ -123,7 +122,7 @@ const Registar = () => {
   ];
 
   const top101Films = [
-    'No Iniciado',
+    'Ninguno',
     'Solicitando cotización',
     'Aprobado',
     'En proceso',
@@ -162,7 +161,7 @@ const Registar = () => {
                   
                   <Grid container spacing={1}>
                     <Formik initialValues={item} onSubmit={ordenBienMenorSubmit}>
-                      {({ values, handleSubmit, handleChange }) => (
+                      {({ values, handleSubmit, handleChange, setFieldValue }) => (
                       <Form onSubmit={handleSubmit}>
                         <Field as={TextField}
                           label="Tipo de bien (Viene al seleccionarlo)"
@@ -246,7 +245,7 @@ const Registar = () => {
                                         accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                                       }}
                                       onBlur={() => form.setTouched({ file: true })}
-                                      onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                                      onChange={(event) => setFieldValue('orden_bien_tecnico[0].propuesta_tecnica_archivo', event.currentTarget.files[0])}
                                       error={form.touched.file && form.errors.file}
                                       helperText={form.touched.file && form.errors.file}
                                     />
@@ -272,7 +271,7 @@ const Registar = () => {
                                         accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                                       }}
                                       onBlur={() => form.setTouched({ file: true })}
-                                      onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                                      onChange={(event) => setFieldValue('orden_bien_economico[0].propuesta_bien_archivo', event.currentTarget.files[0])}
                                       error={form.touched.file && form.errors.file}
                                       helperText={form.touched.file && form.errors.file}
                                     />
@@ -318,7 +317,7 @@ const Registar = () => {
                 <TabPanel value={value} index={1}>
 
                   {/* Registro de bien en el que la cotizacion es mayor a 500 */}
-                  <Formik initialValues={item} onSubmit={ordenBienMenorSubmit}>
+                  <Formik initialValues={item} >
                       {({ values, handleSubmit, handleChange }) => (
                       <Form onSubmit={handleSubmit}>
                         <Grid container spacing={1}>
