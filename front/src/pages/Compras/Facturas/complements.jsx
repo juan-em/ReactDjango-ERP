@@ -11,8 +11,8 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import DescriptionIcon from '@mui/icons-material/Description';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import DescriptionIcon from "@mui/icons-material/Description";
 import Button from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
@@ -26,7 +26,12 @@ import {
 } from "../../../services/mantenimiento";
 import AddForm from "../Remisiones/addform";
 
-import { getCompras, formateoFecha, deleteCompra, searcherFacturas } from "../../../services/compras";
+import {
+  getCompras,
+  formateoFecha,
+  deleteCompra,
+  searcherFacturas,
+} from "../../../services/compras";
 import Swal from "sweetalert2";
 
 export const Tabla = ({
@@ -39,10 +44,7 @@ export const Tabla = ({
   setItemView,
   itemView,
 }) => {
-
-  
   const [facturaCompras, setFacturaCompras] = useState([]);
-  
 
   let data = searcherFacturas(fields, facturaCompras);
 
@@ -54,24 +56,30 @@ export const Tabla = ({
   const handleView = (row) => {
     setItemView(row);
   };
-  
+
   const handleActiveDeactive = async (row) => {
     try {
       Swal.fire({
-        title: row?.borrado?'¿Desea activar la orden de compra?':'¿Desea anular la orden de compra?',
+        title: row?.borrado
+          ? "¿Desea activar la orden de compra?"
+          : "¿Desea anular la orden de compra?",
         showDenyButton: true,
-        confirmButtonText: 'SI',
+        confirmButtonText: "SI",
         denyButtonText: `NO`,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await deleteCompra(row.id)
-          Swal.fire(row?.borrado?'Orden de Compra Activada':'Orden de Compra Anulada'
-          , '', 'info')
+          await deleteCompra(row.id);
+          Swal.fire(
+            row?.borrado
+              ? "Orden de Compra Activada"
+              : "Orden de Compra Anulada",
+            "",
+            "info"
+          );
           render.current = true;
           setRenderizar(!renderizar);
-        } 
-      })
-      
+        }
+      });
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -84,7 +92,7 @@ export const Tabla = ({
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      getCompras(setFacturaCompras)
+      getCompras(setFacturaCompras);
     }
   }, [renderizar]);
   return (
@@ -159,11 +167,15 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="right">{row.codigo}</TableCell>
-              <TableCell align="right">{row.numero_factura?row.numero_factura:"-"}</TableCell>
+              <TableCell align="right">
+                {row.numero_factura ? row.numero_factura : "-"}
+              </TableCell>
               <TableCell align="right">{formateoFecha(row.fecha)}</TableCell>
               <TableCell align="right">{row.nombre_proveedor}</TableCell>
               <TableCell align="right">{row.estado_remision}</TableCell>
-              <TableCell align="right">{row.borrado?"Anulado":"Vigente"}</TableCell>
+              <TableCell align="right">
+                {row.borrado ? "Anulado" : "Vigente"}
+              </TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"
@@ -174,7 +186,7 @@ export const Tabla = ({
                   <VisibilityIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton
-                  disabled={row?.borrado?true:false}
+                  disabled={row?.borrado ? true : false}
                   onClick={() => handlePut(row)}
                   aria-label="delete"
                   size="small"
@@ -182,18 +194,35 @@ export const Tabla = ({
                 >
                   <EditIcon fontSize="inherit" />
                 </IconButton>
-                
+
                 <IconButton
-                  disabled={row?.estado_remision=="-"|| row?.estado_remision=="Por Hacer" ? false : true}
+                  disabled={
+                    row?.estado_remision == "-" ||
+                    row?.estado_remision == "Por Hacer"
+                      ? false
+                      : true
+                  }
                   onClick={() => handleActiveDeactive(row)}
                   aria-label="delete"
                   size="small"
-                  color={row?.borrado?'success':'error'}
+                  color={row?.borrado ? "success" : "error"}
                 >
-                  {row.borrado?<CheckCircleIcon fontSize="inherit" />:<DeleteIcon fontSize="inherit"/>}
+                  {row.borrado ? (
+                    <CheckCircleIcon fontSize="inherit" />
+                  ) : (
+                    <DeleteIcon fontSize="inherit" />
+                  )}
                 </IconButton>
-
-                
+                <AddForm
+                  itemView={itemView}
+                  setItemView={setItemView}
+                  row={row}
+                  idCompra={row.id}
+                  detalle_compra={row.detalle_compra}
+                  renderizar={renderizar}
+                  setRenderizar={setRenderizar}
+                  render={render}
+                />
               </TableCell>
             </TableRow>
           ))}

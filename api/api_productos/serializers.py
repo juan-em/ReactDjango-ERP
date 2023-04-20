@@ -62,8 +62,6 @@ class Producto_varianteSerializer(WritableNestedModelSerializer):
         ser_detalle = Producto_detalleSerializer(detalle, many=True)
         almacen = Ubicacion_almacen_producto.objects.filter(producto_variante=instance.id)
         ser_almacen = Ubicacion_almacenSerilizer(almacen, many=True)
-        print('######################################################')
-        print(ser_almacen)
         return{
             'id':instance.id,
             'nombre':instance.nombre,

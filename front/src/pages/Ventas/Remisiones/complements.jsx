@@ -23,6 +23,10 @@ import {
   del,
 } from "../../../services/mantenimiento";
 
+import { formateoFecha } from "../../../services/compras";
+import { getRemisiones, deleteRemision, searcherRemisiones } from "../../../services/ventas";
+import Swal from "sweetalert2";
+
 export const Tabla = ({
   fields,
   render,
@@ -32,21 +36,17 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
-  const [provincias, setProvincias] = useState([]);
+
+  const [remisiones, setRemisiones] = useState([]);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setProvincias, URL);
+      getRemisiones(setRemisiones);
     }
   }, [renderizar]);
 
-  let data = searcherprov(fields, provincias);
+  let data = searcherRemisiones(fields, remisiones);
 
-  const handlePut = (row) => {
-    setItem(row);
-    setOpenModal(true);
-  };
 
   const handleView = (row) => {
     setItemView(row);
@@ -54,12 +54,27 @@ export const Tabla = ({
 
   const handleDelete = async (id) => {
     try {
-      let res = await del(id, URL);
-      render.current = true;
-      setRenderizar(!renderizar);
-      return res;
+      Swal.fire({
+        title: '¿Desea eliminar la remisión y subremisiones?',
+        showDenyButton: true,
+        confirmButtonText: 'SI',
+        denyButtonText: `NO`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteRemision(id);
+          Swal.fire('Eliminado', '', 'success')
+          render.current = true;
+          setRenderizar(!renderizar);
+          setItem({});
+        } 
+      })
+      
     } catch (error) {
-      return error;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
     }
   };
 
@@ -89,18 +104,11 @@ export const Tabla = ({
               align="right"
             >
               Código
-            </TableCell>
-            <TableCell
+            </TableCell> <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Estado
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              N° de factura
+              N° de Factura
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -112,7 +120,19 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Fecha
+              Trabajador
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Fecha de Remision
+            </TableCell>
+            <TableCell
+              sx={{ color: "#633256", fontFamily: "inherit" }}
+              align="right"
+            >
+              Total Remisión
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -128,11 +148,12 @@ export const Tabla = ({
               <TableCell component="th" scope="row">
                 {i + 1}
               </TableCell>
-              <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
-              <TableCell align="right">{row.nombreprovincia}</TableCell>
+              <TableCell align="right">{row.codigo}</TableCell>
+              <TableCell align="right">{row.numero_factura}</TableCell>
+              <TableCell align="right">{row.cliente}</TableCell>
+              <TableCell align="right">{row.trabajador?row.trabajador.codigo:'-'}</TableCell>
+              <TableCell align="right">{formateoFecha(row.fecha)}</TableCell>
+              <TableCell align="right">S/. {row.totalRemision}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"
@@ -141,14 +162,6 @@ export const Tabla = ({
                   onClick={() => handleView(row)}
                 >
                   <VisibilityIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton
-                  onClick={() => handlePut(row)}
-                  aria-label="delete"
-                  size="small"
-                  color="success"
-                >
-                  <EditIcon fontSize="inherit" />
                 </IconButton>
                 <IconButton
                   onClick={() => handleDelete(row.id)}

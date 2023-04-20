@@ -9,10 +9,7 @@ urlpatterns = [
     path('sesion/<int:id>/', Sesion_ventaDetailView.as_view()),
     path('puntoventa/', Punto_ventaView.as_view()),
     path('puntoventa/<int:id>/', Punto_ventaDetailView.as_view()),
-
-
-
-    # path('remisiones/', RemisionesView.as_view()),
-    # path('remisiones_detalles/<int:id>/', RemisionDetailView.as_view()),
-    # path('entrada_almacen/<int:id>/', RemisionDetailView.as_view()),
+    path('remision/', RemisionesView.as_view()),
+    path('remision/<int:id>/', RemisionDetailView.as_view()),
+    path('remision_detalle/<int:id>/', RemisionDetalleDetailView.as_view()),
 ]

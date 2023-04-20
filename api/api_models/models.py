@@ -791,6 +791,7 @@ class SalidaVenta(Salidas):
     venta = models.ForeignKey(Venta, on_delete=models.CASCADE) #modelo del requerimiento de salida
     unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=0)
+    estado = models.BooleanField(default=False)
     def __str__(self):
         return self.pk
 

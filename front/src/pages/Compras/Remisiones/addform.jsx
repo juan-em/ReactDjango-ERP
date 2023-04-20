@@ -58,6 +58,7 @@ const AddForm = ({
     
   ];
   
+  console.log(detalle_compra)
   const rows = detalle_compra.map(item => {
     item.subtotal = item.precio_unitario * item.cantidad 
     return item
