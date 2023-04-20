@@ -219,7 +219,7 @@ const Registar = () => {
                                         accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                                       }}
                                       onBlur={() => form.setTouched({ file: true })}
-                                      onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                                      onChange={(event) => setFieldValue('bien_cotizacion_archivo', event.currentTarget.files[0])}
                                       error={form.touched.file && form.errors.file}
                                       helperText={form.touched.file && form.errors.file}
                                     />
