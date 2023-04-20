@@ -3,6 +3,7 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from api_models.models import *
 from api_clientes.serializers import ClienteEmpresaSerilizer, ClientePersonaSerilizer
+from api_productos.serializers import Producto_varianteSerializer
 
 class VentaDetalleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,8 +13,21 @@ class VentaDetalleSerializer(serializers.ModelSerializer):
 class Venta_DetalleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venta_detalle
-        exclude = ('venta',)
+        fields = ['id', 'producto', 'cantidad', 'precio_unitario', 'dscto_unitario', 'precio_final', 'remision_hecha']
         depth = 2
+    # def to_representation(self, instance):
+    #     print('producto',instance.producto.id)
+    #     producto = Producto_variante.objects.get(id=instance.producto.id)
+    #     prod_ser = Producto_varianteSerializer(producto)
+    #     return {
+    #         'id':instance.id,
+    #         'producto':prod_ser.data,
+    #         'cantidad':instance.cantidad,
+    #         'precio_unitario':instance.precio_unitario,
+    #         'dscto_unitario':instance.dscto_unitario,
+    #         'precio_final':instance.precio_final,
+    #         'remision_hecha':instance.remision_hecha
+    #     }
 
 class VentaSerializer(WritableNestedModelSerializer):
     detalle_venta = VentaDetalleSerializer(many=True)
@@ -54,7 +68,6 @@ class RemisionDetalleSerializer(serializers.ModelSerializer):
 
 
 class RemisionesSerializer(serializers.ModelSerializer):
-    remision_venta = RemisionDetalleSerializer(many=True)
     class Meta:
         model = Remision_venta
         fields = '__all__ '
@@ -70,7 +83,7 @@ class RemisionesSerializer(serializers.ModelSerializer):
             'venta': instance.venta.id,
             'codigo_venta':instance.venta.codigo,
             'totalRemision':instance.totalRemision,
-            'proveedor': instance.venta.nombre_cliente,
+            'cliente': instance.venta.nombre_cliente,
             'numero_factura': instance.venta.numero_factura,
         }
 

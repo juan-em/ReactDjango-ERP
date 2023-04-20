@@ -209,15 +209,16 @@ class RemisionesView(APIView):
             venta_detalle.remision_hecha = True
             venta_detalle.save()
             
-            detalle_remision = RemisionDetalleSerializer()
-            detalle_remision.remision_compra=remision
+            detalle_remision = Remision_venta_detalle()
+            detalle_remision.remision_venta=remision
             detalle_remision.venta_detalle=venta_detalle
+            print(detalle_remision)
             detalle_remision.save()
 
 # ////////////////////////
 
-            entrada_almacen = EntradaAlmacenCompra.objects.create(remision=detalle_remision)
-            entrada_almacen.save()
+            # entrada_almacen = EntradaAlmacenCompra.objects.create(remision=detalle_remision)
+            # entrada_almacen.save()
         
         venta = remision.venta
         serVenta = VentaSerializer(venta)
@@ -263,9 +264,16 @@ class RemisionDetalleDetailView(APIView):
         }
         return Response(context)
 
-# class SalidaAlmacen(APIView):  
-#     def patch(self, request, id):
-#         data = SalidaVenta.objects.get(id=id)
-        
-        
-#         return Response(context)
+class SalidaAlmacen(APIView):  
+    def patch(self, request, id):
+        data = SalidaVenta.objects.get(id=id)
+        serializer = VentaSerializer(data, data=request.data, partial=True)
+        estado = request.data.get("estado", None)
+        if estado == True:
+            return 
+        context = {
+                'data':'OK',
+                'status':status.HTTP_202_ACCEPTED,
+                'content':serializer.data
+        }
+        return Response(context)

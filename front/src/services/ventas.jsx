@@ -143,3 +143,88 @@ export const getSesionVenta = async (set, url) => {
     return error;
   }
 };
+
+// REMISIONES
+
+const URL_VENTAS = "http://localhost:8000/api/ventas/"
+const URL_REMISIONES = "http://localhost:8000/api/ventas/remision/"
+const URL_REMISIONES_DETALLES = "http://localhost:8000/api/ventas/remision/"
+
+export const postRemision = async (payload) => {
+    try{
+      console.log('remision hecha', payload)
+        const response = await axios.post(URL_REMISIONES, payload);
+        return response.data
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+}
+
+export const deleteRemisionDetalle = async (id) =>{
+    try{
+        const response = await axios.delete(`${URL_REMISIONES_DETALLES}${id}/`);
+        return response.data
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+  }
+
+export const BuildRemissionPayload = (idVenta, idsArray) => {
+    var payload = new Object()
+    payload.venta = idVenta
+    payload.remision_venta_detalle = idsArray.map(id => {
+        var detalle_venta = new Object()
+        detalle_venta.venta_detalle = id
+        return detalle_venta
+    })
+    return payload
+}
+
+export const getRemisiones = (set) => {
+    axios.get(URL_REMISIONES)
+     .then(res =>  {if (res.data.status == true) set(res.data.content)})
+     .catch((error) => console.log(error))
+}
+
+export const deleteRemision = async(id) => {
+    try{
+        const response = await axios.delete(`${URL_REMISIONES}${id}/`);
+        return response.data
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+}
+
+//Buscador Remisiones
+export const searcherRemisiones = (fields, list) => {
+    let resultData = list;
+    resultData = fields.venta
+        ? resultData.filter((item) => 
+            (item.proveedor.toString()).toLowerCase().includes(fields.cliente.toString())
+        )
+        : resultData;
+    resultData = fields.codigo
+        ? resultData.filter((item) =>
+            item.id == fields.codigo
+            )
+        : resultData;
+    resultData = fields.venta
+        ? resultData.filter((item) =>
+            item.compra == fields.venta
+            )
+        : resultData;
+    resultData = fields.numero_factura
+        ? resultData.filter((item) =>
+            (item.numero_factura.toString()).toLowerCase().includes(fields.numero_factura.toString())
+            )
+        : resultData;
+    resultData = fields.fecha
+        ? resultData.filter((item) => 
+            item.fecha.slice(0, 10) == fields.fecha.slice(0, 10)
+        )
+        : resultData;
+    return resultData;
+};

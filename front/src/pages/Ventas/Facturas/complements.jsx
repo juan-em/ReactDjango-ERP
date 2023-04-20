@@ -315,6 +315,7 @@ export const Tabla = ({
                     <DeleteIcon fontSize="inherit" />
                   )}
                 </IconButton>
+                
                 {d.estado_remision === 'Por Hacer' ? (
                   <AddForm
                     itemView={itemView}
