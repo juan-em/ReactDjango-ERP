@@ -6,6 +6,7 @@ export function transformToFormData (values) {
     const formData = new FormData();
     formData.append('bien_nombre', values.bien_nombre);
     formData.append('bien_estado', values.bien_estado);
+    formData.append('bien_cotizacion_archivo', values.bien_cotizacion_archivo);
 
     values.orden_bien_tecnico.forEach((file, index) => {
     formData.append(`orden_bien_tecnico[${index}][propuesta_tecnica_archivo]`, file.propuesta_tecnica_archivo);
