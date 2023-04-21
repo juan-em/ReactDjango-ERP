@@ -24,6 +24,7 @@ services:
       - "3000:3000"
     volumes:
       - ./front:/front
+      - exclude:/front/node_modules/
   api-node:
     build: ./api_node
     ports:
@@ -33,3 +34,4 @@ services:
 
 volumes:
     my-db:
+    exclude:
