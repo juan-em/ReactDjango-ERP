@@ -186,3 +186,94 @@ class Punto_ventaDetailView(APIView):
         }
         return Response(context) 
 
+class RemisionesView(APIView):
+    def get(self, request):
+        dataRemisiones = Remision_venta.objects.all()
+        serializer = RemisionesSerializer(dataRemisiones, many=True)
+        context = {
+            'status': True,
+            'content': serializer.data
+        }
+        return Response(context)
+
+    def post(self, request):
+        venta_id = request.data.pop('venta')
+        
+        remision = Remision_venta()
+        remision.venta_id = venta_id
+        remision.save()
+
+        lista_detalles_remision = request.data.get('remision_venta_detalle')
+        for item in lista_detalles_remision:
+            venta_detalle = Venta_detalle.objects.get(id=item["venta_detalle"])
+            venta_detalle.remision_hecha = True
+            venta_detalle.save()
+            
+            detalle_remision = Remision_venta_detalle()
+            detalle_remision.remision_venta=remision
+            detalle_remision.venta_detalle=venta_detalle
+            print(detalle_remision)
+            detalle_remision.save()
+
+# ////////////////////////
+
+            # entrada_almacen = EntradaAlmacenCompra.objects.create(remision=detalle_remision)
+            # entrada_almacen.save()
+        
+        venta = remision.venta
+        serVenta = VentaSerializer(venta)
+        context = {
+            'status':True,
+            'content':serVenta.data
+        }
+
+        return Response(context)
+
+class RemisionDetailView(APIView):
+    def delete(self, request, id):
+        data = Remision_venta.objects.get(id=id)
+        for detalle_remision in data.remision_venta_detalle.all():
+            venta_detalle = detalle_remision.venta_detalle
+            venta_detalle.remision_hecha = False
+            venta_detalle.save()
+        data.delete()
+        context = {
+            'status':True,
+            'message':'Delete succes',
+        }
+        return Response(context)
+
+class RemisionDetalleDetailView(APIView):
+
+    def delete(self, request, id):
+
+        data = Remision_venta_detalle.objects.get(id=id)
+        totalRemsiones = Remision_venta_detalle.objects.filter(remision_venta = data.remision_venta.id)
+        if len(totalRemsiones) == 1:
+           remision = data.remision_venta
+           remision.delete()
+        venta_detalle = data.venta_detalle
+        venta_detalle.remision_hecha = False
+        venta_detalle.save()
+        data.delete()
+        
+        context = {
+            'status':True,
+            'message':'Delete succes',
+            
+        }
+        return Response(context)
+
+class SalidaAlmacen(APIView):  
+    def patch(self, request, id):
+        data = SalidaVenta.objects.get(id=id)
+        serializer = VentaSerializer(data, data=request.data, partial=True)
+        estado = request.data.get("estado", None)
+        if estado == True:
+            return 
+        context = {
+                'data':'OK',
+                'status':status.HTTP_202_ACCEPTED,
+                'content':serializer.data
+        }
+        return Response(context)

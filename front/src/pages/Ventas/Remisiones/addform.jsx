@@ -20,7 +20,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from '@mui/icons-material/Description';
 //componentes
 import { get, searcher, post_put, del } from "../../../services/mantenimiento";
-import { BuildRemissionPayload, postRemision } from "../../../services/compras";
+import { BuildRemissionPayload, postRemision } from "../../../services/ventas";
 
 
 import Swal from "sweetalert2";

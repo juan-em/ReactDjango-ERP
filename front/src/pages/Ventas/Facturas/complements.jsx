@@ -176,7 +176,7 @@ export const Tabla = ({
   setItem,
   itemView,
   setItemView,
-  sesion,
+  sesionCambio,
 }) => {
   const URL_VENTA = "http://localhost:8000/api/ventas/";
   const URL_SESION = "http://localhost:8000/api/ventas/sesion/";
@@ -194,10 +194,8 @@ export const Tabla = ({
 
   let data = searcherFacturas(
     fields,
-    !sesion ? facturasVentas : facturasSesionVentas
+    !sesionCambio ? facturasVentas : facturasSesionVentas
   );
-
-  console.log(data);
 
   const handlePut = (row) => {
     setItem(row);
@@ -246,9 +244,6 @@ export const Tabla = ({
         Header: () => null,
         id: "expander",
         Cell: ({ row }) => (
-          // Use Cell to render an expander for each row.
-          // We can use the getToggleRowExpandedProps prop-getter
-          // to build the expander.
           <span {...row.getToggleRowExpandedProps()}>
             {row.isExpanded ? "v" : ">"}
           </span>
@@ -320,9 +315,8 @@ export const Tabla = ({
                     <DeleteIcon fontSize="inherit" />
                   )}
                 </IconButton>
-                {!sesion ? (
-                  <></>
-                ) : (
+                
+                {d.estado_remision === 'Por Hacer' ? (
                   <AddForm
                     itemView={itemView}
                     setItemView={setItemView}
@@ -333,6 +327,8 @@ export const Tabla = ({
                     setRenderizar={setRenderizar}
                     render={render}
                   />
+                ) : (
+                  <></>
                 )}
               </>
             ),
