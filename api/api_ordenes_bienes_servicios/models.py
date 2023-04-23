@@ -1,16 +1,12 @@
 from django.db import models
 
+from api_models.models import Proveedores
+
 # Create your models here.
 NINGUNO = "Ninguno"
 
 SERVICIO = "Servicio"
 BIEN = "Bien"
-
-PROPUESTA_TIPO = [
-    (NINGUNO, "Ninguno"),
-    (SERVICIO, "Servicio"),
-    (BIEN, "Bien")
-]
 
 SOLICITANDO_COTIZACION = "Solicitando cotización"
 APROBADO = "Aprobado"
@@ -28,29 +24,20 @@ ESTADO_SOLICITUD = [
 class Orden_bien(models.Model):
     bien_nombre = models.CharField(max_length=500)
     bien_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
-    bien_cotizacion_archivo = models.FileField(upload_to="documents/cotizacion", blank=True, null=True)
 
     def __str__(self):
         return self.bien_nombre
 
-class Propuesta_tecnica(models.Model):
-    propuesta_tecnica_nombre = models.CharField(max_length=100, default=NINGUNO)
-    orden_bien_tecnico = models.ForeignKey(Orden_bien, related_name="orden_bien_tecnico", on_delete=models.CASCADE, null=True)
-    propuesta_tecnica_archivo = models.FileField(upload_to="documents/propuesta_tecnica", blank=True, null=True)  
-    propuesta_tecnica_tipo = models.CharField(max_length=50, choices=PROPUESTA_TIPO, default=NINGUNO, null=True)
+class Propuesta_Empresa_Bien(models.Model):
+    proveedor_id = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True)
+    propuesta_bien = models.ForeignKey(Orden_bien, related_name="orden_bien", on_delete=models.CASCADE, null=True)
     fecha_registro = models.DateField(auto_now_add=True)
     fecha_ultima_modificacion = models.DateField(auto_now=True)
 
-    def __str__(self):
-        return self.propuesta_tecnica_nombre
-
-class Propuesta_economica(models.Model):
-    propuesta_economica_nombre = models.CharField(max_length=100, default=NINGUNO)
-    orden_bien_economico = models.ForeignKey(Orden_bien, related_name="orden_bien_economico", on_delete=models.CASCADE, null=True)
-    propuesta_bien_archivo = models.FileField(upload_to="documents/propuesta_economica", blank=True, null=True)
-    propuesta_economica_tipo = models.CharField(max_length=50, choices=PROPUESTA_TIPO, default=NINGUNO, null=True)
+class Propuesta_Empresa_Bien_Documentos(models.Model):
+    propuesta_empresa = models.ForeignKey(Propuesta_Empresa_Bien, related_name="propuesta_documentos_bien", on_delete=models.CASCADE, null=True)
+    propuesta_tecnica_documento = models.FileField(upload_to="documents/propuesta_tecnica", blank=True, null=True)
+    propuesta_economica_documento = models.FileField(upload_to="documents/propuesta_economica", blank=True, null=True)
+    bien_cotizacion_documento = models.FileField(upload_to="documents/cotizacion", blank=True, null=True)
     fecha_registro = models.DateField(auto_now_add=True)
     fecha_ultima_modificacion = models.DateField(auto_now=True)
-
-    def __str__(self):
-        return self.propuesta_economica_nombre

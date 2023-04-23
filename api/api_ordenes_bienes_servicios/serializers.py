@@ -3,20 +3,21 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from .models import *
 
-class PropuestaTecnicaSerializer(serializers.ModelSerializer):
+class PropuestaEmpresaBienDocumentosSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Propuesta_tecnica
-        fields = "__all__"
+        model = Propuesta_Empresa_Bien_Documentos
+        fields = ['propuesta_empresa', 'propuesta_tecnica_documento', 'propuesta_economica_documento', 'bien_cotizacion_documento']
 
-class PropuestaEconomicaSerializer(serializers.ModelSerializer):
+class PropuestaEmpresaBienSerializer(WritableNestedModelSerializer):
+    propuesta_documentos_bien = PropuestaEmpresaBienDocumentosSerializer()
+    
     class Meta:
-        model = Propuesta_economica
-        fields = "__all__"
+        model = Propuesta_Empresa_Bien
+        fields = ['proveedor_id', 'propuesta_bien', 'propuesta_documentos_bien']
 
 class OrdenBienSerializer(WritableNestedModelSerializer):
-    orden_bien_tecnico = PropuestaTecnicaSerializer(many=True)
-    orden_bien_economico = PropuestaEconomicaSerializer(many=True) 
+    orden_bien = PropuestaEmpresaBienSerializer(many=True)
 
     class Meta:
         model = Orden_bien
-        fields = ['id', 'bien_nombre', 'bien_estado', 'orden_bien_tecnico', 'orden_bien_economico', 'bien_cotizacion_archivo']
+        fields = ['id', 'bien_nombre', 'bien_estado', 'orden_bien']
