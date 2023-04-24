@@ -21,23 +21,43 @@ ESTADO_SOLICITUD = [
     (DENEGADO, "Denegado")
 ]
 
-class Orden_bien(models.Model):
-    bien_nombre = models.CharField(max_length=500)
-    bien_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
+# class Orden_bien(models.Model):
+#     bien_nombre = models.CharField(max_length=500)
+#     bien_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
 
-    def __str__(self):
-        return self.bien_nombre
+#     def __str__(self):
+#         return self.bien_nombre
 
-class Propuesta_Empresa_Bien(models.Model):
-    proveedor_id = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True)
-    propuesta_bien = models.ForeignKey(Orden_bien, related_name="orden_bien", on_delete=models.CASCADE, null=True)
-    fecha_registro = models.DateField(auto_now_add=True)
-    fecha_ultima_modificacion = models.DateField(auto_now=True)
+# class Propuesta_Empresa_Bien(models.Model):
+#     proveedor_id = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True)
+#     propuesta_bien = models.ForeignKey(Orden_bien, related_name="orden_bien", on_delete=models.CASCADE, null=True)
+#     fecha_registro = models.DateField(auto_now_add=True)
+#     fecha_ultima_modificacion = models.DateField(auto_now=True)
+
+# class Propuesta_Empresa_Bien_Documentos(models.Model):
+#     propuesta_empresa = models.ForeignKey(Propuesta_Empresa_Bien, related_name="propuesta_documentos_bien", on_delete=models.CASCADE, null=True)
+#     propuesta_tecnica_documento = models.FileField(upload_to="documents/propuesta_tecnica", blank=True, null=True)
+#     propuesta_economica_documento = models.FileField(upload_to="documents/propuesta_economica", blank=True, null=True)
+#     bien_cotizacion_documento = models.FileField(upload_to="documents/cotizacion", blank=True, null=True)
+#     fecha_registro = models.DateField(auto_now_add=True)
+#     fecha_ultima_modificacion = models.DateField(auto_now=True)
 
 class Propuesta_Empresa_Bien_Documentos(models.Model):
-    propuesta_empresa = models.ForeignKey(Propuesta_Empresa_Bien, related_name="propuesta_documentos_bien", on_delete=models.CASCADE, null=True)
     propuesta_tecnica_documento = models.FileField(upload_to="documents/propuesta_tecnica", blank=True, null=True)
     propuesta_economica_documento = models.FileField(upload_to="documents/propuesta_economica", blank=True, null=True)
     bien_cotizacion_documento = models.FileField(upload_to="documents/cotizacion", blank=True, null=True)
     fecha_registro = models.DateField(auto_now_add=True)
     fecha_ultima_modificacion = models.DateField(auto_now=True)
+
+
+class Propuesta_Empresa_Bien(models.Model):
+    proveedor_id = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True)
+    fecha_registro = models.DateField(auto_now_add=True)
+    fecha_ultima_modificacion = models.DateField(auto_now=True)
+    propuesta_documentos_bien = models.OneToOneField(Propuesta_Empresa_Bien_Documentos, on_delete=models.CASCADE)
+
+class Orden_bien(models.Model):
+    bien_nombre = models.CharField(max_length=500)
+    bien_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
+    orden_bien = models.ManyToManyField(Propuesta_Empresa_Bien, null=True)
+

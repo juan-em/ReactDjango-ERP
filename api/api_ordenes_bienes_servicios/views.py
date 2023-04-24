@@ -59,25 +59,25 @@ class OrdenBienView(APIView):
     def post(self, request):
         print(request.data)
         # print(querydict_to_dict_v2(request.data))
-        try:
-            serializer = OrdenBienSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
 
-            context = {
-                    'data':'OK',
-                    'status':status.HTTP_201_CREATED,
-                    'content':serializer.data
-            }
+        serializer = OrdenBienSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+                'data':'OK',
+                'status':status.HTTP_201_CREATED,
+                'content':serializer.data
+        }
+        
+        return Response(context)
+        # except Exception as Error:
+        #     print(Error)
+        #     print(serializer.data)
             
-            return Response(context)
-        except Exception as Error:
-            print(Error)
-            print(serializer.data)
-            
-            return Response({
-                'status': False,
-                'content': 'Error',
-                'message': 'Internal server error'
-            })
+        #     return Response({
+        #         'status': False,
+        #         'content': 'Error',
+        #         'message': 'Internal server error'
+        #     })
     
