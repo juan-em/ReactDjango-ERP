@@ -95,7 +95,7 @@ const AddForm = ({
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registro el Cliente",
+        text: "Se registro el proveedor",
       });
       if (item.id) setItem({});
       setRenderizar(!renderizar);

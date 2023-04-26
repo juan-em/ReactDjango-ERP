@@ -62,7 +62,7 @@ const Categorias = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Categoría
+                  Buscar Categoría de Artículo
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
