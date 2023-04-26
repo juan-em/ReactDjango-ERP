@@ -203,7 +203,7 @@ export const searcherRemisiones = (fields, list) => {
     let resultData = list;
     resultData = fields.venta
         ? resultData.filter((item) => 
-            (item.proveedor.toString()).toLowerCase().includes(fields.cliente.toString())
+            (item.cliente.toString()).toLowerCase().includes(fields.cliente.toString())
         )
         : resultData;
     resultData = fields.codigo

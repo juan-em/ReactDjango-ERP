@@ -98,7 +98,7 @@ const Remisiones = () => {
                   <TextField
                       fullWidth
                       label="Codigo"
-                      type="number"
+                      type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
