@@ -120,7 +120,7 @@ const VerArticulo = ({itemView, almacenes, embalajes}) => {
                     <List>
                       <Grid container spacing={0}>
                         {itemsPer.map((i, index) => (
-                          <Grid item xs={12} sm={12} md={12} lg={12} key={index}>
+                          <Grid item xs={12} sm={12} md={12} lg={6} key={index}>
                             <ListItem>
                               <ListItemAvatar>
                               <Avatar sx={{ 
