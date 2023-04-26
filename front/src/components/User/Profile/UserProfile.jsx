@@ -69,20 +69,26 @@ export default function UserProfile() {
                         <>
                         <Avatar
                             alt={user?.username}
-                            sx={{ width: 100, height: 100, mx: 'auto'}}
-                        ><FileUploadIcon/></Avatar>
-                        <TextField
-                        size="small"
-                        color="secondary"
-                        defaultValue={user?.username}
-                        sx={{textAlign:'center', mx:'auto'}}/>
-
-                        <h2 style={{textAlign:'center'}}>{user?.username} <IconButton ><EditIcon/></IconButton></h2>
+                            sx={{ width: 100, height: 100, mx: 'auto', my:4}}
+                        ><IconButton component="label"><input hidden accept="image/*" type="file" /><FileUploadIcon/></IconButton></Avatar>
                         <TextField
                             fullWidth
+                            focused
+                            label={<span>Nombre</span>}
+                            size="small"
+                            color="secondary"
+                            margin="dense"
+                            defaultValue={user?.username}
+                            sx={{textAlign:'center', mx:'auto'}}
+                        />
+
+                        <TextField
+                            fullWidth
+                            focused
                             label={<span>Email</span>}
                             margin="dense"
                             size="small"
+                            color="secondary"
                             defaultValue={user?.email}
                             InputLabelProps={{
                                 shrink: true,
@@ -91,7 +97,9 @@ export default function UserProfile() {
                         <TextField
                             label={<span>Rol</span>}
                             fullWidth
+                            focused
                             size="small"
+                            color="secondary"
                             defaultValue={user?.profile_user?.rol}
                             margin="dense"
                             InputLabelProps={{
@@ -104,7 +112,9 @@ export default function UserProfile() {
                             defaultValue={user?.profile_user?.area}
                             margin="dense"
                             size="small"
+                            color="secondary"
                             fullWidth
+                            focused
                             InputLabelProps={{
                                 shrink: true,
                               }}

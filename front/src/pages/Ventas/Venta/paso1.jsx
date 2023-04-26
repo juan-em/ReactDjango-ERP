@@ -90,7 +90,7 @@ const Paso1 = ({
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12} md={12}>
               <Grid container spacing={1}>
-                <Grid item xs={12} sm={6} md={8}>
+                <Grid item xs={12} sm={8} md={9}>
                   <Autocomplete
                     disableClearable
                     options={dataClientes}
@@ -129,21 +129,11 @@ const Paso1 = ({
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} sm={3} md={2}>
+                <Grid item xs={12} sm={4} md={3}>
                   <Button
                     variant="outlined"
                     fullWidth
                     color="primary"
-                    sx={{ height: "100%" }}
-                  >
-                    <SearchIcon />
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={3} md={2}>
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    color="secondary"
                     sx={{ height: "100%" }}
                   >
                     <AddIcon />

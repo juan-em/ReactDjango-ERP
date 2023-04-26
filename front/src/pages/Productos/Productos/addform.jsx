@@ -366,7 +366,9 @@ const AddForm = ({
                                                   <InputAdornment position="start">
                                                     S/.
                                                   </InputAdornment>
+                                                  
                                                 ),
+                                                step: 0.1,
                                               }}
                                             />
                                           </Grid>
@@ -405,7 +407,7 @@ const AddForm = ({
                                                           ></Button>
 
                                                           <Grid container>
-                                                            <Grid item xs={6}>
+                                                            <Grid item xs={12}>
                                                               <FormControl
                                                                 fullWidth
                                                                 margin="dense"
@@ -413,10 +415,10 @@ const AddForm = ({
                                                                 color="secondary"
                                                               >
                                                                 <InputLabel>
-                                                                  Almacen
+                                                                  Almacén
                                                                 </InputLabel>
                                                                 <Select
-                                                                  label="Almacen"
+                                                                  label="Almacén"
                                                                   size="small"
                                                                   color="secondary"
                                                                   id="textfields"
@@ -552,6 +554,7 @@ const AddForm = ({
                                                                 ) => (
                                                                   <TextField
                                                                     {...params}
+                                                                    color="secondary"
                                                                     label="Articulos"
                                                                     inputProps={{
                                                                       ...params.inputProps,
@@ -615,6 +618,7 @@ const AddForm = ({
                                                             color="secondary"
                                                             id="textfields"
                                                             margin="dense"
+                                                            type="number"
                                                             name={`producto_variante.${index}.producto_detalle.${i}.cantidad`}
                                                             value={
                                                               detalle.cantidad

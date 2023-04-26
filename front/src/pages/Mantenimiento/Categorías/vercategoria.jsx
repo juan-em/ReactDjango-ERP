@@ -67,7 +67,7 @@ const VerCategoria = (itemView) => {
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
-            Categoría seleccionada
+            Categoría de Artículos seleccionada
           </AccordionSummary>
           <AccordionDetails>
             <List

@@ -269,6 +269,9 @@ const AddForm = ({
                                     margin="dense"
                                     name={`variantes.${index}.precio_unitario`}
                                     onChange={handleChange}
+                                    inputProps={{
+                                      step: 0.1
+                                    }}
                                   />
                                   <FormControl
                                     fullWidth
