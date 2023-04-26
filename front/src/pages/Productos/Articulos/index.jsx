@@ -12,7 +12,8 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Autocomplete
+  Autocomplete,
+  Box
 } from "@mui/material";
 
 //Componentes
@@ -207,39 +208,45 @@ const Articulos = () => {
               embalajes={embalajes}
             />
           </Grid>
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={12} sx={{ mt: 4 }}>
-          <Autocomplete
-            disablePortal
-            options={almacenes || []}
-            getOptionLabel={(option)=>{
-              if (option) return option.nombre 
-              return ''}}
-            size="small"
-            id="textfields"
-            name="almacen"
-            renderInput={(params) => 
-              <TextField 
-                {...params} 
-                label="Almacén" 
-                margin="dense" 
-                color="secondary" 
-                fullWidth 
-              />}
-            onChange={(e, value) => handlerSearcher(e, {"almacen": value})}
-          />
-        </Grid>
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          setItem={setItem}
-          setItemView={setItemView}
-        />
         
+
+          <Grid item xs={12} sm={12} md={12} sx={{ mt: 1 }}>
+            <Autocomplete
+              disablePortal
+              options={almacenes || []}
+              getOptionLabel={(option)=>{
+                if (option) return option.nombre 
+                return ''}}
+              size="small"
+              id="textfields"
+              name="almacen"
+              renderInput={(params) => 
+                <TextField 
+                  {...params} 
+                  label="Almacén" 
+                  margin="dense" 
+                  color="secondary" 
+                  fullWidth 
+                />}
+              onChange={(e, value) => handlerSearcher(e, {"almacen": value})}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} xl={12} sx={{ mt: -5 }}>
+            <Box sx={{ overflow: "auto" }}>
+              <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+                <Tabla
+                  fields={fields}
+                  render={render}
+                  renderizar={renderizar}
+                  setRenderizar={setRenderizar}
+                  setOpenModal={setOpenModal}
+                  setItem={setItem}
+                  setItemView={setItemView}
+                />
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
       </div>
       
     </section>

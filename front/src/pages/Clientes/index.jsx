@@ -67,7 +67,7 @@ const Clientes = () => {
           <Grid item xs={12} sm={12} md={5}>
             <Paper
               elevation={10}
-              className="paper-container"
+              className="paper"
               sx={{
                 mt: 4,
                 p: 0,

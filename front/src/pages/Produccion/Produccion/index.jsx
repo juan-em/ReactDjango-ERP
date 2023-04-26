@@ -12,7 +12,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Autocomplete, FormControl, InputLabel, Select, MenuItem
+  Autocomplete, FormControl, InputLabel, Select, MenuItem, Box
 } from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -215,18 +215,23 @@ const Produccion = () => {
               setItem={setItem}
             />
           </Grid>
+          <Grid item xs={12} sm={12} md={12} xl={12} sx={{ mt: -5 }}>
+            <Box sx={{ overflow: "auto" }}>
+              <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+              <Tabla
+                fields={fields}
+                render={render}
+                renderizar={renderizar}
+                setRenderizar={setRenderizar}
+                setOpenModal={setOpenModal}
+                setItem={setItem}
+                setItemView={setItemView}
+              />
+              </Box>
+            </Box>
+          </Grid>
         </Grid>
 
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          setItem={setItem}
-          setItemView={setItemView}
-        />
-      
          <Estados/>            
 
       </div>

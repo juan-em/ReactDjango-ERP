@@ -10,7 +10,8 @@ import {
   AccordionSummary,
   AccordionDetails,
   Box, Autocomplete, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Card,
-  Typography
+  Typography,
+  Container
 } from "@mui/material";
 import Registro from "./registro";
 import dayjs from 'dayjs';
@@ -28,7 +29,7 @@ const CajaDiaria = () => {
   };
 
   return (
-    <section>
+    <Container>
       <div className="container" >
         <Typography
               fontFamily={"inherit"}
@@ -148,11 +149,15 @@ const CajaDiaria = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} xl={12}>
-            <Tabla/>
+            <Box sx={{ overflow: "auto" }}>
+              <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+                <Tabla/>
+            </Box>
+            </Box>
           </Grid>
         </Grid>
       </div>
-    </section>
+    </Container>
   );
 };
 export default CajaDiaria;
