@@ -35,7 +35,6 @@ const Home = () =>{
     <Container class="container">
       <h1>Datos generales</h1>
 
-      <h2>Usuario</h2>
       <GeneralUserData/>
 
       <Grid container spacing={1} sx={{ marginTop:'20px' }}>
