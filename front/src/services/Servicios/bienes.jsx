@@ -2,20 +2,20 @@ import axios from "../../api/axios";
 
 const BIENES_URL = "api/ordenes/bien/"
 
-export const cotizacionInitialState = {empresas:[{}]}
+export const cotizacionInitialState = {orden_bien:[{}]}
 
 export function transformToFormData (values) {
     const formData = new FormData();
     formData.append('bien_nombre', values.bien_nombre);
     formData.append('bien_estado', values.bien_estado);
     
-    values.empresas.forEach((value, index) => {
-        formData.append(`empresas[${index}][propuesta_tecnica_archivo]`, value.proveedor);
-        formData.append(`orden_bien_tecnico[${index}][propuesta_tecnica_archivo]`, value.propuesta_tecnica_archivo);
+    values.orden_bien.forEach((value, index) => {
+        formData.append(`orden_bien[${index}][proveedor_id]`, value.proveedor_id);
+        formData.append(`orden_bien[${index}][propuesta_documentos_bien][bien_cotizacion_documento]`, value.propuesta_documentos_bien.bien_cotizacion_documento);
+        formData.append(`orden_bien[${index}][propuesta_documentos_bien][propuesta_tecnica_documento]`, value.propuesta_documentos_bien.propuesta_tecnica_documento);
+        formData.append(`orden_bien[${index}][propuesta_documentos_bien][propuesta_economica_documento]`, value.propuesta_documentos_bien.propuesta_economica_documento);
     });
-    values.orden_bien_economico.forEach((file, index) => {
-    formData.append(`orden_bien_economico[${index}][propuesta_bien_archivo]`, file.propuesta_bien_archivo);
-    });
+    
     return formData
 }
 

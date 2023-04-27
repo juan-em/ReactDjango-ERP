@@ -37,12 +37,12 @@ import { getProveedores } from '../../../services/Proveedores';
 
 const Registar = () => {
   // POST request para la orden de bien
-  const ordenBienMenorSubmit = async (data) => {
-    //var payload = transformToFormData(data)
+  const ordenBienMayorMenorSubmit = async (data) => {
+    var payload = transformToFormData(data)
     console.log(data,"<===============")
 
-    // var res = await postBienes(payload)
-    // console.log("====================> ", res)
+    var res = await postBienes(payload)
+    console.log("====================> ", res)
   }
 
   // Funcionamiento relacion a la interfaz de registro con Tabs
@@ -61,7 +61,6 @@ const Registar = () => {
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
-  
     return (
       <div
         role="tabpanel"
@@ -71,7 +70,7 @@ const Registar = () => {
         {...other}
       >
         {(
-          <Box sx={{ p: 3 }} index={index}>
+          <Box sx={{ p: 3 }} index={value}>
             <Typography>{children}</Typography>
           </Box>
         )
@@ -143,167 +142,9 @@ const Registar = () => {
                     <Tab label={<span>Cotización &gt; 500</span>} {...a11yProps(1)} />
                   </Tabs>
                 </Box>
-                {/* <TabPanel value={value} index={0}>
-                
-                   Registro de bien en el que la cotizacion es menor a 500 
-                  
-                  <Grid container spacing={1}>
-                    <Formik initialValues={item} onSubmit={ordenBienMenorSubmit}>
-                      {({ values, handleSubmit, handleChange, setFieldValue }) => (
-                      <Form onSubmit={handleSubmit}>
-                        <Field as={TextField}
-                          label="Tipo de bien (Viene al seleccionarlo)"
-                          required
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          margin="dense"
-                          name="bien_nombre"
-                          value={values.bien_nombre}
-                          onChange={handleChange}
-                        />
-                        <FormControl
-                          fullWidth
-                          margin="dense"
-                          size="small"
-                          color="secondary"
-                        >
-                          <InputLabel>Estado (viene al seleccionarlo)</InputLabel>
-                          <Select
-                          label="Estado (viene al seleccionarlo)"
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          onChange={handleChange}
-                          name="bien_estado"
-                          
-                          >
-                            {top101Films.map((item, i) => (
-                              <MenuItem key={i} value={item}>
-                                {item}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                        
-                        <Grid item xs={12} sm={12} md={12}>
-                          <Card variant="outlined" sx={{px:2, py:1}}>
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Cotización</span>
-                              </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                                {/* <Button variant="outlined" component="label" fullWidth size="small">
-                                  <span>Subir</span>
-                                  <input hidden accept="image/*" multiple type="file" 
-                                  />
-                                </Button> 
-                                <Field name="file" variant="outlined" size="small" component="label">
-                                  {({ field, form }) => (
-                                    <TextField
-                                      type="file"
-                                      {...field}
-                                      inputProps={{
-                                        accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                                      }}
-                                      onBlur={() => form.setTouched({ file: true })}
-                                      onChange={(event) => setFieldValue('bien_cotizacion_archivo', event.currentTarget.files[0])}
-                                      error={form.touched.file && form.errors.file}
-                                      helperText={form.touched.file && form.errors.file}
-                                    />
-                                  )}
-                                </Field>
-                              </Grid>
-                            </Grid>
-                          </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={12}>
-                          <Card variant="outlined" sx={{px:2, py:1}}>
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Propuesta técnica</span>
-                              </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                                <Field name="file" variant="outlined" size="small" component="label">
-                                  {({ field, form }) => (
-                                    <TextField
-                                      type="file"
-                                      {...field}
-                                      inputProps={{
-                                        accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                                      }}
-                                      onBlur={() => form.setTouched({ file: true })}
-                                      onChange={(event) => setFieldValue('orden_bien_tecnico[0].propuesta_tecnica_archivo', event.currentTarget.files[0])}
-                                      error={form.touched.file && form.errors.file}
-                                      helperText={form.touched.file && form.errors.file}
-                                    />
-                                  )}
-                                </Field>
-                              </Grid>
-                            </Grid>
-                          </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={12}>
-                          <Card variant="outlined" sx={{px:2, py:1}}>
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} sm={12} md={12} >
-                                <span>Propuesta económica</span>
-                              </Grid>
-                              <Grid item xs={12} sm={12} md={12}>
-                              <Field name="file" variant="outlined" size="small" component="label">
-                                  {({ field, form }) => (
-                                    <TextField
-                                      type="file"
-                                      {...field}
-                                      inputProps={{
-                                        accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                                      }}
-                                      onBlur={() => form.setTouched({ file: true })}
-                                      onChange={(event) => setFieldValue('orden_bien_economico[0].propuesta_bien_archivo', event.currentTarget.files[0])}
-                                      error={form.touched.file && form.errors.file}
-                                      helperText={form.touched.file && form.errors.file}
-                                    />
-                                  )}
-                                </Field>
-                              </Grid>
-                            </Grid>
-                          </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                          <Button
-                            fullWidth
-                            id="btnClick"
-                            size="medium"
-                            color="secondary"
-                            className="navbar-btn-single"
-                            variant="contained"
-                            type="submit"
-                            
-                          >
-                            <span>Registrar</span>
-                          </Button>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
-                          <Button
-                            fullWidth
-                            id="btnClick"
-                            size="medium"
-                            color="error"
-                            className="navbar-btn-single"
-                            variant="contained"
-                            onClick={handleClose}
-                          >
-                            <span>Cancelar</span>
-                          </Button>
-                        </Grid>
-                      </Form>
-                      )}
-                    </Formik>
-                  </Grid>
-                </TabPanel> */}
-
-                <TabPanel value={value} index={1}>
-                  <Formik initialValues={item} onSubmit={ordenBienMenorSubmit}>
+                <TabPanel value={value}>
+       
+                    <Formik initialValues={item} onSubmit={ordenBienMayorMenorSubmit}>
                     {({ values, handleSubmit, handleChange, setFieldValue, setValues }) => (
                     <Form onSubmit={handleSubmit}>
                       <Grid container spacing={1}>
@@ -317,8 +158,7 @@ const Registar = () => {
                             id="textfields"
                             margin="dense"
                             name="bien_nombre"
-                            //value={values.bien_nombre}
-                            //onChange={handleChange}
+                            onChange={handleChange}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6} md={6}>
@@ -347,15 +187,13 @@ const Registar = () => {
                         </FormControl>
                         </Grid>
 
-                        
-                        
                         <Grid item xs={12} sm={12} md={12}>
                           <FieldArray
-                            name="empresas"
+                            name="orden_bien"
                             render={(arrayHelpers) => (
                               <>
                                 <Card variant="outlined" sx={{px:2, py:1, border: "1px solid purple"}}>
-                                {values.empresas.map((variante, index) => (
+                                {values.orden_bien.map((variante, index) => (
                                     <div  key={index}>
                                     <Grid container spacing={1}>
                                       <Grid item xs={12} sm={12} md={12} >
@@ -382,7 +220,7 @@ const Registar = () => {
                                               color="secondary"
                                               fullWidth />}
                                           value={values.proveedor}
-                                          onChange={(e, value) => {setFieldValue(`empresas.${index}.proveedor`, value.id)}}
+                                          onChange={(e, value) => {setFieldValue(`orden_bien.${index}.proveedor_id`, value.id)}}
                                         />
                                       </Grid>
                                       <Grid item xs={12} sm={12} md={6} >
@@ -404,7 +242,7 @@ const Registar = () => {
                                                     accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                                                   }}
                                                   onBlur={() => form.setTouched({ file: true })}
-                                                  onChange={(event) => setFieldValue(`empresas.${index}.cotizacion.bien_archivo_cotizacion`, event.currentTarget.files[0])}
+                                                  onChange={(event) => setFieldValue(`orden_bien.${index}.propuesta_documentos_bien.bien_cotizacion_documento`, event.currentTarget.files[0])}
                                                   error={form.touched.file && form.errors.file}
                                                   helperText={form.touched.file && form.errors.file}
                                                 />
@@ -429,7 +267,7 @@ const Registar = () => {
                                                   accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                                                 }}
                                                 onBlur={() => form.setTouched({ file: true })}
-                                                onChange={(event) => setFieldValue(`empresas.${index}.propuesta_economica.propuesta_tecnica_archivo`, event.currentTarget.files[0])}
+                                                onChange={(event) => setFieldValue(`orden_bien.${index}.propuesta_documentos_bien.propuesta_economica_documento`, event.currentTarget.files[0])}
                                                 error={form.touched.file && form.errors.file}
                                                 helperText={form.touched.file && form.errors.file}
                                               />
@@ -438,6 +276,33 @@ const Registar = () => {
                                           </Grid>
                                         </Grid>
                                       </Grid>
+                                      
+                                      <Grid item xs={12} sm={12} md={6} >
+                                        <Grid container spacing={1}>
+                                          <Grid item xs={12} sm={12} md={12} >
+                                            <span>Propuesta técnica {index + 1}</span>
+                                          </Grid>
+                                          <Grid item xs={12} sm={12} md={12}>
+                                          <Field name="file" variant="outlined" size="small" component="label">
+                                            {({ field, form }) => (
+                                              <TextField
+                                                type="file"
+                                                {...field}
+                                                inputProps={{
+                                                  accept: '.pdf, .doc, .docx, .xls, .xlsx, application/pdf, application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                                }}
+                                                onBlur={() => form.setTouched({ file: true })}
+                                                onChange={(event) => setFieldValue(`orden_bien.${index}.propuesta_documentos_bien.propuesta_tecnica_documento`, event.currentTarget.files[0])}
+                                                error={form.touched.file && form.errors.file}
+                                                helperText={form.touched.file && form.errors.file}
+                                              />
+                                            )}
+                                          </Field>
+                                          </Grid>
+                                        </Grid>
+                                      </Grid>
+
+
                                     </Grid>
                                     {index != 0 &&
                                     <Button
@@ -450,10 +315,10 @@ const Registar = () => {
                                     >
                                       Eliminar
                                     </Button>}
-                                    <Divider style={{  marginTop: "0.5rem", border: "1px dashed purple"}} />
+                                    {value ==1 &&<Divider style={{  marginTop: "0.5rem", border: "1px dashed purple"}} />}
                                     </div>
                                 ))}
-                                  <Button
+                                  {value ==1 &&<Button
                                       fullWidth
                                       component="label"
                                       variant="outlined"
@@ -463,7 +328,7 @@ const Registar = () => {
                                       onClick={() => arrayHelpers.push({})}
                                     >
                                       Cotización
-                                  </Button>
+                                  </Button>}
                                 </Card>
                               </>
                             )}
