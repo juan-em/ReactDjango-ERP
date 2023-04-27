@@ -37,7 +37,6 @@ urlpatterns = [
 
     #Ordenes de bienes y servicios
     path('ordenes/', include('api_ordenes_bienes_servicios.urls')),
-    
 
     #CajaDiaria
     path('cajadiaria/', include('api_cajadiaria.urls')),

@@ -3,7 +3,7 @@ from .views import *
 
 urlpatterns = [
     #Bienes
-    path('', OrdenBienView.as_view()),
+    path('bien/', OrdenBienView.as_view()),
     # path('bien/<int:id>/', SolicitudBienView.as_view()),
     
     #Servicios
