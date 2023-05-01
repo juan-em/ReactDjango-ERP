@@ -35,14 +35,32 @@ import PropTypes from 'prop-types';
 import { cotizacionInitialState, postBienes, transformToFormData } from '../../../services/Servicios/bienes';
 import { getProveedores } from '../../../services/Proveedores';
 
+//Imports modal Swal para notificar registros
+import Swal from 'sweetalert2';
+
 const Registar = () => {
   // POST request para la orden de bien
   const ordenBienMayorMenorSubmit = async (data) => {
-    var payload = transformToFormData(data)
-    console.log(data,"<===============")
-
-    var res = await postBienes(payload)
-    console.log("====================> ", res)
+    try {
+      
+      var payload = transformToFormData(data)
+      await postBienes(payload)
+      Swal.fire({
+        icon: "success",
+        title: "Ok",
+        text: "Se registro la cotización",
+      });
+      // if (item.id) setItem({});
+      // setRenderizar(!renderizar);
+      // render.current = true;
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
+    }
+    setOpen(false);
   }
 
   // Funcionamiento relacion a la interfaz de registro con Tabs
