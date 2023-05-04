@@ -93,3 +93,21 @@ class OrdenBienView(APIView):
                 'content': 'Error',
                 'message': 'Internal server error'
             })
+
+class OrdenBienDetailView (APIView):
+
+    def delete(self, request, id):
+        data = Orden_bien.objects.get(id=id)
+        content = OrdenBienSerializer(data).data
+        for item in data.orden_bien.all():
+            item.propuesta_documentos_bien.propuesta_tecnica_documento.delete()
+            item.propuesta_documentos_bien.propuesta_economica_documento.delete()
+            item.propuesta_documentos_bien.bien_cotizacion_documento.delete()
+        data.delete()
+        context = {
+            'status':True,
+            'message':'Delete succes',
+            'content':content
+        }
+        return Response(context) 
+

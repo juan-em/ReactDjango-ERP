@@ -4,7 +4,7 @@ from .views import *
 urlpatterns = [
     #Bienes
     path('bien/', OrdenBienView.as_view()),
-    # path('bien/<int:id>/', SolicitudBienView.as_view()),
+    path('bien/<int:id>/', OrdenBienDetailView.as_view()),
     
     #Servicios
     # path('servicio/', SolicitudBienView.as_view()),

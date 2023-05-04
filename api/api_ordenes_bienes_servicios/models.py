@@ -53,6 +53,12 @@ class Orden_bien(models.Model):
     bien_nombre = models.CharField(max_length=500)
     bien_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
 
+    @property
+    def codigo(self):
+        pk = str(self.pk)
+        return "OB-"+"0"*(5-len(pk))+pk
+
+
 class Propuesta_Empresa_Bien(models.Model):
     proveedor_id = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True)
     orden_bien = models.ForeignKey(Orden_bien, related_name="orden_bien", on_delete=models.CASCADE, null=True)

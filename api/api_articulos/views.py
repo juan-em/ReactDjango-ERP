@@ -111,7 +111,7 @@ class ArticuloDetailView(APIView):
         return Response(context)
     
     def delete(self, request, id):
-        data = data = Articulo.objects.filter(borrado=False).get(id=id)
+        data = Articulo.objects.filter(borrado=False).get(id=id)
         serializer = ArticuloSerializer(data)
         if data.imagen.name != 'blancos.png':
             data.imagen.delete()
