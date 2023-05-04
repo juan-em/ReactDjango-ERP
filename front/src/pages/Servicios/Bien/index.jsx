@@ -60,7 +60,11 @@ const Bien = () => {
       <div className="container" style={{ marginTop: '30px'}}>
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={6}>
-            <Notificaciones/>
+            <Notificaciones
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
             <Paper
@@ -133,7 +137,12 @@ const Bien = () => {
             <VerMayor500/>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <VerMenor500/>
+            <VerMenor500
+              fields={fields}
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+            />
           </Grid>
         </Grid>
         

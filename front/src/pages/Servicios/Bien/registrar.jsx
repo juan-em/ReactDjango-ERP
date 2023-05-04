@@ -38,7 +38,11 @@ import { getProveedores } from '../../../services/Proveedores';
 //Imports modal Swal para notificar registros
 import Swal from 'sweetalert2';
 
-const Registar = () => {
+const Registar = ({
+  render,
+  renderizar,
+  setRenderizar
+}) => {
   // POST request para la orden de bien
   const ordenBienMayorMenorSubmit = async (data) => {
     try {
@@ -50,9 +54,8 @@ const Registar = () => {
         title: "Ok",
         text: "Se registro la cotización",
       });
-      // if (item.id) setItem({});
-      // setRenderizar(!renderizar);
-      // render.current = true;
+      render.current = true;
+      setRenderizar(!renderizar);
     } catch (error) {
       Swal.fire({
         icon: "error",

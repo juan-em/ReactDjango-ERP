@@ -30,3 +30,19 @@ export const postBienes = async (data) => {
         return error
     }
 }
+
+export const getBienes = async (set) => {
+    axios.get(BIENES_URL)
+     .then(res => {if (res.status == 200) set(res.data.content)})
+     .catch(err => console.log(err))
+}
+
+export const deleteBien = async (id) =>{
+    try{
+        const response = await axios.delete(`${BIENES_URL}${id}/`);
+        return response.data
+    } catch (error) {
+        console.log(error);
+        return error
+    }
+  }

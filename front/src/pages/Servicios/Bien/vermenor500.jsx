@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Fragment } from 'react';
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import {
@@ -38,10 +38,17 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Swal from "sweetalert2";
 import AddForm from "./addform";
 
+import { getBienes, deleteBien } from "../../../services/Servicios/bienes";
 
 const VerMenor500 = ({
+  fields,
+  render,
+  renderizar,
+  setRenderizar
 }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [bienes, setBienes] = useState([])
+
 
   const handleOpenPost = () => {
     setOpenModal(true);
@@ -50,51 +57,108 @@ const VerMenor500 = ({
   const handleClose = () => {
     setOpenModal(false)
   };
+
+  const handleDelete = async(id) => {
+    try {
+      Swal.fire({
+        title: '¿Desea eliminar el la cotización?',
+        showDenyButton: true,
+        confirmButtonText: 'SI',
+        denyButtonText: `NO`,
+        customClass: {
+          container: 'my-swal',
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteBien(id)
+          Swal.fire({
+            title: 'Eliminado',
+            icon: 'success',
+            customClass: {
+              container: 'my-swal',
+            },
+          })
+          render.current = true;
+          setRenderizar(!renderizar);
+        } 
+      })
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+        customClass: {
+          container: 'my-swal',
+        },
+      });
+    }
+  }
+
+  //carga de datos
+  useEffect(()=>{
+    if (render.current) {
+      render.current = false;
+      getBienes(setBienes)
+    }
+  },[renderizar])
+
+
+  function createCotizaciones (arrayOrdenBien) {
+    return arrayOrdenBien.map((item, i) => {
+      return {
+          cotizaciones_:
+             <div> Cotización {i+1}
+             <a href={item.propuesta_documentos_bien.bien_cotizacion_documento} target="_blank" rel="noopener noreferrer">
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                      mx:2,
+                   "&:hover": {
+                      backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                   }, }} 
+                   size="small">
+                   <span>Ver</span>
+                </Button>
+              </a>
+             </div>,
+          propuestas_tecnicas:
+             <div> Propuesta técnica {i+1}
+                <a href={item.propuesta_documentos_bien.propuesta_tecnica_documento} target="_blank" rel="noopener noreferrer">
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                   mx:2,
+                "&:hover": {
+                   backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                }, }} 
+                size="small">
+                <span>Ver</span>
+                </Button>
+                </a>
+             </div>,
+          propuestas_economicas:
+             <div> Propuesta econónica {i+1}
+                <a href={item.propuesta_documentos_bien.propuesta_economica_documento} target="_blank" rel="noopener noreferrer">
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                   mx:2,
+                "&:hover": {
+                   backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                }, }} 
+                size="small">
+                <span>Ver</span>
+                </Button>
+                </a>
+             </div>,
+        }
+    })
+  }
+
   
-  function createData(item, codigo, tipo_bien, estado, acciones) {
+  function createData(item, codigo, tipo_bien, estado, acciones, orden_bien) {
     return {
       item,
       codigo,
       tipo_bien,
       estado,
       acciones,
-      cotizaciones: [
-        {
-         cotizaciones_:
-            <div> Cotización 1 
-               <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                     mx:2,
-                  "&:hover": {
-                     backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                  }, }} 
-                  size="small">
-                  <span>Ver</span>
-               </Button>
-            </div>,
-         propuestas_tecnicas:
-            <div> Propuesta técnica 1 
-               <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                  mx:2,
-               "&:hover": {
-                  backgroundColor: alpha("#633256", 0.25), color:'#633256'
-               }, }} 
-               size="small">
-               <span>Ver</span>
-               </Button>
-            </div>,
-         propuestas_economicas:
-            <div> Propuesta econónica 1 
-               <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                  mx:2,
-               "&:hover": {
-                  backgroundColor: alpha("#633256", 0.25), color:'#633256'
-               }, }} 
-               size="small">
-               <span>Ver</span>
-               </Button>
-            </div>,
-        }
-      ],
+      cotizaciones: createCotizaciones(orden_bien)
     };
   }
 
@@ -159,40 +223,25 @@ const VerMenor500 = ({
       </Fragment>
     );
   }
-  
-  const rows = [
-    createData('Frozen yoghurt', 'Frozen yoghurt', 'Frozen yoghurt', 159,
-    <>
-    <IconButton
-      size="small"
-      color="error"
-    >
-      <DeleteIcon fontSize="inherit" />
-    </IconButton>
-    <AddForm/>
-    </>
-    ),
-    createData('Frozen yoghurt', 'Frozen yoghurt','Ice cream sandwich', 237,
-    <>
-    <IconButton
-      size="small"
-      color="error"
-    >
-      <DeleteIcon fontSize="inherit" />
-    </IconButton>
-    <AddForm/>
-    </>),
-    createData('Frozen yoghurt', 'Frozen yoghurt','Eclair', 262,
-    <>
-    <IconButton
-      size="small"
-      color="error"
-    >
-      <DeleteIcon fontSize="inherit" />
-    </IconButton>
-    <AddForm/>
-    </>),
-  ];
+
+  function createRows (arrayBienes) {
+    return arrayBienes.map((item, i) => 
+      createData(i+1, item.codigo, item.bien_nombre, item.bien_estado,
+      <>
+      <IconButton
+        size="small"
+        color="error"
+      >
+        <DeleteIcon fontSize="inherit" onClick={() => handleDelete(item.id)}/>
+      </IconButton>
+      <AddForm/>
+      </>,
+      item.orden_bien
+      )
+    )
+  }
+
+  const rows = createRows(bienes)
 
   return (
     <>
@@ -247,8 +296,8 @@ const VerMenor500 = ({
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {rows.map((row) => (
-                            <Row key={row.item} row={row} />
+                          {rows.map((row,i) => (
+                            <Row key={i} row={row} />
                           ))}
                         </TableBody>
                       </Table>
