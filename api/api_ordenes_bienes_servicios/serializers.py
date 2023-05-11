@@ -45,4 +45,4 @@ class OrdenBienSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Orden_bien
-        fields = ['id', 'bien_nombre', 'bien_estado', 'orden_bien','codigo']
+        fields = ['id', 'bien_nombre', 'bien_estado', 'orden_bien', 'mayor_500','codigo']
