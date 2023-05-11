@@ -15,7 +15,7 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem, Box
 } from "@mui/material";
 
 //Componentes
@@ -58,7 +58,7 @@ const Productos = () => {
               elevation={10}
               className="paper"
               sx={{
-                mt: 4,
+                mt: 3,
                 p: 0,
                 backgroundColor: alpha("#8D4C32", 0.2),
                 "&:hover": {
@@ -85,6 +85,7 @@ const Productos = () => {
                       margin="dense"
                       name="codigo"
                       id="textfields"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
                     <TextField
@@ -96,6 +97,7 @@ const Productos = () => {
                       margin="dense"
                       name="nombre"
                       id="textfields"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
                     <TextField
@@ -107,6 +109,7 @@ const Productos = () => {
                       margin="dense"
                       name="cantidad"
                       id="textfields"
+                      variant="filled"
                       onChange={handlerSearcher}
                     />
                     <FormControl
@@ -114,6 +117,7 @@ const Productos = () => {
                       margin="dense"
                       size="small"
                       color="secondary"
+                      variant="filled"
                     >
                       <InputLabel>Categorias</InputLabel>
                       <Select
@@ -124,6 +128,7 @@ const Productos = () => {
                         onChange={handlerSearcher}
                         defaultValue=""
                         name="categoria"
+                        variant="filled"
                       >
                         {categoria.map((item, i) => (
                           <MenuItem key={i} value={item.id}>
@@ -138,7 +143,7 @@ const Productos = () => {
                         <Button
                           fullWidth
                           id="textfields"
-                          color="primary"
+                          color="secondary"
                           variant="contained"
                           onClick={handleClean}
                         >
@@ -165,18 +170,26 @@ const Productos = () => {
               setItem={setItem}
             />
           </Grid>
+
+          <Grid item xs={12} sm={12} md={12} xl={12} sx={{ mt: -5 }}>
+            <Box sx={{ overflow: "auto" }}>
+              <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+              <Tabla
+                fields={fields}
+                render={render}
+                renderizar={renderizar}
+                setRenderizar={setRenderizar}
+                setOpenModal={setOpenModal}
+                setItem={setItem}
+                setItemView={setItemView}
+                setFullProduct={setFullProduct}
+              />
+              </Box>
+            </Box>
+          </Grid>
         </Grid>
 
-        <Tabla
-          fields={fields}
-          render={render}
-          renderizar={renderizar}
-          setRenderizar={setRenderizar}
-          setOpenModal={setOpenModal}
-          setItem={setItem}
-          setItemView={setItemView}
-          setFullProduct={setFullProduct}
-        />
+
       </div>
     </section>
   );

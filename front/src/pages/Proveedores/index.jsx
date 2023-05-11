@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import "./index.css";
-import "../../fonts/poppins.ttf";
 
 import {
   Paper,
@@ -18,6 +17,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Box,
+  Container,
 } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -59,13 +59,13 @@ const Proveedores = () => {
   }, []);
 
   return (
-    <section>
+    <Container>
       <div className="container">
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={5}>
             <Paper
               elevation={10}
-              className="paper"
+              className="paper-container"
               sx={{
                 mt: 4,
                 p: 0,
@@ -257,7 +257,7 @@ const Proveedores = () => {
           </Box>
         </Box>
       </div>
-    </section>
+    </Container>
   );
 };
 

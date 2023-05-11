@@ -36,9 +36,8 @@ import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import Estados from "./estados";
 
-const RemisionesVentas = () => {
+const Remisiones = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -47,19 +46,27 @@ const RemisionesVentas = () => {
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
   const handlerSearcher = (e) => {
-    const { name, value } = e.target;
-    setFields({ ...fields, [name]: value });
+    if (e.$d) {
+      setValue(e);
+      var fecha = new Date(e.$d)
+      var offsetPeru = -5; 
+      var fechaPeru = new Date(fecha.getTime() + offsetPeru * 60 * 60 * 1000);
+      var fechaConvertida = fechaPeru.toISOString().slice(0, 10);
+      fields.fecha = fechaConvertida
+    } else {
+      const { name, value } = e.target;
+      setFields({ ...fields, [name]: value });
+    }
   };
+
   const handleClean = () => {
     searchform.reset();
   };
-    //para el input de fecha
-    const [value, setValue] = useState(dayjs(new Date()));
 
-    const handleChange = (newValue) => {
-        setValue(newValue);
-    };
-  
+  //para el input de fecha
+  const [value, setValue] = useState(dayjs(new Date()));
+
+  //console.log(fields,"=================================")
     
   return (
     <section>
@@ -84,13 +91,13 @@ const RemisionesVentas = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Remisiones (Ventas)
+                  Buscar Remisiones (Compras)
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
                   <TextField
                       fullWidth
-                      label="Código"
+                      label="Codigo"
                       type="text"
                       size="small"
                       color="secondary"
@@ -102,12 +109,24 @@ const RemisionesVentas = () => {
                     />
                     <TextField
                       fullWidth
-                      label="Nombre Cliente"
+                      label="Código Orden de Compra"
+                      type="number"
+                      size="small"
+                      color="secondary"
+                      margin="dense"
+                      name="compra"
+                      variant="filled"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Nombre de proveedor"
                       type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="cliente"
                       variant="filled"
                       id="textfields"
                       onChange={handlerSearcher}
@@ -115,25 +134,12 @@ const RemisionesVentas = () => {
                      <TextField
                       fullWidth
                       label="N° de factura"
-                      type="text"
+                      type="number"
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="numero_factura"
                       id="textfields"
-                      variant="filled"
-                      onChange={handlerSearcher}
-                    />
-                    <TextField
-                      fullWidth
-                      label="RUC/DNI Cliente"
-                      type="text"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="ruc"
-                      id="textfields"
-                      maxlength="7"
                       variant="filled"
                       onChange={handlerSearcher}
                     />
@@ -142,7 +148,7 @@ const RemisionesVentas = () => {
                         label="Fecha"
                         inputFormat="DD/MM/YYYY"
                         value={value}
-                        onChange={handleChange}
+                        onChange={handlerSearcher}
                         renderInput={(params) => <TextField 
                           {...params} 
                           fullWidth
@@ -191,9 +197,8 @@ const RemisionesVentas = () => {
             />
           </Box>
         </Box>
-        <Estados/>
       </div>
     </section>
   );
 };
-export default RemisionesVentas;
+export default Remisiones;

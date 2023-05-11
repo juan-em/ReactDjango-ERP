@@ -46,14 +46,14 @@ const Ver = ({ itemView, setFullProduct, fullProduct }) => {
       >
         <Accordion sx={{ p: 5 }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            Artículo seleccionado
+            Producto seleccionado
           </AccordionSummary>
           <AccordionDetails>
             <Card sx={{ p: 3 }} elevation={0}>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   {!itemView.id ? (
-                    <Skeleton variant="rectangular" width={350} height={50} />
+                    <Skeleton variant="rectangular" height={50} />
                   ) : (
                     <img src={itemView.imagen} width={200} height={200} />
                   )}
@@ -67,7 +67,12 @@ const Ver = ({ itemView, setFullProduct, fullProduct }) => {
                             <Grid item xs={12} sm={12} md={12} lg={6}>
                               <ListItem>
                                 <ListItemAvatar>
-                                  <Avatar>
+                                <Avatar sx={{ 
+                                backgroundColor: alpha('#633256', 0.20),
+                                '&:hover': {
+                                    backgroundColor: alpha('#633256', 0.25),
+                                }, color:'#633256'
+                                }}>
                                   <DriveFileRenameOutlineIcon />
                                   </Avatar>
                                 </ListItemAvatar>
@@ -80,7 +85,12 @@ const Ver = ({ itemView, setFullProduct, fullProduct }) => {
                             <Grid item xs={12} sm={12} md={12} lg={6}>
                               <ListItem>
                                 <ListItemAvatar>
-                                  <Avatar>
+                                <Avatar sx={{ 
+                                backgroundColor: alpha('#633256', 0.20),
+                                '&:hover': {
+                                    backgroundColor: alpha('#633256', 0.25),
+                                }, color:'#633256'
+                                }}>
                                     <NumbersIcon />
                                   </Avatar>
                                 </ListItemAvatar>
@@ -93,7 +103,12 @@ const Ver = ({ itemView, setFullProduct, fullProduct }) => {
                             <Grid item xs={12} sm={12} md={12} lg={6}>
                               <ListItem>
                                 <ListItemAvatar>
-                                  <Avatar>
+                                <Avatar sx={{ 
+                                backgroundColor: alpha('#633256', 0.20),
+                                '&:hover': {
+                                    backgroundColor: alpha('#633256', 0.25),
+                                }, color:'#633256'
+                                }}>
                                     <DescriptionIcon />
                                   </Avatar>
                                 </ListItemAvatar>
@@ -106,7 +121,12 @@ const Ver = ({ itemView, setFullProduct, fullProduct }) => {
                             <Grid item xs={12} sm={12} md={12} lg={6}>
                               <ListItem>
                                 <ListItemAvatar>
-                                  <Avatar>
+                                <Avatar sx={{ 
+                                backgroundColor: alpha('#633256', 0.20),
+                                '&:hover': {
+                                    backgroundColor: alpha('#633256', 0.25),
+                                }, color:'#633256'
+                                }}>
                                     <CategoryIcon />
                                   </Avatar>
                                 </ListItemAvatar>

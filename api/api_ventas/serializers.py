@@ -3,6 +3,7 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from api_models.models import *
 from api_clientes.serializers import ClienteEmpresaSerilizer, ClientePersonaSerilizer
+from api_productos.serializers import Producto_varianteSerializer
 
 class VentaDetalleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,8 +13,21 @@ class VentaDetalleSerializer(serializers.ModelSerializer):
 class Venta_DetalleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Venta_detalle
-        exclude = ('venta',)
+        fields = ['id', 'producto', 'cantidad', 'precio_unitario', 'dscto_unitario', 'precio_final', 'remision_hecha']
         depth = 2
+    # def to_representation(self, instance):
+    #     print('producto',instance.producto.id)
+    #     producto = Producto_variante.objects.get(id=instance.producto.id)
+    #     prod_ser = Producto_varianteSerializer(producto)
+    #     return {
+    #         'id':instance.id,
+    #         'producto':prod_ser.data,
+    #         'cantidad':instance.cantidad,
+    #         'precio_unitario':instance.precio_unitario,
+    #         'dscto_unitario':instance.dscto_unitario,
+    #         'precio_final':instance.precio_final,
+    #         'remision_hecha':instance.remision_hecha
+    #     }
 
 class VentaSerializer(WritableNestedModelSerializer):
     detalle_venta = VentaDetalleSerializer(many=True)
@@ -40,14 +54,38 @@ class VentaSerializer(WritableNestedModelSerializer):
 class RemisionDetalleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Remision_venta_detalle
-        fields = '__all__'
+        fields = ['id', 'codigo', 'venta_detalle']
+
+    def to_representatin(self, instance):
+        venta_detalle = Venta_detalle.objects.filter(id = instance.venta_detalle.id)
+        ser_venta_detalle = Venta_DetalleSerializer(venta_detalle)
+        return {
+            'id':instance.id,
+            'codigo':instance.codigo,
+            'venta_detalle':ser_venta_detalle
+        }
 
 
-class RemisionesSerializer(WritableNestedModelSerializer):
-    remision_venta = RemisionDetalleSerializer(many=True)
+
+class RemisionesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Remision_venta
-        fields = ['id', 'compra', 'remision_venta']
+        fields = '__all__ '
+    def to_representation(self, instance):
+        detalle_remision_venta = Remision_venta_detalle.objects.filter(remision_venta=instance.pk)
+        ser_detalle_remision_venta = RemisionDetalleSerializer(detalle_remision_venta, many=True)
+        return {
+            'id': instance.id,
+            'codigo': instance.codigo,
+            'fecha': instance.fecha,
+            'trabajador': instance.trabajador,
+            'remision_venta_detalle': ser_detalle_remision_venta.data,
+            'venta': instance.venta.id,
+            'codigo_venta':instance.venta.codigo,
+            'totalRemision':instance.totalRemision,
+            'cliente': instance.venta.nombre_cliente,
+            'numero_factura': instance.venta.numero_factura,
+        }
 
 
 class SalidaAlmacen(serializers.ModelSerializer):

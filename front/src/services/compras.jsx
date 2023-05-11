@@ -94,6 +94,7 @@ export const putCompra = async(id, payload) => {
 
 export const postRemision = async (payload) => {
     try{
+        console.log(payload)
         const response = await axios.post(URL_REMISIONES, payload);
         return response.data
     } catch (error) {

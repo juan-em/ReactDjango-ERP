@@ -42,7 +42,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
       Swal.fire({
         icon: "success",
         title: "Ok",
-        text: "Se registró la categoría",
+        text: "Se registró la categoría de artículos",
       });
       if(item.id)setItem({})
       setRenderizar(!renderizar)
@@ -75,7 +75,7 @@ const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, it
             <CloseIcon fontSize="small" />
           </IconButton>
           <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            {item.id ? "Editar Categoría" : "Nueva Categoría"}
+            {item.id ? "Editar Categoría (Artículos)" : "Nueva Categoría (Artículos)"}
           </Typography>
         </DialogTitle>
         <DialogContent>

@@ -6,11 +6,12 @@ from api_mantenimientos.serializers import AlmacenSerializer
 
 #Import Models
 from api_models.models import (
-    Producto, Producto_detalle, Articulo, ArticuloVariante, Producto_variante
+    Producto, Producto_detalle, Articulo, ArticuloVariante, Producto_variante, Ubicacion_almacen_producto, Almacen
 )
 from api_articulos.serializers import *
+#Import Serializer    
 
-#Import Serializer
+
 class Producto_detalleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Producto_detalle
@@ -29,16 +30,29 @@ class Producto_detalleSerializer(serializers.ModelSerializer):
             'borrado':instance.borrado,
         }    
 
+class Ubicacion_almacenSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Ubicacion_almacen_producto
+        fields = ['id','almacen', 'cantidad']
+    def to_representation(self, instance):
+        almacen_info = ALSerilizer(Almacen.objects.get(id=instance.almacen.id)).data if instance.almacen else None
+        return {
+            "id":instance.id,
+            "almacen": almacen_info,
+            "cantidad": instance.cantidad
+        }
 
 class PVSerializer(WritableNestedModelSerializer):
     producto_detalle = Producto_detalleSerializer(many=True)
+    ubicacion_producto = Ubicacion_almacenSerilizer(many=True)
     class Meta:
         model = Producto_variante
-        fields = ['id', 'nombre','descripcion', 'almacen', 'color', 'talla', 'costo_produccion', 'precio_venta', 'borrado', 'producto_detalle']
+        fields = ['id', 'nombre','descripcion', 'ubicacion_producto', 'color', 'talla', 'costo_produccion', 'precio_venta', 'borrado', 'producto_detalle']
         depth = 4
 
 class Producto_varianteSerializer(WritableNestedModelSerializer):
     producto_detalle = Producto_detalleSerializer(many=True)
+    ubicacion_producto = Ubicacion_almacenSerilizer(many=True)
     class Meta:
         model = Producto_variante
         fields = "__all__"
@@ -46,14 +60,13 @@ class Producto_varianteSerializer(WritableNestedModelSerializer):
     def to_representation(self, instance):
         detalle = Producto_detalle.objects.filter(variante=instance.id)
         ser_detalle = Producto_detalleSerializer(detalle, many=True)
-        if instance.almacen:
-            almacen = Almacen.objects.get(id=instance.almacen.id)
-            ser_almacen = AlmacenSerializer(almacen)
+        almacen = Ubicacion_almacen_producto.objects.filter(producto_variante=instance.id)
+        ser_almacen = Ubicacion_almacenSerilizer(almacen, many=True)
         return{
             'id':instance.id,
             'nombre':instance.nombre,
             'descripcion':instance.descripcion,
-            'almacen':ser_almacen.data if instance.almacen else None,
+            'ubicacion_producto':ser_almacen.data if instance.ubicacion_producto else None,
             'color':instance.color,
             'talla':instance.talla,
             'costo_produccion':instance.costo_produccion,
@@ -62,7 +75,6 @@ class Producto_varianteSerializer(WritableNestedModelSerializer):
             'imagen': "http://localhost:8000"+instance.producto.imagen.url,
             'producto_detalle' : ser_detalle.data,
             'producto_id':instance.producto.id
-            
         }
 
 # class ProductoSerializer(serializers.ModelSerializer):
@@ -70,7 +82,7 @@ class ProductoSerializer(WritableNestedModelSerializer):
     producto_variante = Producto_varianteSerializer(many=True)
     class Meta:
         model = Producto
-        fields = ['id','codigo', 'nombre', 'cantidad', 'descripcion_producto', 'categoria','imagen', 'borrado', 'producto_variante']
+        fields = ['id','codigo', 'nombre', 'descripcion_producto', 'categoria','imagen', 'borrado', 'producto_variante']
 
     def to_representation(self, instance):
         producto_variante = Producto_variante.objects.filter(producto=instance.id)
@@ -82,7 +94,7 @@ class ProductoSerializer(WritableNestedModelSerializer):
             'id': instance.id,
             'codigo':instance.codigo,
             'nombre' : instance.nombre,
-            'cantidad' : instance.cantidad,
+            # 'cantidad' : instance.cantidad,
             'descripcion_producto' : instance.descripcion_producto,
             'nombre_categoria':instance.categoria.nombre if instance.categoria else None,
             'categoria' : ser_categoria.data if instance.categoria else None,
