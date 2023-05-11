@@ -45,6 +45,11 @@ const Registar = ({
 }) => {
   // POST request para la orden de bien
   const ordenBienMayorMenorSubmit = async (data) => {
+
+    if (value == 1){
+      data['mayor_500'] = true
+    }
+
     try {
       
       var payload = transformToFormData(data)
@@ -207,7 +212,7 @@ const Registar = ({
                           </Select>
                         </FormControl>
                         </Grid>
-
+                        
                         <Grid item xs={12} sm={12} md={12}>
                           <FieldArray
                             name="orden_bien"
@@ -355,6 +360,8 @@ const Registar = ({
                             )}
                           />
                         </Grid>
+
+
                         
                         <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                           <Button

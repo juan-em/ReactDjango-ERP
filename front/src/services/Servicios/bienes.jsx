@@ -6,6 +6,7 @@ export const cotizacionInitialState = {orden_bien:[{}]}
 
 export function transformToFormData (values) {
     const formData = new FormData();
+    values.mayor_500 && formData.append('mayor_500', values.mayor_500);
     formData.append('bien_nombre', values.bien_nombre);
     formData.append('bien_estado', values.bien_estado);
     
