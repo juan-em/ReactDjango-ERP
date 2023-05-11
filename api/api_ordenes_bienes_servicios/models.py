@@ -52,6 +52,7 @@ class Propuesta_Empresa_Bien_Documentos(models.Model):
 class Orden_bien(models.Model):
     bien_nombre = models.CharField(max_length=500)
     bien_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
+    mayor_500 = models.BooleanField(default=False)
 
     @property
     def codigo(self):
