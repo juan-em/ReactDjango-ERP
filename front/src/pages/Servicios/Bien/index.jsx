@@ -30,6 +30,7 @@ import { useRef } from "react";
 import Notificaciones from "./notificaciones";
 import VerMayor500 from "./vermayor500";
 import VerMenor500 from "./vermenor500";
+import { Tabla } from "./complements";
 
 const Bien = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -47,7 +48,6 @@ const Bien = () => {
     searchform.reset();
   };
 
-  console.log(fields)
 
   const stateList = [
     'Todos',
@@ -155,11 +155,24 @@ const Bien = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} sm={12} md={6} xl={4}>
-
+            
           </Grid>
         </Grid>
+
+        <Grid item xs={12} sm={12} md={12} xl={12} sx={{ mt: -5 }}>
+          <Box sx={{ overflow: "auto" }}>
+            <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+              <Tabla
+                fields={fields}
+                render={render}
+                renderizar={renderizar}
+                setRenderizar={setRenderizar}
+              />
+            </Box>
+          </Box>
+        </Grid>
       
-        <Grid container spacing={1} sx={{ mt: 0 }}>
+        {/* <Grid container spacing={1} sx={{ mt: 0 }}>
           <Grid item xs={12} sm={12} md={6}>
             <VerMayor500/>
           </Grid>
@@ -171,7 +184,9 @@ const Bien = () => {
               setRenderizar={setRenderizar}
             />
           </Grid>
-        </Grid>
+        </Grid> */}
+        
+        
         
       </div>
     </section>
