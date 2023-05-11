@@ -19,6 +19,20 @@ export function transformToFormData (values) {
     return formData
 }
 
+export const searcher = (fields, list) => {
+    let resultData = list;
+    resultData = fields.bien_estado && fields.bien_estado != 'Todos' 
+        ? resultData.filter((item) =>
+            
+            item.bien_estado == fields.bien_estado
+            )
+        : resultData;
+    return resultData;
+};
+
+
+
+
 export const postBienes = async (data) => {
     try {
         const response = await axios.post(BIENES_URL, data);

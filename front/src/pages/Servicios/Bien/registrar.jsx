@@ -125,7 +125,7 @@ const Registar = ({
 
 
 
-  const top101Films = [
+  const stateList = [
     'Ninguno',
     'Solicitando cotización',
     'Aprobado',
@@ -199,7 +199,7 @@ const Registar = ({
                           name="bien_estado"
                           
                           >
-                            {top101Films.map((item, i) => (
+                            {stateList.map((item, i) => (
                               <MenuItem key={i} value={item}>
                                 {item}
                               </MenuItem>

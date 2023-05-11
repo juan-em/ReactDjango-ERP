@@ -20,7 +20,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Box, Autocomplete, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio
+  Box, Autocomplete, FormControl, InputLabel, Select, MenuItem, Radio
 } from "@mui/material";
 
 //Componentes
@@ -47,11 +47,15 @@ const Bien = () => {
     searchform.reset();
   };
 
-  const top101Films = [
-    { label: 'No Iniciado'},
-    { label: 'Aprobado'},
-    { label: 'En proceso'},
-    { label: 'Denegado'},
+  console.log(fields)
+
+  const stateList = [
+    'Todos',
+    'Solicitando cotización',
+    'Aprobado',
+    'En proceso',
+    'Denegado',
+    'Ninguno'
 
   ];
 
@@ -88,9 +92,32 @@ const Bien = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
-                   
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                      variant="filled"
+                    >
+                      <InputLabel>Estado</InputLabel>
+                      <Select
+                      label="Estado"
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                      name="bien_estado"
+                      
+                      >
+                        {stateList.map((item, i) => (
+                          <MenuItem key={i} value={item}>
+                            {item}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
                     
-                    <Autocomplete
+                    {/* <Autocomplete
                       fullWidth
 
                       type="text"
@@ -104,7 +131,7 @@ const Bien = () => {
                       options={top101Films}
                       renderInput={(params) => <TextField {...params} variant="filled" label="Estado" margin="dense" color="secondary" fullWidth />}
 
-                    />
+                    /> */}
                    
                     
                     <Grid container spacing={1} sx={{ mt: 2 }}>

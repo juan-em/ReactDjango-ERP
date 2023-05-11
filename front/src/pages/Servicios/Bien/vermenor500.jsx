@@ -38,7 +38,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Swal from "sweetalert2";
 import AddForm from "./addform";
 
-import { getBienes, deleteBien } from "../../../services/Servicios/bienes";
+import { getBienes, deleteBien, searcher } from "../../../services/Servicios/bienes";
 
 const VerMenor500 = ({
   fields,
@@ -241,7 +241,7 @@ const VerMenor500 = ({
     )
   }
 
-  const rows = createRows(bienes)
+  const rows = createRows(searcher(fields, bienes))
 
   return (
     <>
