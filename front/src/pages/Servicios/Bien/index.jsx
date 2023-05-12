@@ -2,14 +2,6 @@ import "./index.css";
 import "../../../fonts/poppins.ttf";
 import { alpha } from "@mui/material/styles";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import NumbersIcon from "@mui/icons-material/Numbers";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {
@@ -40,10 +32,12 @@ const Bien = () => {
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
+  
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
   };
+  
   const handleClean = () => {
     searchform.reset();
   };
@@ -58,6 +52,13 @@ const Bien = () => {
     'Ninguno'
 
   ];
+
+  const cotizacionList = [
+    'Todos',
+    'Menor a 500',
+    'Mayor a 500',
+    'Ninguno'
+  ]
 
   return (
     <section>
@@ -92,6 +93,7 @@ const Bien = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
+                    {/* Filtrado de estado */}
                     <FormControl
                       fullWidth
                       margin="dense"
@@ -116,24 +118,33 @@ const Bien = () => {
                         ))}
                       </Select>
                     </FormControl>
-                    
-                    {/* <Autocomplete
-                      fullWidth
 
-                      type="text"
+                    {/* Filtrado de cotizacion (mayor o menor a 500) */}
+                    <FormControl
+                      fullWidth
+                      margin="dense"
                       size="small"
                       color="secondary"
-                      margin="dense"
-                      name="nombre"
+                      variant="filled"
+                    >
+                      <InputLabel>Cotizacion</InputLabel>
+                      <Select
+                      label="Cotizacion"
+                      size="small"
+                      color="secondary"
                       id="textfields"
                       onChange={handlerSearcher}
-                      disablePortal
-                      options={top101Films}
-                      renderInput={(params) => <TextField {...params} variant="filled" label="Estado" margin="dense" color="secondary" fullWidth />}
+                      name="mayor_500"
+                      >
+                        {cotizacionList.map((item, i) => (
+                          <MenuItem key={i} value={item}>
+                            {item}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>        
 
-                    /> */}
-                   
-                    
+                    {/* Limpiar formulario */}
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -159,7 +170,8 @@ const Bien = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} xl={12} sx={{ mt: -5 }}>
+        {/* Tabla de datos de ordenes de bien */}
+        <Grid item xs={12} sm={12} md={12} xl={12} sx={{ mt: 2 }}>
           <Box sx={{ overflow: "auto" }}>
             <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
               <Tabla
