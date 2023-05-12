@@ -28,6 +28,11 @@ export const searcher = (fields, list) => {
             item.bien_estado == fields.bien_estado
             )
         : resultData;
+    resultData = fields.mayor_500 && fields.mayor_500 != 'Todos'
+        ? resultData.filter((item) => 
+            fields.mayor_500 == "Menor a 500" ? item.mayor_500 == false : fields.mayor_500 == "Ninguno" ? item.mayor_500 == null : item.mayor_500 == true
+        )
+        : resultData
     return resultData;
 };
 
