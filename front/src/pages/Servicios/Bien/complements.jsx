@@ -39,11 +39,12 @@ import AddForm from "./addform";
 
 import { getBienes, deleteBien, searcher } from "../../../services/Servicios/bienes";
 
-const VerMenor500 = ({
-  fields,
-  render,
-  renderizar,
-  setRenderizar
+
+export const Tabla = ({
+    fields,
+    render,
+    renderizar,
+    setRenderizar
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const [bienes, setBienes] = useState([])
@@ -242,99 +243,43 @@ const VerMenor500 = ({
 
   const rows = createRows(searcher(fields, bienes))
 
-  return (
-    <>
-      <Button
-        aria-label="delete"
-        size="small"
-        onClick={handleOpenPost}
-        fullWidth
-        variant="contained"
-        sx={{
-          p:2,
-          color:"white",
-          backgroundColor:"#633256",
-          "&:hover": {
-            backgroundColor: alpha("#8D4C32", 0.25),
-            color:"#633256",
-          },
-        }}
-      >
-      <span>Ver menores a 500</span>
-      </Button>
-      <Dialog open={openModal} maxWidth={'xl'}>
-        <DialogTitle>
-          <IconButton aria-label="delete" size="small" onClick={handleClose}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-          <Typography align="center" sx={{ fontSize: 20, mt: 2 }} gutterBottom>
-            Órdenes de bienes con cotización menor a 500
-          </Typography>
-        </DialogTitle>
-        <DialogContent>
-                {/*item.id && <input type="hidden" item="cod" value={item.id}/>*/}
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <div style={{ height: 400, width: '100%' }}>
-                    <TableContainer component={Paper}>
-                      <Table aria-label="collapsible table" size="small">
-                        <TableHead
-                        sx={{
-                          backgroundColor: alpha("#633256", 0.2),
-                          "&:hover": {
-                            backgroundColor: alpha("#633256", 0.25),
-                          },
-                        }}>
-                          <TableRow>
-                            <TableCell/>
-                            <TableCell><span>Item</span></TableCell>
-                            <TableCell><span>Código</span></TableCell>
-                            <TableCell><span>Tipo de bien</span></TableCell>
-                            <TableCell><span>Estado</span></TableCell>
-                            <TableCell><span>Acciones</span></TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map((row,i) => (
-                            <Row key={i} row={row} />
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                    </div>
-                  </Grid>
-                    <Grid item xs={12} sm={6} md={6} sx={{ mt: 2 }}>
-                    <Button
-                      fullWidth
-                      id="btnClick"
-                      size="medium"
-                      color="secondary"
-                      classitem="navbar-btn-single"
-                      variant="contained"
-                      type="submit"
-                    >
-                      <span>Registrar</span>
-                    </Button>
-                    </Grid>
-                  <Grid item xs={12} sm={6} md={6} sx={{ mt: 2 }}>
-                    <Button
-                      fullWidth
-                      id="btnClick"
-                      size="medium"
-                      color="error"
-                      classitem="navbar-btn-single"
-                      variant="contained"
-                      onClick={handleClose}
-                    >
-                      <span>Cancelar</span>
-                    </Button>
-                  </Grid>
 
-              </Grid>
-        </DialogContent>
-      </Dialog>
-    </>
+  return (
+    <TableContainer component={Paper}>
+      <Table aria-label="collapsible table" size="small">
+        <TableHead
+          sx={{
+            backgroundColor: alpha("#633256", 0.2),
+            "&:hover": {
+              backgroundColor: alpha("#633256", 0.25),
+            },
+          }}
+        >
+          <TableRow>
+            <TableCell />
+            <TableCell>
+              <span>Item</span>
+            </TableCell>
+            <TableCell>
+              <span>Código</span>
+            </TableCell>
+            <TableCell>
+              <span>Tipo de bien</span>
+            </TableCell>
+            <TableCell>
+              <span>Estado</span>
+            </TableCell>
+            <TableCell>
+              <span>Acciones</span>
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row, i) => (
+            <Row key={i} row={row} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
-
-export default VerMenor500;
