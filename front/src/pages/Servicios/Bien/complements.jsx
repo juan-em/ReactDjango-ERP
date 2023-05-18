@@ -3,24 +3,13 @@ import { Fragment } from 'react';
 import { alpha } from "@mui/material/styles";
 import {
   Button,
-  Grid,
-  Typography,
   IconButton,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Tab,
-  Alert,
-  AlertTitle
 } from "@mui/material";
-import { TabContext, TabPanel, TabList } from "@mui/lab";
-import { DataGrid, renderEditInputCell } from '@mui/x-data-grid';
+
 //iconos
 import DeleteIcon from "@mui/icons-material/Delete";
-import CloseIcon from "@mui/icons-material/Close";
-import DescriptionIcon from '@mui/icons-material/Description';
+
 //AHORA
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import Table from '@mui/material/Table';
@@ -46,17 +35,9 @@ export const Tabla = ({
     renderizar,
     setRenderizar
 }) => {
-  const [openModal, setOpenModal] = useState(false);
   const [bienes, setBienes] = useState([])
 
 
-  const handleOpenPost = () => {
-    setOpenModal(true);
-  };
-
-  const handleClose = () => {
-    setOpenModal(false)
-  };
 
   const handleDelete = async(id) => {
     try {

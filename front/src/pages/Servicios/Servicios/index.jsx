@@ -127,7 +127,7 @@ const Servicios = () => {
             <VerServicio itemView={itemView} />
           </Grid>
         </Grid>
-        <Box sx={{ overflow: "auto" }}>
+        <Box sx={{ overflow: "auto",  mt: 4 }}>
           <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
             <Tabla
               fields={fields}

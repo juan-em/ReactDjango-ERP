@@ -7,12 +7,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Paper,
   Grid,
-  TextField,
   Button,
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Box, Autocomplete, FormControl, InputLabel, Select, MenuItem, Radio
+  Box, FormControl, InputLabel, Select, MenuItem, Radio
 } from "@mui/material";
 
 //Componentes
@@ -25,10 +24,6 @@ import VerMenor500 from "./vermenor500";
 import { Tabla } from "./complements";
 
 const Bien = () => {
-  const [openModal, setOpenModal] = useState(false);
-  const [item, setItem] = useState({});
-  const [itemView, setItemView] = useState({});
-
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
