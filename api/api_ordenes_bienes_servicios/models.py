@@ -21,31 +21,11 @@ ESTADO_SOLICITUD = [
     (DENEGADO, "Denegado")
 ]
 
-# class Orden_bien(models.Model):
-#     bien_nombre = models.CharField(max_length=500)
-#     bien_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
-
-#     def __str__(self):
-#         return self.bien_nombre
-
-# class Propuesta_Empresa_Bien(models.Model):
-#     proveedor_id = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True)
-#     propuesta_bien = models.ForeignKey(Orden_bien, related_name="orden_bien", on_delete=models.CASCADE, null=True)
-#     fecha_registro = models.DateField(auto_now_add=True)
-#     fecha_ultima_modificacion = models.DateField(auto_now=True)
-
-# class Propuesta_Empresa_Bien_Documentos(models.Model):
-#     propuesta_empresa = models.ForeignKey(Propuesta_Empresa_Bien, related_name="propuesta_documentos_bien", on_delete=models.CASCADE, null=True)
-#     propuesta_tecnica_documento = models.FileField(upload_to="documents/propuesta_tecnica", blank=True, null=True)
-#     propuesta_economica_documento = models.FileField(upload_to="documents/propuesta_economica", blank=True, null=True)
-#     bien_cotizacion_documento = models.FileField(upload_to="documents/cotizacion", blank=True, null=True)
-#     fecha_registro = models.DateField(auto_now_add=True)
-#     fecha_ultima_modificacion = models.DateField(auto_now=True)
-
+# Ordenes de bienes
 class Propuesta_Empresa_Bien_Documentos(models.Model):
-    propuesta_tecnica_documento = models.FileField(upload_to="documents/propuesta_tecnica", blank=True, null=True)
-    propuesta_economica_documento = models.FileField(upload_to="documents/propuesta_economica", blank=True, null=True)
-    bien_cotizacion_documento = models.FileField(upload_to="documents/cotizacion", blank=True, null=True)
+    propuesta_tecnica_documento = models.FileField(upload_to="documents/bienes/propuesta_tecnica", blank=True, null=True)
+    propuesta_economica_documento = models.FileField(upload_to="documents/bienes/propuesta_economica", blank=True, null=True)
+    bien_cotizacion_documento = models.FileField(upload_to="documents/bienes/cotizacion", blank=True, null=True)
     fecha_registro = models.DateField(auto_now_add=True)
     fecha_ultima_modificacion = models.DateField(auto_now=True)
 
@@ -66,3 +46,28 @@ class Propuesta_Empresa_Bien(models.Model):
     fecha_registro = models.DateField(auto_now_add=True)
     fecha_ultima_modificacion = models.DateField(auto_now=True)
     propuesta_documentos_bien = models.OneToOneField(Propuesta_Empresa_Bien_Documentos, on_delete=models.CASCADE)
+
+# Ordenes de servicios
+class Propuesta_Empresa_Servicio_Documentos(models.Model):
+    propuesta_tecnica_documento = models.FileField(upload_to="documents/servicios/propuesta_tecnica", blank=True, null=True)
+    propuesta_economica_documento = models.FileField(upload_to="documents/servicios/propuesta_economica", blank=True, null=True)
+    servicio_cotizacion_documento = models.FileField(upload_to="documents/servicios/cotizacion", blank=True, null=True)
+    fecha_registro = models.DateField(auto_now_add=True)
+    fecha_ultima_modificacion = models.DateField(auto_now=True)
+
+class Orden_servicio(models.Model):
+    servicio_nombre = models.CharField(max_length=500)
+    servicio_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
+    mayor_500 = models.BooleanField(default=False)
+
+    @property
+    def codigo(self):
+        pk = str(self.pk)
+        return "OS-"+"0"*(5-len(pk))+pk
+
+class Propuesta_Empresa_Servicio(models.Model):
+    empresa_servicio = models.CharField(max_length=250, null=True)
+    orden_servicio = models.ForeignKey(Orden_servicio, related_name="orden_servicio", on_delete=models.CASCADE, null=True)
+    fecha_registro = models.DateField(auto_now_add=True)
+    fecha_ultima_modificacion = models.DateField(auto_now=True)
+    propuesta_documentos_servicio = models.OneToOneField(Propuesta_Empresa_Servicio_Documentos, on_delete=models.CASCADE)
