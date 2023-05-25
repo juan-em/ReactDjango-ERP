@@ -59,10 +59,10 @@ const Servicios = () => {
     <section>
       <div className="container" style={{ marginTop: '30px'}}>
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={12} xl={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <Notificaciones/>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} xl={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <Paper
               elevation={10}
               className="paper"
@@ -123,9 +123,9 @@ const Servicios = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} xl={4}>
+          {/* <Grid item xs={12} sm={12} md={6} xl={4}>
             <VerServicio itemView={itemView} />
-          </Grid>
+          </Grid> */}
         </Grid>
         <Box sx={{ overflow: "auto",  mt: 4 }}>
           <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
