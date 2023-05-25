@@ -72,28 +72,18 @@ class OrdenBienView(APIView):
         print(request.data)
         print(querydict_to_dict(request.data))
 
-        try:
-            serializer = OrdenBienSerializer(data=querydict_to_dict(request.data))
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
+        serializer = OrdenBienSerializer(data=querydict_to_dict(request.data))
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
-            context = {
-                'data':'OK',
-                'status':status.HTTP_201_CREATED,
-                'content':serializer.data
-            }
-            
-            return Response(context)
-        except Exception as Error:
-            print(Error)
-            print(serializer.data)
-            
-            return Response({
-                'status': False,
-                'content': 'Error',
-                'message': 'Internal server error'
-            })
-
+        context = {
+            'data':'OK',
+            'status':status.HTTP_201_CREATED,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+        
 class OrdenBienDetailView (APIView):
 
     def delete(self, request, id):
@@ -111,3 +101,48 @@ class OrdenBienDetailView (APIView):
         }
         return Response(context) 
 
+class OrdenServicioView(APIView):
+    def get(self, request):
+        orden_servicio = Orden_servicio.objects.all()
+        serializer = OrdenServicioSerializer(orden_servicio, many=True)
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        } 
+
+        return Response(context)
+
+    def post(self, request):
+        print(request.data)
+        print(querydict_to_dict(request.data))
+
+        serializer = OrdenServicioSerializer(data=querydict_to_dict(request.data))
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'data':'OK',
+            'status':status.HTTP_201_CREATED,
+            'content':serializer.data
+        }
+
+        return Response(context)
+
+class OrdenServicioDetailView(APIView):
+    def delete(self, request, id):
+        data = Orden_servicio.objects.get(id=id)
+        content = OrdenServicioSerializer(data).data
+        for i in data.orden_servicio.all():
+            i.propuesta_documentos_servicio.propuesta_tecnica_documento.delete()
+            i.propuesta_documentos_servicio.propuesta_economica_documento.delete()
+            i.propuesta_documentos_servicio.servicio_cotizacion_documento.delete()
+        data.delete()
+
+        context = {
+            'status':True,
+            'message':'Delete succes',
+            'content':content
+        }
+
+        return Response(context)

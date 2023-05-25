@@ -40,6 +40,4 @@ urlpatterns = [
 
     #CajaDiaria
     path('cajadiaria/', include('api_cajadiaria.urls')),
-
-    path('bien/', include('api_ordenes_bienes_servicios.urls')),
 ]
