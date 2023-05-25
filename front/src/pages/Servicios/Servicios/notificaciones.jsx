@@ -20,13 +20,15 @@ import { useRef } from "react";
 import VerServicio from "./verservicio";
 import Registar from "./registrar";
   
-  const Notificaciones = () => {
+  const Notificaciones = ({
+    render,
+    renderizar,
+    setRenderizar
+  }) => {
     const [openModal, setOpenModal] = useState(false);
     const [item, setItem] = useState({});
     const [itemView, setItemView] = useState({});
-  
-    const render = useRef(true);
-    const [renderizar, setRenderizar] = useState(true);
+
     const [fields, setFields] = useState({});
     const handlerSearcher = (e) => {
       const { name, value } = e.target;
@@ -70,7 +72,11 @@ import Registar from "./registrar";
                 <AccordionDetails>
                     <Alert variant="outlined" severity="warning"
                     action={
-                        <Registar/>
+                        <Registar
+                        render={render}
+                        renderizar={renderizar}
+                        setRenderizar={setRenderizar}
+                        />
                       }>
                         Nombre del servicio (Tipo) — <strong>Estado del servicio</strong>
                     </Alert>

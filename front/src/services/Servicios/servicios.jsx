@@ -11,7 +11,7 @@ export function transformToFormData (values) {
     formData.append('servicio_estado', values.servicio_estado);
     
     values.orden_servicio.forEach((value, index) => {
-        //formData.append(`orden_servicio[${index}][proveedor_id]`, value.proveedor_id);
+        formData.append(`orden_servicio[${index}][proveedor_id]`, value.empresa_servicio);
         formData.append(`orden_servicio[${index}][propuesta_documentos_servicio][servicio_cotizacion_documento]`, value.propuesta_documentos_servicio.servicio_cotizacion_documento);
         formData.append(`orden_servicio[${index}][propuesta_documentos_servicio][propuesta_tecnica_documento]`, value.propuesta_documentos_servicio.propuesta_tecnica_documento);
         formData.append(`orden_servicio[${index}][propuesta_documentos_servicio][propuesta_economica_documento]`, value.propuesta_documentos_servicio.propuesta_economica_documento);

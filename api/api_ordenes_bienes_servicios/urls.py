@@ -8,7 +8,7 @@ urlpatterns = [
     
     #Servicios
     path('servicio/', OrdenServicioView.as_view()),
-    path('servicio/<int:id>', OrdenServicioDetailView.as_view()),
+    path('servicio/<int:id>/', OrdenServicioDetailView.as_view()),
     # path('servicio/', SolicitudBienView.as_view()),
     # path('servicio/<int:id>/', SolicitudBienView.as_view()),
 

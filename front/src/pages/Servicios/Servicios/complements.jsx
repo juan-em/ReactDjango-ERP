@@ -26,8 +26,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import Swal from "sweetalert2";
 
-import { getBienes, deleteBien, searcher } from "../../../services/Servicios/bienes";
-
+import { getServicios, deleteServicio, searcher } from "../../../services/Servicios/servicios";
 
 export const Tabla = ({
     fields,
@@ -51,7 +50,7 @@ export const Tabla = ({
         },
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await deleteBien(id)
+          await deleteServicio(id)
           Swal.fire({
             title: 'Eliminado',
             icon: 'success',
@@ -80,7 +79,7 @@ export const Tabla = ({
   useEffect(()=>{
     if (render.current) {
       render.current = false;
-      getBienes(setServicios)
+      getServicios(setServicios)
     }
   },[renderizar])
 
@@ -90,7 +89,7 @@ export const Tabla = ({
       return {
           cotizaciones_:
              <div> Cotización {i+1}
-             <a href={item.propuesta_documentos_bien.bien_cotizacion_documento} target="_blank" rel="noopener noreferrer">
+             <a href={item.propuesta_documentos_servicio.servicio_cotizacion_documento} target="_blank" rel="noopener noreferrer">
                 <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
                       mx:2,
                    "&:hover": {
@@ -103,7 +102,7 @@ export const Tabla = ({
              </div>,
           propuestas_tecnicas:
              <div> Propuesta técnica {i+1}
-                <a href={item.propuesta_documentos_bien.propuesta_tecnica_documento} target="_blank" rel="noopener noreferrer">
+                <a href={item.propuesta_documentos_servicio.propuesta_tecnica_documento} target="_blank" rel="noopener noreferrer">
                 <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
                    mx:2,
                 "&:hover": {
@@ -116,7 +115,7 @@ export const Tabla = ({
              </div>,
           propuestas_economicas:
              <div> Propuesta econónica {i+1}
-                <a href={item.propuesta_documentos_bien.propuesta_economica_documento} target="_blank" rel="noopener noreferrer">
+                <a href={item.propuesta_documentos_servicio.propuesta_economica_documento} target="_blank" rel="noopener noreferrer">
                 <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
                    mx:2,
                 "&:hover": {
@@ -132,14 +131,14 @@ export const Tabla = ({
   }
 
   
-  function createData(item, codigo, tipo_bien, estado, acciones, orden_bien) {
+  function createData(item, codigo, tipo_servicio, estado, acciones, orden_servicio) {
     return {
       item,
       codigo,
-      tipo_bien,
+      tipo_servicio,
       estado,
       acciones,
-      cotizaciones: createCotizaciones(orden_bien)
+      cotizaciones: createCotizaciones(orden_servicio)
     };
   }
 
@@ -163,7 +162,7 @@ export const Tabla = ({
             {row.item}
           </TableCell>
           <TableCell>{row.codigo}</TableCell>
-          <TableCell>{row.tipo_bien}</TableCell>
+          <TableCell>{row.tipo_servicio}</TableCell>
           <TableCell>{row.estado}</TableCell>
           <TableCell>{row.acciones}</TableCell>
         </TableRow>
@@ -207,16 +206,16 @@ export const Tabla = ({
 
   function createRows (arrayServicios) {
     return arrayServicios.map((item, i) => 
-      createData(i+1, item.codigo, item.bien_nombre, item.bien_estado,
+      createData(i+1, item.codigo, item.servicio_nombre, item.servicio_estado,
       <>
-      <IconButton
+      {/* <IconButton
         aria-label="delete"
         size="small"
         color="primary"
         onClick={() => handleView(row)}
       >
         <VisibilityIcon fontSize="inherit" />
-      </IconButton>
+      </IconButton> */}
       <IconButton
         size="small"
         color="error"
@@ -224,7 +223,7 @@ export const Tabla = ({
         <DeleteIcon fontSize="inherit" onClick={() => handleDelete(item.id)}/>
       </IconButton>
       </>,
-      item.orden_bien
+      item.orden_servicio
       )
     )
   }
@@ -252,7 +251,7 @@ export const Tabla = ({
               <span>Código</span>
             </TableCell>
             <TableCell>
-              <span>Tipo de bien</span>
+              <span>Tipo de servicio</span>
             </TableCell>
             <TableCell>
               <span>Estado</span>
