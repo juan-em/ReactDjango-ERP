@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 class TrabajadorView(APIView):
     
     def get(self, request):
-        dataTrabajador = Trabajador.objects.filter(borrado=False).filter(empresa=None)
+        dataTrabajador = Trabajador.objects.all()
         serTrabajador = TrabajadorSerializer(dataTrabajador, many=True)
         context = {
             'status':True,
@@ -35,7 +35,7 @@ class TrabajadorView(APIView):
 class TrabajadorViewDetalle(APIView):
 
     def get(self, request, id):
-        dataTrabajador = Trabajador.objects.filter(borrado=False).get(id=id)
+        dataTrabajador = Trabajador.objects.all().get(id=id)
         serTrabajador = TrabajadorSerializer(dataTrabajador)
         context = {
             'status':True,
@@ -44,7 +44,7 @@ class TrabajadorViewDetalle(APIView):
         return Response(context)
 
     def put(self, request, id):
-        dataTrabajador = Trabajador.objects.filter(borrado=False).get(id=id)
+        dataTrabajador = Trabajador.objects.all().get(id=id)
         serTrabajador = TrabajadorSerializer(dataTrabajador, data=request.data)
         if serTrabajador.is_valid():
             serTrabajador.save()
@@ -62,7 +62,7 @@ class TrabajadorViewDetalle(APIView):
         return Response(context)
     
     def patch(self, request, id ):
-        dataTrabajador = Trabajador.objects.filter(borrado=False).get(id=id)
+        dataTrabajador = Trabajador.objects.all().get(id=id)
         serTrabajador = TrabajadorSerializer(dataTrabajador, data=request.data,
                                             partial=True)
         if serTrabajador.is_valid():
@@ -82,7 +82,7 @@ class TrabajadorViewDetalle(APIView):
 
     
     def delete(self, request, id):
-        dataTrabajador = Trabajador.objects.filter(borrado=False).get(id=id) 
+        dataTrabajador = Trabajador.objects.all().get(id=id) 
         serTrabajador = TrabajadorSerializer(dataTrabajador)
         dataTrabajador.delete()
         context = {
