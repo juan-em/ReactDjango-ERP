@@ -59,6 +59,8 @@ class ArticulosView(APIView):
         return Response(context)
 
     def post(self, request):
+        print(request.data)
+        print(querydict_to_dict(request.data))
         try:
             serializer = ArticuloSerializer(data=querydict_to_dict(request.data))
             serializer.is_valid(raise_exception=True)
@@ -109,7 +111,7 @@ class ArticuloDetailView(APIView):
         return Response(context)
     
     def delete(self, request, id):
-        data = data = Articulo.objects.filter(borrado=False).get(id=id)
+        data = Articulo.objects.filter(borrado=False).get(id=id)
         serializer = ArticuloSerializer(data)
         if data.imagen.name != 'blancos.png':
             data.imagen.delete()

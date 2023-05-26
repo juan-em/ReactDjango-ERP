@@ -22,7 +22,6 @@ const UserRequest = () => {
                     signal: controller.signal
                 })
 
-                console.log(response.data)
                 isMounted && setUser(response.data)
 
             } catch (err) {
