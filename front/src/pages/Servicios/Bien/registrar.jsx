@@ -45,13 +45,10 @@ const Registar = ({
 }) => {
   // POST request para la orden de bien
   const ordenBienMayorMenorSubmit = async (data) => {
-
     if (value == 1){
       data['mayor_500'] = true
     }
-
     try {
-      
       var payload = transformToFormData(data)
       await postBienes(payload)
       Swal.fire({
