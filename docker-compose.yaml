@@ -18,13 +18,13 @@ services:
     volumes:
       - ./api:/api
     command: python3 manage.py runserver 0.0.0.0:8000 
-  # front:
-  #   build: ./front
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - react:/front
-  #     - /front/node_modules
+  front:
+    build: ./front
+    ports:
+      - "3000:3000"
+    volumes:
+      # - react:/front
+      - exclude:/front/node_modules/
   api-node:
     build: ./api_node
     command: nodemon server.js localhost 9090
@@ -33,6 +33,7 @@ services:
     volumes:
       - ./api_node:/api_node
       - /api_node/node_modules
+
 
 volumes:
   my-db:
