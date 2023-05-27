@@ -34,7 +34,7 @@ import Swal from "sweetalert2";
 import './index.css';
 import Detalles from "./detalles";
 
-const VerProduccion = (itemView) => {
+const VerProduccion = ({itemView}) => {
   const [openModal, setOpenModal] = useState(false);
 
   const [itemsPer, setItemsPer] = useState([
@@ -48,20 +48,40 @@ const VerProduccion = (itemView) => {
 
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      if (!itemView.itemView.id) {
+      if (!itemView.id) {
         return {
           ...i,
         };
       } else {
-        if (i.primary === "Código") {
+        if (i.primary === "Código (N° de producción)") {
           return {
             ...i,
-            secondary: itemView.itemView.id,
+            secondary: itemView.id,
           };
-        } else if (i.primary === "Nombre") {
+        } else if (i.primary === "N° de factura") {
           return {
             ...i,
-            secondary: itemView.itemView.nombre,
+            secondary: itemView.factura_clie_id.numero_factura,
+          };
+        } else if (i.primary === "N° de productos") {
+          return {
+            ...i,
+            secondary: itemView.detalles.length,
+          };
+        } else if (i.primary === "Fecha de inicio") {
+          return {
+            ...i,
+            secondary: itemView.fecha_inicio,
+          };
+        } else if (i.primary === "Fecha de fin") {
+          return {
+            ...i,
+            secondary: itemView.fecha_fin,
+          };
+        } else if (i.primary === "Estado") {
+          return {
+            ...i,
+            secondary: itemView.estado,
           };
         } 
       }
@@ -120,7 +140,7 @@ const VerProduccion = (itemView) => {
                     </List>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Detalles/>
+                    <Detalles detalle={itemView.detalles} completo={itemView}/>
                   </Grid>
                 </Grid>
           </AccordionDetails>

@@ -1,22 +1,35 @@
 //para la tabla
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import {
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
-import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
+import {
+  getProduccion,
+  searcher,
+  del,
+  patchProduccion,
+} from "../../../services/produccion";
 import { useState, useEffect } from "react";
+
+import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 export const Tabla = ({
   fields,
@@ -28,15 +41,20 @@ export const Tabla = ({
   setItemView,
 }) => {
   const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
-  const [categoria, setCategoria] = useState([]);
+  const [produccion, setProduccion] = useState([]);
+  const [numProductos, setNumProductos] = useState(0);
+  const [estadoProd, setEstadoProd] = useState("");
+  const [rowIndex, setRowIndex] = useState(-1);
+  const [columnIndex, setColumnIndex] = useState(-1);
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setCategoria, URL);
+      getProduccion(setProduccion, URL);
     }
   }, [renderizar]);
 
-  let data = searcher(fields, categoria);
+  let data = searcher(fields, produccion);
+  console.log(data);
 
   const handlePut = (row) => {
     setItem(row);
@@ -45,17 +63,35 @@ export const Tabla = ({
 
   const handleView = (row) => {
     setItemView(row);
+    console.log(row);
   };
 
   const handleDelete = async (id) => {
     try {
-      let res = await del(id, URL);
+      console.log(id);
+      let res = await del(id);
       render.current = true;
       setRenderizar(!renderizar);
       return res;
     } catch (error) {
       return error;
     }
+  };
+  const handleExit = () => {
+    setRowIndex(-1);
+    setColumnIndex(-1);
+  };
+  const estadosProduccion = [
+    { id: 1, nombre: "No Iniciado" },
+    { id: 2, nombre: "En proceso" },
+    { id: 3, nombre: "Terminado" },
+    { id: 4, nombre: "Saliendo" },
+  ];
+  const cambioEstado = async (i,row,value) => {
+    console.log(row);
+    row.estado = value
+    console.log(row)
+    await patchProduccion(row.estado, row.id);
   };
 
   return (
@@ -123,45 +159,130 @@ export const Tabla = ({
             </TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {data.map((row, i) => (
-            <TableRow key={i}>
-              <TableCell component="th" scope="row">
-                {i + 1}
-              </TableCell>
-              <TableCell align="right">{row.id}</TableCell>
-              <TableCell align="right">{row.nombre}</TableCell>
-              <TableCell align="right">1000</TableCell>
-              <TableCell align="right">00/00/2023</TableCell>
-              <TableCell align="right">00/00/2023</TableCell>
-              <TableCell align="right">estado</TableCell>
-              <TableCell align="right" component="th" scope="row">
-                <IconButton aria-label="delete" size="small" color="primary">
-                  <VisibilityIcon
-                    fontSize="inherit"
-                    onClick={() => handleView(row)}
-                  />
-                </IconButton>
-                <IconButton
-                  onClick={() => handlePut(row)}
-                  aria-label="delete"
-                  size="small"
-                  color="success"
+        <ClickAwayListener
+          onClickAway={() => {
+            handleExit();
+          }}
+        >
+          <TableBody>
+            {data.map((row, i) => (
+              <TableRow key={i}>
+                <TableCell component="th" scope="row">
+                  {i + 1}
+                </TableCell>
+                <TableCell
+                  onClick={() => {
+                    setRowIndex(i);
+                    setColumnIndex(1);
+                  }}
+                  align="right"
                 >
-                  <EditIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton
-                  onClick={() => handleDelete(row.id)}
-                  aria-label="delete"
-                  size="small"
-                  color="error"
+                  {row.proceso.id}
+                </TableCell>
+                <TableCell
+                  onClick={() => {
+                    setRowIndex(i);
+                    setColumnIndex(2);
+                  }}
+                  align="right"
                 >
-                  <DeleteIcon fontSize="inherit" />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+                  {row.proceso.factura_clie_id.numero_factura}
+                </TableCell>
+                <TableCell
+                  onClick={() => {
+                    setRowIndex(i);
+                    setColumnIndex(3);
+                  }}
+                  align="right"
+                >
+                  {row.proceso.detalles.length}
+                </TableCell>
+                <TableCell
+                  onClick={() => {
+                    setRowIndex(i);
+                    setColumnIndex(4);
+                  }}
+                  align="right"
+                >
+                  {row.proceso.fecha_inicio}
+                </TableCell>
+                <TableCell
+                  onClick={() => {
+                    setRowIndex(i);
+                    setColumnIndex(5);
+                  }}
+                  align="right"
+                >
+                  {row.proceso.fecha_fin}
+                </TableCell>
+                <TableCell
+                  onClick={() => {
+                    setRowIndex(i);
+                    setColumnIndex(6);
+                  }}
+                  align="right"
+                >
+                  {/* <Button onClick={() => cambioEstado(row.proceso)}>
+                    {row.proceso.estado}
+                  </Button> */}
+                  <FormControl
+                    fullWidth
+                    margin="dense"
+                    size="small"
+                    color="secondary"
+                  >
+                    <Select
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      name={"estado"}
+                      onChange={(e) => cambioEstado(i, row.proceso, e.target.value)}
+                      value={row.proceso.estado}
+                    >
+                      {estadosProduccion.map((item, i) => (
+                        <MenuItem key={i} value={item.nombre}>
+                          {item.nombre}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </TableCell>
+                <TableCell
+                  onClick={() => {
+                    setRowIndex(i);
+                    setColumnIndex(7);
+                  }}
+                  align="right"
+                  component="th"
+                  scope="row"
+                >
+                  <IconButton aria-label="delete" size="small" color="primary">
+                    <VisibilityIcon
+                      fontSize="inherit"
+                      onClick={() => handleView(row.proceso)}
+                    />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handlePut(row.proceso)}
+                    aria-label="delete"
+                    size="small"
+                    color="success"
+                  >
+                    <EditIcon fontSize="inherit" />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handleDelete(row.proceso.id)}
+                    aria-label="delete"
+                    size="small"
+                    color="error"
+                  >
+                    <DeleteIcon fontSize="inherit" />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </ClickAwayListener>
       </Table>
     </TableContainer>
   );
