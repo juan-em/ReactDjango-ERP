@@ -20,7 +20,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  Box, Autocomplete, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio
+  Box, Autocomplete,  FormControl, InputLabel, Select, MenuItem, FormLabel, RadioGroup, FormControlLabel, Radio
 } from "@mui/material";
 
 //Componentes
@@ -47,22 +47,35 @@ const Servicios = () => {
     searchform.reset();
   };
 
-  const top101Films = [
-    { label: 'No Iniciado'},
-    { label: 'Aprobado'},
-    { label: 'En proceso'},
-    { label: 'Denegado'},
+  const stateList = [
+    'Todos',
+    'Solicitando cotización',
+    'Aprobado',
+    'En proceso',
+    'Denegado',
+    'Ninguno'
 
   ];
+
+  const cotizacionList = [
+    'Todos',
+    'Menor a 500',
+    'Mayor a 500',
+    'Ninguno'
+  ]
 
   return (
     <section>
       <div className="container" style={{ marginTop: '30px'}}>
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={12} xl={4}>
-            <Notificaciones/>
+          <Grid item xs={12} sm={12} md={6}>
+            <Notificaciones
+              render={render}
+              renderizar={renderizar}
+              setRenderizar={setRenderizar}
+            />
           </Grid>
-          <Grid item xs={12} sm={12} md={6} xl={4}>
+          <Grid item xs={12} sm={12} md={6}>
             <Paper
               elevation={10}
               className="paper"
@@ -86,21 +99,55 @@ const Servicios = () => {
                   <form id="searchform">
                    
                     
-                    <Autocomplete
+                  <FormControl
                       fullWidth
-
-                      type="text"
+                      margin="dense"
                       size="small"
                       color="secondary"
-                      margin="dense"
-                      name="nombre"
+                      variant="filled"
+                    >
+                      <InputLabel>Estado</InputLabel>
+                      <Select
+                      label="Estado"
+                      size="small"
+                      color="secondary"
                       id="textfields"
                       onChange={handlerSearcher}
-                      disablePortal
-                      options={top101Films}
-                      renderInput={(params) => <TextField {...params} variant="filled" label="Estado" margin="dense" color="secondary" fullWidth />}
+                      name="servicio_estado"
+                      
+                      >
+                        {stateList.map((item, i) => (
+                          <MenuItem key={i} value={item}>
+                            {item}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
 
-                    />
+                    {/* Filtrado de cotizacion (mayor o menor a 500) */}
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                      variant="filled"
+                    >
+                      <InputLabel>Cotizacion</InputLabel>
+                      <Select
+                      label="Cotizacion"
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      onChange={handlerSearcher}
+                      name="mayor_500"
+                      >
+                        {cotizacionList.map((item, i) => (
+                          <MenuItem key={i} value={item}>
+                            {item}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>     
                    
                     
                     <Grid container spacing={1} sx={{ mt: 2 }}>
@@ -123,11 +170,11 @@ const Servicios = () => {
               </Accordion>
             </Paper>
           </Grid>
-          <Grid item xs={12} sm={12} md={6} xl={4}>
+          {/* <Grid item xs={12} sm={12} md={6} xl={4}>
             <VerServicio itemView={itemView} />
-          </Grid>
+          </Grid> */}
         </Grid>
-        <Box sx={{ overflow: "auto" }}>
+        <Box sx={{ overflow: "auto",  mt: 4 }}>
           <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
             <Tabla
               fields={fields}
