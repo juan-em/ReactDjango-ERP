@@ -871,6 +871,9 @@ class Caja_diaria_movimientos(models.Model):
 ############################################################
 #----------------------- PRODUCCION -----------------------#
 ############################################################
+# class Poduccion_requerimiento(models.Model):
+    # producto = models.
+
 class Produccion(models.Model):
 
     NINGUNO = 'No Iniciado'
@@ -888,19 +891,21 @@ class Produccion(models.Model):
     factura_clie = models.ForeignKey(Venta, on_delete=models.CASCADE, null=True)
     fecha_inicio = models.DateField(auto_now_add=True)
     fecha_fin = models.DateField()
-    estdo_produccion = models.CharField(max_length=100, choices=PROCESOSPROD, default=NINGUNO)
+    estado = models.CharField(max_length=100, choices=PROCESOSPROD, default=NINGUNO)
 
     def __str__(self):
         return str(self.factura_clie)
 
 class Produccion_detalle(models.Model):
 
+    CANCELADO = 'Cancelado'
     NINGUNO = 'No Iniciado'
     PROCESO = 'En proceso'
     TERMINADO = 'Terminado'
     SALIENDO = 'Saliendo'
 
     PROCESOSPROD = [
+        (CANCELADO, 'Cancelado'),
         (NINGUNO, 'No Iniciado'),
         (PROCESO, 'En proceso'),
         (TERMINADO, 'Terminado'),
