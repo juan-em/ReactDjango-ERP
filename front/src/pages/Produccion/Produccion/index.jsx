@@ -110,7 +110,7 @@ const Produccion = () => {
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="codigo"
                       id="textfields"
                       variant="filled"
                       onChange={handlerSearcher}

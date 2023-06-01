@@ -1,4 +1,3 @@
-import {pool} from "../db.js"
 
 export const get = (req, res) => res.send('Hola')
 

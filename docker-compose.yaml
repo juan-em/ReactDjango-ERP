@@ -27,12 +27,16 @@ services:
       - exclude:/front/node_modules/
   api-node:
     build: ./api_node
+    command: nodemon server.js localhost 9090
     ports:
       - "9090:9090"
     volumes:
       - ./api_node:/api_node
+      - /api_node/node_modules
+
 
 volumes:
-    my-db:
-    exclude:
-    react:
+  my-db:
+  exclude:
+  react:
+  
