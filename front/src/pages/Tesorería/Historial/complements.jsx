@@ -43,37 +43,31 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Código
+              Código de Caja
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Fecha Registro
+              Fecha Apertura
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Hora Registro
+              Fecha Cierre
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Cantidad
+              Saldo Apertura
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Tipo Registro
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Responsable
+              Saldo Cierre
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -91,15 +85,13 @@ export const Tabla = ({
               </TableCell>
               <TableCell align="right">id</TableCell>
               <TableCell align="right">00/00/2023</TableCell>
-              <TableCell align="right">12:53</TableCell>
-              <TableCell align="right">estado</TableCell>
-              <TableCell align="right">estado</TableCell>
-              <TableCell align="right">estado</TableCell>
+              <TableCell align="right">00/00/2023</TableCell>
+              <TableCell align="right">1000</TableCell>
+              <TableCell align="right">1000</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon
                     fontSize="inherit"
-                    
                   />
                 </IconButton>
                 <IconButton

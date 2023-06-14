@@ -22,8 +22,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 
-import {getClientes, searcher} from "../../services/clientes";
-import { deleteClienteper, deleteClienteemp } from "../../services/clientes";
+import { getTrabajadores, searcher, delTrabajadores } from "../../services/trabajadores";
 
 import Swal from "sweetalert2";
 
@@ -38,16 +37,16 @@ export const Tabla = ({
   fields
 }) => {
 
-  const [clientes, setClientes] = useState([]);
+  const [trabajadores, setTrabajadores] = useState([]);
 
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      getClientes(setClientes);
+      getTrabajadores(setTrabajadores);
     }
   }, [renderizar]);
 
-  let data = searcher(fields, clientes);
+  let data = searcher(fields, trabajadores);
 
   const handlePut = (row) => {
     setItem(row);
@@ -61,27 +60,15 @@ export const Tabla = ({
 
   const handleDelete = async (id, row) => {
     try {
-      if (row.persona) {
-        let res = await deleteClienteper(id);
+        let res = await delTrabajadores(id);
         render.current = true;
         setRenderizar(!renderizar);
         Swal.fire({
           icon: "success",
           title: "Ok",
-          text: "Se elimino el Cliente",
+          text: "Se eliminó el trabajador",
         });
         return res;
-      } else {
-        let res = await deleteClienteemp(id);
-        render.current = true;
-        setRenderizar(!renderizar);
-        Swal.fire({
-          icon: "success",
-          title: "Ok",
-          text: "Se elimino el Cliente",
-        });
-        return res;
-      }
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -110,6 +97,8 @@ export const Tabla = ({
             <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Apellidos</TableCell>
             <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">DNI</TableCell>
             <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Telefono</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Tipo</TableCell>
+            <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Área</TableCell>
             <TableCell sx={{ color: "#633256" , fontFamily:'inherit' }} align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
@@ -122,18 +111,23 @@ export const Tabla = ({
               </TableCell>
               <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">
-                {row.persona ? row.persona.nombre : row.empresa.nombre}
+                {row.persona.nombre}
               </TableCell>
               <TableCell align="right">
-                {row.persona ? row.persona.nombre : row.empresa.nombre}
+                {row.persona.apellido}
               </TableCell>
               <TableCell align="right">
-                {row.persona ? row.persona.dni : row.empresa.ruc}
+                {row.persona.dni}
               </TableCell>
               <TableCell align="right">
-                {row.persona ? row.persona.telefono : row.empresa.telefono}
+                {row.persona.telefono}
               </TableCell>
-              
+              <TableCell align="right">
+                {row.tipo_trabajador}
+              </TableCell>
+              <TableCell align="right">
+                {row.area}
+              </TableCell>
               <TableCell align="right">
                 <IconButton
                   aria-label="delete"

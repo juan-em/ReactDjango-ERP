@@ -40,6 +40,7 @@ import Servicios from "../pages/Servicios/Servicios";
 import CajaDiaria from "../pages/Tesorería/CajaDiaria";
 import Bien from "../pages/Servicios/Bien";
 import Trabajadores from "../pages/Trabajadores";
+import Historial from "../pages/Tesorería/Historial";
 
 // LAYOUTS
 
@@ -78,6 +79,7 @@ const Router = () => {
 
               {/* Tesoreria */}
               <Route path="/tesoreria/cajadiaria" element={<CajaDiaria />} />
+              <Route path="/tesoreria/historial" element={<Historial />} />
 
               {/* Otros */}
               <Route path="/mantenimientos/provincias" element={<Provincias />} />

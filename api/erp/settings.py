@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'api_ordenes_bienes_servicios',
     'api_autenticacion_usuarios',
     'api_clientes',
+    'api_trabajadores',
     'api_productos',
     'api_articulos',
     'api_compras',
