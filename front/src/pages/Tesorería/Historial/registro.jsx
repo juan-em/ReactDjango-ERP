@@ -56,24 +56,6 @@ const Registro = ({ openModal, setOpenModal}) => {
     searchform.reset();
   };
   
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    // Realizar acciones con el archivo seleccionado...
-  };
-  
-  const [radioValue, setRadioValue] = useState('ingreso');
-
-  const handleRadioChange = (event) => {
-    setRadioValue(event.target.value);
-  };
-
-  const renderButton = () => {
-    if (radioValue === 'ingreso') {
-      return <Button variant="contained" fullWidth color="secondary">Venta</Button>;
-    } else {
-      return <Button variant="contained" fullWidth color="secondary">Compra</Button>;
-    }
-  };
 
    //para el input de fecha
    const [value, setValue] = useState(dayjs(new Date()));
@@ -152,8 +134,7 @@ const Registro = ({ openModal, setOpenModal}) => {
                             <RadioGroup fullWidth
                               row
                               name="radio"
-                              value={radioValue}
-                              onChange={handleRadioChange}
+                              onChange={handlerSearcher}
                             >
                               <FormControlLabel fullWidth                       
                                 labelPlacement="start"
@@ -170,9 +151,6 @@ const Registro = ({ openModal, setOpenModal}) => {
                             </RadioGroup>
                           </FormControl>
                         </Grid>
-                      </Grid>
-                      <Grid>
-                          {renderButton()}
                       </Grid>
                     </Card>
                   </Grid>
@@ -289,7 +267,7 @@ const Registro = ({ openModal, setOpenModal}) => {
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={6}>
-                    <TextField
+                  <TextField
                       fullWidth
                       label="Monto"
                       type="number"
@@ -305,22 +283,6 @@ const Registro = ({ openModal, setOpenModal}) => {
                     />
                   </Grid>
                   
-                  <Grid item xs={12} sm={12} md={12}>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    color="secondary"
-                    margin="dense"
-                    name="nombre"
-                    id="textfields"
-                    type="file"
-                    inputProps={{
-                      accept: '.pdf,.doc,.docx',
-                      onChange: handleFileChange,
-                    }}
-                  />
-                  </Grid>
-
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                     <Button
                       fullWidth

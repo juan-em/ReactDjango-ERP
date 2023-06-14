@@ -19,6 +19,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { Tabla } from "./complements";
+import { TimePicker } from '@mui/x-date-pickers';
 
 const CajaDiaria = () => {
   //para el input de fecha
@@ -27,6 +28,7 @@ const CajaDiaria = () => {
   const handleChange = (newValue) => {
       setValue(newValue);
   };
+
 
   return (
     <Container>
@@ -106,46 +108,76 @@ const CajaDiaria = () => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} xl={12}>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12} md={6} xl={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                  label="Fecha de apertura"
-                  inputFormat="DD/MM/YYYY"
-                  value={value}
-                  onChange={handleChange}
-                  renderInput={(params) => <TextField 
-                    {...params} 
+            <Paper
+              elevation={10}
+              className="paper"
+              sx={{
+              py: 2,
+              px: 5
+              }}
+            >
+              <Typography
+                fontFamily={"inherit"}
+                align={"center"} sx={{ mb:2 }}>
+                  Buscar registro
+                </Typography>
+              <Grid container spacing={1}>
+                <Grid item xs={12} sm={12} md={6} xl={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDatePicker
+                    label="Fecha de apertura"
+                    inputFormat="DD/MM/YYYY"
+                    value={value}
+                    onChange={handleChange}
+                    renderInput={(params) => <TextField 
+                      {...params} 
+                      fullWidth
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      margin="dense"
+                      
+                      />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} xl={6}>
+                  <TextField
                     fullWidth
+                    label="Hora"
                     size="small"
                     color="secondary"
-                    id="textfields"
                     margin="dense"
-                    variant="filled"
-                    />}
+                    name="nombre"
+                    id="textfields"
                   />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12} sm={12} md={6} xl={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDatePicker
-                  label="Fecha de cierre"
-                  inputFormat="DD/MM/YYYY"
-                  value={value}
-                  onChange={handleChange}
-                  renderInput={(params) => <TextField 
-                    {...params} 
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} xl={6}>
+                  <TextField
                     fullWidth
+                    label="Monto"
+                    type="text"
                     size="small"
                     color="secondary"
-                    id="textfields"
                     margin="dense"
-                    variant="filled"
-                    />}
+                    name="nombre"
+                    id="textfields"
                   />
-                </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} xl={6}>
+                  <TextField
+                    fullWidth
+                    label="Tipo"
+                    type="text"
+                    size="small"
+                    color="secondary"
+                    margin="dense"
+                    name="nombre"
+                    id="textfields"
+                  />
+                </Grid>
               </Grid>
-            </Grid>
+            </Paper>
           </Grid>
 
           <Grid item xs={12} sm={12} md={12} xl={12}>
