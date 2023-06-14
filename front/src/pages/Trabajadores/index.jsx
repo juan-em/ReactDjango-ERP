@@ -41,12 +41,12 @@ const Trabajadores = () => {
   const [itemView, setItemView] = useState({});
   const [putItem, setPutItem] = useState({});
   const [value, setValue] = useState("");
-  const [clienteId, setClienteId] = useState("");
+  const [trabajadorId, setTrabajadorId] = useState("");
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
 
-  //Listado de clientes y provincias
+  //Listado de Trabajadors y provincias
   const [provincias, setProvincias] = useState([]);
 
   //Buscador
@@ -195,8 +195,8 @@ const Trabajadores = () => {
                   setItem={setItem}
                   setItemView={setItemView}
                   setPutItem={setPutItem}
-                  clienteId={clienteId}
-                  setClienteId={setClienteId}
+                  trabajadorId={trabajadorId}
+                  setTrabajadorId={setTrabajadorId}
                 />
               </Box>
             </Box>

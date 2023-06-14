@@ -63,72 +63,60 @@ const VerTrabajador = ({ itemView }) => {
             ...i,
             secondary: itemView.codigo,
           };
-        } else if (i.primary === "Nombre") {
+        } /*else if (i.primary === "Nombre") {
           return {
             ...i,
-            secondary: itemView.persona ? itemView.persona.nombre : itemView.empresa.nombre,
+            secondary: itemView.persona.nombre,
           };
          } else if (i.primary === "Apellidos") {
             return {
               ...i,
-              secondary: itemView.persona ? itemView.persona.nombre : itemView.empresa.nombre,
+              secondary: itemView.persona.nombre,
             };
         } else if (i.primary === "DNI") {
           return {
             ...i,
-            secondary: itemView.persona ? itemView.persona.dni : itemView.empresa.ruc,
+            secondary: itemView.persona.dni,
           };
         }else if (i.primary === "Fecha de nacimiento") {
             return {
               ...i,
-              secondary: itemView.persona ? itemView.persona.dni : itemView.empresa.ruc,
+              secondary: itemView.persona.dni,
             };
         } else if (i.primary === "Provincia") {
           return {
             ...i,
-            secondary: itemView.persona
-              ? itemView.persona.codprovincia
-              : itemView.empresa.codprovincia,
+            secondary: itemView.persona.codprovincia,
           };
         } else if (i.primary === "Localidad") {
           return {
             ...i,
-            secondary: itemView.persona
-              ? itemView.persona.localidad
-              : itemView.empresa.localidad,
+            secondary: itemView.persona.localidad,
           };
         } else if (i.primary === "Dirección") {
           return {
             ...i,
-            secondary: itemView.persona
-              ? itemView.persona.direccion
-              : itemView.empresa.direccion,
+            secondary: itemView.persona.direccion,
           };
         } else if (i.primary === "Código Postal") {
           return {
             ...i,
-            secondary: itemView.persona
-              ? itemView.persona.codpostal
-              : itemView.empresa.codpostal,
+            secondary: itemView.persona.codpostal,
           };
         } else if (i.primary === "Cuenta Bancaria") {
           return {
             ...i,
-            secondary: itemView.persona
-              ? itemView.persona.cuentabancaria
-              : itemView.empresa.cuentabancaria,
+            secondary: itemView.persona.cuentabancaria
           };
         } else if (i.primary === "Teléfono") {
           return {
             ...i,
-            secondary: itemView.persona
-              ? itemView.persona.telefono
-              : itemView.empresa.telefono,
+            secondary: itemView.persona.telefono,
           };
         } else if (i.primary === "Móvil") {
           return {
             ...i,
-            secondary: itemView.persona ? itemView.persona.movil : itemView.empresa.movil,
+            secondary: itemView.persona.movil,
           };
         } else if (i.primary === "Forma de Pago") {
           return {
@@ -148,6 +136,7 @@ const VerTrabajador = ({ itemView }) => {
             secondary: itemView.codformapago,
           };
         }
+        */
       }
     });
     setItemsPer(newItem);
