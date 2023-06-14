@@ -60,7 +60,7 @@ export const menuItems = [
 
     { url: "#Tesoreria", icon: <AutoStoriesIcon/>, name: "Tesorería",
     item:[{name:'Caja Diaria',icon: <PointOfSaleIcon/>,url:'/tesoreria/cajadiaria'},
-        {name:'Libro Diario',icon: <BookmarkIcon/>,url:'#proveedor'}] },
+        {name:'Historial',icon: <BookmarkIcon/>,url:'/tesoreria/historial'}] },
 
     { url: "#Mantenimiento", icon: <DragIndicatorIcon/>, name: "Mantenimiento",
     item:[{name:'Provincias',icon: <WhereToVoteIcon/>,url:'/mantenimientos/provincias'},
