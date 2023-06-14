@@ -813,51 +813,6 @@ class SalidaVenta(Salidas):
     def __str__(self):
         return self.pk
 
-
-###########################################################
-#----------------------- TESORERIA -----------------------#
-###########################################################
-class Caja_diaria(models.Model):
-    descripcion = models.CharField(max_length=300, default='-')
-    fecha_apertura = models.DateTimeField(null=True, auto_now_add=True)
-    fecha_cierre = models.DateTimeField(null=True)
-    monto_inicial = models.FloatField(null=True, default=0)
-    monto_final = models.FloatField(null=True, default=0)
-    responsable = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
-    estado = models.BooleanField(default=True)
-
-    def __str__(self):
-        return "Monto inicial:{}, Monto final:{}, Estado:{}".format(self.monto_inicial, self.monto_final, self.estado)
-
-    @property
-    def codigo(self):
-        id = str(self.pk)
-        return 'CD-'+'0'*(5-len(id))+id
-
-class Caja_diaria_movimientos(models.Model):
-    COMPRA = 'Compra'
-    VENTA = 'Venta'
-    NINGUNO = 'Ninguno'
-
-    TIPOS = [
-        (COMPRA, 'Compra'),
-        (VENTA, 'Venta'),
-        (NINGUNO, 'Ninguno')
-    ]
-    tipo_movimiento = models.CharField(max_length=20, choices=TIPOS, default=NINGUNO)
-    venta = models.ForeignKey(Venta, on_delete=models.CASCADE, null=True, blank=True)
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=True, blank=True)
-    tipo_pago = models.ForeignKey(Formapago, on_delete=models.CASCADE, null=True)
-    caja_diaria = models.ForeignKey(Caja_diaria, on_delete=models.CASCADE, null=True)
-    
-    @property
-    def total_movimiento(self):
-        if (self.venta):
-            return self.venta.total
-        if (self.compra):
-            return self.compra.totalCompra
-
-
 ##############################################################
 #----------------------- LIBRO DIARIO -----------------------#
 ##############################################################
