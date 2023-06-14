@@ -1,9 +1,5 @@
-from django.shortcuts import render
-from django.utils import timezone
-
-from .serializers import *
-from api_models.models import *
-
+from . serializers import *
+from . models import *
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -13,70 +9,111 @@ from rest_framework.permissions import IsAuthenticated
 
 class CajaDiariaView(APIView):
     def get(self, request):
-        data = Caja_diaria.objects.all()
+        data = Caja_Diaria.objects.all()
         serializer = CajaDiariaSerializer(data, many=True)
+        
         context = {
             'status':True,
             'content':serializer.data
         }        
+        
         return Response(context)
     
     def post(self, request):
         serializer = CajaDiariaSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        
         context = {
                 'data':'OK',
                 'status':status.HTTP_201_CREATED,
                 'content':serializer.data
         }
+        
         return Response(context)
 
 class CajaDiariaDetailView(APIView):
     def get(self, request, id):
-        data = Caja_diaria.objects.get(id=id)
+        data = Caja_Diaria.objects.get(id=id)
         serializer = CajaDiariaSerializer(data)
+        
         context = {
             'status':True,
             'content':serializer.data
         }        
+        
         return Response(context)
     
-    def delete(self, request, id):
-        data = Caja_diaria.objects.get(id=id)
-        data.delete()
+    def patch(self, resquest, id):
+        dataCaja = Caja_Diaria.objects.get(id=id)
+        serializer = CajaDiariaSerializer(dataCaja, data=resquest.data, partial=True)
+
+        dataCaja.save()
+
         context = {
             'status':True,
-            'message':'Delete succes',
+            'content':serializer.data
         }
-        return Response(context) 
+        
+        return Response(context)
 
-    def patch(self, request, id):
-        data = Caja_diaria.objects.get(id=id)
-        if request.data["estado"] == False:
-            movimientos = Caja_diaria_movimientos.objects.filter(caja_diaria = id)
-            acumulado = data.monto_inicial
-            for item in movimientos:
-                acumulado += item.total_movimiento
-            data.monto_final = acumulado
-            data.fecha_cierre = timezone.now()
-            data.estado = False
-            data.save()
-            
-        serializer = CajaDiariaSerializer(data)
+    def delete(self, request, id):
+        data = Caja_Diaria.objects.get(id=id)
+        data.delete()
+        
+        context = {
+            'status':True,
+            'message':'Delete success',
+        }
+        
+        return Response(context)
+
+class IngresoVentaView(APIView):
+    def get(self, request):
+        data = Ingreso_Venta.objects.all()
+        serializer = IngresosVentaSerializer(data, many=True)
+        
         context = {
             'status':True,
             'content':serializer.data
         }        
+        
         return Response(context)
 
-class CajaDiariaMovimientosView(APIView):
-    def get(self, request, id):
-        data = Caja_diaria_movimientos.objects.filter(caja_diaria=id)
-        serializer = CajaDiariaMovimientosSerializer(data, many=True)
+    def post(self, request):
+        serializer = IngresosVentaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'data':'OK',
+            'status':status.HTTP_201_CREATED,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+
+class IngresosOtrosView(APIView):
+    def get(self, request):
+        data = Ingresos_Otros.objects.all()
+        serializer = IngresosOtrosSerializer(data, many=True)
+        
         context = {
             'status':True,
             'content':serializer.data
         }        
+        
         return Response(context)
-    
+
+    def post(self, request):
+        serializer = IngresosOtrosSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        
+        context = {
+            'data':'OK',
+            'status':status.HTTP_201_CREATED,
+            'content':serializer.data
+        }
+        
+        return Response(context)
