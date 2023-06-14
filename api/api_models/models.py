@@ -362,9 +362,20 @@ class Trabajador(models.Model):
         (NINGUNO, 'Ninguno')
     ]
 
+    TIEMPO_PARCIAL = 'Tiempo parcial'
+    TIEMPO_COMPLETO = 'Tiempo completo'
+
+    TIPOS_CONTRATOS = [
+        (TIEMPO_PARCIAL, 'Tiempo parcial'),
+        (TIEMPO_COMPLETO, 'Tiempo completo'),
+    ]
+
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
     tipo_trabajador = models.CharField(max_length=30, choices=TIPOS, default=NINGUNO)
+    tipo_contrato = models.CharField(max_length=30, choices=TIPOS_CONTRATOS, default=TIEMPO_COMPLETO)
+    cargo = models.CharField(max_length=50)
     area = models.ForeignKey(Areas, on_delete=models.CASCADE, default=get_default_area)
+    fecha_nacimiento = models.DateField()
     borrado = models.CharField(max_length=1, default=0)
 
     def __str__(self):
@@ -373,6 +384,13 @@ class Trabajador(models.Model):
         else:
             return "Nombre trabajador:{}, Tipo:{}".format(self.empresa.nombre, self.tipo_trabajador)
 
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        tt = str(self.tipo_trabajador)[0]
+        tc = 'TC' if self.tipo_contrato == 'Tiempo Completo' else 'TP'
+        a = str(self.area.abreviacion)
+        return f'{tc}-{tt}-{a}-'+'0'*(5-len(id))+id
 
 ###########################################################
 #----------------------- SERVICIOS -----------------------#
