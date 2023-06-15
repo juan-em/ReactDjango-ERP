@@ -34,20 +34,18 @@ import AddForm from "./addform";
 
 import { Box } from "@mui/system";
 import VerTrabajador from "./vertrabajador";
+import { initialState } from "../../services/trabajadores";
+
 
 const Trabajadores = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [item, setItem] = useState({});
+  const [item, setItem] = useState(initialState);
   const [itemView, setItemView] = useState({});
-  const [putItem, setPutItem] = useState({});
   const [value, setValue] = useState("");
-  const [trabajadorId, setTrabajadorId] = useState("");
+
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
-
-  //Listado de Trabajadors y provincias
-  const [provincias, setProvincias] = useState([]);
 
   //Buscador
   const handlerSearcher = (e) => {
@@ -59,10 +57,6 @@ const Trabajadores = () => {
     searchform.reset();
   };
 
-  useEffect(() => {
-    const URL = "http://localhost:8000/api/mantenimientos/provincias/";
-    get(setProvincias, URL);
-  }, []);
 
   return (
     <Container>
@@ -132,8 +126,13 @@ const Trabajadores = () => {
                           label="Fecha de nacimiento"
                           name="fecha"
                           inputFormat="DD/MM/YYYY"
-                         
-                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
+                          value = {fields.fecha_nacimiento}
+                          onChange={( value)=>{
+                            var event = new Date(value.$d);
+                            let date = JSON.stringify(event);
+                            date = date.slice(1, 11);
+                            fields["fecha_nacimiento"] = date;
+                          }}
                           renderInput={(params) => <TextField 
                             {...params} 
                             fullWidth
@@ -194,9 +193,6 @@ const Trabajadores = () => {
                   setValue={setValue}
                   setItem={setItem}
                   setItemView={setItemView}
-                  setPutItem={setPutItem}
-                  trabajadorId={trabajadorId}
-                  setTrabajadorId={setTrabajadorId}
                 />
               </Box>
             </Box>
