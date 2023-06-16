@@ -12,4 +12,5 @@ urlpatterns = [
     path('remision/', RemisionesView.as_view()),
     path('remision/<int:id>/', RemisionDetailView.as_view()),
     path('remision_detalle/<int:id>/', RemisionDetalleDetailView.as_view()),
+    path('salida/<int:productoid>/<int:almacenid>/', SalidaProductos.as_view()),
 ]

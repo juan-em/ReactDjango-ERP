@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -21,8 +21,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 //componentes
 import { get, searcher, post_put, del } from "../../../services/mantenimiento";
 import { BuildRemissionPayload, postRemision } from "../../../services/ventas";
-
-
+import { salidaProd } from "../../../services/ventas";
 import Swal from "sweetalert2";
 
 
@@ -38,7 +37,15 @@ const AddForm = ({
   }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+  const URL = "http://localhost:8000/api/mantenimientos/almacenes/";
+  const [idAlamcenPt, setidAlmacenPt] = useState(0)
+  const [idAlmacen, setIdAlmacen] = useState(0)
+
+  useEffect(() => {
+    get(setidAlmacenPt, URL)
+    
+  },[])
+console.log(idAlamcenPt)
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -64,6 +71,11 @@ const AddForm = ({
 
   const handleSelectedRows = (idsArray) => {
     setSelectedRows(idsArray)
+    idAlamcenPt.forEach((a)=> {
+      if (a.abreviacion === 'PT' || a.abreviacion === 'APT'){
+        setIdAlmacen(a.id)
+      }
+    })
   }
 
   const handleDoRemission = async () => {
@@ -85,6 +97,14 @@ const AddForm = ({
         text: `${err}`,
       });
     }
+    console.log(selectedRows)
+    console.log(detalle_venta)
+    console.log(detalle_venta.producto)
+    detalle_venta.forEach((det)=> {
+      console.log(det)
+      console.log(idAlmacen)
+      salidaProd({"cantidad":det.cantidad}, det.producto.id, idAlmacen) 
+    })
     setOpenModal(false);
   }
 

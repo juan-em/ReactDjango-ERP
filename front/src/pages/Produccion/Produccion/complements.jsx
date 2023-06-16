@@ -30,7 +30,6 @@ import {
 import { useState, useEffect } from "react";
 
 import ClickAwayListener from "@mui/base/ClickAwayListener";
-
 export const Tabla = ({
   fields,
   render,
