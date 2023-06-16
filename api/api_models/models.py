@@ -569,12 +569,12 @@ class Venta(models.Model):
     def estado_remision (self):
         if self.borrado == True:
             return "-"
-        detallesCompra = CompraDetalle.objects.filter(compra=self.id)
+        detallesVenta = Venta_detalle.objects.filter(venta=self.id)
         cant = 0
-        for item in detallesCompra:
+        for item in detallesVenta:
             if item.remision_hecha == False:
                 cant += 1
-        if cant == len(detallesCompra):
+        if cant == len(detallesVenta):
             return "Por Hacer"
         elif cant == 0:
             return "Hecha"
