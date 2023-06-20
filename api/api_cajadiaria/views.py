@@ -32,6 +32,34 @@ class CajaDiariaView(APIView):
         
         return Response(context)
 
+class UltimaCajaView(APIView):
+    def get(self, request):
+        try:
+            last_caja = Caja_Diaria.objects.last()
+            
+            if last_caja != None:
+                serializer = CajaDiariaSerializer(last_caja)
+                context = {
+                    'status': True,
+                    'content': serializer.data 
+                }
+            else:
+                serializer = "No hay ninguna caja registrada"
+                context = {
+                    'status': False,
+                    'content': serializer 
+                }
+
+        except Exception as Error:
+            print(Error)
+            return Response({
+                'status': False,
+                'content': 'Error',
+                'message': 'Internal server error'
+            }) 
+
+        return Response(context)
+
 class CajaDiariaDetailView(APIView):
     def get(self, request, id):
         data = Caja_Diaria.objects.get(id=id)
