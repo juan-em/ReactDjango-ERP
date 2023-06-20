@@ -88,10 +88,7 @@ class RemisionesSerializer(serializers.ModelSerializer):
         }
 
 
-class SalidaAlmacen(serializers.ModelSerializer):
-    class Meta:
-        model = SalidaVenta
-        fields = '__all__'
+
 
 class DetallePuntoVentaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -151,3 +148,9 @@ class SesionVentaSerializer(WritableNestedModelSerializer):
             'punto_venta': ser_punto_venta.data,
             'borrado':instance.borrado
         }
+
+#SALIDA DE PRODUCTOS DE ALMACEN
+class SalidaProductoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ubicacion_almacen_producto
+        fields = '__all__'

@@ -39,11 +39,13 @@ import VerProduccion from "./verproduccion";
 import Estados from "./estados";
 import Notificaciones from "./notificaciones";
 
+import { getArticulosVariantes } from "../../../services/articulos";
+
 const Produccion = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
-
+const [articulos, setArticulos] = useState([])
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
@@ -72,13 +74,17 @@ const Produccion = () => {
       setValue(newValue);
   };
 
+  useEffect(() => {
+    getArticulosVariantes(setArticulos)
+  },[])
+  console.log(articulos)
   return (
     <section>
       <div>
         <Grid container spacing={4} style={{ marginTop: '10px'}}>
         
         <Grid item xs={12} sm={12} md={12} xl={3}>
-          <Notificaciones/>
+          <Notificaciones articulos={articulos} />
         </Grid>
           <Grid item xs={12} sm={12} md={5} xl={4}>
             

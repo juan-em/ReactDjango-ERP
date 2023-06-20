@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from api_models.models import *
+from api_cajadiaria.models import Caja_Diaria, Egresos_Otros, Egresos_Compra
+
 # Create your views here.
 from .serializers import *
 
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 class ComprasView(APIView):
@@ -21,24 +21,17 @@ class ComprasView(APIView):
         return Response(context)
 
     def post(self, request):
-
-        #registro caja
-        # tipo_pago = request.data.pop('tipo_pago', None)
-        
         serializer = CompraSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        #registro caja
-        # if tipo_pago:
-        #     data = {
-        #         'tipo_movimiento': 'Compra',
-        #         'compra': Compra.objects.get(id=serializer.data["id"]),
-        #         'tipo_pago': Formapago.objects.get(id=tipo_pago),
-        #         'caja_diaria': Caja_diaria.objects.get(estado=True)
-        #     }
-        #     cajaMovimiento = Caja_diaria_movimientos.objects.create(**data)
-        #     cajaMovimiento.save()
+        ultima_caja = Caja_Diaria.objects.last()
+        estado_ultima_caja = ultima_caja.estado_caja
+
+        if estado_ultima_caja: 
+            egresos_compra = Egresos_Compra()
+            egresos_compra.caja = ultima_caja.id
+            egresos_compra.responsable = request.data.get("user")
 
         context = {
                 'data':'OK',
@@ -60,8 +53,7 @@ class ComprasDetailView(APIView):
     
     def patch(self, request, id):
         dataCompra = Compra.objects.get(id=id)
-        serCompra = CompraSerializer(dataCompra, data=request.data,
-                                            partial=True)
+        serCompra = CompraSerializer(dataCompra, data=request.data, partial=True)
         serCompra.is_valid(raise_exception=True)
         serCompra.save()
         context = {

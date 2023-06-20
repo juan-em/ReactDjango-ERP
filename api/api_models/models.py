@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from cloudinary.models import CloudinaryField
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -27,6 +26,84 @@ def upload_toProd(instance, filename):
 def upload_toCom(instance, filename):
     return 'compras/{filename}'.format(filename=filename)
 
+class Areas(models.Model):
+    nombre = models.CharField(max_length=100, default='UNDEFINED')
+    abreviacion = models.CharField(max_length=20, blank=True, null=True)
+    def __str__(self):
+        return self.nombre.upper()
+
+class Provincias(models.Model):
+    nombreprovincia = models.CharField(max_length=100)
+    borrado = models.BooleanField(default=False, null=True)
+    def __str__(self):
+        return self.nombreprovincia
+
+class Persona(models.Model):
+    nombre = models.CharField(max_length=100, default="-")
+    dni = models.CharField(max_length=100, default="-")
+    codprovincia = models.ForeignKey(Provincias, on_delete=models.CASCADE, null=True)
+    localidad = models.CharField(max_length=100, default="-")
+    direccion = models.CharField(max_length=500, default="-")
+    codpostal = models.CharField(max_length=100, default="-")
+    cuentabancaria = models.CharField(max_length=100, default="-")
+    telefono = models.CharField(max_length=100, default="-")
+    movil = models.CharField(max_length=100, default="-")
+    web = models.CharField(max_length=100, default="-")
+    borrado = models.BooleanField(default=False, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+############################################################
+#TRABAJADOR
+############################################################
+
+def get_default_area():
+    """ get a default value for action status; create new status if not available """
+    return Areas.objects.get_or_create(nombre="No definida")[0].pk
+
+
+class Trabajador(models.Model):
+    INTERNO = 'Interno'
+    CONTRATISTA = 'Contratista'
+    NINGUNO = 'Ninguno'
+
+    TIPOS = [
+        (INTERNO, 'Interno'),
+        (CONTRATISTA, 'Contratista'),
+        (NINGUNO, 'Ninguno')
+    ]
+
+    TIEMPO_PARCIAL = 'Tiempo parcial'
+    TIEMPO_COMPLETO = 'Tiempo completo'
+
+    TIPOS_CONTRATOS = [
+        (TIEMPO_PARCIAL, 'Tiempo parcial'),
+        (TIEMPO_COMPLETO, 'Tiempo completo'),
+    ]
+
+    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
+    tipo_trabajador = models.CharField(max_length=30, choices=TIPOS, default=NINGUNO)
+    tipo_contrato = models.CharField(max_length=30, choices=TIPOS_CONTRATOS, default=TIEMPO_COMPLETO)
+    cargo = models.CharField(max_length=50, default=NINGUNO)
+    area = models.ForeignKey(Areas, on_delete=models.CASCADE, default=get_default_area)
+    fecha_nacimiento = models.DateField(null=True)
+    borrado = models.CharField(max_length=1, default=0)
+
+    def __str__(self):
+        if self.persona:
+            return "Nombre trabajador:{}, Tipo:{}".format(self.persona.nombre, self.tipo_trabajador)    
+        else:
+            return "Nombre trabajador:{}, Tipo:{}".format(self.empresa.nombre, self.tipo_trabajador)
+
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        tt = str(self.tipo_trabajador)[0]
+        tc = 'TC' if self.tipo_contrato == 'Tiempo Completo' else 'TP'
+        a = str(self.area.abreviacion)
+        return f'{tc}-{tt}-{a}-'+'0'*(5-len(id))+id
+
 # USER AUTHENTICATION
 class Profile_User(models.Model):
 
@@ -49,8 +126,8 @@ class Profile_User(models.Model):
     ]
  
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile_user")
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE, null=True)
     rol = models.CharField(max_length=100, choices=ROLES, default=NINGUNO)
-    area = models.CharField(max_length=50, choices=AREAS, default=NINGUNO)
     fecha_registro = models.DateField(auto_now_add=True)
     fecha_ultima_modificacion = models.DateField(auto_now=True)
 
@@ -69,11 +146,6 @@ class Profile_User(models.Model):
 ############################################################
 # MODELOS DE MANTENIMIENTO
 ############################################################
-class Provincias(models.Model):
-    nombreprovincia = models.CharField(max_length=100)
-    borrado = models.BooleanField(default=False, null=True)
-    def __str__(self):
-        return self.nombreprovincia
 
 class Formapago(models.Model):
     nombrefp = models.CharField(max_length=100)
@@ -112,30 +184,9 @@ class Embalajes(models.Model):
     def __str__(self):
         return self.nombre
 
-class Areas(models.Model):
-    nombre = models.CharField(max_length=100, default='UNDEFINED')
-    abreviacion = models.CharField(max_length=20, blank=True, null=True)
-    def __str__(self):
-        return self.nombre.upper()
-
 ############################################################
 #MODELOS GENERALES PERSONA Y EMPRESA
 ############################################################
-class Persona(models.Model):
-    nombre = models.CharField(max_length=100, default="-")
-    dni = models.CharField(max_length=100, default="-")
-    codprovincia = models.ForeignKey(Provincias, on_delete=models.CASCADE)
-    localidad = models.CharField(max_length=100, default="-")
-    direccion = models.CharField(max_length=500, default="-")
-    codpostal = models.CharField(max_length=100, default="-")
-    cuentabancaria = models.CharField(max_length=100, default="-")
-    telefono = models.CharField(max_length=100, default="-")
-    movil = models.CharField(max_length=100, default="-")
-    web = models.CharField(max_length=100, default="-")
-    borrado = models.BooleanField(default=False, null=True)
-
-    def __str__(self):
-        return self.nombre
 
 class Empresa(models.Model):
     nombre = models.CharField(max_length=100, default="-")
@@ -217,7 +268,6 @@ class Articulo (models.Model):
     marca = models.CharField(max_length=100, default='-')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
     imagen = models.ImageField( _("Image") ,upload_to=upload_toArt,default='blancos.png', blank=True, null=True)
-    # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
 
     def __str__(self):
@@ -272,7 +322,6 @@ class Producto(models.Model):
     descripcion_producto = models.TextField(null=True, blank=True)
     categoria=models.ForeignKey(Categoria_producto, related_name='categoria_producto', on_delete=models.SET_NULL, null=True)
     imagen = models.ImageField( _("Image") ,upload_to=upload_toProd,default='blancos.png', blank=True)
-    # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.nombre
@@ -340,57 +389,6 @@ class Factura(models.Model):
     fecha = models.DateField(null=True)
     iva = models.IntegerField()
     totalfactura = models.FloatField(default=0, null=True) 
-
-
-############################################################
-#TRABAJADOR
-############################################################
-
-def get_default_area():
-    """ get a default value for action status; create new status if not available """
-    return Areas.objects.get_or_create(nombre="No definida")[0].pk
-
-
-class Trabajador(models.Model):
-    INTERNO = 'Interno'
-    CONTRATISTA = 'Contratista'
-    NINGUNO = 'Ninguno'
-
-    TIPOS = [
-        (INTERNO, 'Interno'),
-        (CONTRATISTA, 'Contratista'),
-        (NINGUNO, 'Ninguno')
-    ]
-
-    TIEMPO_PARCIAL = 'Tiempo parcial'
-    TIEMPO_COMPLETO = 'Tiempo completo'
-
-    TIPOS_CONTRATOS = [
-        (TIEMPO_PARCIAL, 'Tiempo parcial'),
-        (TIEMPO_COMPLETO, 'Tiempo completo'),
-    ]
-
-    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
-    tipo_trabajador = models.CharField(max_length=30, choices=TIPOS, default=NINGUNO)
-    tipo_contrato = models.CharField(max_length=30, choices=TIPOS_CONTRATOS, default=TIEMPO_COMPLETO)
-    cargo = models.CharField(max_length=50)
-    area = models.ForeignKey(Areas, on_delete=models.CASCADE, default=get_default_area)
-    fecha_nacimiento = models.DateField()
-    borrado = models.CharField(max_length=1, default=0)
-
-    def __str__(self):
-        if self.persona:
-            return "Nombre trabajador:{}, Tipo:{}".format(self.persona.nombre, self.tipo_trabajador)    
-        else:
-            return "Nombre trabajador:{}, Tipo:{}".format(self.empresa.nombre, self.tipo_trabajador)
-
-    @property
-    def codigo(self):
-        id = str(self.pk)
-        tt = str(self.tipo_trabajador)[0]
-        tc = 'TC' if self.tipo_contrato == 'Tiempo Completo' else 'TP'
-        a = str(self.area.abreviacion)
-        return f'{tc}-{tt}-{a}-'+'0'*(5-len(id))+id
 
 ###########################################################
 #----------------------- SERVICIOS -----------------------#
@@ -590,12 +588,12 @@ class Venta(models.Model):
     def estado_remision (self):
         if self.borrado == True:
             return "-"
-        detallesCompra = CompraDetalle.objects.filter(compra=self.id)
+        detallesVenta = Venta_detalle.objects.filter(venta=self.id)
         cant = 0
-        for item in detallesCompra:
+        for item in detallesVenta:
             if item.remision_hecha == False:
                 cant += 1
-        if cant == len(detallesCompra):
+        if cant == len(detallesVenta):
             return "Por Hacer"
         elif cant == 0:
             return "Hecha"
@@ -805,11 +803,9 @@ class SalidaRequerimientoSalida(Salidas):
     def __str__(self):
         return self.pk
     
-class SalidaVenta(Salidas):
-    venta = models.ForeignKey(Venta, on_delete=models.CASCADE) #modelo del requerimiento de salida
-    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
+class SalidaProducto(models.Model):
+    producto = models.ForeignKey(Producto_variante, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=0)
-    estado = models.BooleanField(default=False)
     def __str__(self):
         return self.pk
 

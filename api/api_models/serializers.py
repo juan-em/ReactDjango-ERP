@@ -10,7 +10,7 @@ class PersonaSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['codprovincia'] = instance.codprovincia.nombreprovincia
+        representation['codprovincia'] =  instance.codprovincia.nombreprovincia if instance.codprovincia else None
         return representation  
 
 class EmpresaSerializer(serializers.ModelSerializer):
@@ -21,5 +21,5 @@ class EmpresaSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['codprovincia'] = instance.codprovincia.nombreprovincia
+        representation['codprovincia'] = instance.codprovincia.nombreprovincia if instance.codprovincia else None
         return representation  

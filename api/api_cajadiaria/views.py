@@ -117,3 +117,53 @@ class IngresosOtrosView(APIView):
         }
         
         return Response(context)
+
+class EgresosCompraView(APIView):
+    def get(self, request):
+        data = Egresos_Compra.objects.all()
+        serializer = EgresosCompraSerializer(data, many=True)
+        
+        context = {
+            'status':True,
+            'content':serializer.data
+        }        
+        
+        return Response(context)
+
+    def post(self, request):
+        serializer = EgresosCompraSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'data':'OK',
+            'status':status.HTTP_201_CREATED,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+    
+class EgresosOtrosView(APIView):
+    def get(self, request):
+        data = Egresos_Otros.objects.all()
+        serializer = EgresosOtrosSerializer(data, many=True)
+        
+        context = {
+            'status':True,
+            'content':serializer.data
+        }        
+        
+        return Response(context)
+
+    def post(self, request):
+        serializer = EgresosCompraSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'data':'OK',
+            'status':status.HTTP_201_CREATED,
+            'content':serializer.data
+        }
+        
+        return Response(context)

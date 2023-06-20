@@ -8,4 +8,8 @@ urlpatterns = [
 
     path('caja/ingresosventas/', IngresoVentaView.as_view()),
     path('caja/ingresosotros/', IngresosOtrosView.as_view()),
+
+    path('caja/egresoscompra/', EgresosCompraView.as_view()),
+    path('caja/egresosotros/', EgresosOtrosView.as_view()),
+
 ]

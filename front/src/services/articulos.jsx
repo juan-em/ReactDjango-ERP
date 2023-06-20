@@ -123,7 +123,7 @@ export const deleteArticulo = async (id) =>{
 }
 
 //Articulos variantes
-const URL_AV = `${URL}variantes/`
+const URL_AV = 'http://localhost:8000/api/articulos/variantes/'
 
 export const variantesInitialValue = {
   nombre:"",
