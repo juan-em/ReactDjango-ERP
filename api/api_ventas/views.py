@@ -264,13 +264,23 @@ class RemisionDetalleDetailView(APIView):
         }
         return Response(context)
 
-class SalidaAlmacen(APIView):  
-    def patch(self, request, id):
-        data = SalidaVenta.objects.get(id=id)
-        serializer = VentaSerializer(data, data=request.data, partial=True)
-        estado = request.data.get("estado", None)
-        if estado == True:
-            return 
+class SalidaProductos(APIView):  
+    def get (self, request, productoid, almacenid):
+        data = Ubicacion_almacen_producto.objects.filter(producto_variante = productoid).filter(almacen = almacenid).first()
+        serializer = SalidaProductoSerializer(data)
+        context = {
+                'data':'OK',
+                'content':serializer.data
+        }
+        return Response(context)
+
+    def patch(self, request, productoid, almacenid):
+        data = Ubicacion_almacen_producto.objects.filter(producto_variante = productoid).filter(almacen = almacenid).first()
+        serializer_data = SalidaProductoSerializer(data)
+        result = serializer_data.data['cantidad'] - request.data['cantidad']
+        serializer = SalidaProductoSerializer(data, data={"cantidad":result}, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         context = {
                 'data':'OK',
                 'status':status.HTTP_202_ACCEPTED,

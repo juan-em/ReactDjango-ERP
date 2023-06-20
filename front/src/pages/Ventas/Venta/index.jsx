@@ -56,6 +56,8 @@ import SesionVenta from "../PuntoVenta/sesionVenta";
 
 import Swal from "sweetalert2";
 
+import { salidaProd } from "../../../services/ventas";
+
 const Venta = () => {
   //Registration's Fuctionality
   const [state, dispatch] = useReducer(ventasReducer, INITIAL_STATE);
@@ -144,7 +146,7 @@ const Venta = () => {
 
   console.log("fuera",stateSesion)
 
-  const handleRegisterPuntoVenta = () => {
+  const handleRegisterPuntoVenta = async() => {
     let event = new Date();
     let date = JSON.stringify(event);
     date = date.slice(1, -1);
@@ -156,6 +158,12 @@ const Venta = () => {
       type: ACTION_SESION_TYPES.ADD_PUNTO_VENTA,
       payload: BuildPuntoVentaPayload(statePuntoVenta.punto_venta)
     });
+    console.log(statePuntoVenta)
+    statePuntoVenta.punto_venta.detalle_punto_venta.forEach((det)=>{
+      console.log(det)
+      console.log(stateSesion)
+      salidaProd({"cantidad":det.cantidad}, det.producto, stateSesion.sesion_venta.almacen)
+    })
     handleNext();
   };
 

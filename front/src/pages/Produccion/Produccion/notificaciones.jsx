@@ -20,8 +20,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { useRef } from "react";
 import Registar from "../../Requerimientos/Requerimientos/registrar";
+
+// import { getArticulosVariantes } from "../../../services/articulos";
   
-  const Notificaciones = () => {
+  const Notificaciones = ({articulos}) => {
     const [openModal, setOpenModal] = useState(false);
     const [item, setItem] = useState({});
     const [itemView, setItemView] = useState({});
@@ -29,16 +31,26 @@ import Registar from "../../Requerimientos/Requerimientos/registrar";
     const render = useRef(true);
     const [renderizar, setRenderizar] = useState(true);
     const [fields, setFields] = useState({});
+    // const [articulos, setArticulos] = useState()
+    const [articulosFilter, setArticulosFilter] = useState([])
+    useEffect(() => {
+    setArticulosFilter(articulos.filter(art => art.cantidad < 50))
+    // getArticulosVariantes(setArticulos)
+  },[])
     const handlerSearcher = (e) => {
       const { name, value } = e.target;
       setFields({ ...fields, [name]: value });
     };
 
+
     const navigate = useNavigate()
     const requerimientos = async () => {
       navigate('/requerimientos/requerimientos')
   }
+  console.log(articulos)
+  console.log(articulosFilter)
   
+
     return (
         <section>
             <Paper
@@ -62,15 +74,25 @@ import Registar from "../../Requerimientos/Requerimientos/registrar";
                 >
                   Stocks bajos
                 </AccordionSummary>
-                <AccordionDetails>
+                {articulosFilter !== undefined ?
+                articulosFilter.map(art => (
+                  <AccordionDetails>
                     <Alert variant="outlined" severity="warning"
                     action={
 
                       <Registar/>
                     }>
-                        Artículo 1 — <strong>Stock actual: 5</strong>
+                        {art.articulo} —  {art.nombre} | <strong>Stock actual: {art.cantidad}</strong>
                     </Alert>
                 </AccordionDetails>
+                )):(
+                  <AccordionDetails>
+                    <Alert variant="outlined" severity="warning">
+                         <strong>No Hay</strong> Stocks bajos
+                    </Alert>
+                </AccordionDetails>
+                )}
+                
               </Accordion>
             </Paper>
         </section>

@@ -81,6 +81,7 @@ export const BuildSesionVentaPayload = (sesion_venta) => {
     console.log(item);
     item.cliente = item.cliente.id;
   });
+  console.log(sesion_venta)
   return sesion_venta;
 };
 
@@ -227,4 +228,17 @@ export const searcherRemisiones = (fields, list) => {
         )
         : resultData;
     return resultData;
+};
+
+
+// Punto venta salida de tienda 
+export const salidaProd = async (data, productoid, almacenid) => {
+  try {
+    const response = await axios.patch(`http://localhost:8000/api/ventas/salida/${productoid}/${almacenid}/`, data);
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };

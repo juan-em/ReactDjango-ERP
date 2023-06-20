@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from cloudinary.models import CloudinaryField
 
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -269,7 +268,6 @@ class Articulo (models.Model):
     marca = models.CharField(max_length=100, default='-')
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
     imagen = models.ImageField( _("Image") ,upload_to=upload_toArt,default='blancos.png', blank=True, null=True)
-    # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
 
     def __str__(self):
@@ -324,7 +322,6 @@ class Producto(models.Model):
     descripcion_producto = models.TextField(null=True, blank=True)
     categoria=models.ForeignKey(Categoria_producto, related_name='categoria_producto', on_delete=models.SET_NULL, null=True)
     imagen = models.ImageField( _("Image") ,upload_to=upload_toProd,default='blancos.png', blank=True)
-    # imagen = CloudinaryField('imagen', null=True, blank=True, default='https://res.cloudinary.com/dm8aqmori/image/upload/v1675259440/erp/Blancos_aoyyl7.png')
     borrado = models.BooleanField(default=False, null=True)
     def __str__(self):
         return self.nombre
@@ -591,12 +588,12 @@ class Venta(models.Model):
     def estado_remision (self):
         if self.borrado == True:
             return "-"
-        detallesCompra = CompraDetalle.objects.filter(compra=self.id)
+        detallesVenta = Venta_detalle.objects.filter(venta=self.id)
         cant = 0
-        for item in detallesCompra:
+        for item in detallesVenta:
             if item.remision_hecha == False:
                 cant += 1
-        if cant == len(detallesCompra):
+        if cant == len(detallesVenta):
             return "Por Hacer"
         elif cant == 0:
             return "Hecha"
@@ -806,11 +803,9 @@ class SalidaRequerimientoSalida(Salidas):
     def __str__(self):
         return self.pk
     
-class SalidaVenta(Salidas):
-    venta = models.ForeignKey(Venta, on_delete=models.CASCADE) #modelo del requerimiento de salida
-    unidad = models.ForeignKey(Unidad, on_delete=models.CASCADE)
+class SalidaProducto(models.Model):
+    producto = models.ForeignKey(Producto_variante, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=0)
-    estado = models.BooleanField(default=False)
     def __str__(self):
         return self.pk
 
