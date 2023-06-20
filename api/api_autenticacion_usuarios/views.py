@@ -6,19 +6,40 @@ from .authentication import *
 from rest_framework.authentication import get_authorization_header
 
 from .serializers import *
-from api_models.models import User, Profile_User
+from api_models.models import User, Profile_User, Trabajador
+
+from api_trabajadores.serializers import TrabajadorSerializer
 
 class RegisterAPIView(APIView):
 
     def post(self, request):
+        trabajador_data = request.data.pop("trabajador")
+
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         serializer.save()
 
-        print("Result:", serializer.data)
+        trabajador_serializer = TrabajadorSerializer(data=trabajador_data)
+        trabajador_serializer.is_valid(raise_exception=True)
 
-        return Response(serializer.data)
+        trabajador_serializer.save()
+
+        buscar_ultimo_trabajador = Trabajador.objects.last()
+        ultimo_trabajador = buscar_ultimo_trabajador.pk
+
+        buscar_ultimo_usuario = Profile_User.objects.last()
+        
+        buscar_ultimo_usuario.trabajador = Trabajador.objects.get(pk=int(ultimo_trabajador))
+
+        buscar_ultimo_usuario.save()
+
+        serializer_modificado = {
+            **serializer.data,
+            "trabajador": trabajador_serializer.data    
+        }
+
+        return Response(serializer_modificado)
 
 class LoginAPIView(APIView):
     def post(self, request):
