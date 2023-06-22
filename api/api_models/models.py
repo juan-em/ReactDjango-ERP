@@ -60,7 +60,7 @@ class Persona(models.Model):
 
 def get_default_area():
     """ get a default value for action status; create new status if not available """
-    return Areas.objects.get_or_create(nombre="No definida")[0].pk
+    return Areas.objects.get_or_create(nombre="Ninguno")[0].pk
 
 
 class Trabajador(models.Model):

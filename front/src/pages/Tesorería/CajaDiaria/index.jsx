@@ -1,52 +1,63 @@
 import { alpha } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Paper,
   Grid,
   TextField,
   Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Box, Autocomplete, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Card,
+  Box, Card,
   Typography,
   Container
 } from "@mui/material";
+
 import Registro from "./registro";
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { Tabla } from "./complements";
-import { TimePicker } from '@mui/x-date-pickers';
+
+import UserRequest from "../../../components/User/Requests/UserRequest";
+import { getLastCaja, patchCaja, postCaja } from "../../../services/caja";
 
 const CajaDiaria = () => {
   //para el input de fecha
+  const user = UserRequest()
+  
   const [value, setValue] = useState(dayjs(new Date()));
+  const [itemCaja, setItemCaja] = useState({'estado_caja': false})
 
   const handleChange = (newValue) => {
-      setValue(newValue);
+    setValue(newValue);
   };
 
+  useEffect(() => {
+    getLastCaja(setItemCaja)
+  }, [])
+
+  const handleOpenCloseCaja = async() => {
+    itemCaja.estado_caja === true ? await patchCaja(itemCaja.id, {'estado_caja': false}) 
+                                  : await postCaja({'estado_caja': true}) 
+  }
 
   return (
     <Container>
       <div className="container" >
         <Typography
-              fontFamily={"inherit"}
-              align={"center"}
-              sx={{
-                mt: 3,
-                p: 3,
-                backgroundColor: alpha("#633256", 0.2),
-                "&:hover": {
-                  backgroundColor: alpha("#633256", 0.25),
-                },
-              }}
-            >
-              Caja Diaria
-            </Typography>
+          fontFamily={"inherit"}
+          align={"center"}
+          sx={{
+            mt: 3,
+            p: 3,
+            backgroundColor: alpha("#633256", 0.2),
+            "&:hover": {
+              backgroundColor: alpha("#633256", 0.25),
+            },
+          }}
+        >
+          Caja Diaria
+        </Typography>
         <Grid container spacing={4} sx={{ marginTop: '10px'}}>
           <Grid item xs={12} sm={12} md={6} xl={6}>
             <Card elevation={10} sx={{ p:5}}>
@@ -99,8 +110,9 @@ const CajaDiaria = () => {
                     color="secondary"
                     variant="contained"
                     sx={{ m:1}}
+                    onClick={handleOpenCloseCaja}
                   >
-                    Abrir/Cerrar Caja
+                    {itemCaja.estado_caja == true ? "Cerrar Caja" : "Abrir Caja"}
                   </Button>
                 </Grid>
               </Grid>
