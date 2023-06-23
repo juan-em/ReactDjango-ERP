@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
+from .utils import obtener_tipo_cambio_dolar
+from django.http import JsonResponse
+
 class CajaDiariaView(APIView):
     def get(self, request):
         data = Caja_Diaria.objects.all()
@@ -20,6 +23,12 @@ class CajaDiariaView(APIView):
         return Response(context)
     
     def post(self, request):
+        last_caja = Caja_Diaria.objects.last()
+        if last_caja:
+            request.data['monto_inicial'] = last_caja.monto_final
+        else:
+            request.data['monto_inicial'] = 0
+            
         serializer = CajaDiariaSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -75,8 +84,8 @@ class CajaDiariaDetailView(APIView):
     def patch(self, resquest, id):
         dataCaja = Caja_Diaria.objects.get(id=id)
         serializer = CajaDiariaSerializer(dataCaja, data=resquest.data, partial=True)
-
-        dataCaja.save()
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
         context = {
             'status':True,
@@ -195,3 +204,14 @@ class EgresosOtrosView(APIView):
         }
         
         return Response(context)
+
+def tipo_cambio_dolar_view(request):
+    tipo_cambio = obtener_tipo_cambio_dolar()
+    
+    if tipo_cambio is not None:
+        data = {
+            'tipo_cambio': tipo_cambio
+        }
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'error': 'Error al obtener el tipo de cambio'}, status=500)

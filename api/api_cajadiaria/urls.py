@@ -14,4 +14,6 @@ urlpatterns = [
     path('egresoscompra/', EgresosCompraView.as_view()),
     path('egresosotros/', EgresosOtrosView.as_view()),
 
+    path('cambio-dolar/', tipo_cambio_dolar_view),
+
 ]
