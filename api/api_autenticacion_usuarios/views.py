@@ -17,22 +17,15 @@ class RegisterAPIView(APIView):
 
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         serializer.save()
 
         trabajador_serializer = TrabajadorSerializer(data=trabajador_data)
         trabajador_serializer.is_valid(raise_exception=True)
-
         trabajador_serializer.save()
 
-        buscar_ultimo_trabajador = Trabajador.objects.last()
-        ultimo_trabajador = buscar_ultimo_trabajador.pk
-
-        buscar_ultimo_usuario = Profile_User.objects.last()
-        
-        buscar_ultimo_usuario.trabajador = Trabajador.objects.get(pk=int(ultimo_trabajador))
-
-        buscar_ultimo_usuario.save()
+        ultimo_usuario = Profile_User.objects.get(id=serializer.data['profile_user']['pk'])
+        ultimo_usuario.trabajador_id = trabajador_serializer.data['id']
+        ultimo_usuario.save()
 
         serializer_modificado = {
             **serializer.data,
@@ -71,8 +64,9 @@ class UserAPIView(APIView):
             id = decode_access_token(token)
 
             user = User.objects.filter(pk=id).first()
+            trabajador = Trabajador.objects.get(pk=user.profile_user.trabajador_id)
 
-            return Response(UserSerializer(user).data)
+            return Response({**UserSerializer(user).data, "trabajador": {**TrabajadorSerializer(trabajador).data}})
         
         raise AuthenticationFailed('unauthenticated')
     
