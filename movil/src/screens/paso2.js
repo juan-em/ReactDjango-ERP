@@ -5,7 +5,7 @@ import { Button, TextInput, Surface } from "@react-native-material/core";
 
 import SearcherProductos from "./searcher";
 import { ACTION_TYPES, ACTION_PUNTO_VENTA_TYPES } from "./reducer";
-// import Table from "./table";
+import Table from "./table";
 import { searcher, get } from "../services/ventas";
 
 const Paso2 = ({ state, dispatch }) => {
@@ -97,7 +97,6 @@ const Paso2 = ({ state, dispatch }) => {
                           <CardActions>
                             <ButtonGroup fullWidth>
                               <Button
-                                fullWidth
                                 color="secondary"
                                 aria-label="reduce"
                                 onClick={() => handleRemove(item)}
@@ -105,7 +104,6 @@ const Paso2 = ({ state, dispatch }) => {
                                 <RemoveIcon fontSize="small" />
                               </Button>
                               <Button
-                                fullWidth
                                 color="secondary"
                                 aria-label="increase"
                                 onClick={() => handleAdd(item)}
@@ -120,17 +118,13 @@ const Paso2 = ({ state, dispatch }) => {
                   ))}
                 </div>
               </div>
-              <div item xs={12} sm={12} md={12} lg={5} minWidth="400px">
+              <div item xs={12} sm={12} md={12} lg={5}>
                 {/* From tabla.jsx */}
-                {/* <Table
+                <Table
                   state={state}
                   dispatch={dispatch}
-                  sesionIniciada={sesionIniciada}
-                  setSesionIniciada={setSesionIniciada}
-                  statePuntoVenta={statePuntoVenta}
-                  dispatchPuntoVenta={dispatchPuntoVenta}
                   click={click}
-                /> */}
+                />
               </div>
             </div>
           </div>

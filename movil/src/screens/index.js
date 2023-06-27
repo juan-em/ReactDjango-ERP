@@ -27,59 +27,52 @@ const Venta = () => {
   const [tipo, setTipo] = useState(false);
   const [sesionIniciada, setSesionIniciada] = useState(false);
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
+  // const isStepOptional = (step) => {
+  //   return step === 1;
+  // };
 
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
+  // const isStepSkipped = (step) => {
+  //   return skipped.has(step);
+  // };
 
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
+  // const handleNext = () => {
+  //   let newSkipped = skipped;
+  //   if (isStepSkipped(activeStep)) {
+  //     newSkipped = new Set(newSkipped.values());
+  //     newSkipped.delete(activeStep);
+  //   }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  //   setSkipped(newSkipped);
+  // };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      throw new Error("You can't skip a step that isn't optional.");
-    }
+  // const handleSkip = () => {
+  //   if (!isStepOptional(activeStep)) {
+  //     throw new Error("You can't skip a step that isn't optional.");
+  //   }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  //   setSkipped((prevSkipped) => {
+  //     const newSkipped = new Set(prevSkipped.values());
+  //     newSkipped.add(activeStep);
+  //     return newSkipped;
+  //   });
+  // };
 
   const handleReset = () => {
-    if (!sesionIniciada) {
-      dispatch({
+    dispatch({
         type: ACTION_TYPES.RESET_VENTA,
       });
-    } else {
-      dispatchPuntoVenta({
-        type: ACTION_PUNTO_VENTA_TYPES.RESET_PUNTO_VENTA,
-      });
-    }
     setActiveStep(0);
   };
 
   const handleRegister = () => {
     if (
-      Reflect.has(state.venta.cliente, "id") &&
-      state.venta.detalle_venta.length
+      Reflect.has(state.venta.cliente, "id")
     ) {
       var payload = BuildVentaPayload(state.venta);
       RegistroVenta(payload);
@@ -108,9 +101,17 @@ const Venta = () => {
         <Stepper
           active={activeStep}
           content={content}
-          onBack={() => setActiveStep((p) => -1)}
-          onFinish={() => alert("Finish")}
-          onNext={() => setActiveStep((p) => p + 1)}
+          onBack={() => {
+            setActiveStep((p) => -1)
+            handleReset()
+          }}
+          onFinish={() => {
+            alert("Finish")
+            handleRegister()
+          }}
+          onNext={() => {
+            setActiveStep((p) => p + 1)
+          }}
         />
       </div>
     </View>

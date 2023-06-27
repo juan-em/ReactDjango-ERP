@@ -12,7 +12,6 @@ function MyStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Venta" component={Venta}/>
-      {/* <Stack.Screen name="Paso1" component={Paso1}/> */}
     </Stack.Navigator>
   )
 }
