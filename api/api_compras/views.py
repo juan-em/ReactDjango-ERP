@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from api_models.models import *
-from api_cajadiaria.models import Caja_Diaria, Egresos_Otros, Egresos_Compra
+from api_cajadiaria.models import Caja_Diaria
+from api_cajadiaria.serializers import EgresosCompraSerializer
 
 # Create your views here.
 from .serializers import *
@@ -21,23 +22,40 @@ class ComprasView(APIView):
         return Response(context)
 
     def post(self, request):
-        serializer = CompraSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
         ultima_caja = Caja_Diaria.objects.last()
         estado_ultima_caja = ultima_caja.estado_caja
+        print("request.data ==> ", request.data)
+        data_egreso_registro = request.data.pop("egresos_compra")
+        print("data_egreso_registro ==> ", data_egreso_registro)
 
         if estado_ultima_caja: 
-            egresos_compra = Egresos_Compra()
-            egresos_compra.caja = ultima_caja.id
-            egresos_compra.responsable = request.data.get("user")
-
-        context = {
+            serializer = CompraSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+    
+            context = {
                 'data':'OK',
                 'status':status.HTTP_201_CREATED,
                 'content':serializer.data
-        }
+            }
+
+            print("data_egreso_registro ==> ", data_egreso_registro)
+            print("serializer.data ==> ", serializer.data)
+
+            data_egreso_registro["compra"] = serializer.data.get("id")            
+            serializer_egresos_compra = EgresosCompraSerializer(data=data_egreso_registro)
+            serializer_egresos_compra.is_valid(raise_exception=True)
+            serializer_egresos_compra.save()
+
+            print("Egresos_compra ==>", serializer_egresos_compra.data)
+
+        else:
+            context = {
+                'data': 'ERROR',
+                'status': status.HTTP_400_BAD_REQUEST,
+                'content': 'Debes abrir una caja antes de hacer la compra'
+            }
+
         return Response(context)
 
 class ComprasDetailView(APIView):

@@ -659,7 +659,6 @@ class Remision_venta_detalle(models.Model):
 
 class Sesion_venta(models.Model):
     fecha = models.DateTimeField(null=True)
-    monto_inicial = models.FloatField(default=0, null=True)
     responsable = models.CharField(max_length=100)
     # trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True)
     hora_fin = models.DateTimeField(null=True)
