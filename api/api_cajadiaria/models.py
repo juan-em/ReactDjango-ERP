@@ -1,5 +1,5 @@
 from django.db import models
-from api_models.models import User, Venta, Compra
+from api_models.models import Trabajador, Venta, Compra, Sesion_venta
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 
@@ -8,28 +8,54 @@ class Caja_Diaria (models.Model):
     fecha_apertura = models.DateField(auto_now_add=True)
     hora_apertura = models.TimeField(auto_now_add=True)
     monto_inicial = models.FloatField()
-    responsable_apertura = models.ForeignKey(User, related_name="responsable_apertura", on_delete=models.SET_NULL, null=True)
+    responsable_apertura = models.ForeignKey(Trabajador, related_name="responsable_apertura", on_delete=models.SET_NULL, null=True)
     fecha_cierre = models.DateField(null=True)
     hora_cierre = models.TimeField(null=True)
     monto_final = models.FloatField(null=True)
     estado_caja = models.BooleanField(default=False, blank=True)
-    responsable_cierre = models.ForeignKey(User, related_name="responsable_cierre", on_delete=models.SET_NULL, null=True)
+    responsable_cierre = models.ForeignKey(Trabajador, related_name="responsable_cierre", on_delete=models.SET_NULL, null=True)
+
+    @property
+    def monto_actual(self):
+        ingresos_otros = Ingresos_Otros.objects.filter(caja=self.pk)
+        ingresos_venta = Ingreso_Venta.objects.filter(caja=self.pk)
+
+        egresos_otros = Egresos_Otros.objects.filter(caja=self.pk)
+        egresos_compra = Egresos_Compra.objects.filter(caja=self.pk)
+
+        resultado = 0.0
+
+        for iotros in ingresos_otros:
+            resultado += iotros.monto
+
+        for iventa in ingresos_venta:
+            resultado += iventa.venta.total
+
+        for eotros in egresos_otros:
+            resultado += eotros.monto
+
+        for ecompra in egresos_compra:
+            resultado += ecompra.compra.totalCompra
+
+        return resultado + self.monto_inicial
 
 class Registros_Caja (models.Model):
     VENTAS = "Ventas"
     COMPRAS = "Compras"
     INGRESOS_OTROS = "Otros ingresos"
     EGRESOS_OTROS = "Otros egresos"
+    VENTA_PEQUENIA = "Venta pequeña"
 
     TIPO_REGISTRO = [
         (VENTAS, "Ventas"),
         (COMPRAS, "Compras"),
+        (VENTA_PEQUENIA, "Venta pequeña"),
         (INGRESOS_OTROS, "Otros ingresos"),
         (EGRESOS_OTROS, "Otros egresos"),
     ]
     
     caja = models.ForeignKey(Caja_Diaria, on_delete=models.CASCADE)
-    responsable = models.ForeignKey(User, on_delete=models.CASCADE)
+    responsable = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
     fecha = models.DateField(auto_now=True)
     hora = models.TimeField(auto_now=True)
     tipo = models.CharField(max_length=250, choices=TIPO_REGISTRO)
@@ -61,3 +87,6 @@ class Ingreso_Venta (Registros_Caja):
 
 class Egresos_Compra (Registros_Caja):
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+
+class Ingreso_Sesion_Venta (Registros_Caja):
+    sesion_venta = models.ForeignKey(Sesion_venta, on_delete=models.CASCADE)   
