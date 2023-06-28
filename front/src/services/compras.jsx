@@ -27,10 +27,14 @@ export const searcher = (fields, list) => {
 
 const URL_COMPRAS = "http://localhost:8000/api/compras/"
 
-export const RegistroComnpra =(payload) => {
-    axios.post(URL_COMPRAS, payload)
-         .then(res=>{console.log(res.data)})
-         .catch(err=>{console.log(err)})
+export const RegistroCompra = async (payload) => {
+    try {
+        const response = await axios.post(URL_COMPRAS, payload)
+        return response.data
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
 }
 
 export const BuildCompraPayload =(compra)=>{

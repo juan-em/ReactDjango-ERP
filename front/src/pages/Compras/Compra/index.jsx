@@ -1,5 +1,5 @@
 import { alpha } from "@mui/material/styles";
-import { useState, Fragment, useReducer } from "react";
+import { useState, Fragment, useReducer, useEffect } from "react";
 import "./index.css";
 
 import { Paper, Grid, Button, Alert, AlertTitle } from "@mui/material";
@@ -19,11 +19,14 @@ const steps = ["Registro", "Agregar Artículo"];
 
 //Registration's Fuctionality
 import { INITIAL_STATE, comprasReducer, ACTION_TYPES } from "./reducerCompra";
-import { RegistroComnpra, BuildCompraPayload } from "../../../services/compras";
+import { RegistroCompra, BuildCompraPayload } from "../../../services/compras";
 import Swal from "sweetalert2";
 import Notificaciones from "./notificaciones";
+import { getLastCaja } from "../../../services/caja";
+import UserRequest from "../../../components/User/Requests/UserRequest";
 
 const Compra = () => {
+  const user = UserRequest()
   const navigate = useNavigate();
 
   //Registration's Fuctionality
@@ -32,6 +35,8 @@ const Compra = () => {
   //Steps's Functionality
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
+
+  const [itemCaja, setItemCaja] = useState({ estado_caja: false });
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -43,13 +48,22 @@ const Compra = () => {
 
   const handleNext = () => {
     let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    if (itemCaja.estado_caja === true) {
+      if (isStepSkipped(activeStep)) {
+        newSkipped = new Set(newSkipped.values());
+        newSkipped.delete(activeStep);
+      }
+  
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes abrir una caja antes de hacer la compra.",
+      });
+    }
   };
 
   const handleBack = () => {
@@ -74,13 +88,20 @@ const Compra = () => {
     setActiveStep(0);
   };
 
-  const handleRegister = () => {
-    if (
-      Reflect.has(state.compra.proveedor, "id") &&
-      state.compra.detalle_compra.length
-    ) {
+  console.log("itemCaja ==> ", itemCaja)
+  console.log("itemCaja.id ==> ", itemCaja.id)
+
+  const handleRegister = async () => {
+    if (Reflect.has(state.compra.proveedor, "id") && state.compra.detalle_compra.length) {
+      var egresos_compra = {
+        "responsable": user.trabajador.id,
+        "caja": itemCaja.id,
+        "tipo": "Compras"
+      }
+      
       var payload = BuildCompraPayload(state.compra);
-      RegistroComnpra(payload);
+      payload.egresos_compra = egresos_compra
+      await RegistroCompra(payload);
       handleNext();
     } else {
       Swal.fire({
@@ -90,6 +111,10 @@ const Compra = () => {
       });
     }
   };
+
+  useEffect(() => {
+    getLastCaja(setItemCaja)
+  }, [])
 
   return (
     <section>

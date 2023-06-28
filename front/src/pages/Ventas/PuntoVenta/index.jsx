@@ -1,24 +1,32 @@
 import { useState, useEffect, useReducer } from "react";
 import {
-  Checkbox,
-  FormControlLabel,
   Grid,
-  Typography,
-  IconButton,
   Button,
   Box,
   Container,
 } from "@mui/material";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 
+import Swal from "sweetalert2";
+
 import { INITIAL_SESION_STATE, sesionVentaReducer, ACTION_SESION_TYPES } from "../Venta/reducerVenta";
 
-const SeleccionVenta = ({ tipo, setTipo, sesionIniciada, setSesionIniciada }) => {
+const SeleccionVenta = ({ tipo, setTipo, sesionIniciada, setSesionIniciada, itemCaja }) => {
 
   const [state, dispatch] = useReducer(sesionVentaReducer, INITIAL_SESION_STATE);
 
   const handleClick = () => {
-    setTipo(true);
+    if (itemCaja.estado_caja === true) {
+      setTipo(true);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes abrir una caja antes de hacer la compra.",
+      });
+    }
+
+    
   };
 
   const handleRegister = () => {

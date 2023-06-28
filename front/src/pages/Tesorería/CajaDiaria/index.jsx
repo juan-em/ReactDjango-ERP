@@ -26,10 +26,10 @@ import { getLastCaja, patchCaja, postCaja } from "../../../services/caja";
 const CajaDiaria = () => {
   //para el input de fecha
   const user = UserRequest();
-  console.log(user)
 
   const [value, setValue] = useState(dayjs(new Date()));
   const [itemCaja, setItemCaja] = useState({ estado_caja: false });
+  const [render, setRender] = useState(false)
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -37,15 +37,17 @@ const CajaDiaria = () => {
 
   useEffect(() => {
     getLastCaja(setItemCaja);
-  }, []);
+  }, [render]);
 
   const handleOpenCloseCaja = async () => {
     if (itemCaja.estado_caja) {
       await patchCaja(itemCaja.id, { estado_caja: false, responsable_cierre: user.trabajador.id});
     } else {
       var res = await postCaja({ estado_caja: true , responsable_apertura: user.trabajador.id});
-      setItemCaja(res.content);
+      
     }
+
+    setRender(!render)
   };
 
   var fechaHoraActual = new Date();
