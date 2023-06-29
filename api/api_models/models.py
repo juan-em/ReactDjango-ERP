@@ -86,7 +86,7 @@ class Trabajador(models.Model):
     tipo_trabajador = models.CharField(max_length=30, choices=TIPOS, default=NINGUNO)
     tipo_contrato = models.CharField(max_length=30, choices=TIPOS_CONTRATOS, default=TIEMPO_COMPLETO)
     cargo = models.CharField(max_length=50, default=NINGUNO)
-    area = models.ForeignKey(Areas, on_delete=models.CASCADE, default=get_default_area)
+    area = models.ForeignKey(Areas, on_delete=models.CASCADE, default=get_default_area, null=True)
     fecha_nacimiento = models.DateField(null=True)
     borrado = models.CharField(max_length=1, default=0)
 

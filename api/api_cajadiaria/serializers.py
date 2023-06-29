@@ -14,12 +14,28 @@ class IngresosVentaSerializer(serializers.ModelSerializer):
         model = Ingreso_Venta
         fields = '__all__'
         read_only_fields = ('fecha', 'hora',)
+    
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+
+        fields["monto"] = instance.venta.total
+        fields["codigo"] = instance.venta.codigo
+
+        return fields
 
 class EgresosCompraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Egresos_Compra
         fields = '__all__'
         read_only_fields = ('fecha', 'hora',)
+    
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+
+        fields["monto"] = instance.compra.totalCompra
+        fields["codigo"] = instance.compra.codigo
+
+        return fields
 
 class IngresosOtrosSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,20 +55,18 @@ class IngresosSesionVentaSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('fecha', 'hora',)
 
-class RegistrosSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Registros_Caja
-        fields = '__all__'
-        read_only_fields = ('fecha', 'hora',)
-    
-    def to_representation(self, instance):
-        field = super().to_representation(instance)
-        return field
-
 class RegistrosCajaSerializer(serializers.ModelSerializer):
-    registros_caja = RegistrosSerializer(many=True)
 
     class Meta:
         model = Caja_Diaria
-        fields = ['id', 'responsable_apertura', 'monto_inicial', 'monto_final', 'monto_actual', 'estado_caja', 'responsable_cierre', 'registros_caja']
+        fields = ['id', 'responsable_apertura', 'monto_inicial', 'monto_final', 'monto_actual', 'estado_caja', 'responsable_cierre']
         read_only_fields = ('fecha', 'hora',)
+    
+    def to_representation(self, instance):
+        caja = super().to_representation(instance)
+
+        registros_caja = IngresosVentaSerializer(instance.ingresos_venta, many=True).data + IngresosSesionVentaSerializer(instance.ingresos_sesion_venta, many=True).data + IngresosOtrosSerializer(instance.ingresos_otros, many=True).data + EgresosCompraSerializer(instance.egresos_compra, many=True).data + EgresosOtrosSerializer(instance.egresos_otros, many=True).data
+
+        caja["registros_caja"] = registros_caja
+
+        return caja
