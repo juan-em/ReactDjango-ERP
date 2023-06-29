@@ -193,7 +193,7 @@ class EgresosOtrosView(APIView):
         return Response(context)
 
     def post(self, request):
-        serializer = EgresosCompraSerializer(data=request.data)
+        serializer = EgresosOtrosSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
