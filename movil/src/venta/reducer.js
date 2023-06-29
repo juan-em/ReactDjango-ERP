@@ -16,7 +16,7 @@ export const ACTION_TYPES = {
 export const INITIAL_STATE = {
     venta: {
         fecha:setInitialDate(),
-        cliente:{persona:{nombre:""}},
+        cliente:"",
         detalle_venta:[]
     }
 }

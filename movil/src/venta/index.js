@@ -87,6 +87,8 @@ const Venta = () => {
     }
   };
 
+  console.log(state)
+
   const content = [
     <Paso1
       state={state}

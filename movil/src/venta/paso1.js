@@ -1,23 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-// Libreria estilos
-//  https://react-native-material.com/docs/layout/box
+
 import { Button } from "@react-native-material/core";
 import { TextInput } from 'react-native-paper';
 
-//Componentes
-// Libreria Datepicker
-// https://github.com/henninghall/react-native-date-picker
 import DatePicker from "react-native-date-picker";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-// import AddIcon from "@mui/icons-material/Add";
-// import SearchIcon from "@mui/icons-material/Search";
 
 import { ACTION_TYPES } from "./reducer";
-// import { getClientes } from "../../../services/clientes";
 
 const Paso1 = ({ state, dispatch }) => {
   const render = useRef(true);
@@ -48,6 +38,8 @@ const Paso1 = ({ state, dispatch }) => {
         console.log("Acción no definida");
     }
   };
+
+  console.log(dataClientes)
 
   useEffect(() => {
     if (render.current) {
@@ -105,15 +97,8 @@ const Paso1 = ({ state, dispatch }) => {
             <TextInput
               fullWidth
               label="Código Cliente"
-              // focused
-              // type="text"
-              // size="small"
-              // color="action"
-              // margin="dense"
               id="textfields"
-              // disable="true"
               variant="filled"
-              // value={state.venta.cliente.codigo}
             />
           </div>
           <div item xs={12} sm={12} md={3}>
@@ -121,18 +106,8 @@ const Paso1 = ({ state, dispatch }) => {
               fullWidth
               label="DNI"
               type="number"
-              // size="small"
-              // focused
-              // color="action"
-              // margin="dense"
               id="textfields"
-              // disable="true"
               variant="filled"
-              // value={
-              //   state.venta.cliente.persona
-              //     ? state.venta.cliente.persona.dni
-              //     : state.venta.cliente.empresa.ruc
-              // }
             />
           </div>
         </div>

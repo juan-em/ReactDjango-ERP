@@ -119,7 +119,6 @@ const Paso2 = ({ state, dispatch }) => {
                 </div>
               </div>
               <div item xs={12} sm={12} md={12} lg={5}>
-                {/* From tabla.jsx */}
                 <Table
                   state={state}
                   dispatch={dispatch}

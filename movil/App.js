@@ -4,22 +4,24 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Venta from './src/screens/index'
-import Paso1 from './src/screens/paso1'
-const Stack = createStackNavigator()
+import Venta from './src/venta/index'
+import Factura from './src/facturas/index'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+const Tab = createBottomTabNavigator()
 
-function MyStack() {
+function MyTabs() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Venta" component={Venta}/>
-    </Stack.Navigator>
+    <Tab.Navigator>
+      <Tab.Screen name="VENTAS" component={Venta}/>
+      <Tab.Screen name="FACTURAS" component={Factura}/>
+    </Tab.Navigator>
   )
 }
 
 export default function App() {
   return (
   <NavigationContainer>
-    <MyStack/>
+    <MyTabs/>
   </NavigationContainer>
   );
 }
