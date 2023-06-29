@@ -113,7 +113,7 @@ const Compra = () => {
   };
 
   useEffect(() => {
-    getLastCaja(setItemCaja)
+    getLastCaja(setItemCaja, "compras")
   }, [])
 
   return (
