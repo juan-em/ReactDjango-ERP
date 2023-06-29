@@ -8,7 +8,7 @@ class TrabajadorSerializer(WritableNestedModelSerializer):
     persona = PersonaSerializer()
     class Meta:
         model = Trabajador
-        fields = ['id', 'codigo', 'tipo_trabajador', 'cargo', 'tipo_contrato','fecha_nacimiento', 'persona','area']
+        fields = ['id' ,'area', 'codigo', 'tipo_trabajador', 'cargo', 'tipo_contrato','fecha_nacimiento', 'persona']
     def to_representation(self, instance):
         area_info = AreasSerializer(Areas.objects.get(id=instance.area.id)).data if instance.area else None
         representation = super().to_representation(instance)

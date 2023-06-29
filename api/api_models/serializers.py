@@ -1,5 +1,6 @@
 from .models import *
 from rest_framework import serializers
+from api_mantenimientos.serializers import ProviciasSerializer
 
 
 class PersonaSerializer(serializers.ModelSerializer):
@@ -10,7 +11,9 @@ class PersonaSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+        provincia_info = ProviciasSerializer(instance.codprovincia).data if instance.codprovincia else None
         representation['codprovincia'] =  instance.codprovincia.nombreprovincia if instance.codprovincia else None
+        representation['provincia_info'] = provincia_info
         return representation  
 
 class EmpresaSerializer(serializers.ModelSerializer):

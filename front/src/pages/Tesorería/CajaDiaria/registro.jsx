@@ -34,7 +34,7 @@ import {
 } from "../../../services/caja";
 import { initialRegister } from "../../../services/caja";
 
-const Registro = ({ itemCaja }) => {
+const Registro = ({ itemCaja, render, setRender }) => {
   const [open, setOpen] = useState(false);
   const [cambio, setCambio] = useState();
   const [item, setItem] = useState(initialRegister);
@@ -87,6 +87,7 @@ const Registro = ({ itemCaja }) => {
         })
         setOpen(false);
         setItem(initialRegister);
+        setRender(!render)
       }
       catch (error) {
         Swal.fire({

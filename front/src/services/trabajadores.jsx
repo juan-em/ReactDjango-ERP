@@ -33,9 +33,10 @@ export const postTrabajadores = async (data) => {
   }
 };
 
-export const putTrabajadores = async (data, id) => {
+export const putTrabajadores = async (id, data) => {
   try {
-    const response = await axios.put(`${URL}${id}`, data);
+    const response = await axios.put(`${URL}${id}/`, data);
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.log(error);

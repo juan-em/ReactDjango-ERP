@@ -127,7 +127,7 @@ const CajaDiaria = () => {
                   <Card variant="outlined" sx={{ p: 1 }}>
                     <Typography fontFamily={"inherit"} align={"center"}>
                       <strong>Saldo Inicial:</strong> S/.{" "}
-                      {itemCaja.monto_inicial ? itemCaja.monto_inicial : "0"}
+                      {itemCaja.monto_actual ? itemCaja.monto_actual : "0"}
                     </Typography>
                   </Card>
                 </Grid>
@@ -143,7 +143,7 @@ const CajaDiaria = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} xl={6}>
-                  <Registro itemCaja={itemCaja} />
+                  <Registro itemCaja={itemCaja} render={render} setRender={setRender} />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} xl={6}>
                   <Button

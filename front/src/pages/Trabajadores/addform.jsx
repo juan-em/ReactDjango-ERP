@@ -36,7 +36,8 @@ import {
 } from "../../services/clientes";
 
 import { get } from "../../services/mantenimiento";
-import { postTrabajadores } from "../../services/trabajadores";
+import { postTrabajadores, putTrabajadores } from "../../services/trabajadores";
+import { initialState } from "../../services/trabajadores";
 
 import Swal from "sweetalert2";
 
@@ -72,21 +73,19 @@ const AddForm = ({
     'Interno', 'Contratista', 'Ninguno'
   ]
 
-  // Formik
+  console.log(item)
 
   const handleSubmit = async (val) => {
-    console.log(val, "<===================");
     try {
       !item.id
         ? await postTrabajadores(val)
-        : await putClienteper(item.id, val);
-
+        : await putTrabajadores(item.id, val);
       Swal.fire({
         icon: "success",
         title: "Ok",
         text: "Se registro el Cliente",
       });
-      if (item.id) setItem({});
+      if (item.id) setItem(initialState);
       setRenderizar(!renderizar);
       render.current = true;
     } catch (error) {
@@ -268,7 +267,7 @@ const AddForm = ({
                             name="area"
                             onChange={handleChange}
                             value={
-                              values.area ? values.area : ""}
+                              values.area?.id ? values.area.id : values.area ? values.area : ""}
                           >
                             {areas.map((item) => (
                               <MenuItem key={item.id} value={item.id}>
