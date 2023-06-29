@@ -11,10 +11,15 @@ import {
   Card,
   Typography,
   Container,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 import Registro from "./registro";
 import dayjs from "dayjs";
+import InputAdornment from "@mui/material/InputAdornment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -22,14 +27,26 @@ import { Tabla } from "./complements";
 
 import UserRequest from "../../../components/User/Requests/UserRequest";
 import { getLastCaja, patchCaja, postCaja } from "../../../services/caja";
+import { formateoFecha } from "../../../services/caja";
 
 const CajaDiaria = () => {
   //para el input de fecha
   const user = UserRequest();
 
   const [value, setValue] = useState(dayjs(new Date()));
-  const [itemCaja, setItemCaja] = useState({ estado_caja: false });
-  const [render, setRender] = useState(false)
+  const [itemCaja, setItemCaja] = useState({
+    estado_caja: false,
+    registros_caja: [],
+  });
+  const [render, setRender] = useState(false);
+  const [fields, setFields] = useState({});
+
+  console.log(formateoFecha(new Date(value)));
+
+  const handlerSearcher = (e) => {
+    const { name, value } = e.target;
+    setFields({ ...fields, [name]: value });
+  };
 
   const handleChange = (newValue) => {
     setValue(newValue);
@@ -41,13 +58,17 @@ const CajaDiaria = () => {
 
   const handleOpenCloseCaja = async () => {
     if (itemCaja.estado_caja) {
-      await patchCaja(itemCaja.id, { estado_caja: false, responsable_cierre: user.trabajador.id});
+      await patchCaja(itemCaja.id, {
+        estado_caja: false,
+        responsable_cierre: user.trabajador.id,
+      });
     } else {
-      var res = await postCaja({ estado_caja: true , responsable_apertura: user.trabajador.id});
-      
+      await postCaja({
+        estado_caja: true,
+        responsable_apertura: user.trabajador.id,
+      });
     }
-
-    setRender(!render)
+    setRender(!render);
   };
 
   var fechaHoraActual = new Date();
@@ -122,7 +143,7 @@ const CajaDiaria = () => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} xl={6}>
-                  <Registro itemCaja={itemCaja}/>
+                  <Registro itemCaja={itemCaja} />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} xl={6}>
                   <Button
@@ -164,6 +185,7 @@ const CajaDiaria = () => {
                     <DesktopDatePicker
                       label="Fecha de apertura"
                       inputFormat="DD/MM/YYYY"
+                      disabled
                       value={value}
                       onChange={handleChange}
                       renderInput={(params) => (
@@ -186,8 +208,14 @@ const CajaDiaria = () => {
                     size="small"
                     color="secondary"
                     margin="dense"
-                    name="nombre"
+                    name="hora"
+                    onChange={handlerSearcher}
                     id="textfields"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">hrs.</InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} xl={6}>
@@ -198,21 +226,43 @@ const CajaDiaria = () => {
                     size="small"
                     color="secondary"
                     margin="dense"
-                    name="nombre"
+                    name="monto"
+                    onChange={handlerSearcher}
                     id="textfields"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">S/.</InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} xl={6}>
-                  <TextField
+                  <FormControl
                     fullWidth
-                    label="Tipo"
-                    type="text"
+                    margin="dense"
                     size="small"
                     color="secondary"
-                    margin="dense"
-                    name="nombre"
-                    id="textfields"
-                  />
+                  >
+                    <InputLabel id="prov">Tipo</InputLabel>
+                    <Select
+                      label="Tipo"
+                      fullWidth
+                      size="small"
+                      color="secondary"
+                      id="textfields"
+                      name="tipo"
+                      onChange={handlerSearcher}
+                    >
+                      <MenuItem value="">
+                        <em>Todos</em>
+                      </MenuItem>
+                      <MenuItem value="Ventas">Ventas</MenuItem>
+                      <MenuItem value="Venta pequeña">Venta pequeña</MenuItem>
+                      <MenuItem value="Compras">Compras</MenuItem>
+                      <MenuItem value="Otros ingresos">Otros ingresos</MenuItem>
+                      <MenuItem value="Otros egresos">Otros egresos</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Grid>
               </Grid>
             </Paper>
@@ -223,7 +273,7 @@ const CajaDiaria = () => {
               <Box
                 sx={{ width: "100%", display: "table", tableLayout: "fixed" }}
               >
-                <Tabla />
+                <Tabla itemCaja={itemCaja} fields={fields} />
               </Box>
             </Box>
           </Grid>

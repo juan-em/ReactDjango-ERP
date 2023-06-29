@@ -65,52 +65,51 @@ const Registro = ({ itemCaja }) => {
   };
 
   const handleSubmit = async (data) => {
-    console.log(data)
-    // if (data.monto != 0) {
-    //   if (data.tipo_pago == "Dolares") data.monto *= cambio;
-    //   var data = {
-    //     ...data,
-    //     responsable: user.trabajador.id,
-    //     caja: itemCaja.id,
-    //   };
-    //   var payload = transformToFormData(data);
-    //   try {
-    //     data.tipo == "Otros ingresos"
-    //       ? await postIngresoCaja(payload)
-    //       : await postEgresoCaja(payload);
-    //     Swal.fire({
-    //       icon: "success",
-    //       title: "Ok",
-    //       text: "Registro Exitoso",
-    //       customClass: {
-    //         container: 'my-swal',
-    //       },
-    //     })
-    //     setOpen(false);
-    //     setItem(initialRegister);
-    //   }
-    //   catch (error) {
-    //     Swal.fire({
-    //       icon: "error",
-    //       title: "Oops...",
-    //       text: `${error}`,
-    //       customClass: {
-    //         container: 'my-swal',
-    //       },
-    //     });
-    //   }
-    // } else {
-    //   Swal.fire({
-    //     title: "Advertencia",
-    //     text: "No especificó ningún monto",
-    //     icon: "warning",
-    //     showCancelButton: false,
-    //     customClass: {
-    //       container: 'my-swal',
-    //     },
-    //     confirmButtonText: "Aceptar",
-    //   });
-    // }
+    if (data.monto != 0) {
+      if (data.tipo_pago == "Dolares") data.monto *= cambio;
+      var data = {
+        ...data,
+        responsable: user.trabajador.id,
+        caja: itemCaja.id,
+      };
+      var payload = transformToFormData(data);
+      try {
+        data.tipo == "Otros ingresos"
+          ? await postIngresoCaja(payload)
+          : await postEgresoCaja(payload);
+        Swal.fire({
+          icon: "success",
+          title: "Ok",
+          text: "Registro Exitoso",
+          customClass: {
+            container: 'my-swal',
+          },
+        })
+        setOpen(false);
+        setItem(initialRegister);
+      }
+      catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${error}`,
+          customClass: {
+            container: 'my-swal',
+          },
+        });
+      }
+    } else {
+      Swal.fire({
+        title: "Advertencia",
+        text: "No especificó ningún monto",
+        icon: "warning",
+        showCancelButton: false,
+        customClass: {
+          container: 'my-swal',
+        },
+        confirmButtonText: "Aceptar",
+      });
+    }
   };
 
   useEffect(() => {

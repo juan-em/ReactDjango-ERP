@@ -11,12 +11,18 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MenuItem from "@mui/material/MenuItem";
 
-import { styled, useTheme, alpha } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
+import {formatearFechaTabla } from "../../../services/caja";
+import { searcherRegistros } from "../../../services/caja";
 
 export const Tabla = ({
+  itemCaja,
+  fields
 }) => {
+
+
+  const data = searcherRegistros(fields, itemCaja.registros_caja)
 
   return (
     <TableContainer component={Paper} sx={{ mt: 0 }} elevation={10}>
@@ -61,7 +67,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Cantidad
+              Monto
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -84,22 +90,21 @@ export const Tabla = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          
-            <TableRow key={1}>
+          {itemCaja.estado_caja && data.map((item, i) => (
+            <TableRow key={i}>
               <TableCell component="th" scope="row">
-                {1}
+                {i+1}
               </TableCell>
-              <TableCell align="right">id</TableCell>
-              <TableCell align="right">00/00/2023</TableCell>
-              <TableCell align="right">12:53</TableCell>
-              <TableCell align="right">estado</TableCell>
-              <TableCell align="right">estado</TableCell>
-              <TableCell align="right">estado</TableCell>
+              <TableCell align="right">{item.codigo}</TableCell>
+              <TableCell align="right">{formatearFechaTabla(item.fecha)}</TableCell>
+              <TableCell align="right">{item.hora?.slice(0, 5)}</TableCell>
+              <TableCell align="right">S/. {item.monto.toFixed(2)}</TableCell>
+              <TableCell align="right">{item.tipo}</TableCell>
+              <TableCell align="right">{item.responsable}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon
                     fontSize="inherit"
-                    
                   />
                 </IconButton>
                 <IconButton
@@ -120,7 +125,7 @@ export const Tabla = ({
                 </IconButton>
               </TableCell>
             </TableRow>
-          
+          ))} 
         </TableBody>
       </Table>
     </TableContainer>

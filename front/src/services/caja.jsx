@@ -5,6 +5,36 @@ const lastCajaURL = cajaURL + "ultimacaja/";
 const ingresosOtrosURL = cajaURL + "ingresosotros/";
 const egresosOtrosURL = cajaURL + "egresosotros/";
 
+export const searcherRegistros = (fields, list) => {
+  let resultData = list;
+  resultData =
+    fields.hora && fields.hora != ""
+      ? resultData.filter((item) => 
+      item.hora.slice(0, 5).toString().toLowerCase().includes(fields.hora.toString().toLowerCase()))
+      : resultData;
+  resultData =
+    fields.monto && fields.monto != ""
+      ? resultData.filter((item) => 
+        item.monto.toFixed(2).toString().toLowerCase().includes(fields.monto.toString().toLowerCase())
+        )
+      : resultData;
+  resultData =
+    fields.tipo && fields.tipo != ""
+      ? resultData.filter((item) => item.tipo == fields.tipo)
+      : resultData;
+  return resultData;
+};
+
+export const getCaja = async () => {
+  try {
+    const response = await axios.get(cajaURL);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
 export const postCaja = async (data) => {
   try {
     const response = await axios.post(cajaURL, data);
@@ -42,25 +72,24 @@ export const patchCaja = async (id, data) => {
 
 //registros de caja
 export const postIngresoCaja = async (data) => {
-    try {
-        const res = await axios.post(ingresosOtrosURL, data);
-        return res.data;
-      } catch (err) {
-        console.log(err);
-        return err;
-      }
-}
+  try {
+    const res = await axios.post(ingresosOtrosURL, data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
 
 export const postEgresoCaja = async (data) => {
-    try {
-        const res = await axios.post(egresosOtrosURL, data);
-        return res.data;
-      } catch (err) {
-        console.log(err);
-        return err;
-      }
-}
-
+  try {
+    const res = await axios.post(egresosOtrosURL, data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
 
 export const initialRegister = {
   tipo: "Otros ingresos",
@@ -93,3 +122,22 @@ export const getCambio = async (set) => {
     })
     .catch((error) => console.log(error));
 };
+
+export function formateoFecha(date) {
+  const fecha = new Date(date);
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour12: false,
+    timeZone: "America/Lima",
+  };
+  const fechaFormateada = fecha.toLocaleString("es-ES", options);
+  return fechaFormateada;
+}
+
+export function formatearFechaTabla(fecha) {
+  var partes = fecha.split("-");
+  var fechaFormateada = partes[2] + "/" + partes[1] + "/" + partes[0];
+  return fechaFormateada;
+}
