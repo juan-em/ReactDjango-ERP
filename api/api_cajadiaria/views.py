@@ -13,7 +13,7 @@ from django.http import JsonResponse
 class CajaDiariaView(APIView):
     def get(self, request):
         data = Caja_Diaria.objects.all()
-        serializer = CajaDiariaSerializer(data, many=True)
+        serializer = RegistrosCajaSerializer(data, many=True)
         
         context = {
             'status':True,
@@ -47,7 +47,7 @@ class UltimaCajaView(APIView):
             last_caja = Caja_Diaria.objects.last()
             
             if last_caja != None:
-                serializer = CajaDiariaSerializer(last_caja)
+                serializer = RegistrosCajaSerializer(last_caja)
                 context = {
                     'status': True,
                     'content': serializer.data 
@@ -72,7 +72,7 @@ class UltimaCajaView(APIView):
 class CajaDiariaDetailView(APIView):
     def get(self, request, id):
         data = Caja_Diaria.objects.get(id=id)
-        serializer = CajaDiariaSerializer(data)
+        serializer = RegistrosCajaSerializer(data)
         
         context = {
             'status':True,

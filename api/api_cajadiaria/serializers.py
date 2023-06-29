@@ -38,3 +38,21 @@ class IngresosSesionVentaSerializer(serializers.ModelSerializer):
         model = Ingreso_Sesion_Venta
         fields = '__all__'
         read_only_fields = ('fecha', 'hora',)
+
+class RegistrosSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Registros_Caja
+        fields = '__all__'
+        read_only_fields = ('fecha', 'hora',)
+    
+    def to_representation(self, instance):
+        field = super().to_representation(instance)
+        return field
+
+class RegistrosCajaSerializer(serializers.ModelSerializer):
+    registros_caja = RegistrosSerializer(many=True)
+
+    class Meta:
+        model = Caja_Diaria
+        fields = ['id', 'responsable_apertura', 'monto_inicial', 'monto_final', 'monto_actual', 'estado_caja', 'responsable_cierre', 'registros_caja']
+        read_only_fields = ('fecha', 'hora',)

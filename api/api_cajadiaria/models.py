@@ -54,7 +54,7 @@ class Registros_Caja (models.Model):
         (EGRESOS_OTROS, "Otros egresos"),
     ]
     
-    caja = models.ForeignKey(Caja_Diaria, on_delete=models.CASCADE)
+    caja = models.ForeignKey(Caja_Diaria, related_name="registros_caja", on_delete=models.CASCADE)
     responsable = models.ForeignKey(Trabajador, on_delete=models.CASCADE)
     fecha = models.DateField(auto_now=True)
     hora = models.TimeField(auto_now=True)
