@@ -10,6 +10,7 @@ class CajaDiariaSerializer(serializers.ModelSerializer):
         read_only_fields = ('fecha_apertura', 'hora_apertura', 'fecha_cierre', 'hora_cierre')
 
 class IngresosVentaSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
     class Meta:
         model = Ingreso_Venta
         fields = '__all__'
@@ -17,49 +18,65 @@ class IngresosVentaSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         fields = super().to_representation(instance)
-
         fields["monto"] = instance.venta.total
-        fields["codigo"] = instance.venta.codigo
-
+        fields["codigo_venta"] = instance.venta.codigo
+        fields["responsable"] = instance.responsable.persona.nombre
         return fields
 
 class EgresosCompraSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
     class Meta:
         model = Egresos_Compra
         fields = '__all__'
-        read_only_fields = ('fecha', 'hora',)
+        read_only_fields = ('fecha', 'hora', )
     
     def to_representation(self, instance):
         fields = super().to_representation(instance)
-
         fields["monto"] = instance.compra.totalCompra
-        fields["codigo"] = instance.compra.codigo
-
+        fields["codigo_compra"] = instance.compra.codigo
+        fields["responsable"] = instance.responsable.persona.nombre
         return fields
 
 class IngresosOtrosSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
     class Meta:
         model = Ingresos_Otros
         fields = '__all__'
         read_only_fields = ('fecha', 'hora',)
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+        fields['responsable'] = instance.responsable.persona.nombre
+        return fields
+    
 
 class EgresosOtrosSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
     class Meta:
         model = Egresos_Otros
         fields = '__all__'
         read_only_fields = ('fecha', 'hora',)
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+        fields['responsable'] = instance.responsable.persona.nombre
+        return fields
 
 class IngresosSesionVentaSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
     class Meta:
         model = Ingreso_Sesion_Venta
         fields = '__all__'
         read_only_fields = ('fecha', 'hora',)
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+        fields["monto"] = instance.sesion_venta.total
+        fields["codigo_sesion"] = instance.sesion_venta.codigo
+        fields['responsable'] = instance.responsable.persona.nombre
+        return fields
 
 class RegistrosCajaSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Caja_Diaria
-        fields = ['id', 'responsable_apertura', 'monto_inicial', 'monto_final', 'monto_actual', 'estado_caja', 'responsable_cierre']
+        fields = ['id', 'codigo', 'fecha_apertura', 'hora_apertura', 'fecha_cierre', 'hora_cierre', 'responsable_apertura', 'monto_inicial', 'monto_final', 'monto_actual', 'estado_caja', 'responsable_cierre']
         read_only_fields = ('fecha', 'hora',)
     
     def to_representation(self, instance):

@@ -16,6 +16,11 @@ class Caja_Diaria (models.Model):
     responsable_cierre = models.ForeignKey(Trabajador, related_name="responsable_cierre", on_delete=models.SET_NULL, null=True)
 
     @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'CAJA-'+'0'*(5-len(id))+id
+
+    @property
     def monto_actual(self):
         ingresos_otros = Ingresos_Otros.objects.filter(caja=self.pk)
         ingresos_venta = Ingreso_Venta.objects.filter(caja=self.pk)
@@ -32,10 +37,10 @@ class Caja_Diaria (models.Model):
             resultado += iventa.venta.total
 
         for eotros in egresos_otros:
-            resultado += eotros.monto
+            resultado -= eotros.monto
 
         for ecompra in egresos_compra:
-            resultado += ecompra.compra.totalCompra
+            resultado -= ecompra.compra.totalCompra
 
         return resultado + self.monto_inicial
 
@@ -59,6 +64,7 @@ class Registros_Caja (models.Model):
     hora = models.TimeField(auto_now=True)
     tipo = models.CharField(max_length=250, choices=TIPO_REGISTRO)
 
+
     # Posible modificacion: dejar el property de monto en las 4 tablas
     class Meta:
         abstract = True
@@ -77,6 +83,10 @@ class Ingresos_Otros (Registros_Caja):
     documento = models.FileField(upload_to="documents/caja_diaria/ingresos_otros", blank=True, null=True)
     tipo_pago = models.CharField(max_length=50, choices=TIPO_PAGO)
     monto = models.FloatField()
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'OI-'+'0'*(5-len(id))+id
 
 class Egresos_Otros (Registros_Caja):
     caja = models.ForeignKey(Caja_Diaria, related_name="egresos_otros", on_delete=models.CASCADE)
@@ -84,15 +94,31 @@ class Egresos_Otros (Registros_Caja):
     documento = models.FileField(upload_to="documents/caja_diaria/egresos_otros", blank=True, null=True)
     tipo_pago = models.CharField(max_length=50, choices=TIPO_PAGO)
     monto = models.FloatField()
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'OE-'+'0'*(5-len(id))+id
 
 class Ingreso_Venta (Registros_Caja):
     caja = models.ForeignKey(Caja_Diaria, related_name="ingresos_venta", on_delete=models.CASCADE)
     venta = models.ForeignKey(Venta, on_delete=models.CASCADE)
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'IV-'+'0'*(5-len(id))+id
 
 class Egresos_Compra (Registros_Caja):
     caja = models.ForeignKey(Caja_Diaria, related_name="egresos_compra", on_delete=models.CASCADE)
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'EV-'+'0'*(5-len(id))+id
 
 class Ingreso_Sesion_Venta (Registros_Caja):
     caja = models.ForeignKey(Caja_Diaria, related_name="ingresos_sesion_venta", on_delete=models.CASCADE)
-    sesion_venta = models.ForeignKey(Sesion_venta, on_delete=models.CASCADE)   
+    sesion_venta = models.ForeignKey(Sesion_venta, on_delete=models.CASCADE)  
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        return 'ISV-'+'0'*(5-len(id))+id 
