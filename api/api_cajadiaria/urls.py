@@ -8,6 +8,8 @@ urlpatterns = [
 
     path('ultimacaja/', UltimaCajaView.as_view()),
 
+    path('ultimacaja/<str:tipo>/', CajaCompraVentaView.as_view()),
+
     path('ingresosventas/', IngresoVentaView.as_view()),
     path('ingresosotros/', IngresosOtrosView.as_view()),
 

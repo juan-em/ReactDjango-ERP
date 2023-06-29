@@ -218,10 +218,9 @@ const Register = () => {
                                                             labelId="area-label"
                                                             id="textfields"
                                                             color="secondary"
-                                                            required
                                                             onChange={handleChange}
                                                         >
-                                                            <MenuItem value="">
+                                                            <MenuItem value={null}>
                                                                 <em>Ninguno</em>
                                                             </MenuItem>
                                                             {areas.map((item, i) => {

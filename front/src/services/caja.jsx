@@ -15,9 +15,9 @@ export const postCaja = async (data) => {
   }
 };
 
-export const getLastCaja = async (set) => {
+export const getLastCaja = async (set, tipo) => {
   try {
-    const responseLast = await axios.get(lastCajaURL);
+    const responseLast = await axios.get(lastCajaURL + tipo + "/");
 
     if (responseLast.data.status !== false) {
       set(responseLast.data.content);

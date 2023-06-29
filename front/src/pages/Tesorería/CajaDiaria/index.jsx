@@ -36,7 +36,7 @@ const CajaDiaria = () => {
   };
 
   useEffect(() => {
-    getLastCaja(setItemCaja);
+    getLastCaja(setItemCaja, "tesoreria");
   }, [render]);
 
   const handleOpenCloseCaja = async () => {

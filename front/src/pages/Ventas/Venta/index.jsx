@@ -220,7 +220,7 @@ const Venta = () => {
   };
 
   useEffect(() => {
-    getLastCaja(setItemCaja)
+    getLastCaja(setItemCaja, "ventas")
   }, [])
 
   return (

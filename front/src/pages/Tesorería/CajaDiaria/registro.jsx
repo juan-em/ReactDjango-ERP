@@ -252,13 +252,13 @@ const Registro = ({ itemCaja }) => {
                         defaultValue=""
                         name="codprovincia"
                       >
-                        <MenuItem key={1} value={1}>
+                        <MenuItem key={0} value={"Factura"}>
                           Factura
                         </MenuItem>
-                        <MenuItem key={1} value={1}>
+                        <MenuItem key={1} value={"Boleta"}>
                           Boleta
                         </MenuItem>
-                        <MenuItem key={1} value={1}>
+                        <MenuItem key={2} value={"Sin documento"}>
                           Sin documento
                         </MenuItem>
                       </Select>

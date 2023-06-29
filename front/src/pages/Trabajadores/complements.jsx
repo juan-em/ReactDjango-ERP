@@ -118,7 +118,7 @@ export const Tabla = ({
                 {row.tipo_trabajador}
               </TableCell>
               <TableCell align="right">
-                {row.area.nombre}
+                {row.area?.nombre}
               </TableCell>
               <TableCell align="right">
                 <IconButton

@@ -13,7 +13,7 @@ from django.http import JsonResponse
 class CajaDiariaView(APIView):
     def get(self, request):
         data = Caja_Diaria.objects.all()
-        serializer = RegistrosCajaSerializer(data, many=True)
+        serializer = CajaDiariaSerializer(data, many=True)
         
         context = {
             'status':True,
@@ -103,6 +103,23 @@ class CajaDiariaDetailView(APIView):
             'status':True,
             'message':'Delete success',
         }
+        
+        return Response(context)
+
+class CajaCompraVentaView(APIView):
+    def get(self, request, tipo):
+        data = Caja_Diaria.objects.last()
+
+        if tipo == "tesoreria":
+            serializer = RegistrosCajaSerializer(data)
+            
+        else:
+            serializer = CajaDiariaSerializer(data)
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }        
         
         return Response(context)
 
