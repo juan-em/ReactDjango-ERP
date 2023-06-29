@@ -83,6 +83,7 @@ class CajaDiariaDetailView(APIView):
     
     def patch(self, resquest, id):
         dataCaja = Caja_Diaria.objects.get(id=id)
+        resquest.data["monto_final"] = dataCaja.monto_actual
         serializer = CajaDiariaSerializer(dataCaja, data=resquest.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
