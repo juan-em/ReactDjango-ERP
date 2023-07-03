@@ -65,6 +65,7 @@ const AddForm = ({
   // Formik
 
   const perSubmit = async (val) => {
+    console.log(val)
     try {
       !item.id
         ? await postClienteper(val)

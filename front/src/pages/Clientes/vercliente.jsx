@@ -73,7 +73,7 @@ const VerCliente = ({ itemView }) => {
           return {
             ...i,
             secondary: itemView.persona
-              ? itemView.persona.codprovincia
+              ? itemView.persona.provincia_info?.nombreprovincia
               : itemView.empresa.codprovincia,
           };
         } else if (i.primary === "Localidad") {

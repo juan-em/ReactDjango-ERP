@@ -76,7 +76,7 @@ const VerTrabajador = ({ itemView }) => {
         } else if (i.primary === "Provincia") {
           return {
             ...i,
-            secondary: itemView.persona.codprovincia,
+            secondary: itemView.persona.provincia_info?.nombreprovincia,
           };
         } else if (i.primary === "Localidad") {
           return {

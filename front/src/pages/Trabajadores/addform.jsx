@@ -73,9 +73,8 @@ const AddForm = ({
     'Interno', 'Contratista', 'Ninguno'
   ]
 
-  console.log(item)
-
   const handleSubmit = async (val) => {
+    console.log(val)
     try {
       !item.id
         ? await postTrabajadores(val)
@@ -267,7 +266,7 @@ const AddForm = ({
                             name="area"
                             onChange={handleChange}
                             value={
-                              values.area?.id ? values.area.id : values.area ? values.area : ""}
+                              values.area ? values.area : ""}
                           >
                             {areas.map((item) => (
                               <MenuItem key={item.id} value={item.id}>

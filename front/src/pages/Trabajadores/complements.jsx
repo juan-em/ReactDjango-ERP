@@ -56,22 +56,31 @@ export const Tabla = ({
 
   const handleDelete = async (id) => {
     try {
-        let res = await delTrabajadores(id);
-        render.current = true;
-        setRenderizar(!renderizar);
-        Swal.fire({
-          icon: "success",
-          title: "Ok",
-          text: "Se eliminó el trabajador",
-        });
-        return res;
+      Swal.fire({
+        title: '¿Desea eliminar el el trabajador',
+        showDenyButton: true,
+        confirmButtonText: 'SI',
+        denyButtonText: `NO`,
+        customClass: {
+          container: 'my-swal',
+        },
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          var res = await delTrabajadores(id);
+          render.current = true;
+          setRenderizar(!renderizar);
+        } 
+      })
+      
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: `${error}`,
+        customClass: {
+          container: 'my-swal',
+        },
       });
-      return error;
     }
   };
 
@@ -118,7 +127,7 @@ export const Tabla = ({
                 {row.tipo_trabajador}
               </TableCell>
               <TableCell align="right">
-                {row.area?.nombre}
+                {row.area_info?.nombre}
               </TableCell>
               <TableCell align="right">
                 <IconButton

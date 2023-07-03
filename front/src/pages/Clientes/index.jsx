@@ -83,7 +83,7 @@ const Clientes = () => {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  Buscar Cliente asdasd
+                  Buscar Cliente
                 </AccordionSummary>
                 <AccordionDetails>
                   <form id="searchform">
