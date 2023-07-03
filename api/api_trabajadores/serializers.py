@@ -12,5 +12,5 @@ class TrabajadorSerializer(WritableNestedModelSerializer):
     def to_representation(self, instance):
         area_info = AreasSerializer(Areas.objects.get(id=instance.area.id)).data if instance.area else None
         representation = super().to_representation(instance)
-        representation['area'] = area_info
+        representation['area_info'] = area_info
         return representation     
