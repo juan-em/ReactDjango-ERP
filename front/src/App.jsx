@@ -1,11 +1,9 @@
-import Router from "./router"
+import Index from "./router"
 
 function App() {
-  
-
   return (
     <div>
-      <Router/>
+      <Index/>
     </div>
   )
 }
