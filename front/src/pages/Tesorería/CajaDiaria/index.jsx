@@ -106,13 +106,13 @@ const CajaDiaria = () => {
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={12} xl={12}>
                   <Typography fontFamily={"inherit"} align={"center"}>
-                    Caja actual
+                  {itemCaja.estado_caja ? "Caja actual" : "Caja"}
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} xl={6}>
                   <Card variant="outlined" sx={{ p: 1 }}>
                     <Typography fontFamily={"inherit"} align={"center"}>
-                      <strong>Fecha:</strong>{" "}
+                      <strong>{itemCaja.estado_caja ? "Fecha de apertura" : "Fecha"}</strong>{" "}
                       {itemCaja.fecha_apertura
                         ? formatFecha(itemCaja.fecha_apertura)
                         : fechaHoy}
@@ -126,8 +126,8 @@ const CajaDiaria = () => {
                 <Grid item xs={12} sm={12} md={6} xl={6}>
                   <Card variant="outlined" sx={{ p: 1 }}>
                     <Typography fontFamily={"inherit"} align={"center"}>
-                      <strong>Saldo Inicial:</strong> S/.{" "}
-                      {itemCaja.monto_actual ? itemCaja.monto_actual : "0"}
+                      <strong>{itemCaja.estado_caja ? "Saldo actual" : "Saldo inicial"}</strong> S/.{" "}
+                      {itemCaja.monto_actual ? itemCaja.monto_actual.toFixed(2) : "0"}
                     </Typography>
                   </Card>
                 </Grid>

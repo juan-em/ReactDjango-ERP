@@ -25,9 +25,12 @@ export const searcherRegistros = (fields, list) => {
   return resultData;
 };
 
-export const getCaja = async () => {
+export const getCaja = async (set) => {
   try {
     const response = await axios.get(cajaURL);
+    if (response.data.status !== false) {
+      set(response.data.content);
+    }
     return response.data;
   } catch (err) {
     console.log(err);
@@ -113,15 +116,6 @@ export function transformToFormData(values) {
   return formData;
 }
 
-//api sunat - cambio dolar
-export const getCambio = async (set) => {
-  axios
-    .get("http://localhost:8000/api/cajadiaria/cambio-dolar")
-    .then((res) => {
-      if (res.status == 200) set(res.data.tipo_cambio);
-    })
-    .catch((error) => console.log(error));
-};
 
 export function formateoFecha(date) {
   const fecha = new Date(date);

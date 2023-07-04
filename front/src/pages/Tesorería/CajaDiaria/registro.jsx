@@ -27,7 +27,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import {
-  getCambio,
   postEgresoCaja,
   postIngresoCaja,
   transformToFormData,
@@ -72,30 +71,45 @@ const Registro = ({ itemCaja, render, setRender }) => {
         responsable: user.trabajador.id,
         caja: itemCaja.id,
       };
-      var payload = transformToFormData(data);
+
       try {
-        data.tipo == "Otros ingresos"
-          ? await postIngresoCaja(payload)
-          : await postEgresoCaja(payload);
-        Swal.fire({
-          icon: "success",
-          title: "Ok",
-          text: "Registro Exitoso",
-          customClass: {
-            container: 'my-swal',
-          },
-        })
-        setOpen(false);
-        setItem(initialRegister);
-        setRender(!render)
-      }
-      catch (error) {
+        console.log(data);
+        var payload = transformToFormData(data);
+        if (
+          data.tipo == "Otros egresos" &&
+          data.monto > itemCaja.monto_actual
+        ) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `Error de monto, S/. ${data.monto} excede el monto actual S/. ${itemCaja.monto_actual}`,
+            customClass: {
+              container: "my-swal",
+            },
+          });
+        } else {
+          data.tipo == "Otros ingresos"
+            ? await postIngresoCaja(payload)
+            : await postEgresoCaja(payload);
+          Swal.fire({
+            icon: "success",
+            title: "Ok",
+            text: "Registro Exitoso",
+            customClass: {
+              container: "my-swal",
+            },
+          });
+          setOpen(false);
+          setItem(initialRegister);
+          setRender(!render);
+        }
+      } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: `${error}`,
           customClass: {
-            container: 'my-swal',
+            container: "my-swal",
           },
         });
       }
@@ -106,16 +120,12 @@ const Registro = ({ itemCaja, render, setRender }) => {
         icon: "warning",
         showCancelButton: false,
         customClass: {
-          container: 'my-swal',
+          container: "my-swal",
         },
         confirmButtonText: "Aceptar",
       });
     }
   };
-
-  useEffect(() => {
-    getCambio(setCambio);
-  }, []);
 
   return (
     <>
@@ -187,7 +197,7 @@ const Registro = ({ itemCaja, render, setRender }) => {
                       inputProps={{
                         step: "0.1",
                       }}
-                      value={itemCaja.monto_inicial}
+                      value={itemCaja.monto_inicial.toFixed(2)}
                     />
                   </Grid>
 

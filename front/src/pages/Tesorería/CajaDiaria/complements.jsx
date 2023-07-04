@@ -67,12 +67,6 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Monto
-            </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
               Tipo Registro
             </TableCell>
             <TableCell
@@ -85,7 +79,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              Acciones
+              Monto
             </TableCell>
           </TableRow>
         </TableHead>
@@ -98,32 +92,9 @@ export const Tabla = ({
               <TableCell align="right">{item.codigo}</TableCell>
               <TableCell align="right">{formatearFechaTabla(item.fecha)}</TableCell>
               <TableCell align="right">{item.hora?.slice(0, 5)}</TableCell>
-              <TableCell align="right">S/. {item.monto.toFixed(2)}</TableCell>
               <TableCell align="right">{item.tipo}</TableCell>
               <TableCell align="right">{item.responsable}</TableCell>
-              <TableCell align="right" component="th" scope="row">
-                <IconButton aria-label="delete" size="small" color="primary">
-                  <VisibilityIcon
-                    fontSize="inherit"
-                  />
-                </IconButton>
-                <IconButton
-                  
-                  aria-label="delete"
-                  size="small"
-                  color="success"
-                >
-                  <EditIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton
-                  
-                  aria-label="delete"
-                  size="small"
-                  color="error"
-                >
-                  <DeleteIcon fontSize="inherit" />
-                </IconButton>
-              </TableCell>
+              <TableCell align="right">S/. {item.monto.toFixed(2)}</TableCell>
             </TableRow>
           ))} 
         </TableBody>

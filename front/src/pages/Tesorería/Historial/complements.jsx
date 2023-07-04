@@ -14,9 +14,19 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
+import { formatearFechaTabla } from "../../../services/caja";
 
-export const Tabla = ({
+export const Tabla = ({ 
+  cajas,
+  itemView,
+  setItemView
 }) => {
+
+  const handleView = (item) => {
+    setItemView(item)
+  }
+
+  let data = cajas
 
   return (
     <TableContainer component={Paper} sx={{ mt: 0 }} elevation={10}>
@@ -78,41 +88,26 @@ export const Tabla = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          
-            <TableRow key={1}>
-              <TableCell component="th" scope="row">
-                {1}
-              </TableCell>
-              <TableCell align="right">id</TableCell>
-              <TableCell align="right">00/00/2023</TableCell>
-              <TableCell align="right">00/00/2023</TableCell>
-              <TableCell align="right">1000</TableCell>
-              <TableCell align="right">1000</TableCell>
-              <TableCell align="right" component="th" scope="row">
-                <IconButton aria-label="delete" size="small" color="primary">
-                  <VisibilityIcon
-                    fontSize="inherit"
-                  />
-                </IconButton>
-                <IconButton
-                  
-                  aria-label="delete"
-                  size="small"
-                  color="success"
-                >
-                  <EditIcon fontSize="inherit" />
-                </IconButton>
-                <IconButton
-                  
-                  aria-label="delete"
-                  size="small"
-                  color="error"
-                >
-                  <DeleteIcon fontSize="inherit" />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          
+              {data.map((item, i) => (
+                <TableRow key={i}>
+                <TableCell component="th" scope="row">
+                  {i+1}
+                </TableCell>
+                <TableCell align="right">{item.codigo}</TableCell>
+                <TableCell align="right">{formatearFechaTabla(item.fecha_apertura)}</TableCell>
+                <TableCell align="right">{formatearFechaTabla(item.fecha_cierre)}</TableCell>
+                <TableCell align="right">S/. {item.monto_inicial.toFixed(2)}</TableCell>
+                <TableCell align="right">{item.monto_final ? `S/. ${item.monto_final.toFixed(2)}` : "Aún abierta"}</TableCell>
+                <TableCell align="right" component="th" scope="row">
+                  <IconButton aria-label="delete" size="small" color="primary">
+                    <VisibilityIcon
+                      fontSize="inherit"
+                      onClick={() => handleView(item)}
+                    />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+              ))}
         </TableBody>
       </Table>
     </TableContainer>

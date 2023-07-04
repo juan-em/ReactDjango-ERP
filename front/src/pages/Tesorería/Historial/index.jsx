@@ -1,5 +1,5 @@
 import { alpha } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Paper,
@@ -21,11 +21,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { Tabla } from "./complements";
 import VerCajaDiaria from "./ver";
+import { getCaja } from "../../../services/caja";
 
 const Historial = () => {
   //para el input de fecha
   const [value, setValue] = useState(dayjs(new Date()));
-  const [itemView, setItemView] = useState({});
+  const [itemView, setItemView] = useState({registros_caja:[]});
+
+  const [cajas, setCajas] = useState([]);
 
   const handleChange = (newValue) => {
       setValue(newValue);
@@ -38,6 +41,12 @@ const Historial = () => {
   const handleClean = () => {
     searchform.reset();
   };
+
+  useEffect(() => {
+    getCaja(setCajas)
+  }, [])
+
+  console.log(cajas)
 
   return (
     <Container>
@@ -175,7 +184,11 @@ const Historial = () => {
           <Grid item xs={12} sm={12} md={12} xl={12}>
             <Box sx={{ overflow: "auto" }}>
               <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
-                <Tabla/>
+                <Tabla
+                  cajas={cajas}
+                  itemView = {itemView}
+                  setItemView = {setItemView}
+                />
             </Box>
             </Box>
           </Grid>
