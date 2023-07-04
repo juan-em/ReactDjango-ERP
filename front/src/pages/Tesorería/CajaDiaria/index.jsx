@@ -41,8 +41,6 @@ const CajaDiaria = () => {
   const [render, setRender] = useState(false);
   const [fields, setFields] = useState({});
 
-  console.log(formateoFecha(new Date(value)));
-
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });

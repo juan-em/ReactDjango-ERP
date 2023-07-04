@@ -5,6 +5,45 @@ const lastCajaURL = cajaURL + "ultimacaja/";
 const ingresosOtrosURL = cajaURL + "ingresosotros/";
 const egresosOtrosURL = cajaURL + "egresosotros/";
 
+export const getCambio = async (set) => {
+  axios
+    .get("http://localhost:8000/api/cajadiaria/cambio-dolar")
+    .then((res) => {
+      if (res.status == 200) set(res.data.tipo_cambio);
+    })
+    .catch((error) => console.log(error));
+};
+
+export const searcherCajas = (fields, list) => {
+  let resultData = list;
+  resultData = fields.codigo
+    ? resultData.filter((item) => 
+      item.codigo.toString().includes(fields.codigo.toString())
+    )
+    : resultData;
+  
+  // resultData = fields.fecha_apertura
+  //   ? resultData.filter((item) => 
+  //     item.fecha_apertura.toString().includes(fields.fecha_apertura.toString())
+  //   )
+  //   : resultData;
+  // console.log(fields.fecha_apertura)
+  
+  resultData = fields.monto_inicial
+    ? resultData.filter((item) => 
+      item.monto_inicial.toFixed(2).toString().toLowerCase().includes(fields.monto_inicial.toString().toLowerCase())
+    )
+    : resultData;
+  
+  resultData = fields.monto_final
+    ? resultData.filter((item) => 
+      item.monto_final.toFixed(2).toString().toLowerCase().includes(fields.monto_final.toString().toLowerCase())
+    )
+    : resultData;
+
+  return resultData;
+}
+
 export const searcherRegistros = (fields, list) => {
   let resultData = list;
   resultData =
