@@ -24,6 +24,7 @@ class Caja_Diaria (models.Model):
     def monto_actual(self):
         ingresos_otros = Ingresos_Otros.objects.filter(caja=self.pk)
         ingresos_venta = Ingreso_Venta.objects.filter(caja=self.pk)
+        ingresos_sesion_venta = Ingreso_Sesion_Venta.objects.filter(caja=self.pk)
 
         egresos_otros = Egresos_Otros.objects.filter(caja=self.pk)
         egresos_compra = Egresos_Compra.objects.filter(caja=self.pk)
@@ -35,6 +36,9 @@ class Caja_Diaria (models.Model):
 
         for iventa in ingresos_venta:
             resultado += iventa.venta.total
+
+        for isventa in ingresos_sesion_venta:
+            resultado += isventa.sesion_venta.total
 
         for eotros in egresos_otros:
             resultado -= eotros.monto
