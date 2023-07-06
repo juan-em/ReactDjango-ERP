@@ -7,7 +7,7 @@ import {
   Button,
   PaperProvider,
   Text,
-  Card
+  Card,
 } from "react-native-paper";
 // import { formateoFecha } from "../../../services/compras";
 
@@ -16,19 +16,31 @@ const VerFactura = ({ itemView }) => {
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20};
-  console.log(itemView)
+  const containerStyle = { backgroundColor: "white", padding: 20 };
+  console.log(itemView);
 
   return (
     <View>
-      <Card>
-        <Card.Title></Card.Title>
-        <Card.Content></Card.Content>
-        <Card.Cover/>
-        <Card.Actions>
-
-        </Card.Actions>
-      </Card>
+      {itemView === undefined ? (
+        <View></View>
+      ) : (
+        <Card>
+          <Card.Cover />
+          <Card.Content>
+            <Text>CODIGO</Text>
+            <Text>{itemView.codigo}</Text>
+            <Text>FECHA</Text>
+            <Text>{itemView.fecha}</Text>
+            <Text>CLIENTE</Text>
+            <Text>{itemView.nombre_cliente}</Text>
+            <Text>ESTADO REMISION</Text>
+            <Text>{itemView.estado_remision}</Text>
+            <Text>TOTAL</Text>
+            <Text>{itemView.total}</Text>
+          </Card.Content>
+          
+        </Card>
+      )}
     </View>
     // <section>
     //   <Paper

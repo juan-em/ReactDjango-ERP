@@ -60,7 +60,7 @@ const Table = ({ state, dispatch, click }) => {
             <DataTable.Row>
               <DataTable.Cell>{item.nombre}</DataTable.Cell>
               <DataTable.Cell>{item.cantidad}</DataTable.Cell>
-              <DataTable.Cell>S/. {item.precio_unitario}</DataTable.Cell>
+              <DataTable.Cell>S/. {(item.precio_unitario * 0.18)+item.precio_unitario}</DataTable.Cell>
               <DataTable.Cell></DataTable.Cell>
               <DataTable.Cell>
                 <IconButton

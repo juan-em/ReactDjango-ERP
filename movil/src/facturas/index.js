@@ -75,11 +75,10 @@ const FacturaVentas = () => {
             <DataTable.Title>N de Factura</DataTable.Title>
             <DataTable.Title>Fecha de Venta</DataTable.Title>
             <DataTable.Title>Cliente</DataTable.Title>
-            <DataTable.Title>Ver</DataTable.Title>
             <DataTable.Title>Eliminar</DataTable.Title>
           </DataTable.Header>
           {facturas.slice(from, to).map((item, i) => (
-            <DataTable.Row key={i}>
+            <DataTable.Row key={i} onPress={() => viewRow(item)} >
               <DataTable.Cell>{i + 1}</DataTable.Cell>
               <DataTable.Cell>{item.codigo}</DataTable.Cell>
               <DataTable.Cell>
@@ -87,20 +86,13 @@ const FacturaVentas = () => {
               </DataTable.Cell>
               <DataTable.Cell>{item.fecha}</DataTable.Cell>
               <DataTable.Cell>{item.nombre_cliente}</DataTable.Cell>
-              <DataTable.Cell>
-                <IconButton
-                  icon="eye"
-                  iconColor="green"
-                  size={20}
-                  onPress={(e) => console.log("a")}
-                />
-              </DataTable.Cell>
+              
               <DataTable.Cell>
                 <IconButton
                   icon="delete"
                   iconColor="red"
                   size={20}
-                  onPress={() => deleteRow(item)}
+                  onPressIn={() => deleteRow(item)}
                 />
               </DataTable.Cell>
             </DataTable.Row>
