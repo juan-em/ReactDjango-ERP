@@ -48,7 +48,6 @@ const Table = ({ state, dispatch, click }) => {
 
   return (
     <View>
-      <div>
         <DataTable>
           <DataTable.Header>
             <DataTable.Title>PKG</DataTable.Title>
@@ -62,6 +61,7 @@ const Table = ({ state, dispatch, click }) => {
               <DataTable.Cell>{item.nombre}</DataTable.Cell>
               <DataTable.Cell>{item.cantidad}</DataTable.Cell>
               <DataTable.Cell>S/. {item.precio_unitario}</DataTable.Cell>
+              <DataTable.Cell></DataTable.Cell>
               <DataTable.Cell>
                 <IconButton
                   icon="delete"
@@ -72,7 +72,8 @@ const Table = ({ state, dispatch, click }) => {
           ))}
           </ScrollView>
         </DataTable>
-      </div>
+        <Text>TOTAL</Text>
+        <Text>S/. {getTotal(state.venta.detalle_venta)}</Text>
     </View>
   );
 };
