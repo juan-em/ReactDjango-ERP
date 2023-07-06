@@ -9,6 +9,7 @@ import Paso2 from "./paso2";
 
 import { INITIAL_STATE, ventasReducer, ACTION_TYPES } from "./reducer";
 
+import { BuildVentaPayload, RegistroVenta } from "../services/ventas";
 const Venta = () => {
   //Registration's Fuctionality
   const [state, dispatch] = React.useReducer(ventasReducer, INITIAL_STATE);
@@ -27,11 +28,11 @@ const Venta = () => {
   };
 
   const handleRegister = () => {
-    if (Reflect.has(state.venta.cliente, "id")) {
+    if (state.venta.detalle_venta.length) {
       var payload = BuildVentaPayload(state.venta);
       RegistroVenta(payload);
       console.log(payload);
-      handleNext();
+      // handleNext();
     } else {
       Swal.fire({
         icon: "error",

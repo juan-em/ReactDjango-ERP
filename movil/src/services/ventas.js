@@ -37,7 +37,7 @@ export const RegistroVenta = (payload) => {
 };
 
 export const BuildVentaPayload = (venta) => {
-  venta.cliente = venta.cliente.id;
+  venta.cliente = 1;
   venta.detalle_venta.forEach((item) => {
     delete item.nombre;
   });

@@ -88,10 +88,10 @@ const FacturaVentas = () => {
               <DataTable.Cell>{item.fecha}</DataTable.Cell>
               <DataTable.Cell>{item.nombre_cliente}</DataTable.Cell>
               <DataTable.Cell>
-                <Button
-                  // icon="eye"
-                  // iconColor="green"
-                  // size={20}
+                <IconButton
+                  icon="eye"
+                  iconColor="green"
+                  size={20}
                   onPress={(e) => console.log("a")}
                 />
               </DataTable.Cell>
