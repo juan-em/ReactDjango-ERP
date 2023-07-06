@@ -6,7 +6,8 @@ import {
   Portal,
   Button,
   PaperProvider,
-  Text
+  Text,
+  Card
 } from "react-native-paper";
 // import { formateoFecha } from "../../../services/compras";
 
@@ -16,95 +17,19 @@ const VerFactura = ({ itemView }) => {
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = {backgroundColor: 'white', padding: 20};
-  //   const [open, setOpen] = useState(false);
-  //   const [itemsPer, setItemsPer] = useState([
-  //     { icon: <NumbersIcon />, primary: "Codigo", secondary: "" },
-  //     { icon: <CalendarMonthIcon />, primary: "Fecha", secondary: "" },
-  //     { icon: <StoreIcon />, primary: "Cliente", secondary: "" },
-  //     { icon: <InfoIcon />, primary: "Estado", secondary: "" },
-  //     { icon: <InfoIcon />, primary: "Estado Remision", secondary: "" },
-  //     { icon: <DiscountIcon />, primary: "N° Factura", secondary: "" },
-  //     { icon: <InfoIcon />, primary: "Detalle de entrega", secondary: "" },
-  //     { icon: <AttachMoneyIcon />, primary: "Total de venta", secondary: "" },
-  //   ]);
-
-  //   const [remisiones, setRemisiones] = useState([]);
-  //   console.log(itemView);
-  //   const seti = () => {
-  //     const newItem = itemsPer.map((i) => {
-  //       if (!itemView.id) {
-  //         return {
-  //           ...i,
-  //         };
-  //       } else {
-  //         if (i.primary === "Codigo") {
-  //           return {
-  //             ...i,
-  //             secondary: itemView.codigo,
-  //           };
-  //         } else if (i.primary === "Fecha") {
-  //           return {
-  //             ...i,
-  //             secondary: formateoFecha(itemView.fecha),
-  //           };
-  //         } else if (i.primary === "Cliente") {
-  //           return {
-  //             ...i,
-  //             secondary: itemView.nombre_cliente,
-  //           };
-  //         } else if (i.primary === "Estado") {
-  //           return {
-  //             ...i,
-  //             secondary: itemView.borrado ? "Anulado" : "Vigente",
-  //           };
-  //         } else if (i.primary === "Estado Remision") {
-  //           return {
-  //             ...i,
-  //             secondary: itemView.estado_remision,
-  //           };
-  //         } else if (i.primary === "N° Factura") {
-  //           return {
-  //             ...i,
-  //             secondary: itemView.numero_factura,
-  //           };
-  //         } else if (i.primary === "Detalle de entrega") {
-  //           return {
-  //             ...i,
-  //             secondary: itemView.detalle_entrega,
-  //           };
-  //         } else if (i.primary === "Total de venta") {
-  //           return {
-  //             ...i,
-  //             secondary: `S/. ${itemView.total}`,
-  //           };
-  //         }
-  //       }
-  //     });
-  //     setItemsPer(newItem);
-  //     setRemisiones(itemView.remision ? itemView.remision : []);
-  //   };
-
-  //   useEffect(() => {
-  //     seti();
-  //   }, [itemView]);
-
-  //   const theme = useTheme();
+  console.log(itemView)
 
   return (
-    <PaperProvider>
-      <Portal>
-        <Modal
-          visible={visible}
-          onDismiss={hideModal}
-          contentContainerStyle={containerStyle}
-        >
-          <Text>Example Modal. Click outside this area to dismiss.</Text>
-        </Modal>
-      </Portal>
-      <Button style={{ marginTop: 30 }} onPress={showModal}>
-        Show
-      </Button>
-    </PaperProvider>
+    <View>
+      <Card>
+        <Card.Title></Card.Title>
+        <Card.Content></Card.Content>
+        <Card.Cover/>
+        <Card.Actions>
+
+        </Card.Actions>
+      </Card>
+    </View>
     // <section>
     //   <Paper
     //     elevation={10}

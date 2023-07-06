@@ -50,8 +50,7 @@ const Paso1 = ({ state, dispatch }) => {
 
   return (
     <View>
-      <div>
-        <div container spacing={1}>
+        <View container spacing={1}>
           <div item xs={12} sm={12} md={12}>
             <div container spacing={1}>
               <div item xs={12} sm={8} md={9}>
@@ -110,8 +109,7 @@ const Paso1 = ({ state, dispatch }) => {
               variant="filled"
             />
           </div>
-        </div>
-      </div>
+        </View>
     </View>
   );
 };

@@ -61,7 +61,7 @@ const Paso2 = ({ state, dispatch }) => {
             <div >
               <div>
                 <ScrollView style={styles.scrollViewWrapper}>
-                  <View >
+                  <View style={styles.cardContainer}>
                     {data.map((item, i) => (
                       <Card key={i} style={styles.cardStyle}>
                         <Card.Title
@@ -105,15 +105,17 @@ const styles = StyleSheet.create({
     maxHeight: "60vh",
   },
   cardStyle: {
-    maxWidth: "40vw",
+    width: "10rem",
     margin: "3px",
-    flexDirection: "row",
-    flexWrap: 'wrap',
   },
   cardImageStyle: {
     maxWidth: "10rem",
     maxHeight: "10rem",
   },
+  cardContainer: {
+    display: "flex",
+    flexDirection: "row"
+  }
 });
 
 export default Paso2;
