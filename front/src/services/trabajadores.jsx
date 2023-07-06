@@ -81,10 +81,10 @@ export const searcher = (fields, list) => {
           .includes(fields.dni.toString().toLowerCase());
       })
     : resultData;
-  resultData = fields.fecha_nacimiento
+  resultData = fields.area
     ? resultData.filter((item) => {
         return (
-          item.fecha_nacimiento.toString() == fields.fecha_nacimiento.toString()
+          item.area?.toString() == fields.area.toString()
         );
       })
     : resultData;

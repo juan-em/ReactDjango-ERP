@@ -4,20 +4,17 @@ import {
   Paper,
   Grid,
   TextField,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  FormControlLabel,
-  Select,
   Button,
-  FormLabel,
-  RadioGroup,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Container,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select
 } from "@mui/material";
-import Radio from "@mui/material/Radio";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { alpha } from "@mui/material/styles";
 //Componentes pra el input de fecha
@@ -46,6 +43,8 @@ const Trabajadores = () => {
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
 
+  const [areas, setAreas] = useState([])
+
   //Buscador
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
@@ -54,7 +53,13 @@ const Trabajadores = () => {
 
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
+
+  useEffect(()=> {
+    const URL = "http://localhost:8000/api/mantenimientos/areas/";
+    get(setAreas, URL);
+  }, [])
 
   return (
     <Container>
@@ -119,31 +124,33 @@ const Trabajadores = () => {
                       variant="filled"
                       onChange={handlerSearcher}
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                        label="Fecha de nacimiento"
-                        name="fecha"
-                        inputFormat="DD/MM/YYYY"
-                        value={fields.fecha_nacimiento}
-                        onChange={(value) => {
-                          var event = new Date(value.$d);
-                          let date = JSON.stringify(event);
-                          date = date.slice(1, 11);
-                          fields["fecha_nacimiento"] = date;
-                        }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            fullWidth
-                            size="small"
-                            color="secondary"
-                            id="textfields"
-                            margin="dense"
-                            variant="filled"
-                          />
-                        )}
-                      />
-                    </LocalizationProvider>
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                      variant="filled"
+                    >
+                      <InputLabel>Áreas</InputLabel>
+                      <Select
+                        label="Áreas"
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        onChange={handlerSearcher}
+                        defaultValue=""
+                        name="area"
+                      >
+                        <MenuItem key={0} value="">
+                        <em>Todos</em>
+                          </MenuItem>
+                        {areas.map((item, i) => (
+                          <MenuItem key={i+1} value={item.id}>
+                            {item.nombre}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
 
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
@@ -177,6 +184,7 @@ const Trabajadores = () => {
               setItem={setItem}
               value={value}
               setValue={setValue}
+              handleClean={handleClean}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>

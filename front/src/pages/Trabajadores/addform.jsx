@@ -51,6 +51,7 @@ const AddForm = ({
   setItem,
   value,
   setValue,
+  handleClean
 }) => {
   const handleOpenPost = () => {
     setOpenModal(true);
@@ -86,6 +87,7 @@ const AddForm = ({
       });
       if (item.id) setItem(initialState);
       setRenderizar(!renderizar);
+      handleClean()
       render.current = true;
     } catch (error) {
       Swal.fire({
