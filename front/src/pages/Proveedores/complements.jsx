@@ -14,6 +14,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import MenuItem from "@mui/material/MenuItem";
 import { getProveedores, delProveedoresEmp, delProveedoresPer, searcher } from "../../services/Proveedores";
+import { Checkbox } from "@mui/material";
 
 import Swal from "sweetalert2";
 
@@ -118,7 +119,7 @@ export const Tabla = ({
               <TableCell align="right">
                 {row.persona ? row.persona.telefono : row.empresa.telefono}
               </TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right">{row.empresa === null ? <Checkbox disabled/> : row.persona === null ? <Checkbox disabled checked/> : <Checkbox disabled/>}</TableCell>
               <TableCell align="right">
               <IconButton
                   aria-label="delete"

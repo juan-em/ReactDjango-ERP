@@ -31,6 +31,7 @@ import NumbersIcon from "@mui/icons-material/Numbers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
+import { formatearFechaTabla } from "../../../services/caja";
 import { alpha } from "@mui/material/styles";
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -133,12 +134,6 @@ const Variante = ({ item, open, setOpen }) => {
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Cantidad
-                    </TableCell>
-                    <TableCell
-                      sx={{ color: "#633256", fontFamily: "inherit" }}
-                      align="right"
-                    >
                       Tipo Registro
                     </TableCell>
                     <TableCell
@@ -151,40 +146,24 @@ const Variante = ({ item, open, setOpen }) => {
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Acciones
+                      Monto
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {item ? (
-                    item.map((vari) => (
-                      <TableRow key={1}>
-                        <TableCell component="th" scope="row">
-                          1
-                        </TableCell>
-                        <TableCell align="right">id</TableCell>
-                        <TableCell align="right">00/00/2023</TableCell>
-                        <TableCell align="right">12:53</TableCell>
-                        <TableCell align="right">estado</TableCell>
-                        <TableCell align="right">estado</TableCell>
-                        <TableCell align="right">estado</TableCell>
-                        <TableCell align="right" component="th" scope="row">
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            color="success"
-                          >
-                            <EditIcon fontSize="inherit" />
-                          </IconButton>
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            color="error"
-                          >
-                            <DeleteIcon fontSize="inherit" />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
+                    item.map((item, i) => (
+                      <TableRow key={i}>
+              <TableCell component="th" scope="row">
+                {i+1}
+              </TableCell>
+              <TableCell align="right">{item.codigo}</TableCell>
+              <TableCell align="right">{formatearFechaTabla(item.fecha)}</TableCell>
+              <TableCell align="right">{item.hora?.slice(0, 5)}</TableCell>
+              <TableCell align="right">{item.tipo}</TableCell>
+              <TableCell align="right">{item.responsable}</TableCell>
+              <TableCell align="right">S/. {item.monto.toFixed(2)}</TableCell>
+            </TableRow>
                     ))
                   ) : (
                     <>Sin registros</>

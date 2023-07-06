@@ -57,8 +57,14 @@ import SesionVenta from "../PuntoVenta/sesionVenta";
 import Swal from "sweetalert2";
 
 import { salidaProd } from "../../../services/ventas";
+import UserRequest from "../../../components/User/Requests/UserRequest";
+import { getLastCaja } from "../../../services/caja";
 
 const Venta = () => {
+  const user = UserRequest()
+
+  const [itemCaja, setItemCaja] = useState({ estado_caja: false });
+
   //Registration's Fuctionality
   const [state, dispatch] = useReducer(ventasReducer, INITIAL_STATE);
   const [stateSesion, dispatchSesion] = useReducer(
@@ -86,13 +92,22 @@ const Venta = () => {
 
   const handleNext = () => {
     let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    if (itemCaja.estado_caja === true) {
+      if (isStepSkipped(activeStep)) {
+        newSkipped = new Set(newSkipped.values());
+        newSkipped.delete(activeStep);
+      }
+
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped)
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes abrir una caja antes de hacer la compra.",
+      });
+    }
   };
 
   const handleBack = () => {
@@ -127,11 +142,15 @@ const Venta = () => {
   };
 
   const handleRegister = () => {
-    if (
-      Reflect.has(state.venta.cliente, "id") &&
-      state.venta.detalle_venta.length
-    ) {
+    if (Reflect.has(state.venta.cliente, "id") && state.venta.detalle_venta.length) {
+      var ingreso_venta = {
+        "responsable": user.trabajador.id,
+        "caja": itemCaja.id,
+        "tipo": "Ventas"
+      }
+      
       var payload = BuildVentaPayload(state.venta);
+      payload.ingreso_venta = ingreso_venta
       RegistroVenta(payload);
       console.log(payload)
       handleNext();
@@ -174,25 +193,35 @@ const Venta = () => {
       stateSesion.sesion_venta.punto_venta.length
     ) {
       console.log(stateSesion.sesion_venta)
-      // console.log(BuildSesionVentaPayload(stateSesion.sesion_venta))
+      
+      var ingreso_sesion_venta = {
+        "responsable": user.trabajador.id,
+        "caja": itemCaja.id,
+        "tipo": "Venta pequeña"
+      }
+
       var payload = stateSesion.sesion_venta;
+      payload.ingreso_sesion_venta = ingreso_sesion_venta
       AxiosSesionVenta(payload);
 
       Swal.fire({
         icon: "success",
         title: "Sesion de Venta Cerrada",
-        text: "La secion de Venta se cerro correctamente",
+        text: "La sesión de Venta se cerró correctamente",
       });
       setSesionIniciada(false)
     } else {
       Swal.fire({
-        icon: "error",
+        icon: "warning",
         title: "Oops...",
-        text: "Cliente o productos NO válidos",
+        text: "No se registró ninguna venta.",
       });
     }
   };
 
+  useEffect(() => {
+    getLastCaja(setItemCaja, "ventas")
+  }, [])
 
   return (
     <section>
@@ -223,6 +252,7 @@ const Venta = () => {
                     setTipo={setTipo}
                     sesionIniciada={sesionIniciada}
                     setSesionIniciada={setSesionIniciada}
+                    itemCaja={itemCaja}
                   />
                 </Grid>
               </>

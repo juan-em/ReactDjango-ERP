@@ -6,19 +6,33 @@ from .authentication import *
 from rest_framework.authentication import get_authorization_header
 
 from .serializers import *
-from api_models.models import User, Profile_User
+from api_models.models import User, Profile_User, Trabajador
+
+from api_trabajadores.serializers import TrabajadorSerializer
 
 class RegisterAPIView(APIView):
 
     def post(self, request):
+        trabajador_data = request.data.pop("trabajador")
+
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         serializer.save()
 
-        print("Result:", serializer.data)
+        trabajador_serializer = TrabajadorSerializer(data=trabajador_data)
+        trabajador_serializer.is_valid(raise_exception=True)
+        trabajador_serializer.save()
 
-        return Response(serializer.data)
+        ultimo_usuario = Profile_User.objects.get(id=serializer.data['profile_user']['pk'])
+        ultimo_usuario.trabajador_id = trabajador_serializer.data['id']
+        ultimo_usuario.save()
+
+        serializer_modificado = {
+            **serializer.data,
+            "trabajador": trabajador_serializer.data    
+        }
+
+        return Response(serializer_modificado)
 
 class LoginAPIView(APIView):
     def post(self, request):
@@ -50,8 +64,9 @@ class UserAPIView(APIView):
             id = decode_access_token(token)
 
             user = User.objects.filter(pk=id).first()
+            trabajador = Trabajador.objects.get(pk=user.profile_user.trabajador_id)
 
-            return Response(UserSerializer(user).data)
+            return Response({**UserSerializer(user).data, "trabajador": {**TrabajadorSerializer(trabajador).data}})
         
         raise AuthenticationFailed('unauthenticated')
     

@@ -132,7 +132,7 @@ class SesionVentaSerializer(WritableNestedModelSerializer):
     punto_venta = PuntoVentaSerializer(many=True)
     class Meta:
         model = Sesion_venta
-        fields = ['fecha', 'monto_inicial', 'responsable', 'hora_fin', 'total', 'punto_venta', 'codigo', 'borrado']
+        fields = ['fecha', 'responsable', 'hora_fin', 'total', 'punto_venta', 'codigo', 'borrado']
     def to_representation(self, instance):
         punto_venta = Punto_venta.objects.filter(sesion_venta = instance.id)
         ser_punto_venta = PuntoVentaSerializer(punto_venta, many=True)
@@ -141,7 +141,6 @@ class SesionVentaSerializer(WritableNestedModelSerializer):
             'id':instance.id,
             'codigo':instance.codigo,
             'fecha':instance.fecha,
-            'monto_inicial':instance.monto_inicial,
             'responsable':instance.responsable,
             'hora_fin':instance.hora_fin,
             'total':instance.total,

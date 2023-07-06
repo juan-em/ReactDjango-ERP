@@ -97,8 +97,8 @@ const VerProveedor = ({ itemView }) => {
           return {
             ...i,
             secondary: itemView.persona
-              ? itemView.persona.codprovincia
-              : itemView.empresa.codprovincia,
+              ? itemView.persona.provincia_info?.nombreprovincia
+              : itemView.empresa.provincia_info?.nombreprovincia,
           };
         } else if (i.primary === "Localidad") {
           return {

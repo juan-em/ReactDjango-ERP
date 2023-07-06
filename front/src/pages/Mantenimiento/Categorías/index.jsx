@@ -37,6 +37,7 @@ const Categorias = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   return (

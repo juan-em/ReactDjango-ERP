@@ -45,6 +45,7 @@ const CategoriasProductos = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   return (
