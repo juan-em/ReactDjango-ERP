@@ -21,14 +21,19 @@ export const searcherCajas = (fields, list) => {
       item.codigo.toString().includes(fields.codigo.toString())
     )
     : resultData;
-  
-  // resultData = fields.fecha_apertura
-  //   ? resultData.filter((item) => 
-  //     item.fecha_apertura.toString().includes(fields.fecha_apertura.toString())
-  //   )
-  //   : resultData;
-  // console.log(fields.fecha_apertura)
-  
+  console.log(resultData)
+  resultData = fields.fecha_apertura
+    ? resultData.filter((item) => 
+      item.fecha_apertura == fields.fecha_apertura
+    )
+    : resultData;
+  console.log(resultData)
+  resultData = fields.fecha_cierre
+    ? resultData.filter((item) => 
+      item.fecha_cierre == fields.fecha_cierre
+    )
+    : resultData;
+  console.log(resultData)
   resultData = fields.monto_inicial
     ? resultData.filter((item) => 
       item.monto_inicial.toFixed(2).toString().toLowerCase().includes(fields.monto_inicial.toString().toLowerCase())

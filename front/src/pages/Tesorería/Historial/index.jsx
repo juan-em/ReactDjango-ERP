@@ -25,7 +25,9 @@ import { getCaja } from "../../../services/caja";
 
 const Historial = () => {
   //para el input de fecha
-  const [value, setValue] = useState(dayjs(new Date()));
+  const [date, setDate] = useState(dayjs(new Date()));
+  const [date2, setDate2] = useState(dayjs(new Date()));
+
   const [itemView, setItemView] = useState({registros_caja:[]});
   const [fields, setFields] = useState([]);
 
@@ -35,7 +37,7 @@ const Historial = () => {
   const [renderizar, setRenderizar] = useState(true)
 
   const handleChange = (newValue) => {
-    setValue(newValue);
+    setDate(newValue);
   };
 
   const handlerSearcher = (e) => {
@@ -44,13 +46,16 @@ const Historial = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
+    setDate(dayjs(new Date()))
+    setDate2(dayjs(new Date()))
   };
 
   useEffect(() => {
     getCaja(setCajas)
   }, [])
 
-  console.log(cajas)
+  console.log(fields)
 
   return (
     <Container>
@@ -108,8 +113,14 @@ const Historial = () => {
                       <DesktopDatePicker
                       label="Fecha de apertura"
                       inputFormat="DD/MM/YYYY"
-                      value={value}
-                      onChange={handleChange}
+                      value={date}
+                      onChange={(newValue) => {
+                        var event = new Date(newValue.$d);
+                        let date = JSON.stringify(event);
+                        date = date.slice(1, 11);
+                        setDate(newValue)
+                        setFields({ ...fields, fecha_apertura: date })
+                      }}
                       renderInput={(params) => <TextField 
                         {...params} 
                         fullWidth
@@ -125,8 +136,14 @@ const Historial = () => {
                       <DesktopDatePicker
                       label="Fecha de cierre"
                       inputFormat="DD/MM/YYYY"
-                      value={value}
-                      onChange={handleChange}
+                      value={date2}
+                      onChange={(newValue) => {
+                        var event = new Date(newValue.$d);
+                        let date = JSON.stringify(event);
+                        date = date.slice(1, 11);
+                        setDate2(newValue)
+                        setFields({ ...fields, fecha_cierre: date })
+                      }}
                       renderInput={(params) => <TextField 
                         {...params} 
                         fullWidth
