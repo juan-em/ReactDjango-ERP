@@ -51,6 +51,7 @@ const Proveedores = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   useEffect(() => {

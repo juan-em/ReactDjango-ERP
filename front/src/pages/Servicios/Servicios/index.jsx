@@ -45,6 +45,7 @@ const Servicios = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   const stateList = [

@@ -124,7 +124,7 @@ const CajaDiaria = () => {
                 <Grid item xs={12} sm={12} md={6} xl={6}>
                   <Card variant="outlined" sx={{ p: 1 }}>
                     <Typography fontFamily={"inherit"} align={"center"}>
-                      <strong>{itemCaja.estado_caja ? "Saldo actual" : "Saldo inicial"}</strong> S/.{" "}
+                      <strong>{itemCaja.estado_caja ? "Saldo actual" : "Saldo"}</strong> S/.{" "}
                       {itemCaja.monto_actual ? itemCaja.monto_actual.toFixed(2) : "0"}
                     </Typography>
                   </Card>

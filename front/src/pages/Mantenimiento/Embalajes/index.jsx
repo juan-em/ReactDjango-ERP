@@ -38,6 +38,7 @@ const Embalajes = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   return (

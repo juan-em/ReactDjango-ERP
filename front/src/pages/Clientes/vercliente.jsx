@@ -10,7 +10,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Grid,
-  Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 //icons
@@ -26,10 +25,6 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import PinIcon from "@mui/icons-material/Pin";
 import KeyIcon from "@mui/icons-material/Key";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import WebhookIcon from "@mui/icons-material/Webhook";
-import { Box } from "@mui/system";
-
-import Swal from "sweetalert2";
 
 const VerCliente = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
