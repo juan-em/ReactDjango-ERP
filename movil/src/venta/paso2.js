@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 
-import { Button, TextInput, Surface } from "@react-native-material/core";
+import { Button, Card, IconButton } from "react-native-paper";
 
 import SearcherProductos from "./searcher";
 import { ACTION_TYPES, ACTION_PUNTO_VENTA_TYPES } from "./reducer";
@@ -10,6 +10,7 @@ import { searcher, get } from "../services/ventas";
 
 const Paso2 = ({ state, dispatch }) => {
   const [click, setClick] = useState(0);
+  console.log(state);
   const handleAdd = (item) => {
     console.log(item);
     setClick((a) => a + 1);
@@ -54,83 +55,65 @@ const Paso2 = ({ state, dispatch }) => {
   let data = searcher(fields, productos);
 
   return (
-    <View>
-      <Text>Paso 2s</Text>
-      <SearcherProductos fields={fields} setFields={setFields} />
-      <section>
+    <View onStartShouldSetResponder={() => true}>
         <div className="container">
-          <div sx={{ p: 5 }} elevation={20}>
-            <div container spacing={1}>
-              <div item xs={12} sm={12} md={12} lg={7}>
-                <div container spacing={2}>
-                  {data.map((item, i) => (
-                    <div key={i} item xs={12} sm={6} md={6} lg={4}>
-                      <Card
-                        sx={{
-                          backgroundColor: alpha("#985024", 0.2),
-                          "&:hover": {
-                            backgroundColor: alpha("#985024", 0.25),
-                          },
-                        }}
-                      >
-                        <CardHeader
-                          title={
-                            <Typography fontFamily={"inherit"}>
-                              +{item.producto + "/" + item.nombre}
-                            </Typography>
-                          }
-                          subheader={
-                            <Typography variant="body2" color="text.secondary">
-                              $ {item.precio_final}
-                            </Typography>
-                          }
-                          action={
-                            <Badge
-                              color="secondary"
-                              badgeContent={1}
-                              sx={{ right: 20, top: 10 }}
-                            ></Badge>
-                          }
+          <div>
+            <div >
+              <div>
+                <ScrollView style={styles.scrollViewWrapper}>
+                  <View >
+                    {data.map((item, i) => (
+                      <Card key={i} style={styles.cardStyle}>
+                        <Card.Title
+                          title={item.producto + "/" + item.nombre}
+                          subtitle={item.precio_unitario}
                         />
-                        <CardMedia sx={{ height: 140 }} image={item.imagen} />
-                        <CardContent>
-                          <CardActions>
-                            <ButtonGroup fullWidth>
-                              <Button
-                                color="secondary"
-                                aria-label="reduce"
-                                onClick={() => handleRemove(item)}
-                              >
-                                <RemoveIcon fontSize="small" />
-                              </Button>
-                              <Button
-                                color="secondary"
-                                aria-label="increase"
-                                onClick={() => handleAdd(item)}
-                              >
-                                <AddIcon fontSize="small" />
-                              </Button>
-                            </ButtonGroup>
-                          </CardActions>
-                        </CardContent>
+                        <Card.Cover
+                          source={item.imagen}
+                          style={styles.cardImageStyle}
+                        />
+                        <Card.Actions>
+                          <IconButton
+                            icon="delete"
+                            color="secondary"
+                            onPress={() => handleRemove(item)}
+                          />
+                          <IconButton
+                            icon="plus"
+                            color="secondary"
+                            onPress={() => handleAdd(item)}
+                          />
+                        </Card.Actions>
                       </Card>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </View>
+                </ScrollView>
               </div>
-              <div item xs={12} sm={12} md={12} lg={5}>
-                <Table
-                  state={state}
-                  dispatch={dispatch}
-                  click={click}
-                />
+              <div >
+                <Table state={state} dispatch={dispatch} click={click} />
               </div>
             </div>
           </div>
         </div>
-      </section>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  
+  scrollViewWrapper: {
+    maxHeight: "60vh",
+  },
+  cardStyle: {
+    maxWidth: "40vw",
+    margin: "3px",
+    flexDirection: "row",
+    flexWrap: 'wrap',
+  },
+  cardImageStyle: {
+    maxWidth: "10rem",
+    maxHeight: "10rem",
+  },
+});
 
 export default Paso2;

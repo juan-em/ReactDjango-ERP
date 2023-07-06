@@ -1,5 +1,6 @@
-import React from 'react'
-import {View, Text} from 'react-native'
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView } from "react-native";
+import { DataTable, IconButton } from "react-native-paper";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // import {
@@ -23,6 +24,8 @@ import {View, Text} from 'react-native'
 // import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 // //Componentes
+import { getVenta } from "../services/ventas";
+import VerFactura from "./detalle";
 // import { useState, useEffect, useContext } from "react";
 // import { Tabla } from "./complements";
 
@@ -32,192 +35,79 @@ import {View, Text} from 'react-native'
 // import { getClientes } from "../../../services/clientes";
 
 const FacturaVentas = () => {
-  // const [openModal, setOpenModal] = useState(false);
-  // const [item, setItem] = useState({});
-  // const [itemView, setItemView] = useState({});
+  const [page, setPage] = useState(0);
+  const [numberOfItemsPerPageList] = useState([2, 3, 4]);
+  const [itemsPerPage, onItemsPerPageChange] = useState(
+    numberOfItemsPerPageList[0]
+  );
 
-  // const render = useRef(true);
-  // const [renderizar, setRenderizar] = useState(true);
-  // const [fields, setFields] = useState({});
+  const [facturas, setFacturas] = useState([]);
+  const [itemView, setItemView] = useState()
+  const deleteRow = (item) => {
+    console.log("eliminar");
+    console.log(item);
+  };
+  const viewRow = (item) => {
+    console.log("ver");
+    console.log(item);
+    setItemView(item)
+  };
 
-  // const [clientes, setClientes] = useState([]);
-  // const [sesionCambio, setSesionCambio] = useState(false);
+  console.log(facturas);
+  console.log(itemView)
 
-  // const handlerSearcher = (e) => {
-  //   const { name, value } = e.target;
-  //   setFields({ ...fields, [name]: value });
-  // };
-  // const handleClean = () => {
-  //   searchform.reset();
-  // };
+  const from = page * itemsPerPage;
+  const to = Math.min((page + 1) * itemsPerPage, facturas.length);
 
-  // //para el input de fecha
-  // const [value, setValue] = useState(dayjs(new Date()));
-
-  // const handleChange = (newValue) => {
-  //   setValue(newValue);
-  // };
-
-  // const switchChange = () => {
-  //   !sesionCambio ? setSesionCambio(true) : setSesionCambio(false);
-  // };
-
-  // useEffect(() => {
-  //   getClientes(setClientes);
-  // }, []);
+  useEffect(() => {
+    getVenta(setFacturas, "http://localhost:8000/api/ventas/");
+    setPage(0);
+  }, [itemsPerPage]);
 
   return (
-    <View>
-      <Text>HOla</Text>
-    </View>
-    // <section>
-    //   <div className="container">
-    //     <Grid container spacing={4}>
-    //       <Grid item xs={12} sm={12} md={5}>
-    //         <Paper
-    //           elevation={10}
-    //           className="paper"
-    //           sx={{
-    //             mt: 4,
-    //             p: 0,
-    //             backgroundColor: alpha("#8D4C32", 0.2),
-    //             "&:hover": {
-    //               backgroundColor: alpha("#8D4C32", 0.25),
-    //             },
-    //           }}
-    //         >
-    //           <Accordion sx={{ p: 5 }}>
-    //             <AccordionSummary
-    //               expandIcon={<ExpandMoreIcon />}
-    //               aria-controls="panel1a-content"
-    //               id="panel1a-header"
-    //             >
-    //               Buscar Factura (Ventas)
-    //             </AccordionSummary>
-    //             <AccordionDetails>
-    //               <form id="searchform">
-    //                 <TextField
-    //                   fullWidth
-    //                   label="Código"
-    //                   type="text"
-    //                   size="small"
-    //                   color="secondary"
-    //                   margin="dense"
-    //                   name="codigo"
-    //                   id="textfields"
-    //                   variant="filled"
-    //                   onChange={handlerSearcher}
-    //                 />
-    //                 <Autocomplete
-    //                   disablePortal
-    //                   options={clientes || []}
-    //                   getOptionLabel={(option) => {
-    //                     if (option.persona) return option.persona.nombre;
-    //                     if (option.empresa) return option.empresa.nombre;
-    //                     return "";
-    //                   }}
-    //                   size="small"
-    //                   id="textfields"
-    //                   variant="filled"
-    //                   renderInput={(params) => (
-    //                     <TextField
-    //                       {...params}
-    //                       label="Cliente"
-    //                       margin="dense"
-    //                       color="secondary"
-    //                       variant="filled"
-    //                       fullWidth
-    //                     />
-    //                   )}
-    //                   onChange={(e, value) =>
-    //                     handlerSearcher(e, { cliente: value })
-    //                   }
-    //                 />
-
-    //                 <TextField
-    //                   fullWidth
-    //                   label="N° de factura"
-    //                   type="number"
-    //                   size="small"
-    //                   color="secondary"
-    //                   margin="dense"
-    //                   name="numero_factura"
-    //                   id="textfields"
-    //                   variant="filled"
-    //                   onChange={handlerSearcher}
-    //                 />
-    //                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-    //                   <DesktopDatePicker
-    //                     label="Fecha"
-    //                     inputFormat="DD/MM/YYYY"
-    //                     value={value}
-    //                     name="fecha"
-    //                     onChange={handlerSearcher}
-    //                     renderInput={(params) => (
-    //                       <TextField
-    //                         {...params}
-    //                         fullWidth
-    //                         size="small"
-    //                         color="secondary"
-    //                         id="textfields"
-    //                         margin="dense"
-    //                         variant="filled"
-    //                       />
-    //                     )}
-    //                   />
-    //                 </LocalizationProvider>
-
-    //                 <Grid container spacing={1} sx={{ mt: 2 }}>
-    //                   <Grid item xs={12} sm={12} md={12}>
-    //                     <Button
-    //                       fullWidth
-    //                       id="textfields"
-    //                       color="secondary"
-    //                       variant="contained"
-    //                       type="reset"
-    //                       value="limpiar"
-    //                       onClick={handleClean}
-    //                     >
-    //                       Limpiar
-    //                     </Button>
-    //                   </Grid>
-    //                 </Grid>
-    //               </form>
-    //             </AccordionDetails>
-    //           </Accordion>
-    //         </Paper>
-    //       </Grid>
-    //       <Grid item xs={12} sm={12} md={7}>
-    //         <VerFactura 
-    //           itemView={itemView} 
-    //           render={render}
-    //           renderizar={renderizar}
-    //           setRenderizar={setRenderizar} />
-    //       </Grid>
-    //       <Grid item xs={12} sm={12} md={12}>
-    //         <FormControlLabel
-    //           control={<Switch color="secondary" onChange={switchChange} />}
-    //           label="Ver Sesiones de Venta"
-    //         />
-    //       </Grid>
-    //     </Grid>
-    //     <Box sx={{ overflow: "auto" }}>
-    //       <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
-    //         <Tabla
-    //           fields={fields}
-    //           render={render}
-    //           renderizar={renderizar}
-    //           setRenderizar={setRenderizar}
-    //           setOpenModal={setOpenModal}
-    //           setItem={setItem}
-    //           itemView={itemView}
-    //           setItemView={setItemView}
-    //           sesionCambio={sesionCambio}
-    //         />
-    //       </Box>
-    //     </Box>
-    //   </div>
-    // </section>
+    <ScrollView horizontal={true}>
+      <DataTable>
+        <DataTable.Header>
+          <DataTable.Title>Item</DataTable.Title>
+          <DataTable.Title>Codigo</DataTable.Title>
+          <DataTable.Title>N de Factura</DataTable.Title>
+          <DataTable.Title>Fecha de Venta</DataTable.Title>
+          <DataTable.Title>Cliente</DataTable.Title>
+          <DataTable.Title>Acciones</DataTable.Title>
+        </DataTable.Header>
+        {facturas.slice(from, to).map((item, i) => (
+          <DataTable.Row key={i}>
+            <DataTable.Cell>{i + 1}</DataTable.Cell>
+            <DataTable.Cell>{item.codigo}</DataTable.Cell>
+            <DataTable.Cell>
+              {item.numero_factura ? item.numero_factura : "-"}
+            </DataTable.Cell>
+            <DataTable.Cell>{item.fecha}</DataTable.Cell>
+            <DataTable.Cell>{item.nombre_cliente}</DataTable.Cell>
+            <DataTable.Cell>
+             <VerFactura itemView={item}/>
+              <IconButton
+                icon="delete"
+                iconColor="red"
+                size={20}
+                onPress={() => deleteRow(item)}
+              />
+            </DataTable.Cell>
+          </DataTable.Row>
+        ))}
+        <DataTable.Pagination
+          page={page}
+          numberOfPages={Math.ceil(facturas.length / itemsPerPage)}
+          onPageChange={(page) => setPage(page)}
+          label={`${from + 1}-${to} of ${facturas.length}`}
+          numberOfItemsPerPageList={numberOfItemsPerPageList}
+          numberOfItemsPerPage={itemsPerPage}
+          onItemsPerPageChange={onItemsPerPageChange}
+          showFastPaginationControls
+          selectPageDropdownLabel={"Rows per page"}
+        />
+      </DataTable>
+    </ScrollView>
   );
 };
 export default FacturaVentas;

@@ -61,7 +61,7 @@ export const ventasReducer = (state, action) => {
                     }
                 }
             var item = state.venta.detalle_venta.find((item) => action.payload.producto == item.producto);
-            item.cantidad += .5  
+            item.cantidad += 1  
             return  {
                 ...state,
 
@@ -71,7 +71,7 @@ export const ventasReducer = (state, action) => {
             if (isInVentaDetalle) {
                 var item = state.venta.detalle_venta.find((item) => action.payload.producto == item.producto)
                 if (item.cantidad > 1){
-                    item.cantidad -= .5
+                    item.cantidad -= 1
                     return  {
                         ...state
                     }
