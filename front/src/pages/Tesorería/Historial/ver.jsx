@@ -69,7 +69,7 @@ const VerCajaDiaria = ({itemView}) => {
         else if (i.primary === "Saldo Apertura") {
           return {
             ...i,
-            secondary: `S/. ${itemView.monto_actual.toFixed(2)}`,
+            secondary: `S/. ${itemView.monto_inicial.toFixed(2)}`,
           };
         } 
         else if (i.primary === "Saldo Cierre") {

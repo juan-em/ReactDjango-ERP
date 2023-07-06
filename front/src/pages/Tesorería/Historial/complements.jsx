@@ -14,19 +14,31 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import MenuItem from "@mui/material/MenuItem";
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
-import { formatearFechaTabla } from "../../../services/caja";
+import { formatearFechaTabla, getCaja, searcherCajas } from "../../../services/caja";
+import { useEffect, useState } from "react";
 
-export const Tabla = ({ 
-  cajas,
+export const Tabla = ({
+  fields,
+  render,
+  renderizar,
+  setRenderizar,
   itemView,
   setItemView
 }) => {
+
+  const [cajas, setCajas] = useState([])
+  let data = searcherCajas(fields, cajas)
 
   const handleView = (item) => {
     setItemView(item)
   }
 
-  let data = cajas
+  useEffect(() => {
+    if (render.current) {
+      render.current = false;
+      getCaja(setCajas);
+    }
+  }, [renderizar])
 
   return (
     <TableContainer component={Paper} sx={{ mt: 0 }} elevation={10}>

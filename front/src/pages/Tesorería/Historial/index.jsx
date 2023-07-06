@@ -1,5 +1,5 @@
 import { alpha } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   Paper,
@@ -27,11 +27,15 @@ const Historial = () => {
   //para el input de fecha
   const [value, setValue] = useState(dayjs(new Date()));
   const [itemView, setItemView] = useState({registros_caja:[]});
+  const [fields, setFields] = useState([]);
 
   const [cajas, setCajas] = useState([]);
 
+  const render = useRef(true)
+  const [renderizar, setRenderizar] = useState(true)
+
   const handleChange = (newValue) => {
-      setValue(newValue);
+    setValue(newValue);
   };
 
   const handlerSearcher = (e) => {
@@ -95,7 +99,7 @@ const Historial = () => {
                      size="small"
                      color="secondary"
                      margin="dense"
-                     name="abreviacion"
+                     name="codigo"
                      id="textfields"
                      onChange={handlerSearcher}
                      variant="filled"
@@ -141,7 +145,7 @@ const Historial = () => {
                      size="small"
                      color="secondary"
                      margin="dense"
-                     name="abreviacion"
+                     name="monto_inicial"
                      id="textfields"
                      onChange={handlerSearcher}
                      variant="filled"
@@ -153,7 +157,7 @@ const Historial = () => {
                      size="small"
                      color="secondary"
                      margin="dense"
-                     name="abreviacion"
+                     name="monto_final"
                      id="textfields"
                      onChange={handlerSearcher}
                      variant="filled"
@@ -185,7 +189,9 @@ const Historial = () => {
             <Box sx={{ overflow: "auto" }}>
               <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
                 <Tabla
-                  cajas={cajas}
+                  fields={fields}
+                  render = {render}
+                  renderizar={renderizar}
                   itemView = {itemView}
                   setItemView = {setItemView}
                 />

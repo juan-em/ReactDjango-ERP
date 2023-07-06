@@ -27,9 +27,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import {
+  getCambio,
   postEgresoCaja,
   postIngresoCaja,
-  transformToFormData,
+  transformToFormData
 } from "../../../services/caja";
 import { initialRegister } from "../../../services/caja";
 
@@ -73,7 +74,6 @@ const Registro = ({ itemCaja, render, setRender }) => {
       };
 
       try {
-        console.log(data);
         var payload = transformToFormData(data);
         if (
           data.tipo == "Otros egresos" &&
@@ -126,6 +126,10 @@ const Registro = ({ itemCaja, render, setRender }) => {
       });
     }
   };
+
+  useEffect(() => {
+    getCambio(setCambio);
+  }, []);
 
   return (
     <>
