@@ -86,14 +86,7 @@ const Paso1 = ({ state, dispatch }) => {
           rowTextStyle={styles.dropdown1RowTxtStyle}
           style={styles.select}
         />
-        <Button
-          variant="outlined"
-          fullWidth
-          color="primary"
-          sx={{ height: "100%" }}
-        >
-          +
-        </Button>
+
         {/* <DatePicker
             modal
             open={open}

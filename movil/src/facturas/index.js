@@ -65,7 +65,7 @@ const FacturaVentas = () => {
   }, [itemsPerPage]);
 
   return (
-    <View>
+    <ScrollView>
       <Text>FACTURAS</Text>
       <VerFactura itemView={itemView} />
       <ScrollView horizontal={true}>
@@ -111,7 +111,7 @@ const FacturaVentas = () => {
           />
         </DataTable>
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 };
 export default FacturaVentas;
