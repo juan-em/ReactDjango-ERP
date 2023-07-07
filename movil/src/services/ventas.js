@@ -37,7 +37,7 @@ export const RegistroVenta = (payload) => {
 };
 
 export const BuildVentaPayload = (venta) => {
-  venta.cliente = 1;
+  venta.cliente = venta.cliente.id;
   venta.detalle_venta.forEach((item) => {
     delete item.nombre;
   });
@@ -98,4 +98,17 @@ export const getInd = (id, set, url) => {
       if (res.status == 200) set(res.data);
     })
     .catch((error) => console.log(error));
+};
+
+
+// -------------- Cliente --------------//
+export const getClientes = async (set) => {
+  const res_per = await axios
+    .get("http://localhost:8000/api/clientes/per/")
+    .catch((error) => console.log({ error }));
+  const res_emp = await axios
+    .get("http://localhost:8000/api/clientes/emp/")
+    .catch((error) => console.log({ error }));
+  set(res_per.data.content.concat(res_emp.data.content));
+  return { clientesPersonas: res_per.data, clientesEmpresas: res_emp.data };
 };
