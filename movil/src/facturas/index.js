@@ -66,6 +66,7 @@ const FacturaVentas = () => {
 
   return (
     <View>
+      <Text>FACTURAS</Text>
       <VerFactura itemView={itemView} />
       <ScrollView horizontal={true}>
         <DataTable>

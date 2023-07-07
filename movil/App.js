@@ -1,41 +1,66 @@
+
+import { SafeAreaProvider } from 'react-native-safe-area-context'; 
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import  {BottomNavigation} from 'react-native-paper'
 
 import Venta from './src/venta/index'
 import Factura from './src/facturas/index'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator()
 
-function MyTabs() {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="VENTAS" component={Venta}/>
-      <Tab.Screen name="FACTURAS" component={Factura}/>
-    </Tab.Navigator>
-  )
-}
+// function MyTabs() {
+//   return (
+//     <Tab.Navigator>
+//       <Tab.Screen name="VENTAS" component={Venta}/>
+//       <Tab.Screen name="FACTURAS" component={Factura}/>
+//     </Tab.Navigator>
+//   )
+// }
 
-export default function App() {
+// export default function App() {
+//   return (
+//   <NavigationContainer>
+//     <MyTabs/>
+//   </NavigationContainer>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
+
+const MyComponent = () => {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'venta', title: 'Venta', focusedIcon: 'purse', unfocusedIcon: 'purse-outline'},
+    { key: 'factura', title: 'Factura', focusedIcon: 'table' }
+  ]);
+
+  const renderScene = BottomNavigation.SceneMap({
+    venta: Venta,
+    factura: Factura,
+  });
+
   return (
-  <NavigationContainer>
-    <MyTabs/>
-  </NavigationContainer>
+    <SafeAreaProvider>
+      <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+    />
+    </SafeAreaProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-
+export default MyComponent;
 
 
 

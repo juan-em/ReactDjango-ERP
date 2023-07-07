@@ -1,11 +1,12 @@
 import React, { useState, Fragment, useReducer, useContext } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-
+import { Text } from "react-native-paper";
 // Libreria de Stepper
 // https://github.com/danilrafiqi/react-native-stepper-ui/tree/f2f057fdc154980106cd72044d2ae0ff7055b29b
 import Stepper from "react-native-stepper-ui";
 import Paso1 from "./paso1";
 import Paso2 from "./paso2";
+import Paso3 from "./paso3"
 
 import { INITIAL_STATE, ventasReducer, ACTION_TYPES } from "./reducer";
 
@@ -16,9 +17,6 @@ const Venta = () => {
 
   //Steps's Functionality
   const [activeStep, setActiveStep] = useState(0);
-  const [skipped, setSkipped] = useState(new Set());
-  const [tipo, setTipo] = useState(false);
-  const [sesionIniciada, setSesionIniciada] = useState(false);
 
   const handleReset = () => {
     dispatch({
@@ -47,10 +45,13 @@ const Venta = () => {
   const content = [
     <Paso1 state={state} dispatch={dispatch} />,
     <Paso2 state={state} dispatch={dispatch} />,
+    <Paso3 state={state} dispatch={dispatch} />,
   ];
 
   return (
-    <ScrollView style={styles.scrollViewWrapper}>
+    <View>
+      <Text>VENTA</Text>
+      <ScrollView style={styles.scrollViewWrapper}>
       <Stepper
         active={activeStep}
         content={content}
@@ -59,14 +60,15 @@ const Venta = () => {
           handleReset();
         }}
         onFinish={() => {
-          alert("Finish");
           handleRegister();
+          handleReset();
         }}
         onNext={() => {
           setActiveStep((p) => p + 1);
         }}
       />
     </ScrollView>
+    </View>
   );
 };
 export default Venta;
