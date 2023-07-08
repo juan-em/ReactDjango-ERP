@@ -49,6 +49,7 @@ const Articulos = () => {
   
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   useEffect(()=>{

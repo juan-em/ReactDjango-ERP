@@ -38,6 +38,7 @@ const Impuestos = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   return (

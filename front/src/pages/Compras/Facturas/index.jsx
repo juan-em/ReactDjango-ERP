@@ -73,6 +73,7 @@ const Factura = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   useEffect(()=>{

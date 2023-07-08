@@ -42,6 +42,7 @@ const Productos = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   useEffect(() => {

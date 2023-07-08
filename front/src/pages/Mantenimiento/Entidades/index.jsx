@@ -37,6 +37,7 @@ const Entidades = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   return (

@@ -1,5 +1,5 @@
 import { alpha } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   Paper,
@@ -21,14 +21,23 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { Tabla } from "./complements";
 import VerCajaDiaria from "./ver";
+import { getCaja } from "../../../services/caja";
 
 const Historial = () => {
   //para el input de fecha
-  const [value, setValue] = useState(dayjs(new Date()));
-  const [itemView, setItemView] = useState({});
+  const [date, setDate] = useState(dayjs(new Date()));
+  const [date2, setDate2] = useState(dayjs(new Date()));
+
+  const [itemView, setItemView] = useState({registros_caja:[]});
+  const [fields, setFields] = useState([]);
+
+  const [cajas, setCajas] = useState([]);
+
+  const render = useRef(true)
+  const [renderizar, setRenderizar] = useState(true)
 
   const handleChange = (newValue) => {
-      setValue(newValue);
+    setDate(newValue);
   };
 
   const handlerSearcher = (e) => {
@@ -37,7 +46,16 @@ const Historial = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
+    setDate(dayjs(new Date()))
+    setDate2(dayjs(new Date()))
   };
+
+  useEffect(() => {
+    getCaja(setCajas)
+  }, [])
+
+  console.log(fields)
 
   return (
     <Container>
@@ -86,7 +104,7 @@ const Historial = () => {
                      size="small"
                      color="secondary"
                      margin="dense"
-                     name="abreviacion"
+                     name="codigo"
                      id="textfields"
                      onChange={handlerSearcher}
                      variant="filled"
@@ -95,8 +113,14 @@ const Historial = () => {
                       <DesktopDatePicker
                       label="Fecha de apertura"
                       inputFormat="DD/MM/YYYY"
-                      value={value}
-                      onChange={handleChange}
+                      value={date}
+                      onChange={(newValue) => {
+                        var event = new Date(newValue.$d);
+                        let date = JSON.stringify(event);
+                        date = date.slice(1, 11);
+                        setDate(newValue)
+                        setFields({ ...fields, fecha_apertura: date })
+                      }}
                       renderInput={(params) => <TextField 
                         {...params} 
                         fullWidth
@@ -112,8 +136,14 @@ const Historial = () => {
                       <DesktopDatePicker
                       label="Fecha de cierre"
                       inputFormat="DD/MM/YYYY"
-                      value={value}
-                      onChange={handleChange}
+                      value={date2}
+                      onChange={(newValue) => {
+                        var event = new Date(newValue.$d);
+                        let date = JSON.stringify(event);
+                        date = date.slice(1, 11);
+                        setDate2(newValue)
+                        setFields({ ...fields, fecha_cierre: date })
+                      }}
                       renderInput={(params) => <TextField 
                         {...params} 
                         fullWidth
@@ -132,7 +162,7 @@ const Historial = () => {
                      size="small"
                      color="secondary"
                      margin="dense"
-                     name="abreviacion"
+                     name="monto_inicial"
                      id="textfields"
                      onChange={handlerSearcher}
                      variant="filled"
@@ -144,7 +174,7 @@ const Historial = () => {
                      size="small"
                      color="secondary"
                      margin="dense"
-                     name="abreviacion"
+                     name="monto_final"
                      id="textfields"
                      onChange={handlerSearcher}
                      variant="filled"
@@ -175,7 +205,13 @@ const Historial = () => {
           <Grid item xs={12} sm={12} md={12} xl={12}>
             <Box sx={{ overflow: "auto" }}>
               <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
-                <Tabla/>
+                <Tabla
+                  fields={fields}
+                  render = {render}
+                  renderizar={renderizar}
+                  itemView = {itemView}
+                  setItemView = {setItemView}
+                />
             </Box>
             </Box>
           </Grid>

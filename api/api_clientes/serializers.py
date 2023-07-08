@@ -14,11 +14,6 @@ class ClientePersonaSerilizer(WritableNestedModelSerializer):
         model = Clientes
         fields = ['id','persona','codformapago','borrado','codigo']
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['codformapago'] = instance.codformapago.nombrefp
-        return representation      
-
 class ClienteEmpresaSerilizer(WritableNestedModelSerializer):
     empresa = EmpresaSerializer()
     class Meta:

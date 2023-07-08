@@ -37,6 +37,7 @@ const Areas = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   return (

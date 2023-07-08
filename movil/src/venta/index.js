@@ -51,9 +51,10 @@ const Venta = () => {
   return (
     <View>
       <Text>VENTA</Text>
-      <ScrollView style={styles.scrollViewWrapper}>
+      <ScrollView style={styles.scrollView}>
       <Stepper
         active={activeStep}
+        stepStyle={styles.setep}
         content={content}
         onBack={() => {
           setActiveStep((p) => -1);
@@ -79,4 +80,5 @@ const styles = StyleSheet.create({
   scrollView: {
     maxHeight: "100vh",
   },
+  step:{}
 });

@@ -55,6 +55,7 @@ const [articulos, setArticulos] = useState([])
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   const top100Films = [

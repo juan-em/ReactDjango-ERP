@@ -1,44 +1,89 @@
 from rest_framework import serializers
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
-from api_models.models import *
-from api_compras.serializers import *
-from api_ventas.serializers import *
-from api_mantenimientos.serializers import *
+from . models import *
 
 class CajaDiariaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Caja_diaria
-        fields = '__all__'
-    
-    def to_representation(self, instance):
-        
-        return {
-            'id': instance.id,
-            'codigo': instance.codigo,
-            'descripcion': instance.descripcion,
-            'fecha_apertura': instance.fecha_apertura,
-            'fecha_cierre': instance.fecha_cierre,
-            'monto_inicial': instance.monto_inicial,
-            'monto_final': instance.monto_final,
-            'responsable' : instance.responsable
+        model = Caja_Diaria
+        fields = ['id', 'responsable_apertura', 'monto_inicial', 'monto_final', 'monto_actual', 'estado_caja', 'responsable_cierre']
+        read_only_fields = ('fecha_apertura', 'hora_apertura', 'fecha_cierre', 'hora_cierre')
 
-        }
-
-class CajaDiariaMovimientosSerializer(serializers.ModelSerializer):
+class IngresosVentaSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
     class Meta:
-        model = Caja_diaria_movimientos
+        model = Ingreso_Venta
         fields = '__all__'
+        read_only_fields = ('fecha', 'hora',)
     
     def to_representation(self, instance):
-        venta_info = Venta.objects.get(id=instance.venta.id).id if instance.venta else None
-        compra_info = Compra.objects.get(id=instance.compra.id).codigo if instance.compra else None
-        tipo_pago_info = FormapagoSerializer(Formapago.objects.get(id=instance.tipo_pago.id)).data if instance.tipo_pago else None
-        return {
-            'id': instance.id,
-            'venta': venta_info ,
-            'compra': compra_info,
-            'tipo_movimiento': instance.tipo_movimiento,
-            'tipo_pago': tipo_pago_info,
-            'total_movimiento': instance.total_movimiento
-        }
+        fields = super().to_representation(instance)
+        fields["monto"] = instance.venta.total
+        fields["codigo_venta"] = instance.venta.codigo
+        fields["responsable"] = instance.responsable.persona.nombre
+        return fields
+
+class EgresosCompraSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
+    class Meta:
+        model = Egresos_Compra
+        fields = '__all__'
+        read_only_fields = ('fecha', 'hora', )
+    
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+        fields["monto"] = instance.compra.totalCompra
+        fields["codigo_compra"] = instance.compra.codigo
+        fields["responsable"] = instance.responsable.persona.nombre
+        return fields
+
+class IngresosOtrosSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
+    class Meta:
+        model = Ingresos_Otros
+        fields = '__all__'
+        read_only_fields = ('fecha', 'hora',)
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+        fields['responsable'] = instance.responsable.persona.nombre
+        return fields
+    
+
+class EgresosOtrosSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
+    class Meta:
+        model = Egresos_Otros
+        fields = '__all__'
+        read_only_fields = ('fecha', 'hora',)
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+        fields['responsable'] = instance.responsable.persona.nombre
+        return fields
+
+class IngresosSesionVentaSerializer(serializers.ModelSerializer):
+    codigo = serializers.CharField(read_only=True)
+    class Meta:
+        model = Ingreso_Sesion_Venta
+        fields = '__all__'
+        read_only_fields = ('fecha', 'hora',)
+    def to_representation(self, instance):
+        fields = super().to_representation(instance)
+        fields["monto"] = instance.sesion_venta.total
+        fields["codigo_sesion"] = instance.sesion_venta.codigo
+        fields['responsable'] = instance.responsable.persona.nombre
+        return fields
+
+class RegistrosCajaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Caja_Diaria
+        fields = ['id', 'codigo', 'fecha_apertura', 'hora_apertura', 'fecha_cierre', 'hora_cierre', 'responsable_apertura', 'monto_inicial', 'monto_final', 'monto_actual', 'estado_caja', 'responsable_cierre']
+        read_only_fields = ('fecha', 'hora',)
+    
+    def to_representation(self, instance):
+        caja = super().to_representation(instance)
+
+        registros_caja = IngresosVentaSerializer(instance.ingresos_venta, many=True).data + IngresosSesionVentaSerializer(instance.ingresos_sesion_venta, many=True).data + IngresosOtrosSerializer(instance.ingresos_otros, many=True).data + EgresosCompraSerializer(instance.egresos_compra, many=True).data + EgresosOtrosSerializer(instance.egresos_otros, many=True).data
+
+        caja["registros_caja"] = registros_caja
+
+        return caja
