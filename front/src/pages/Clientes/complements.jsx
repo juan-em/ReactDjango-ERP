@@ -43,6 +43,8 @@ export const Tabla = ({
   }, [renderizar]);
 
   let data = searcher(fields, clientes);
+  console.log(fields)
+  console.log(clientes)
 
   const handlePut = (row) => {
     setItem(row);

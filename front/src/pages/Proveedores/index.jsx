@@ -85,7 +85,7 @@ const Proveedores = () => {
                   Buscar Proveedor
                 </AccordionSummary>
                 <AccordionDetails>
-                  <form id="serachform">
+                  <form id="searchform">
                     <TextField
                       fullWidth
                       label="Código"
@@ -100,7 +100,7 @@ const Proveedores = () => {
                     />
                     <TextField
                       fullWidth
-                      label="RUC/DNI"
+                      label="RUC"
                       type="text"
                       size="small"
                       color="secondary"

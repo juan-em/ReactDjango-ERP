@@ -80,46 +80,57 @@ export const searcher = (fields, list) => {
   let resultData = list;
   resultData = fields.codigo
     ? resultData.filter(
-        (item) => item.codigo.toString() === fields.codigo.toString()
+        (item) => item.codigo.toString().toLowerCase().includes(fields.codigo.toString().toLowerCase())
       )
     : resultData;
   resultData = fields.ruc
-    ? resultData.filter((item) => {
-        return item.ruc.toString() === fields.ruc.toString();
-      })
+    ? resultData.filter((item) => (
+      item.ruc.toString().toLowerCase().includes(fields.ruc.toString().toLowerCase())
+      
+    ))
     : resultData;
-  resultData = fields.nombre
+    resultData = fields.nombre
     ? resultData.filter((item) => {
         if (item.persona)
-          return item.persona.nombre === fields.nombre.toString()
+          return item.persona.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
         else
-          return item.empresa.nombre === fields.nombre.toString()
+          return item.empresa.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
       })
     : resultData;
   resultData = fields.telefono
     ? resultData.filter((item) => {
         if (item.persona)
-          return item.persona.telefono.toString() === fields.telefono.toString()
+          return item.persona.telefono.toString().toLowerCase().includes(fields.telefono.toString().toLowerCase())
         else
-          return item.empresa.telefono.toString() === fields.telefono.toString()
+          return item.empresa.telefono.toString().toLowerCase().includes(fields.telefono.toString().toLowerCase())
       })
     : resultData;
-  resultData = fields.provincia
+  resultData = fields.codprovincia
     ? resultData.filter((item) => {
-        if (item.persona) return item.persona.codprovincia == fields.provincia;
-        else return item.empresa.codprovincia == fields.provincia;
+        if (item.persona) return item.persona.codprovincia == fields.codprovincia;
+        else return item.empresa.codprovincia == fields.codprovincia;
       })
     : resultData;
-  if (fields.radio === "persona") {
-    resultData.filter((item) => {
-      return item.empresa === null;
-    });
-  } else if (fields.radio === "empresa") {
-    resultData.filter((item) => {
-      return item.persona === null;
-    });
-  } else {
-    return resultData;
-  }
+    resultData = fields.localidad
+    ? resultData.filter((item) => {
+        if (item.persona)
+          return item.persona.localidad.toString().toLowerCase().includes(fields.localidad.toString().toLowerCase())
+        else
+          return item.empresa.localidad.toString().toLowerCase().includes(fields.localidad.toString().toLowerCase())
+      })
+    : resultData;
+
+    resultData = fields.radio && fields.radio != ''
+    ? resultData.filter((item) => {
+        if (fields.radio == 'persona') {
+          return item.persona ? true : false
+        } else {
+          return item.empresa ? true : false
+        }
+      })
+    : resultData
+    
+    
+
   return resultData;
 };

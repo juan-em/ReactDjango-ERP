@@ -23,7 +23,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { alpha } from "@mui/material/styles";
 
 //Componentes
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, userRef } from "react";
 import { Tabla } from "./complements";
 import { get } from "../../services/mantenimiento";
 import AddForm from "./addform";
@@ -49,11 +49,14 @@ const Clientes = () => {
   const handlerSearcher = (e) => {
     const { name, value } = e.target;
     setFields({ ...fields, [name]: value });
+    console.log(fields)
   };
 
+  
+  //limpiar registros
   const handleClean = () => {
     searchform.reset();
-    setFields({})
+    setFields({}) 
   };
 
   useEffect(() => {
@@ -153,6 +156,9 @@ const Clientes = () => {
                         defaultValue=""
                         name="codprovincia"
                       >
+                        <MenuItem value={null}>
+                            <em>all</em>
+                          </MenuItem>
                         {provincias.map((item, i) => (
                           <MenuItem key={i} value={item.id}>
                             {item.nombreprovincia}
@@ -184,6 +190,7 @@ const Clientes = () => {
                         aria-labelledby="demo-row-radio-buttons-group-label"
                         name="radio"
                         onChange={handlerSearcher}
+                   
                       >
                         <FormControlLabel                        
                           labelPlacement="start"

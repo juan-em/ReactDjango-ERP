@@ -49,6 +49,8 @@ export const Tabla = ({
     setItemView(row);
   };
 
+  console.log(data)
+
   const handleDelete = async (id, row) => {
     try {
       if (row.persona) {
