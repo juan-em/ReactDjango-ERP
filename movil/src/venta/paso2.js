@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { Button, TextInput, Surface } from "@react-native-material/core";
 
 import SearcherProductos from "./searcher";
-import { ACTION_TYPES, ACTION_PUNTO_VENTA_TYPES } from "./reducer";
+import { ACTION_TYPES} from "./reducer";
 import Table from "./table";
 import { searcher, get } from "../services/ventas";
 
@@ -55,7 +55,6 @@ const Paso2 = ({ state, dispatch }) => {
 
   return (
     <View>
-      <Text>Paso 2s</Text>
       <SearcherProductos fields={fields} setFields={setFields} />
       <section>
         <div className="container">
@@ -119,11 +118,12 @@ const Paso2 = ({ state, dispatch }) => {
                 </div>
               </div>
               <div item xs={12} sm={12} md={12} lg={5}>
-                <Table
+                {/* <Table
                   state={state}
                   dispatch={dispatch}
                   click={click}
-                />
+                />*/}
+                
               </div>
             </div>
           </div>

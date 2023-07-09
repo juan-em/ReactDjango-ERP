@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react"
 
-import {
-  Button,
-  TextInput,
-} from "@react-native-material/core";
+
+import { TextInput, Surface, TextInputMask, Button } from 'react-native-paper';
 
 import { getMan } from "../services/ventas"
 // Libreria SelectDropdonw
@@ -27,68 +25,34 @@ const SearcherProductos = ({fields, setFields}) => {
     getMan(setAlmacenes, URL_M);
   }, []);
 
+  console.log("categorias",categorias);
+
   return (
     <section>
-        <div
-            // elevation={10}
-            // className="paper"
-            // sx={{
-            // py: 2,
-            // px: 5
-            // }}
-        >
+        <Surface style={{padding:20, margin:20, backgroundColor:'white'}} elevation={4}>
+
                 Buscar Producto
-                <div container spacing={1}>
-                
-                <div item xs={12} sm={4} md={4}>
                 <TextInput
-                    // fullWidth
                     label="Nombre"
                     type="text"
-                    // size="small"
-                    // color="secondary"
-                    // margin="dense"
+                    mode="outlined"
                     name="nombre"
                     id="textfields"
                     onChange={handlerSearcher}
 
                 />
-                </div>
-                <div item xs={12} sm={4} md={4}>
                 <SelectDropdown
                     data={categorias}
                     onSelect={(selectedItem, index) => {
-
+                        console.log(selectedItem, index);
                     }}
-                    onChange={handlerSearcher}
+                    rowTextForSelection={(item, index) =>{
+                        return item.nombre
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        return selectedItem.nombre
+                    }}
                 />
-                {/* <FormControl
-                    fullWidth
-                    margin="dense"
-                    size="small"
-                    color="secondary"
-                >
-                    <InputLabel>Categoría</InputLabel>
-                    <Select
-                    label="Categoria"
-                    size="small"
-                    color="secondary"
-                    id="textfields"
-                    defaultValue=""
-                    name="categoria"
-                    onChange={handlerSearcher}
-                    >
-                    <MenuItem value="">
-                    all
-                    </MenuItem>
-                    {categorias.map((item, i) => (
-                        <MenuItem key={1} value={item.id}>
-                        {item.nombre}
-                        </MenuItem>
-                    ))}
-                    </Select>
-                </FormControl>  */}
-                </div>
 
                 <div item xs={12} sm={4} md={4}>
                 <SelectDropdown
@@ -125,8 +89,7 @@ const SearcherProductos = ({fields, setFields}) => {
                     </Select>
                 </FormControl>  */}
                 </div>
-            </div>
-        </div>
+        </Surface>
     </section>
   )
 }

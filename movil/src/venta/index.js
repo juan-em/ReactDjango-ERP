@@ -98,7 +98,7 @@ const Venta = () => {
   ];
 
   return (
-    <View>
+    <View style={{padding:20, margin:20}}>
       <div>
         <Stepper
           active={activeStep}

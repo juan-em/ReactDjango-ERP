@@ -7,13 +7,30 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Venta from './src/venta/index'
 import Factura from './src/facturas/index'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const Tab = createBottomTabNavigator()
 
-function MyTabs() {
+ function MyTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="VENTAS" component={Venta}/>
-      <Tab.Screen name="FACTURAS" component={Factura}/>
+    <Tab.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+      <Tab.Screen name="Ventas" component={Venta}
+      options={{
+        tabBarLabel: 'Ventas',
+        tabBarIcon: ({ color, size }) => {
+          return <Icon name="apps" size={size} color={color} />;
+        },
+      }}/>
+      <Tab.Screen name="Facturas" component={Factura}
+       options={{
+        tabBarLabel: 'Facturas',
+        tabBarIcon: ({ color, size }) => {
+          return <Icon name="album" size={size} color={color} />;
+        },
+      }}/>
     </Tab.Navigator>
   )
 }

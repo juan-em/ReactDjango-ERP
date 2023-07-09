@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-
-import { Button } from "@react-native-material/core";
-import { TextInput } from 'react-native-paper';
+import { TextInput, Surface, TextInputMask, Button } from 'react-native-paper';
 
 import DatePicker from "react-native-date-picker";
 
@@ -50,14 +48,14 @@ const Paso1 = ({ state, dispatch }) => {
 
   return (
     <View>
-      <div>
-        <div container spacing={1}>
+      <Surface style={{padding:20, margin:20, backgroundColor:'white'}} elevation={4}>
+        <div>
           <div item xs={12} sm={12} md={12}>
             <div container spacing={1}>
               <div item xs={12} sm={8} md={9}>
                 <TextInput
                   label="Nombre Cliente"
-                  variant="filled"
+                  mode="outlined"
                   onChangeText={(value, e) => {
                     console.log(value)
                     handleChange(e, value, ACTION_TYPES.SET_CLIENTE);
@@ -66,10 +64,9 @@ const Paso1 = ({ state, dispatch }) => {
               </div>
               <div item xs={12} sm={4} md={3}>
                 <Button
-                  variant="outlined"
+                  mode="outlined"
                   fullWidth
-                  color="primary"
-                  sx={{ height: "100%" }}
+                  style={{ height: "100%" }}
                 >
                   +
                 </Button>
@@ -77,14 +74,9 @@ const Paso1 = ({ state, dispatch }) => {
             </div>
           </div>
           <div item xs={12} sm={12} md={6}>
-            <DatePicker
-              modal
-              open={open}
-              date={pickerDate}
-              onConfirm={(date) => {
-                setOpen(false);
-                setPickerDate(date);
-              }}
+            <TextInput
+              label="Fecha"
+              mode="outlined"
               onCancel={() => {
                 setOpen(false);
               }}
@@ -98,7 +90,7 @@ const Paso1 = ({ state, dispatch }) => {
               fullWidth
               label="Código Cliente"
               id="textfields"
-              variant="filled"
+              mode="outlined"
             />
           </div>
           <div item xs={12} sm={12} md={3}>
@@ -107,11 +99,11 @@ const Paso1 = ({ state, dispatch }) => {
               label="DNI"
               type="number"
               id="textfields"
-              variant="filled"
+              mode="outlined"
             />
           </div>
         </div>
-      </div>
+      </Surface>
     </View>
   );
 };
