@@ -1,17 +1,22 @@
-import React, { useState, Fragment, useReducer, useContext, useEffect } from "react";
+import React, {
+  useState,
+  Fragment,
+  useReducer,
+  useContext,
+  useEffect,
+} from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
-// Libreria de Stepper
-// https://github.com/danilrafiqi/react-native-stepper-ui/tree/f2f057fdc154980106cd72044d2ae0ff7055b29b
+
 import Stepper from "react-native-stepper-ui";
 import Paso1 from "./paso1";
 import Paso2 from "./paso2";
-import Paso3 from "./paso3"
+import Paso3 from "./paso3";
 
 import { INITIAL_STATE, ventasReducer, ACTION_TYPES } from "./reducer";
 
 import { BuildVentaPayload, RegistroVenta } from "../services/ventas";
-import {  getLastCaja } from "../services/ventas";
+import { getLastCaja } from "../services/ventas";
 
 const Venta = () => {
   //Registration's Fuctionality
@@ -31,15 +36,14 @@ const Venta = () => {
   const handleRegister = () => {
     if (state.venta.detalle_venta.length) {
       var ingreso_venta = {
-        "responsable": 1,
-        "caja": itemCaja.id,
-        "tipo": "Ventas"
-      }
+        responsable: 1,
+        caja: itemCaja.id,
+        tipo: "Ventas",
+      };
       var payload = BuildVentaPayload(state.venta);
-      payload.ingreso_venta = ingreso_venta
+      payload.ingreso_venta = ingreso_venta;
       RegistroVenta(payload);
       console.log(payload);
-      // handleNext();
     } else {
       Swal.fire({
         icon: "error",
@@ -50,8 +54,8 @@ const Venta = () => {
   };
 
   useEffect(() => {
-    getLastCaja(setItemCaja, "ventas")
-  }, [])
+    getLastCaja(setItemCaja, "ventas");
+  }, []);
 
   console.log(state);
 
@@ -64,33 +68,35 @@ const Venta = () => {
   return (
     <View>
       <ScrollView style={styles.scrollView}>
-      <Stepper
-        active={activeStep}
-        stepStyle={styles.setep}
-        content={content}
-        onBack={() => {
-          setActiveStep((p) => -1);
-          handleReset();
-        }}
-        onFinish={() => {
-          handleRegister();
-          handleReset();
-        }}
-        onNext={() => {
-          setActiveStep((p) => p + 1);
-        }}
-      />
-    </ScrollView>
+        <Stepper
+          active={activeStep}
+          stepStyle={{backgroundColor: '#633256', width: 30, height: 30, borderRadius: 30, justifyContent: 'center', alignItems: 'center', opacity: 1, marginBottom: '1rem'}}
+          buttonStyle={{ padding: 10, borderRadius: 4, alignSelf: 'flex-start', marginRight: 10, marginTop:10, backgroundColor: '#633256'}}
+          content={content}
+          onBack={() => {
+            setActiveStep((p) => -1);
+            handleReset();
+          }}
+          onFinish={() => {
+            handleRegister();
+            handleReset();
+          }}
+          onNext={() => {
+            setActiveStep((p) => p + 1);
+          }}
+        />
+      </ScrollView>
     </View>
   );
 };
 export default Venta;
 
-
 const styles = StyleSheet.create({
-  
   scrollView: {
     maxHeight: "100vh",
+    margin: "2rem",
   },
-  step:{}
+  step: {
+
+  },
 });

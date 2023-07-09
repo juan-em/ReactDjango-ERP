@@ -72,8 +72,8 @@ const Table = ({ state, dispatch, click }) => {
           ))}
           </ScrollView>
         </DataTable>
-        <Text>TOTAL</Text>
-        <Text>S/. {getTotal(state.venta.detalle_venta)}</Text>
+        <Text style={styles.textTotal}>TOTAL</Text>
+        <Text style={styles.textMoney}>S/. {getTotal(state.venta.detalle_venta)}</Text>
     </View>
   );
 };
@@ -85,5 +85,10 @@ const styles = StyleSheet.create({
   
   scrollView: {
     maxHeight: "40vh",
-  }
+  },
+  textTotal:{
+    fontSize: '1rem',
+    fontWeight: 'bold'
+  },
+  textMoney:{},
 });

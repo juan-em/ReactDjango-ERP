@@ -75,7 +75,7 @@ const Paso2 = ({ state, dispatch }) => {
                         <Card.Actions>
                           <IconButton
                             icon="delete"
-                            color="secondary"
+                            color="red"
                             onPress={() => handleRemove(item)}
                           />
                           <IconButton

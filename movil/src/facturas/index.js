@@ -1,38 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Button } from "react-native";
-import { DataTable, IconButton } from "react-native-paper";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-// import {
-//   Paper,
-//   Grid,
-//   TextField,
-//   Button,
-//   Accordion,
-//   AccordionSummary,
-//   AccordionDetails,
-//   Box,
-//   Autocomplete,
-//   Switch,
-//   FormControlLabel,
-// } from "@mui/material";
-// import { TabContext } from "@mui/lab";
-// //Componentes pra el input de fecha
-// import dayjs from "dayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-
-// //Componentes
+import { View, ScrollView, StyleSheet } from "react-native";
+import { DataTable, IconButton, Text, Divider } from "react-native-paper";
 import { getVenta } from "../services/ventas";
 import VerFactura from "./detalle";
-// import { useState, useEffect, useContext } from "react";
-// import { Tabla } from "./complements";
-
-// import { useRef } from "react";
-// import VerFactura from "./verfactura";
-
-// import { getClientes } from "../../../services/clientes";
 
 const FacturaVentas = () => {
   const [page, setPage] = useState(0);
@@ -66,7 +36,10 @@ const FacturaVentas = () => {
 
   return (
     <ScrollView>
-      <Text>FACTURAS</Text>
+      <View  style={styles.titleContainer}>
+        <Text variant="titleLarge" style={styles.title}>FACTURAS</Text>
+      </View>
+       <Divider/>
       <VerFactura itemView={itemView} />
       <ScrollView horizontal={true}>
         <DataTable>
@@ -115,3 +88,16 @@ const FacturaVentas = () => {
   );
 };
 export default FacturaVentas;
+
+
+const styles = StyleSheet.create({
+  titleContainer:{
+    textAlign:"center",
+    margin:"15px"
+  },
+  title: {
+    maxHeight: "40vh",
+    // textAlign:"center",
+
+  }
+});

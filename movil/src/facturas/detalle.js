@@ -1,5 +1,5 @@
 import react, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   IconButton,
   Modal,
@@ -8,6 +8,7 @@ import {
   PaperProvider,
   Text,
   Card,
+  List
 } from "react-native-paper";
 // import { formateoFecha } from "../../../services/compras";
 
@@ -25,93 +26,58 @@ const VerFactura = ({ itemView }) => {
         <View></View>
       ) : (
         <Card>
-          <Card.Cover />
+          {/* <Card.Cover source={{uri: 'https://img.menzig.style/a/1000/1465-h0.jpg'}}/> */}
           <Card.Content>
-            <Text>CODIGO</Text>
-            <Text>{itemView.codigo}</Text>
-            <Text>FECHA</Text>
-            <Text>{itemView.fecha}</Text>
-            <Text>CLIENTE</Text>
-            <Text>{itemView.nombre_cliente}</Text>
-            <Text>ESTADO REMISION</Text>
-            <Text>{itemView.estado_remision}</Text>
-            <Text>TOTAL</Text>
-            <Text>{itemView.total}</Text>
+            <List.Item
+              title="CODIGO"
+              description={itemView.codigo}
+              left={props => <List.Icon {...props} icon="pound" color="#633256" style={styles.icon}/>}
+            />
+            <List.Item
+              title="FECHA"
+              description={itemView.fecha}
+              left={props => <List.Icon {...props} icon="calendar-range" color="#633256" style={styles.icon}/>}
+            />            
+            <List.Item
+              title="CLIENTE"
+              description={itemView.nombre_cliente}
+              left={props => <List.Icon {...props} icon="account" color="#633256" style={styles.icon}/>}
+            />           
+            <List.Item
+              title="ESTADO"
+              description={itemView.estado_remision}
+              left={props => <List.Icon {...props} icon="exclamation" color="#633256" style={styles.icon}/>}
+            />
+            <List.Item
+              title="TOTAL"
+              description={itemView.total}
+              left={props => <List.Icon {...props} icon="currency-usd"  color="#633256" style={styles.icon}/>}
+            />
           </Card.Content>
           
         </Card>
       )}
     </View>
-    // <section>
-    //   <Paper
-    //     elevation={10}
-    //     className="paper"
-    //     sx={{
-    //       mt: 4,
-    //       p: 0,
-    //       backgroundColor: alpha("#633256", 0.2),
-    //       "&:hover": {
-    //         backgroundColor: alpha("#633256", 0.25),
-    //       },
-    //     }}
-    //   >
-    //     <Accordion sx={{ p: 5 }}>
-    //       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-    //         Factura seleccionada (Ventas)
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         <Card sx={{ p: 3 }} elevation={0}>
-    //           <Grid container spacing={1}>
-    //             <Grid item xs={12} sm={12} md={12} lg={6}>
-    //               {/*
-    //                 <CardMedia
-    //                   style={{ objectFit:'cover' }}
-    //                   image="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg"
-    //                 />
-    //               */}
-    //               <img src="https://i.pinimg.com/564x/8a/7c/f1/8a7cf1bad7f0bb30d39b3e309560a2a2.jpg" />
-    //             </Grid>
-    //             <Grid item xs={12} sm={12} md={12} lg={6}>
-    //               <CardContent>
-    //                 <List>
-    //                   <Grid container spacing={0}>
-    //                     {itemsPer.map((i) => (
-    //                       <Grid item xs={12} sm={12} md={12} lg={12}>
-    //                         <ListItem>
-    //                           <ListItemAvatar>
-    //                             <Avatar sx={{
-    //                             backgroundColor: alpha('#633256', 0.20),
-    //                             '&:hover': {
-    //                                 backgroundColor: alpha('#633256', 0.25),
-    //                             }, color:'#633256'
-    //                             }}>{i.icon}</Avatar>
-    //                           </ListItemAvatar>
-    //                           <ListItemText
-    //                             primary={<span>{i.primary}</span>}
-    //                             secondary={i.secondary}
-    //                           />
-    //                         </ListItem>
-    //                       </Grid>
-    //                     ))}
-    //                   </Grid>
-    //                 </List>
-    //               </CardContent>
-    //             </Grid>
-    //           </Grid>
-
-    //           <CardActions>
-    //             <Grid container spacing={1}>
-    //               <Grid item xs={12} sm={12} md={12} lg={12}>
-    //                 <Remisiones item={itemView.producto_variante} open={open} setOpen={setOpen} />
-    //               </Grid>
-    //             </Grid>
-    //           </CardActions>
-    //         </Card>
-    //       </AccordionDetails>
-    //     </Accordion>
-    //   </Paper>
-    // </section>
   );
 };
 
 export default VerFactura;
+
+
+const styles = StyleSheet.create({
+  textLabel:{
+    fontWeight:"bold",
+    fontSize:'0.9rem',
+  },
+  textContent:{
+    marginBottom:'5px'
+  },
+  icon:{
+    paddingLeft:'5px',
+    paddingRight:'5px',
+    borderRadius:'50%',
+    backgroundColor:'#e0d6dd'
+  }
+ 
+});
+

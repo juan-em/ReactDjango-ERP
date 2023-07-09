@@ -29,8 +29,9 @@ const PantallaInicio = ({ navigation }) => {
   }, []);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Button
+        mode="contained"
         onPress={() => {
           navigation.navigate("Venta");
           handleOpenCloseCaja();
@@ -45,8 +46,10 @@ const PantallaInicio = ({ navigation }) => {
 export default PantallaInicio;
 
 const styles = StyleSheet.create({
-  scrollView: {
-    maxHeight: "100vh",
+  container: {
+    position: "absolute",
+    top: "50%",
+    left: "35%",
   },
   step: {},
 });
