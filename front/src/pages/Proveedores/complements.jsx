@@ -119,7 +119,11 @@ export const Tabla = ({
               <TableCell align="right">
                 {row.persona ? row.persona.telefono : row.empresa.telefono}
               </TableCell>
-              <TableCell align="right">{row.empresa === null ? <Checkbox disabled/> : row.persona === null ? <Checkbox disabled checked/> : <Checkbox disabled/>}</TableCell>
+              <TableCell align="right">{row.empresa ? (
+                    <Checkbox disabled checked/>
+                  ) : (
+                    <Checkbox disabled />
+                  )}</TableCell>
               <TableCell align="right">
               <IconButton
                   aria-label="delete"
