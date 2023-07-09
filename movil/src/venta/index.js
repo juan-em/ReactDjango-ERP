@@ -11,6 +11,8 @@ import Paso3 from "./paso3"
 import { INITIAL_STATE, ventasReducer, ACTION_TYPES } from "./reducer";
 
 import { BuildVentaPayload, RegistroVenta } from "../services/ventas";
+
+
 const Venta = () => {
   //Registration's Fuctionality
   const [state, dispatch] = React.useReducer(ventasReducer, INITIAL_STATE);
@@ -50,7 +52,6 @@ const Venta = () => {
 
   return (
     <View>
-      <Text>VENTA</Text>
       <ScrollView style={styles.scrollView}>
       <Stepper
         active={activeStep}
