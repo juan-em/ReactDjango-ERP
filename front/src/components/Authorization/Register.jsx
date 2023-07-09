@@ -4,6 +4,8 @@ import { TextField, Card
         ,Button, Box, useMediaQuery, Grid, InputLabel, Typography, InputAdornment
 } from '@mui/material';
 
+import { Formik } from "formik";
+
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -15,53 +17,35 @@ import KeyIcon from '@mui/icons-material/Key';
 import { Link } from "react-router-dom";
 
 import axios from "../../api/axios"
+import { get } from "../../services/mantenimiento";
 
 const REGISTER_URL = 'api/register/'
 
 const Register = () => {
-    const userRef = useRef();
-    const errRef = useRef();
+    // const errRef = useRef();
 
     //Related with user
-    const [user, setUser] = useState('');
-    const [rol, setRol] = useState('');
-    const [area, setArea] = useState('');
-    const [email, setEmail] = useState('')
-    const [pwd, setPwd] = useState('');
+    const [areas, setAreas] = useState([]);
+    const [item, setItem] = useState({})
 
     // Error messages
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        userRef.current.focus();
-    }, [])
+        const URL = "http://127.0.0.1:8000/api/mantenimientos/areas/";
+        get(setAreas, URL);
+    }, []);
 
-    useEffect(() => {
-        setErrMsg('');
-    }, [user, rol, area, email, pwd])
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const handleSubmit = async (values) => {
         try {
-            const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ username: user, 
-                    profile_user: {
-                        rol: rol,
-                        area: area
-                    }, email: email, password: pwd }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
+            const response = await axios.post(REGISTER_URL, values,
             );
             // TODO: remove console.logs before deployment
             setSuccess(true);
-            //clear state and controlled inputs
-            setUser('');
-            setPwd('');
-            setMatchPwd('');
+            
+            setItem({});
+
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -69,9 +53,12 @@ const Register = () => {
                 setErrMsg('Username Taken');
             } else {
                 setErrMsg('Registration Failed')
+                console.log(err)
             }
-            errRef.current.focus();
+            // errRef.current.focus();
         }
+
+        console.log(values)
     }
 
     return (
@@ -108,7 +95,7 @@ const Register = () => {
                 </section>
             ) : (
                 <section>
-                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                    {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
 
                     <Grid container spacing={0}>
                         <Grid item xs={12} sm={12} md={3}>
@@ -119,137 +106,171 @@ const Register = () => {
                                 <Typography fontFamily={'inherit'} sx={{ color:'#633256' , fontSize:20, pb:3}} align={'center'}>
                                     Registro
                                 </Typography>
-                                <form onSubmit={handleSubmit}>
-                                    {/* Username input */}
-                                    <TextField
-                                        fullWidth
-                                        required 
-                                        label={<span>Usuario</span>}
-                                        type="text"
-                                        size="small"
-                                        color="secondary"
-                                        margin="dense"
-                                        id="textfields"
-                                        variant="filled"
-                                        ref={userRef}
-                                        autoComplete="off"
-                                        onChange={(e) => setUser(e.target.value)}
-                                        value={user}
-                                        aria-describedby="uidnote"
-                                        InputProps={{
-                                            endAdornment: (
-                                            <InputAdornment position="end">
-                                                <AlternateEmailIcon/>
-                                            </InputAdornment>
-                                            ),
-                                        }}
-                                    />
+                                <Formik initialValues={item} onSubmit={handleSubmit}>
+                                {({ values, handleSubmit, handleChange }) => {
+                                    return (
+                                        <form onSubmit={handleSubmit}>
+                                        
+                                        {/* Name input  */}
+                                        <TextField
+                                            fullWidth
+                                            required 
+                                            label={<span>Nombre</span>}
+                                            name="trabajador.persona.nombre"
+                                            type="text"
+                                            size="small"
+                                            color="secondary"
+                                            margin="dense"
+                                            id="textfields"
+                                            variant="filled"
+                                            autoComplete="off"
+                                            onChange={handleChange}
+                                            aria-describedby="uidnote"
+                                            InputProps={{
+                                                endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <AlternateEmailIcon/>
+                                                </InputAdornment>
+                                                ),
+                                            }}
+                                        />
 
-                                    {/* Email input */}
-                                    <TextField
-                                        fullWidth
-                                        label={<span>E-mail</span>}
-                                        type="text"
-                                        size="small"
-                                        color="secondary"
-                                        margin="dense"
-                                        id="textfields"
-                                        variant="filled"
-                                        ref={userRef}
-                                        autoComplete="off"
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        value={email}
-                                        required
-                                        aria-describedby="uidnote"
-                                        InputProps={{
-                                            endAdornment: (
-                                            <InputAdornment position="end">
-                                                <PersonIcon/>
-                                            </InputAdornment>
-                                            ),
-                                        }}
-                                    />
+                                        {/* Username input */}
+                                        <TextField
+                                            fullWidth
+                                            required 
+                                            label={<span>Usuario</span>}
+                                            name="username"
+                                            type="text"
+                                            size="small"
+                                            color="secondary"
+                                            margin="dense"
+                                            id="textfields"
+                                            variant="filled"
+                                            autoComplete="off"
+                                            onChange={handleChange}
+                                            aria-describedby="uidnote"
+                                            InputProps={{
+                                                endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <AlternateEmailIcon/>
+                                                </InputAdornment>
+                                                ),
+                                            }}
+                                        />
 
-                                    <Box sx={{
-                                        width:'100%',
-                                        flexGrow: 1
-                                    }}>
-                                        {/* Rol select input */}
-                                        <Grid container spacing={2} columns={16}>
-                                            <Grid item xs={8}>
-                                                <FormControl margin="dense" variant="filled" sx={{ width: '100%'}} size="small">
-                                                    <InputLabel id="rol-label" color="secondary"><span>Rol</span></InputLabel>
-                                                    <Select
-                                                        labelId="rol-label"
-                                                        id="textfields"
-                                                        color="secondary"
-                                                        value={rol}
-                                                        onChange={(e) => setRol(e.target.value)}
-                                                    >
-                                                        <MenuItem value="">
-                                                            <em>Ninguno</em>
-                                                        </MenuItem>
-                                                        <MenuItem value="Trabajador"><span>Trabajador</span></MenuItem>
-                                                        <MenuItem value="Gerente"><span>Gerente</span></MenuItem>
-                                                    </Select>
-                                                </FormControl>
+                                        {/* Email input */}
+                                        <TextField
+                                            fullWidth
+                                            label={<span>E-mail</span>}
+                                            name="email"
+                                            type="text"
+                                            size="small"
+                                            color="secondary"
+                                            margin="dense"
+                                            id="textfields"
+                                            variant="filled"
+                                            autoComplete="off"
+                                            onChange={handleChange}
+                                            required
+                                            aria-describedby="uidnote"
+                                            InputProps={{
+                                                endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <PersonIcon/>
+                                                </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+
+                                        <Box sx={{
+                                            width:'100%',
+                                            flexGrow: 1
+                                        }}>
+                                            {/* Rol select input */}
+                                            <Grid container spacing={2} columns={16}>
+                                                <Grid item xs={8}>
+                                                    <FormControl margin="dense" variant="filled" sx={{ width: '100%'}} size="small">
+                                                        <InputLabel id="rol-label" color="secondary"><span>Rol</span></InputLabel>
+                                                        <Select
+                                                            name="profile_user.rol"
+                                                            labelId="rol-label"
+                                                            id="textfields"
+                                                            color="secondary"
+                                                            required
+                                                            onChange={handleChange}
+                                                        >
+                                                            <MenuItem value="Ninguno">
+                                                                <em>Ninguno</em>
+                                                            </MenuItem>
+                                                            <MenuItem value="Trabajador"><span>Trabajador</span></MenuItem>
+                                                            <MenuItem value="Gerente"><span>Gerente</span></MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+
+                                                {/* Area select input */}
+                                                <Grid item xs={8}>
+                                                    <FormControl margin="dense" variant="filled" sx={{ width: '100%' }} size="small">
+                                                        <InputLabel id="area-label" color="secondary"><span>Area</span></InputLabel>
+                                                        <Select
+                                                            name="trabajador.area"
+                                                            labelId="area-label"
+                                                            id="textfields"
+                                                            color="secondary"
+                                                            onChange={handleChange}
+                                                        >
+                                                            <MenuItem value={null}>
+                                                                <em>Ninguno</em>
+                                                            </MenuItem>
+                                                            {areas.map((item, i) => {
+                                                                return (
+                                                                    <MenuItem key={i} value={item.id}><span>{item.nombre}</span></MenuItem>
+                                                                )
+                                                            })}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
                                             </Grid>
+                                        </Box>
+                                            
 
-                                            {/* Area select input */}
-                                            <Grid item xs={8}>
-                                                <FormControl margin="dense" variant="filled" sx={{ width: '100%' }} size="small">
-                                                    <InputLabel id="area-label" color="secondary"><span>Area</span></InputLabel>
-                                                    <Select
-                                                        labelId="area-label"
-                                                        id="textfields"
-                                                        color="secondary"
-                                                        value={area}
-                                                        onChange={(e) => setArea(e.target.value)}
-                                                    >
-                                                        <MenuItem value="">
-                                                            <em>Ninguno</em>
-                                                        </MenuItem>
-                                                        <MenuItem value="Logística"><span>Logística</span></MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                            </Grid>
-                                        </Grid>
-                                    </Box>
-                                           
-
-                                    {/* Password input */}
-                                    <TextField
-                                        fullWidth
-                                        label={<span>Contraseña</span>}
-                                        type="password"
-                                        size="small"
-                                        color="secondary"
-                                        margin="dense"
-                                        id="textfields"
-                                        variant="filled"
-                                        onChange={(e) => setPwd(e.target.value)}
-                                        value={pwd}
-                                        required
-                                        aria-describedby="pwdnote"
-                                        InputProps={{
-                                            endAdornment: (
-                                            <InputAdornment position="end">
-                                                <KeyIcon/>
-                                            </InputAdornment>
-                                            ),
-                                        }}
-                                    />
-                                    <Button
-                                        fullWidth
-                                        id="submitButton"
-                                        variant="contained"
-                                        type="submit"
-                                        sx={{ backgroundColor:'#633256' , "&:hover": {backgroundColor: "#633256" }, mt:4, mb:2  }}
-                                    >
-                                        Registro
-                                    </Button>
-                                    
-                                </form>
+                                        {/* Password input */}
+                                        <TextField
+                                            fullWidth
+                                            label={<span>Contraseña</span>}
+                                            name="password"
+                                            type="password"
+                                            size="small"
+                                            color="secondary"
+                                            margin="dense"
+                                            id="textfields"
+                                            variant="filled"
+                                            onChange={handleChange}
+                                            required
+                                            aria-describedby="pwdnote"
+                                            InputProps={{
+                                                endAdornment: (
+                                                <InputAdornment position="end">
+                                                    <KeyIcon/>
+                                                </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+                                        <Button
+                                            fullWidth
+                                            id="submitButton"
+                                            variant="contained"
+                                            type="submit"
+                                            sx={{ backgroundColor:'#633256' , "&:hover": {backgroundColor: "#633256" }, mt:4, mb:2  }}
+                                        >
+                                            Registro
+                                        </Button>
+                                        </form>
+                                    )
+                                }}
+                                </Formik>
+                                
                                 <p>
                                     ¿Ya tienes una cuenta? <br />
                                     <span className="line">

@@ -48,11 +48,6 @@ const FormSesion = ({
         dispatchSesion(action);
         break;
 
-      case ACTION_SESION_TYPES.SET_MONTO_INICIAL:
-        action.payload = parseFloat(e.target.value);
-        dispatchSesion(action);
-        break;
-      
       case ACTION_SESION_TYPES.SET_ALMACEN:
         console.log(e.target.value)
         action.payload = e.target.value;
@@ -149,9 +144,6 @@ const FormSesion = ({
               type="number"
               label="Monto Inicial"
               variant="standard"
-              onChange={(e, value) => {
-                handleChange(e, value, ACTION_SESION_TYPES.SET_MONTO_INICIAL);
-              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">S/.</InputAdornment>

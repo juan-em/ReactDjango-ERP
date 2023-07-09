@@ -32,7 +32,7 @@ export const RegistroVenta = (payload) => {
       console.log(res.data);
     })
     .catch((err) => {
-      console.log(err);
+      console.log(err.response.data);
     });
 };
 
@@ -98,4 +98,57 @@ export const getInd = (id, set, url) => {
       if (res.status == 200) set(res.data);
     })
     .catch((error) => console.log(error));
+};
+
+
+// -------------- Cliente --------------//
+
+export const getClientes = async (set) => {
+  const res_per = await axios
+    .get("http://localhost:8000/api/clientes/per/")
+    .catch((error) => console.log({ error }));
+  const res_emp = await axios
+    .get("http://localhost:8000/api/clientes/emp/")
+    .catch((error) => console.log({ error }));
+  set(res_per.data.content.concat(res_emp.data.content));
+  return { clientesPersonas: res_per.data, clientesEmpresas: res_emp.data };
+};
+
+
+// -------------- Caja --------------//
+
+export const postCaja = async (data) => {
+  try {
+    const response = await axios.post('http://localhost:8000/api/cajadiaria/', data);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+
+export const patchCaja = async (id, data) => {
+  try {
+    const responsePatch = await axios.patch('http://localhost:8000/api/cajadiaria/' + `${id}/`, data);
+    return responsePatch.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+};
+
+export const getLastCaja = async (set, tipo) => {
+  try {
+    const responseLast = await axios.get("http://localhost:8000/api/cajadiaria/ultimacaja/" + tipo + "/");
+
+    if (responseLast.data.status !== false) {
+      set(responseLast.data.content);
+    }
+
+    return responseLast.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 };

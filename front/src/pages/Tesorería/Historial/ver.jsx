@@ -19,8 +19,9 @@ import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import EventIcon from '@mui/icons-material/Event';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import Variante from "./variantes";
+import { formatearFechaTabla } from "../../../services/caja";
 
-const VerCajaDiaria = (itemView) => {
+const VerCajaDiaria = ({itemView}) => {
   const [open, setOpen] = useState(false);
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
@@ -34,7 +35,7 @@ const VerCajaDiaria = (itemView) => {
 
   const seti = () => {
     const newItem = itemsPer.map((i) => {
-      if (!itemView.itemView.id) {
+      if (!itemView.id) {
         return {
           ...i,
         };
@@ -42,27 +43,39 @@ const VerCajaDiaria = (itemView) => {
         if (i.primary === "Código") {
           return {
             ...i,
-            secondary: itemView.itemView.id,
+            secondary: itemView.codigo,
           };
-        } else if (i.primary === "Nombre") {
+        } else if (i.primary === "Fecha Apertura") {
           return {
             ...i,
-            secondary: itemView.itemView.nombre,
+            secondary: formatearFechaTabla(itemView.fecha_apertura,)
           };
-        } else if (i.primary === "Abreviación") {
+        } else if (i.primary === "Hora Apertura") {
           return {
             ...i,
-            secondary: itemView.itemView.abreviacion,
+            secondary: itemView.hora_apertura.slice(0,5),
           };
-        } else if (i.primary === "Ubicación") {
+        } else if (i.primary === "Fecha Cierre") {
           return {
             ...i,
-            secondary: itemView.itemView.ubicacion,
+            secondary: formatearFechaTabla(itemView.fecha_cierre),
           };
-        } else if (i.primary === "Descripción") {
+        } else if (i.primary === "Hora Cierre") {
           return {
             ...i,
-            secondary: itemView.itemView.descripcion,
+            secondary: itemView.hora_cierre.slice(0,5),
+          };
+        } 
+        else if (i.primary === "Saldo Apertura") {
+          return {
+            ...i,
+            secondary: `S/. ${itemView.monto_inicial.toFixed(2)}`,
+          };
+        } 
+        else if (i.primary === "Saldo Cierre") {
+          return {
+            ...i,
+            secondary: itemView.monto_final ? `S/. ${itemView.monto_final.toFixed(2)}` : "Aún abierta",
           };
         } 
       }
@@ -115,9 +128,7 @@ const VerCajaDiaria = (itemView) => {
                     </Grid>
                   ))}
                   <Variante
-                    item={itemView.producto_variante}
-                    itemId={itemView.id}
-                    prodid={itemView.id}
+                    item={itemView.registros_caja}
                     open={open}
                     setOpen={setOpen}
                   />

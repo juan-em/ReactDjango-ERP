@@ -4,27 +4,24 @@ import {
   Paper,
   Grid,
   TextField,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  FormControlLabel,
-  Select,
   Button,
-  FormLabel,
-  RadioGroup,
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Container,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select
 } from "@mui/material";
-import Radio from "@mui/material/Radio";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { alpha } from "@mui/material/styles";
 //Componentes pra el input de fecha
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 //Componentes
 import { useState, useRef, useEffect } from "react";
@@ -34,20 +31,19 @@ import AddForm from "./addform";
 
 import { Box } from "@mui/system";
 import VerTrabajador from "./vertrabajador";
+import { initialState } from "../../services/trabajadores";
 
 const Trabajadores = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [item, setItem] = useState({});
+  const [item, setItem] = useState(initialState);
   const [itemView, setItemView] = useState({});
-  const [putItem, setPutItem] = useState({});
   const [value, setValue] = useState("");
-  const [trabajadorId, setTrabajadorId] = useState("");
+
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
 
-  //Listado de Trabajadors y provincias
-  const [provincias, setProvincias] = useState([]);
+  const [areas, setAreas] = useState([])
 
   //Buscador
   const handlerSearcher = (e) => {
@@ -57,12 +53,13 @@ const Trabajadores = () => {
 
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
-  useEffect(() => {
-    const URL = "http://localhost:8000/api/mantenimientos/provincias/";
-    get(setProvincias, URL);
-  }, []);
+  useEffect(()=> {
+    const URL = "http://localhost:8000/api/mantenimientos/areas/";
+    get(setAreas, URL);
+  }, [])
 
   return (
     <Container>
@@ -103,7 +100,7 @@ const Trabajadores = () => {
                       variant="filled"
                       onChange={handlerSearcher}
                     />
-                      <TextField
+                    <TextField
                       fullWidth
                       label="Nombre"
                       type="text"
@@ -127,26 +124,34 @@ const Trabajadores = () => {
                       variant="filled"
                       onChange={handlerSearcher}
                     />
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DesktopDatePicker
-                          label="Fecha de nacimiento"
-                          name="fecha"
-                          inputFormat="DD/MM/YYYY"
-                         
-                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
-                          renderInput={(params) => <TextField 
-                            {...params} 
-                            fullWidth
-                            size="small"
-                            color="secondary"
-                            id="textfields"
-                            margin="dense"
-                            variant="filled"
-                            />}
-                          />
-                        </LocalizationProvider>
-                  
-              
+                    <FormControl
+                      fullWidth
+                      margin="dense"
+                      size="small"
+                      color="secondary"
+                      variant="filled"
+                    >
+                      <InputLabel>Áreas</InputLabel>
+                      <Select
+                        label="Áreas"
+                        size="small"
+                        color="secondary"
+                        id="textfields"
+                        onChange={handlerSearcher}
+                        defaultValue=""
+                        name="area"
+                      >
+                        <MenuItem key={0} value="">
+                        <em>Todos</em>
+                          </MenuItem>
+                        {areas.map((item, i) => (
+                          <MenuItem key={i+1} value={item.id}>
+                            {item.nombre}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+
                     <Grid container spacing={1} sx={{ mt: 2 }}>
                       <Grid item xs={12} sm={12} md={12}>
                         <Button
@@ -179,11 +184,14 @@ const Trabajadores = () => {
               setItem={setItem}
               value={value}
               setValue={setValue}
+              handleClean={handleClean}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <Box sx={{ overflow: "auto" }}>
-              <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+              <Box
+                sx={{ width: "100%", display: "table", tableLayout: "fixed" }}
+              >
                 <Tabla
                   fields={fields}
                   render={render}
@@ -194,9 +202,6 @@ const Trabajadores = () => {
                   setValue={setValue}
                   setItem={setItem}
                   setItemView={setItemView}
-                  setPutItem={setPutItem}
-                  trabajadorId={trabajadorId}
-                  setTrabajadorId={setTrabajadorId}
                 />
               </Box>
             </Box>

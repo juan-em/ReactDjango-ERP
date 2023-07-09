@@ -63,8 +63,7 @@ class TrabajadorViewDetalle(APIView):
     
     def patch(self, request, id ):
         dataTrabajador = Trabajador.objects.all().get(id=id)
-        serTrabajador = TrabajadorSerializer(dataTrabajador, data=request.data,
-                                            partial=True)
+        serTrabajador = TrabajadorSerializer(dataTrabajador, data=request.data, partial=True)
         if serTrabajador.is_valid():
             serTrabajador.save()
             context = {

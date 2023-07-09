@@ -1,10 +1,10 @@
 import React, { useState, Fragment, useEffect, useRef } from "react";
 
 import { Button, TextInput, Surface } from "@react-native-material/core";
-import { DataTable, List } from "react-native-paper";
+import { DataTable, List, IconButton } from "react-native-paper";
 
 import { ACTION_TYPES, getTotal } from "./reducer";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 const Table = ({ state, dispatch, click }) => {
   const [rowIndex, setRowIndex] = useState(-1);
@@ -17,7 +17,14 @@ const Table = ({ state, dispatch, click }) => {
   const handleChange = (i, prop, value) => {
     rows[i][prop] = parseInt(value, 10);
   };
-
+  const setTotal = () => {
+    let payload = getTotal(state.venta.detalle_venta);
+    var action = {
+      type: ACTION_TYPES.SET_TOTAL,
+      payload,
+    };
+    dispatch(action);
+  };
   const handleExit = () => {
     setRowIndex(-1);
     setColumnIndex(-1);
@@ -36,14 +43,11 @@ const Table = ({ state, dispatch, click }) => {
   };
 
   useEffect(() => {
-    // setTotalVenta(getTotal(state.venta.detalle_venta));
-    // setTotal();
+    setTotal();
   }, [click]);
 
   return (
     <View>
-      <Text>TABLA</Text>
-      <div>
         <DataTable>
           <DataTable.Header>
             <DataTable.Title>PKG</DataTable.Title>
@@ -51,19 +55,40 @@ const Table = ({ state, dispatch, click }) => {
             <DataTable.Title>Precio</DataTable.Title>
             <DataTable.Title>Eliminar</DataTable.Title>
           </DataTable.Header>
-          {rows.map((item, i) => (
-          <DataTable.Row >
-            <DataTable.Cell>{item.nombre}</DataTable.Cell>
-            <DataTable.Cell>0</DataTable.Cell>
-            <DataTable.Cell>S/. {item.precio_unitario}</DataTable.Cell>
-            <DataTable.Cell><IconButton icon="trash" iconColor={MD3Colors.error50} onPress={() => console.log('eliminado')} /></DataTable.Cell>
-          </DataTable.Row>
-        ))}
+          <ScrollView style={styles.scrollView} >
+            {rows.map((item, i) => (
+            <DataTable.Row>
+              <DataTable.Cell>{item.nombre}</DataTable.Cell>
+              <DataTable.Cell>{item.cantidad}</DataTable.Cell>
+              <DataTable.Cell>S/. {(item.precio_unitario * 0.18)+item.precio_unitario}</DataTable.Cell>
+              <DataTable.Cell></DataTable.Cell>
+              <DataTable.Cell>
+                <IconButton
+                  icon="delete"
+                onPress={() => handleDelete(item)}
+                />
+              </DataTable.Cell>
+            </DataTable.Row>
+          ))}
+          </ScrollView>
         </DataTable>
-        
-      </div>
+        <Text style={styles.textTotal}>TOTAL</Text>
+        <Text style={styles.textMoney}>S/. {getTotal(state.venta.detalle_venta)}</Text>
     </View>
   );
 };
 
 export default Table;
+
+
+const styles = StyleSheet.create({
+  
+  scrollView: {
+    maxHeight: "40vh",
+  },
+  textTotal:{
+    fontSize: '1rem',
+    fontWeight: 'bold'
+  },
+  textMoney:{},
+});

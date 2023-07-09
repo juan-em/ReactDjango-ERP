@@ -102,7 +102,6 @@ export const ventasReducer = (state, action) => {
 
 export const ACTION_SESION_TYPES ={
     SET_FECHA: "SET_FECHA",
-    SET_MONTO_INICIAL: "SET_MONTO_INICIAL",
     SET_RESPONSABLE:"SET_RESPONSABLE",
     SET_HORA_FIN:"SET_HORA_FIN",
     SET_ALMACEN:"SET_ALMACEN",
@@ -115,7 +114,6 @@ export const INITIAL_SESION_STATE = {
     sesion_venta: {
         // estado:false,
         fecha:setInitialDate(),
-        monto_inicial:0.0,
         almacen:"",
         responsable:"",
         hora_fin:"",
@@ -155,14 +153,6 @@ export const sesionVentaReducer = (state, action) => {
                 sesion_venta:{
                    ...state.sesion_venta,
                     responsable:action.payload
-                }
-            }
-        case ACTION_SESION_TYPES.SET_MONTO_INICIAL:
-            return {
-                ...state,
-                sesion_venta:{
-                   ...state.sesion_venta,
-                    monto_inicial:action.payload
                 }
             }
         case ACTION_SESION_TYPES.ADD_PUNTO_VENTA:

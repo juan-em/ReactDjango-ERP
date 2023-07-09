@@ -54,6 +54,7 @@ const FacturaVentas = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   //para el input de fecha

@@ -61,12 +61,13 @@ const Remisiones = () => {
 
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   //para el input de fecha
   const [value, setValue] = useState(dayjs(new Date()));
 
-  //console.log(fields,"=================================")
+
     
   return (
     <section>
