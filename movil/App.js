@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="MODULO DE VENTAS" component={PantallaInicio} />
+      <Stack.Screen name="Módulo de ventas" component={PantallaInicio} />
       <Stack.Screen name="Venta" component={Venta} />
     </Stack.Navigator>
   );

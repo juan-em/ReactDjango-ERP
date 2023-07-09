@@ -60,6 +60,7 @@ const Paso2 = ({ state, dispatch }) => {
           <div>
             <div >
               <div>
+                <SearcherProductos/>
                 <ScrollView style={styles.scrollViewWrapper}>
                   <View style={styles.cardContainer}>
                     {data.map((item, i) => (
@@ -76,11 +77,13 @@ const Paso2 = ({ state, dispatch }) => {
                           <IconButton
                             icon="delete"
                             color="red"
+                            size={15}
                             onPress={() => handleRemove(item)}
                           />
                           <IconButton
                             icon="plus"
                             color="secondary"
+                            size={15}
                             onPress={() => handleAdd(item)}
                           />
                         </Card.Actions>
@@ -111,6 +114,7 @@ const styles = StyleSheet.create({
   cardImageStyle: {
     maxWidth: "10rem",
     maxHeight: "10rem",
+    marginHorizontal:10
   },
   cardContainer: {
     display: "flex",

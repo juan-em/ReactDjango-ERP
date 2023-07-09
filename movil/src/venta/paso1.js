@@ -108,6 +108,7 @@ const Paso1 = ({ state, dispatch }) => {
           id="textfields"
           variant="filled"
           value={state.venta.cliente.codigo}
+          style={styles.textInput}
         />
         <TextInput
           fullWidth
@@ -116,6 +117,7 @@ const Paso1 = ({ state, dispatch }) => {
           id="textfields"
           variant="filled"
           value={state.venta.cliente.persona.dni}
+          style={styles.textInput}
         />
       </View>
     </View>
@@ -135,6 +137,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     backgroundColor: "#FFF",
+    marginBottom:5
   },
   dropdown1BtnTxtStyle: { color: "#444", textAlign: "center" },
   dropdown1DropdownStyle: { backgroundColor: "#EFEFEF" },
@@ -143,4 +146,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#C5C5C5",
   },
   dropdown1RowTxtStyle: { color: "#444", textAlign: "center" },
+  textInput:{
+    marginBottom:5,
+  }
 });

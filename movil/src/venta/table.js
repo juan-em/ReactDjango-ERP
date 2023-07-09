@@ -51,18 +51,17 @@ const Table = ({ state, dispatch, click }) => {
         <DataTable>
           <DataTable.Header>
             <DataTable.Title>PKG</DataTable.Title>
-            <DataTable.Title>Cantidad</DataTable.Title>
-            <DataTable.Title>Precio</DataTable.Title>
-            <DataTable.Title>Eliminar</DataTable.Title>
+            <DataTable.Title numeric>Cantidad</DataTable.Title>
+            <DataTable.Title numeric>Precio</DataTable.Title>
+            <DataTable.Title numeric>Eliminar</DataTable.Title>
           </DataTable.Header>
           <ScrollView style={styles.scrollView} >
             {rows.map((item, i) => (
             <DataTable.Row>
               <DataTable.Cell>{item.nombre}</DataTable.Cell>
-              <DataTable.Cell>{item.cantidad}</DataTable.Cell>
-              <DataTable.Cell>S/. {(item.precio_unitario * 0.18)+item.precio_unitario}</DataTable.Cell>
-              <DataTable.Cell></DataTable.Cell>
-              <DataTable.Cell>
+              <DataTable.Cell numeric>{item.cantidad}</DataTable.Cell>
+              <DataTable.Cell numeric>S/ {(item.precio_unitario * 0.18)+item.precio_unitario}</DataTable.Cell>
+              <DataTable.Cell numeric>
                 <IconButton
                   icon="delete"
                 onPress={() => handleDelete(item)}
@@ -72,8 +71,10 @@ const Table = ({ state, dispatch, click }) => {
           ))}
           </ScrollView>
         </DataTable>
-        <Text style={styles.textTotal}>TOTAL</Text>
-        <Text style={styles.textMoney}>S/. {getTotal(state.venta.detalle_venta)}</Text>
+        <Surface style={{padding:20, marginBottom:20,backgroundColor: "white", }} elevation={5}>
+          <Text style={styles.textTotal}>Total</Text>
+          <Text style={styles.textMoney}>S/. {getTotal(state.venta.detalle_venta)}</Text>
+        </Surface>
     </View>
   );
 };
