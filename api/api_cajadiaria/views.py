@@ -186,6 +186,7 @@ class EgresosCompraView(APIView):
         return Response(context)
 
     def post(self, request):
+        print(request.data)
         serializer = EgresosCompraSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

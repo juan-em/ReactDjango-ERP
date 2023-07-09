@@ -4,14 +4,20 @@ const cajaURL = "api/cajadiaria/";
 const lastCajaURL = cajaURL + "ultimacaja/";
 const ingresosOtrosURL = cajaURL + "ingresosotros/";
 const egresosOtrosURL = cajaURL + "egresosotros/";
+const caja_cambioURL = cajaURL + "cambio-dolar/";
 
-export const getCambio = async (set) => {
-  axios
-    .get("http://localhost:8000/api/cajadiaria/cambio-dolar")
-    .then((res) => {
-      if (res.status == 200) set(res.data.tipo_cambio);
-    })
-    .catch((error) => console.log(error));
+export const getCambio = async(set) => {
+  try {
+    const res = await axios.get(caja_cambioURL);
+    if (res.data.status !== false) {
+      set(res.data.tipo_cambio);
+    }
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+
 };
 
 export const searcherCajas = (fields, list) => {
@@ -143,6 +149,8 @@ export const initialRegister = {
   monto: 0.0,
   tipo_pago: "Soles",
   descripcion: "-",
+  tipo_documento: "Sin documento",
+  codigo_documento: "-"
 };
 
 export function transformToFormData(values) {

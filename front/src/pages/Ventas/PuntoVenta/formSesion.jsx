@@ -20,6 +20,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { ACTION_SESION_TYPES } from "../Venta/reducerVenta";
 
 import Swal from "sweetalert2";
+import UserRequest from "../../../components/User/Requests/UserRequest";
 
 const FormSesion = ({
   tipo,
@@ -28,7 +29,9 @@ const FormSesion = ({
   dispatchSesion,
   sesionIniciada,
   setSesionIniciada,
+  itemCaja
 }) => {
+  const user = UserRequest()
   const[almacenes, setAlmacenes] = useState([])
   const handleChange = (e, value, ac) => {
     let action = {
@@ -144,6 +147,8 @@ const FormSesion = ({
               type="number"
               label="Monto Inicial"
               variant="standard"
+              disabled
+              value={itemCaja.monto_actual}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">S/.</InputAdornment>
@@ -158,6 +163,7 @@ const FormSesion = ({
                 name="fecha"
                 inputFormat="DD/MM/YYYY"
                 value={stateSesion.sesion_venta.fecha}
+                disabled
                 onChange={(value) => {
                   handleChange(value, null, ACTION_SESION_TYPES.SET_FECHA);
                 }}
