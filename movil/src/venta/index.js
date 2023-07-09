@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useReducer, useContext } from "react";
+import React, { useState, Fragment, useReducer, useContext, useEffect } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 // Libreria de Stepper
@@ -11,11 +11,12 @@ import Paso3 from "./paso3"
 import { INITIAL_STATE, ventasReducer, ACTION_TYPES } from "./reducer";
 
 import { BuildVentaPayload, RegistroVenta } from "../services/ventas";
-
+import {  getLastCaja } from "../services/ventas";
 
 const Venta = () => {
   //Registration's Fuctionality
   const [state, dispatch] = React.useReducer(ventasReducer, INITIAL_STATE);
+  const [itemCaja, setItemCaja] = useState({ estado_caja: false });
 
   //Steps's Functionality
   const [activeStep, setActiveStep] = useState(0);
@@ -29,7 +30,13 @@ const Venta = () => {
 
   const handleRegister = () => {
     if (state.venta.detalle_venta.length) {
+      var ingreso_venta = {
+        "responsable": 1,
+        "caja": itemCaja.id,
+        "tipo": "Ventas"
+      }
       var payload = BuildVentaPayload(state.venta);
+      payload.ingreso_venta = ingreso_venta
       RegistroVenta(payload);
       console.log(payload);
       // handleNext();
@@ -41,6 +48,10 @@ const Venta = () => {
       });
     }
   };
+
+  useEffect(() => {
+    getLastCaja(setItemCaja, "ventas")
+  }, [])
 
   console.log(state);
 
