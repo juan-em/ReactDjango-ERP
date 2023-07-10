@@ -257,10 +257,10 @@ const Table = ({
             <Typography align="right" sx={{ fontFamily: "inherit" }}>
               S/.{" "}
               {!sesionIniciada
-                ? getTotal(state.venta.detalle_venta)
+                ? getTotal(state.venta.detalle_venta).toFixed(2)
                 : getTotalPuntoVenta(
                     statePuntoVenta.punto_venta.detalle_punto_venta
-                  )}
+                  ).toFixed(2)}
             </Typography>
           </Grid>
         </Grid>
@@ -292,7 +292,7 @@ const Table = ({
           </Grid>
           <Grid item xs>
             <Typography align="right" sx={{ fontFamily: "inherit" }}>
-              S/. {!sesionIniciada ? totalVenta : totalPuntoVenta}
+              S/. {!sesionIniciada ? totalVenta.toFixed(2) : totalPuntoVenta.toFixed(2)}
             </Typography>
           </Grid>
         </Grid>
