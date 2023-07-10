@@ -27,7 +27,7 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/almacenes/";
+  const URL = "api/mantenimientos/almacenes/";
   const [almacen, setAlmacen] = useState([]);
   useEffect(() => {
     if (render.current) {

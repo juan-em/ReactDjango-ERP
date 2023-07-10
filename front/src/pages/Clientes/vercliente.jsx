@@ -114,7 +114,7 @@ const VerCliente = ({ itemView }) => {
         } else if (i.primary === "Forma de Pago") {
           return {
             ...i,
-            secondary: itemView.codformapago,
+            secondary: itemView.forma_dp_info?.nombrefp,
           };
         }
       }

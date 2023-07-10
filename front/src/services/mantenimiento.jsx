@@ -1,7 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from "../api/axios";
 
 //URLS
-const URL = "http://localhost:8000/api/mantenimientos/";
+const URL = "api/mantenimientos/";
 const URL_IMPUESTOS = `${URL}impuestos/`;
 
 export const get = (set, url) => {
@@ -60,7 +61,7 @@ export const searcher = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
     ? resultData.filter((item) =>
-        item.nombre.toString().includes(fields.nombre.toString())
+        item.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
       )
     : resultData;
   return resultData;
@@ -71,7 +72,7 @@ export const searcherprov = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
     ? resultData.filter((item) =>
-        item.nombreprovincia.toString().includes(fields.nombre.toString())
+        item.nombreprovincia.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
       )
     : resultData;
   return resultData;
@@ -82,7 +83,7 @@ export const searcherform = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
     ? resultData.filter((item) =>
-        item.nombrefp.toString().includes(fields.nombre.toString())
+        item.nombrefp.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
       )
     : resultData;
   return resultData;
@@ -93,7 +94,7 @@ export const searcherent = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
     ? resultData.filter((item) =>
-        item.nombreentidad.toString().includes(fields.nombre.toString())
+        item.nombreentidad.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
       )
     : resultData;
   return resultData;
@@ -120,7 +121,7 @@ export const putIm = async (data, url) => {
 };
 
 // Almacen
-const URLAL = 'http://localhost:8000/api/mantenimientos/almacenes/';
+const URLAL = 'api/mantenimientos/almacenes/';
 export const postAlmacen = async (data) => {
   try {
     const response = await axios.post(URLAL, data);
@@ -133,7 +134,7 @@ export const postAlmacen = async (data) => {
 
 export const putAlmacen = async (data, id) => {
   try {
-    const response = await axios.put(`http://localhost:8000/api/mantenimientos/almacenes/${id}/`, data);
+    const response = await axios.put(`api/mantenimientos/almacenes/${id}/`, data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -145,24 +146,24 @@ export const searcherAlmacen = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
     ? resultData.filter((item) =>
-        item.nombre.toString().includes(fields.nombre.toString())
+        item.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
       )
     : resultData;
     resultData = fields.ubicacion
     ? resultData.filter((item) =>
-        item.ubicacion.toString().includes(fields.ubicacion.toString())
+        item.ubicacion.toString().toLowerCase().includes(fields.ubicacion.toString().toLowerCase())
       )
     : resultData;
     resultData = fields.abreviacion
     ? resultData.filter((item) =>
-        item.abreviacion.toString().includes(fields.abreviacion.toString())
+        item.abreviacion.toString().toLowerCase().includes(fields.abreviacion.toString().toLowerCase())
       )
     : resultData;
   return resultData;
 };
 
 // Areas
-const URLAR = 'http://localhost:8000/api/mantenimientos/areas/';
+const URLAR = 'api/mantenimientos/areas/';
 export const postArea = async (data) => {
   try {
     const response = await axios.post(URLAR, data);
@@ -175,7 +176,7 @@ export const postArea = async (data) => {
 
 export const putArea = async (data, id) => {
   try {
-    const response = await axios.put(`http://localhost:8000/api/mantenimientos/areas/${id}/`, data);
+    const response = await axios.put(`api/mantenimientos/areas/${id}/`, data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -187,12 +188,12 @@ export const searcherArea = (fields, list) => {
   let resultData = list;
   resultData = fields.nombre
     ? resultData.filter((item) =>
-        item.nombre.toString().includes(fields.nombre.toString())
+        item.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
       )
     : resultData;
     resultData = fields.abreviacion
     ? resultData.filter((item) =>
-        item.abreviacion.toString().includes(fields.abreviacion.toString())
+        item.abreviacion.toString().toLowerCase().includes(fields.abreviacion.toString().toLowerCase())
       )
     : resultData;
   return resultData;

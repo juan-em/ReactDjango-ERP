@@ -505,7 +505,7 @@ const AddForm = ({
                           margin="dense"
                           name="ruc"
                           onChange={handleChange}
-                          value={values.empresa ? values.empresa.ruc : ""}
+                          value={values.empresa ? values.ruc : ""}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
