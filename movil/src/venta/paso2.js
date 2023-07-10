@@ -7,6 +7,7 @@ import SearcherProductos from "./searcher";
 import { ACTION_TYPES} from "./reducer";
 import Table from "./table";
 import { searcher, get } from "../services/ventas";
+import {  useFonts, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 const Paso2 = ({ state, dispatch }) => {
   const [click, setClick] = useState(0);
@@ -54,6 +55,15 @@ const Paso2 = ({ state, dispatch }) => {
   }, []);
   let data = searcher(fields, productos);
 
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View onStartShouldSetResponder={() => true}>
         <div className="container">
@@ -66,7 +76,7 @@ const Paso2 = ({ state, dispatch }) => {
                     {data.map((item, i) => (
                       <Card key={i} style={styles.cardStyle}>
                         <Card.Title
-                          title={item.producto + "/" + item.nombre}
+                          title={<Text style={{fontFamily:'Poppins_400Regular'}}>{item.producto + "/" + item.nombre}</Text>}
                           subtitle={item.precio_unitario}
                         />
                         <Card.Cover

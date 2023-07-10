@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
 import { Button } from "@react-native-material/core";
 import { TextInput } from "react-native-paper";
@@ -9,6 +9,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { ACTION_TYPES } from "./reducer";
 import SelectDropdown from "react-native-select-dropdown";
 import { getClientes } from "../services/ventas";
+import {  useFonts, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 const Paso1 = ({ state, dispatch }) => {
   const render = useRef(true);
@@ -53,12 +54,21 @@ const Paso1 = ({ state, dispatch }) => {
     getClientes(setCliente);
   }, []);
 
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View>
       <View contentContainerStyle={styles.scrollViewContainer}>
         <SelectDropdown
           data={cliente}
-          defaultButtonText={"Selecciona Cliente"}
+          defaultButtonText={<Text style={{fontFamily:'Poppins_400Regular'}}>Selecciona un cliente</Text>}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
             handleChange(index, selectedItem, ACTION_TYPES.SET_CLIENTE);
@@ -104,7 +114,7 @@ const Paso1 = ({ state, dispatch }) => {
           /> */}
         <TextInput
           fullWidth
-          label="Código Cliente"
+          label={<Text style={{fontFamily:'Poppins_400Regular'}}>Código Cliente</Text>}
           id="textfields"
           variant="filled"
           value={state.venta.cliente.codigo}
@@ -112,7 +122,7 @@ const Paso1 = ({ state, dispatch }) => {
         />
         <TextInput
           fullWidth
-          label="DNI"
+          label={<Text style={{fontFamily:'Poppins_400Regular'}}>DNI</Text>}
           type="number"
           id="textfields"
           variant="filled"
@@ -137,7 +147,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     backgroundColor: "#FFF",
-    marginBottom:5
+    marginBottom:10
   },
   dropdown1BtnTxtStyle: { color: "#444", textAlign: "center" },
   dropdown1DropdownStyle: { backgroundColor: "#EFEFEF" },
@@ -147,6 +157,6 @@ const styles = StyleSheet.create({
   },
   dropdown1RowTxtStyle: { color: "#444", textAlign: "center" },
   textInput:{
-    marginBottom:5,
+    marginBottom:10,
   }
 });

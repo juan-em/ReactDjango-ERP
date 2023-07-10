@@ -5,7 +5,7 @@ import React, {
   useContext,
   useEffect,
 } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { View, ScrollView, StyleSheet, Alert} from "react-native";
 import { Text } from "react-native-paper";
 
 import Stepper from "react-native-stepper-ui";
@@ -17,6 +17,27 @@ import { INITIAL_STATE, ventasReducer, ACTION_TYPES } from "./reducer";
 
 import { BuildVentaPayload, RegistroVenta } from "../services/ventas";
 import { getLastCaja } from "../services/ventas";
+import {  useFonts, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
+
+const showAlert = () =>
+  Alert.alert(
+    'Alert Title',
+    'My Alert Msg',
+    [
+      {
+        text: 'Ok',
+        style: 'cancel',
+      },
+    ],
+    {
+      cancelable: true,
+      onDismiss: () =>
+        {
+          handleRegister();
+          handleReset();
+        }
+    },
+  );
 
 const Venta = () => {
   //Registration's Fuctionality
@@ -65,13 +86,23 @@ const Venta = () => {
     <Paso3 state={state} dispatch={dispatch} />,
   ];
 
+  
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View>
       <ScrollView style={styles.scrollView}>
         <Stepper
           active={activeStep}
           stepStyle={{backgroundColor: '#633256', width: 30, height: 30, borderRadius: 30, justifyContent: 'center', alignItems: 'center', opacity: 1, marginBottom: '1rem'}}
-          buttonStyle={{ padding: 10, borderRadius: 4, alignSelf: 'flex-start', marginRight: 10, marginTop:10, backgroundColor: '#633256'}}
+          buttonStyle={{ padding: 10, borderRadius: 4, alignSelf: 'flex-start', marginRight: 10, marginTop:10, backgroundColor: '#633256', fontFamily: 'Poppins_400Regular',}}
           content={content}
           onBack={() => {
             setActiveStep((p) => -1);

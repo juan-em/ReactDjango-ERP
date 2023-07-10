@@ -3,6 +3,7 @@ import { View, ScrollView, StyleSheet } from "react-native";
 import { DataTable, IconButton, Text, Divider } from "react-native-paper";
 import { getVenta } from "../services/ventas";
 import VerFactura from "./detalle";
+import {  useFonts, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 const FacturaVentas = () => {
   const [page, setPage] = useState(0);
@@ -34,20 +35,30 @@ const FacturaVentas = () => {
     setPage(0);
   }, [itemsPerPage]);
 
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
+    <View>
     <ScrollView>
       <View  style={styles.titleContainer}>
-        <Text variant="titleLarge" style={styles.title}>FACTURAS</Text>
+        <Text variant="titleMedium" style={styles.tema}>Facturas</Text>
       </View>
        <Divider/>
       <VerFactura itemView={itemView} />
       <ScrollView horizontal={true}>
-        <DataTable>
+        <DataTable style={{margin:20}}>
           <DataTable.Header>
             <DataTable.Title>Item</DataTable.Title>
-            <DataTable.Title>Codigo</DataTable.Title>
-            <DataTable.Title>N de Factura</DataTable.Title>
-            <DataTable.Title>Fecha de Venta</DataTable.Title>
+            <DataTable.Title>Código</DataTable.Title>
+            <DataTable.Title>N° Fac</DataTable.Title>
+            <DataTable.Title>F. Venta</DataTable.Title>
             <DataTable.Title>Cliente</DataTable.Title>
             <DataTable.Title>Eliminar</DataTable.Title>
           </DataTable.Header>
@@ -80,11 +91,12 @@ const FacturaVentas = () => {
             numberOfItemsPerPage={itemsPerPage}
             onItemsPerPageChange={onItemsPerPageChange}
             showFastPaginationControls
-            selectPageDropdownLabel={"Rows per page"}
+            selectPageDropdownLabel={"Páginas por hoja"}
           />
         </DataTable>
       </ScrollView>
     </ScrollView>
+    </View>
   );
 };
 export default FacturaVentas;
@@ -97,7 +109,11 @@ const styles = StyleSheet.create({
   },
   title: {
     maxHeight: "40vh",
-    // textAlign:"center",
-
+    fontWeight: 'bold'
+  },
+  tema:{
+    fontFamily: 'Poppins_600SemiBold',
   }
 });
+
+

@@ -7,6 +7,7 @@ import { Dialog, Portal } from 'react-native-paper';
 // Libreria SelectDropdonw
 // https://github.com/AdelRedaa97/react-native-select-dropdown/tree/d0c6d8acd346ff0b47a9bb32a902b52022644f6d
 import SelectDropdown from 'react-native-select-dropdown'
+import {  useFonts, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 const SearcherProductos = ({fields, setFields}) => {
 
@@ -26,16 +27,22 @@ const SearcherProductos = ({fields, setFields}) => {
   }, []);
 
   console.log("categorias",categorias);
-  const [visible, setVisible] = React.useState(false);
 
-  const hideDialog = () => setVisible(false);
-  
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <section>
         <Surface style={{padding:30, marginBottom:20,backgroundColor: "white", }} elevation={5}>
-                <Text style={styles.textTotal}>Buscar Producto</Text>
+                <Text style={{fontFamily:'Poppins_600SemiBold', fontSize:18, textAlign:'center', marginBottom:4}}>Buscar Producto</Text>
                 <TextInput
-                    label="Nombre"
+                    label={<Text style={{fontFamily:'Poppins_400Regular'}}>Nombre</Text>}
                     type="text"
                     mode="filled"
                     name="nombre"
@@ -45,7 +52,7 @@ const SearcherProductos = ({fields, setFields}) => {
                 />
                 <SelectDropdown
                     data={categorias}
-                    defaultButtonText={"Selecciona una categoría"}
+                    defaultButtonText={<Text style={{fontFamily:'Poppins_400Regular'}}>Selecciona una categoría</Text>}
                     onSelect={(selectedItem, index) => {
                         console.log(selectedItem, index);
                     }}
@@ -76,7 +83,7 @@ const SearcherProductos = ({fields, setFields}) => {
                 <div item xs={12} sm={4} md={4}>
                 <SelectDropdown
                     data={almacenes}
-                    defaultButtonText={"Selecciona un almacén"}
+                    defaultButtonText={<Text style={{fontFamily:'Poppins_400Regular'}}>Selecciona un almacén</Text>}
                     onSelect={(selectedItem, index) => {
                         console.log(selectedItem, index);
                     }}
@@ -161,11 +168,5 @@ const styles = StyleSheet.create({
     textInput:{
       marginBottom:5,
     },
-    textTotal:{
-        fontSize: '1rem',
-        fontWeight: 'bold',
-        textAlign:'center',
-        marginBottom:25,
-      },
   });
   

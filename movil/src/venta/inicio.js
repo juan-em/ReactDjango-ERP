@@ -2,6 +2,7 @@ import react, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { postCaja, patchCaja, getLastCaja } from "../services/ventas";
+import {  useFonts, Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 const PantallaInicio = ({ navigation }) => {
   const [itemCaja, setItemCaja] = useState({
@@ -28,6 +29,15 @@ const PantallaInicio = ({ navigation }) => {
     getLastCaja(setItemCaja, "tesoreria");
   }, []);
 
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <Button
@@ -36,8 +46,9 @@ const PantallaInicio = ({ navigation }) => {
           navigation.navigate("Venta");
           handleOpenCloseCaja();
         }}
+        fontFamily="Poppins_400Regular"
       >
-        {itemCaja.estado_caja == true ? "CERRAR CAJA" : "ABRIR CAJA"}
+        {itemCaja.estado_caja == true ? <Text style={{fontFamily:'Poppins_400Regular'}}>Cerrar Caja</Text> : <Text style={{fontFamily:'Poppins_400Regular'}}>Abrir caja</Text>}
       </Button>
     </View>
   );
