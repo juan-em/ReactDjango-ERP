@@ -74,11 +74,11 @@ const Paso1 = ({ state, dispatch }) => {
             handleChange(index, selectedItem, ACTION_TYPES.SET_CLIENTE);
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem.persona.nombre;
+            return selectedItem.persona ? selectedItem.persona.nombre : selectedItem.empresa.nombre;
           }}
           rowTextForSelection={(item, index) => {
             console.log(item);
-            return item.persona.nombre;
+            return item.persona ? item.persona.nombre : item.empresa.nombre;
           }}
           buttonStyle={styles.dropdown1BtnStyle}
           buttonTextStyle={styles.dropdown1BtnTxtStyle}
@@ -126,7 +126,7 @@ const Paso1 = ({ state, dispatch }) => {
           type="number"
           id="textfields"
           variant="filled"
-          value={state.venta.cliente.persona.dni}
+          value={state.venta.cliente.persona ? state.venta.cliente.persona.dni : state.venta.cliente.empresa.ruc}
           style={styles.textInput}
         />
       </View>
