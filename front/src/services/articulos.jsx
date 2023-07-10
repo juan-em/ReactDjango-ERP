@@ -1,6 +1,7 @@
-import axios from "axios";
+//import axios from "axios";
+import axios from "../api/axios";
 
-const URL = 'http://localhost:8000/api/articulos/'
+const URL = 'api/articulos/'
 
 export const searcher = (fields, list) => {
     let resultData = list;
@@ -123,7 +124,7 @@ export const deleteArticulo = async (id) =>{
 }
 
 //Articulos variantes
-const URL_AV = 'http://localhost:8000/api/articulos/variantes/'
+const URL_AV = 'api/articulos/variantes/'
 
 export const variantesInitialValue = {
   nombre:"",

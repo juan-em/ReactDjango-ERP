@@ -42,7 +42,7 @@ export const Tabla = ({
   const handleDelete = async(id) => {
     try {
       Swal.fire({
-        title: '¿Desea eliminar el la cotización?',
+        title: '¿Desea eliminar la cotización?',
         showDenyButton: true,
         confirmButtonText: 'SI',
         denyButtonText: `NO`,
@@ -215,7 +215,7 @@ export const Tabla = ({
       >
         <DeleteIcon fontSize="inherit" onClick={() => handleDelete(item.id)}/>
       </IconButton>
-      <AddForm/>
+      {/* Funcionalidad a futuro: Registrar orden de compra <AddForm/> */}
       </>,
       item.orden_bien
       )

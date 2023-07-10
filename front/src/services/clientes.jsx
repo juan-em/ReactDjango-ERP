@@ -1,8 +1,9 @@
-import axios from "axios";
+//import axios from "axios";
+import axios from "../api/axios";
 import { createContext, useState } from "react";
 import Clientes from "../pages/Clientes";
 
-const URL = "http://localhost:8000/api/clientes/";
+const URL = "api/clientes/";
 
 export const getClientes = async (set) => {
   const res_per = await axios
@@ -19,56 +20,67 @@ export const searcher = (fields, list) => {
   let resultData = list;
   resultData = fields.codigo
     ? resultData.filter(
-        (item) => item.codigo.toString() === fields.codigo.toString()
+        (item) => item.codigo.toString().toLowerCase().includes(fields.codigo.toString().toLowerCase())
       )
     : resultData;
   resultData = fields.dni
     ? resultData.filter((item) => {
         if (item.persona)
-          return item.persona.dni.toString() === fields.dni.toString();
-        else return item.empresa.ruc.toString() === fields.dni.toString();
+          return item.persona.dni.toString().toLowerCase().includes(fields.dni.toString().toLowerCase())
+          
+        else return item.empresa.ruc.toString().toLowerCase().includes(fields.dni.toString().toLowerCase())
       })
     : resultData;
     resultData = fields.nombre
     ? resultData.filter((item) => {
         if (item.persona)
-          return item.persona.nombre === fields.nombre.toString()
+          return item.persona.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
         else
-          return item.empresa.nombre === fields.nombre.toString()
+          return item.empresa.nombre.toString().toLowerCase().includes(fields.nombre.toString().toLowerCase())
       })
     : resultData;
   resultData = fields.telefono
     ? resultData.filter((item) => {
         if (item.persona)
-          return item.persona.telefono.toString() === fields.telefono.toString()
+          return item.persona.telefono.toString().toLowerCase().includes(fields.telefono.toString().toLowerCase())
         else
-          return item.empresa.telefono.toString() === fields.telefono.toString()
+          return item.empresa.telefono.toString().toLowerCase().includes(fields.telefono.toString().toLowerCase())
       })
     : resultData;
-  resultData = fields.provincia
+  resultData = fields.codprovincia
     ? resultData.filter((item) => {
-        if (item.persona) return item.persona.codprovincia == fields.provincia;
-        else return item.empresa.codprovincia == fields.provincia;
+        if (item.persona) return item.persona.codprovincia == fields.codprovincia;
+        else return item.empresa.codprovincia == fields.codprovincia;
       })
     : resultData;
-  if (fields.radio === "persona"){
-    resultData.filter((item) => {
-      return item.hasOwnProperty('persona')
-    })
-  } else if (fields.radio === "empresa"){
-    resultData.filter((item) => {
-      return item.hasOwnProperty('empresa')
-    })
-  } else {
-    return resultData
-  }
+    resultData = fields.localidad
+    ? resultData.filter((item) => {
+        if (item.persona)
+          return item.persona.localidad.toString().toLowerCase().includes(fields.localidad.toString().toLowerCase())
+        else
+          return item.empresa.localidad.toString().toLowerCase().includes(fields.localidad.toString().toLowerCase())
+      })
+    : resultData;
+
+    resultData = fields.radio && fields.radio != ''
+    ? resultData.filter((item) => {
+        if (fields.radio == 'persona') {
+          return item.persona ? true : false
+        } else {
+          return item.empresa ? true : false
+        }
+      })
+    : resultData
+    
+    
+
   return resultData;
 };
 
 export const postClienteper = async (data) => {
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/clientes/per/",
+      "api/clientes/per/",
       data
     );
     // set(response.data)
@@ -82,7 +94,7 @@ export const postClienteper = async (data) => {
 export const postClienteemp = async (data) => {
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/clientes/emp/",
+      "api/clientes/emp/",
       data
     );
     return response.data;
@@ -95,7 +107,7 @@ export const postClienteemp = async (data) => {
 export const putClienteper = async (id, data) => {
   try {
     const response = await axios.put(
-      `http://localhost:8000/api/clientes/mod/per/${id}`,
+      `api/clientes/mod/per/${id}`,
       data
     );
     return response.data;
@@ -108,7 +120,7 @@ export const putClienteper = async (id, data) => {
 export const putClienteemp = async (id, data) => {
   try {
     const response = await axios.put(
-      `http://localhost:8000/api/clientes/mod/emp/${id}`,
+      `api/clientes/mod/emp/${id}`,
       data
     );
     return response.data;
@@ -121,7 +133,7 @@ export const putClienteemp = async (id, data) => {
 export const deleteClienteper = async (id, data) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/api/clientes/mod/per/${id}`
+      `api/clientes/mod/per/${id}`
     );
     return response.data;
   } catch (error) {
@@ -133,7 +145,7 @@ export const deleteClienteper = async (id, data) => {
 export const deleteClienteemp = async (id, data) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/api/clientes/mod/per/${id}`
+      `api/clientes/mod/per/${id}`
     );
     return response.data;
   } catch (error) {

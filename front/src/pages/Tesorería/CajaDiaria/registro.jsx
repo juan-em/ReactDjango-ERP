@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -35,11 +35,13 @@ import {
 import { initialRegister } from "../../../services/caja";
 
 const Registro = ({ itemCaja, render, setRender }) => {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const [cambio, setCambio] = useState();
   const [item, setItem] = useState(initialRegister);
   const user = UserRequest();
-
+  
   const handleOpen = () => {
     setOpen(true);
   };
@@ -51,13 +53,13 @@ const Registro = ({ itemCaja, render, setRender }) => {
   const renderButton = (value) => {
     if (value === "Otros ingresos") {
       return (
-        <Button variant="contained" fullWidth color="secondary">
+        <Button variant="contained" fullWidth color="secondary" onClick={()=>navigate("/ventas/venta/")}>
           Venta
         </Button>
       );
     } else {
       return (
-        <Button variant="contained" fullWidth color="secondary">
+        <Button variant="contained" fullWidth color="secondary" onClick={()=>navigate("/compras/compra/")}>
           Compra
         </Button>
       );
@@ -130,7 +132,7 @@ const Registro = ({ itemCaja, render, setRender }) => {
   useEffect(() => {
     getCambio(setCambio);
   }, []);
-
+  
   return (
     <>
       <Button
@@ -263,8 +265,9 @@ const Registro = ({ itemCaja, render, setRender }) => {
                         size="small"
                         color="secondary"
                         id="textfields"
-                        defaultValue=""
-                        name="codprovincia"
+                        name="tipo_documento"
+                        value={values.tipo_documento}
+                        onChange={handleChange}
                       >
                         <MenuItem key={0} value={"Factura"}>
                           Factura
@@ -287,7 +290,9 @@ const Registro = ({ itemCaja, render, setRender }) => {
                       size="small"
                       color="secondary"
                       margin="dense"
-                      name="nombre"
+                      name="codigo_documento"
+                      value={values.codigo_documento}
+                      onChange={handleChange}
                       id="textfields"
                     />
                   </Grid>

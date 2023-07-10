@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 import { Paper, Grid, TextField, Button, Autocomplete } from "@mui/material";
@@ -22,6 +23,7 @@ const Paso1 = ({
   statePuntoVenta,
   dispatchPuntoVenta,
 }) => {
+  const navigate = useNavigate()
   const render = useRef(true);
   const [dataClientes, setDataClientes] = useState([]);
   console.log(sesionIniciada);
@@ -135,6 +137,7 @@ const Paso1 = ({
                     fullWidth
                     color="primary"
                     sx={{ height: "100%" }}
+                    onClick={()=>navigate("/clientes/")}
                   >
                     <AddIcon />
                   </Button>

@@ -1,4 +1,5 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from "../api/axios";
 
 //Buscador de productos
 export const searcher = (fields, list) => {
@@ -29,7 +30,7 @@ export const searcher = (fields, list) => {
 // Registro de la venta
 export const RegistroVenta = (payload) => {
   axios
-    .post("http://localhost:8000/api/ventas/", payload)
+    .post("api/ventas/", payload)
     .then((res) => {
       console.log(res.data);
     })
@@ -48,7 +49,7 @@ export const BuildVentaPayload = (venta) => {
 
 export const AxiosSesionVenta = (payload) => {
   axios
-    .post("http://localhost:8000/api/ventas/sesion/", payload)
+    .post("api/ventas/sesion/", payload)
     .then((res) => {
       console.log(res.data);
     })
@@ -59,7 +60,7 @@ export const AxiosSesionVenta = (payload) => {
 
 export const RegistroPuntoVenta = (payload) => {
   axios
-    .post("http://localhost:8000/api/ventas/puntoventa/", payload)
+    .post("api/ventas/puntoventa/", payload)
     .then((res) => {
       console.log(res.data);
     })
@@ -149,9 +150,9 @@ export const getSesionVenta = async (set, url) => {
 
 // REMISIONES
 
-const URL_VENTAS = "http://localhost:8000/api/ventas/"
-const URL_REMISIONES = "http://localhost:8000/api/ventas/remision/"
-const URL_REMISIONES_DETALLES = "http://localhost:8000/api/ventas/remision/"
+const URL_VENTAS = "api/ventas/"
+const URL_REMISIONES = "api/ventas/remision/"
+const URL_REMISIONES_DETALLES = "api/ventas/remision/"
 
 export const postRemision = async (payload) => {
     try{
@@ -236,7 +237,7 @@ export const searcherRemisiones = (fields, list) => {
 // Punto venta salida de tienda 
 export const salidaProd = async (data, productoid, almacenid) => {
   try {
-    const response = await axios.patch(`http://127.0.0.1:8000/api/ventas/salida/${productoid}/${almacenid}/`, data);
+    const response = await axios.patch(`api/ventas/salida/${productoid}/${almacenid}/`, data);
     console.log(response)
     return response.data;
   } catch (error) {
