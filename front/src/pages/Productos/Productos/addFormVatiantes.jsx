@@ -48,13 +48,13 @@ const AddVariante = ({
     val["producto"] = id;
     console.log(val);
     try {
-      if(!variante.id){
-        await postVar(val)
-        variante.push()
+      if (!variante.id) {
+        await postVar(val);
+        // variante.push();
       } else {
-        await put(`http://localhost:8000/api/productos/prodvar/${id}/`, val);
+        await putVar(`http://localhost:8000/api/productos/variantes/${variante.id}/`, val);
       }
-      
+
       // Swal.fire({
       //   icon: "success",
       //   title: "Ok",
@@ -158,29 +158,6 @@ const AddVariante = ({
                       onChange={handleChange}
                       value={values.talla}
                     />
-                    <FormControl
-                      fullWidth
-                      margin="dense"
-                      size="small"
-                      color="secondary"
-                    >
-                      <InputLabel>Almacenes</InputLabel>
-                      <Select
-                        label="Almacenes"
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        name={'almacen'}
-                        value={values.almacenes}
-                        onChange={handleChange}
-                      >
-                        {almacenes.map((item, i) => (
-                          <MenuItem key={i} value={item.id}>
-                            {item.nombre}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={6}>
                     <TextField
@@ -339,6 +316,96 @@ const AddVariante = ({
                           ) : (
                             <></>
                           )}
+                        </>
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FieldArray
+                      name={"ubicacion_producto"}
+                      render={(array) => (
+                        <>
+                          {values.ubicacion_producto !== undefined ? (
+                            values.ubicacion_producto.map((ubicacion, u) => (
+                              <Box
+                                key={u}
+                                sx={{
+                                  p: 2,
+                                  border: "1px dashed skyblue",
+                                }}
+                              >
+                                <Button
+                                  fullWidth
+                                  component="label"
+                                  variant="outlined"
+                                  color="primary"
+                                  startIcon={<RemoveCircleIcon />}
+                                  sx={{
+                                    marginTop: "0.5rem",
+                                  }}
+                                  onClick={() => array.remove(u)}
+                                ></Button>
+
+                                <Grid container>
+                                  <Grid item xs={12}>
+                                    <FormControl
+                                      fullWidth
+                                      margin="dense"
+                                      size="small"
+                                      color="secondary"
+                                    >
+                                      <InputLabel>Almacén</InputLabel>
+                                      <Select
+                                        label="Almacén"
+                                        size="small"
+                                        color="secondary"
+                                        id="textfields"
+                                        name={`ubicacion_producto.${u}.almacen`}
+                                        onChange={handleChange}
+                                        // value={
+                                        //   variante.almacen
+                                        //     ? variante.almacen
+                                        //     : ""
+                                        // }
+                                      >
+                                        {almacenes.map((item, i) => (
+                                          <MenuItem key={i} value={item.id}>
+                                            {item.nombre}
+                                          </MenuItem>
+                                        ))}
+                                      </Select>
+                                    </FormControl>
+                                  </Grid>
+                                  <Grid item xs={6}></Grid>
+                                </Grid>
+                                <TextField
+                                  fullWidth
+                                  label="Cantidad"
+                                  required
+                                  size="small"
+                                  color="secondary"
+                                  id="textfields"
+                                  margin="dense"
+                                  name={`ubicacion_producto.${u}.cantidad`}
+                                  value={ubicacion.cantidad}
+                                  onChange={handleChange}
+                                />
+                              </Box>
+                            ))
+                          ) : (
+                            <></>
+                          )}
+                          <Button
+                            fullWidth
+                            component="label"
+                            variant="outlined"
+                            color="primary"
+                            startIcon={<AddCircleIcon />}
+                            sx={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
+                            onClick={() => array.push("")}
+                          >
+                            Almacenes
+                          </Button>
                         </>
                       )}
                     />

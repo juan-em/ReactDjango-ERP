@@ -52,17 +52,18 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
     }
   };
   console.log(item);
+  console.log(openModal)
 
   return (
     <>
-      <IconButton
+      {/* <IconButton
         aria-label="delete"
         size="small"
         color="success"
         onClick={handleOpenPost}
       >
         <DetailsIcon fontSize="inherit" />
-      </IconButton>
+      </IconButton> */}
       <Dialog open={openModal} sx={{ minWidth: 500 }}>
         <DialogTitle>
           <IconButton aria-label="delete" size="small" onClick={handleClose}>
@@ -131,14 +132,6 @@ const Detalles = ({ item, openModal, setOpenModal }) => {
                 </Grid>
               </CardContent>
               <CardActions>
-                <IconButton
-                  onClick={() => handlePut(item.articulo[0])}
-                  aria-label="delete"
-                  size="small"
-                  color="success"
-                >
-                  <EditIcon fontSize="inherit" />
-                </IconButton>
                 <IconButton
                   onClick={() => handleDelete(item.articulo[0].id)}
                   aria-label="delete"

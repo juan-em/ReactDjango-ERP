@@ -30,6 +30,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import DetailsIcon from "@mui/icons-material/Details";
 
 import Detalles from "./detalles";
 import "./index.css";
@@ -49,9 +50,8 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
   const [openModal, setOpenModal] = useState(false);
   const [detalle, setDetalle] = useState();
   const [variante, setVariante] = useState([]);
-  
 
-  const URL = 'http://localhost:8000/api/productos/prodvar/'
+  const URL = "http://localhost:8000/api/productos/variantes/";
 
   // const handleOpenPost = () => {
   //   setOpenModal(true);
@@ -73,8 +73,13 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
   };
 
   const handleDelete = (id) => {
-    delProd(`${URL}${id}/`)
-  }
+    delProd(`${URL}${id}/`);
+  };
+
+ const handleOpenPost = (vari) => {
+  setDetalle(vari.producto_detalle)
+  setOpenModal(true)
+ }
 
   return (
     <>
@@ -109,7 +114,15 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Variantes
             </Typography>
-            <AddVariante item={item} itemId={itemId} variante={variante} setVariante={setVariante} id={prodid} openModalVariante={openModalVariante} setOpenModalVariante={setOpenModalVariante} />
+            <AddVariante
+              item={item}
+              itemId={itemId}
+              variante={variante}
+              setVariante={setVariante}
+              id={prodid}
+              openModalVariante={openModalVariante}
+              setOpenModalVariante={setOpenModalVariante}
+            />
           </Toolbar>
         </AppBar>
         <DialogContent>
@@ -191,24 +204,25 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
                         </TableCell>
                         <TableCell align="right">{vari.id}</TableCell>
                         <TableCell align="right">{vari.nombre}</TableCell>
-                        <TableCell align="right">
-                          {vari.precio_final}
-                        </TableCell>
+                        <TableCell align="right">{vari.precio_final}</TableCell>
                         <TableCell align="right">{vari.color}</TableCell>
                         <TableCell align="right">{vari.talla}</TableCell>
                         <TableCell align="right">
-                          <Detalles
-                            item={vari.producto_detalle}
-                            openModal={openModal}
-                            setOpenModal={setOpenModal}
-                          />
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            color="success"
+                            onClick={()=>handleOpenPost(vari)}
+                          >
+                            <DetailsIcon fontSize="inherit" />
+                          </IconButton>
                         </TableCell>
                         <TableCell align="right" component="th" scope="row">
                           <IconButton
                             aria-label="delete"
                             size="small"
                             color="success"
-                            onClick={()=>handlePutVariante(vari)}
+                            onClick={() => handlePutVariante(vari)}
                           >
                             <EditIcon fontSize="inherit" />
                           </IconButton>
@@ -216,7 +230,7 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
                             aria-label="delete"
                             size="small"
                             color="error"
-                            onClick={()=>handleDelete(vari.id)}
+                            onClick={() => handleDelete(vari.id)}
                           >
                             <DeleteIcon fontSize="inherit" />
                           </IconButton>
@@ -232,6 +246,11 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
           </TabContext>
         </DialogContent>
       </Dialog>
+      <Detalles
+        item={detalle}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
     </>
   );
 };
