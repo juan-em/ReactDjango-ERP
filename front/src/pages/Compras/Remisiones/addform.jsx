@@ -38,7 +38,7 @@ const AddForm = ({
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+  const URL = "api/mantenimientos/provincias/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };

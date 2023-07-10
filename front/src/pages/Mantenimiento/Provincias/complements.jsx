@@ -32,7 +32,7 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+  const URL = "api/mantenimientos/provincias/";
   const [provincias, setProvincias] = useState([]);
   useEffect(() => {
     if (render.current) {

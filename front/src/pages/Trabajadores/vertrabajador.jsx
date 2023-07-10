@@ -110,7 +110,7 @@ const VerTrabajador = ({ itemView }) => {
           };
         } else if (i.primary === "Tipo de contrato") {
           return {
-            ...i,
+            ...i, 
             secondary: itemView.tipo_contrato,
           };
         } else if (i.primary === "Cargo que ocupa en la empresa") {
@@ -121,7 +121,7 @@ const VerTrabajador = ({ itemView }) => {
         } else if (i.primary === "Area") {
           return {
             ...i,
-            secondary: itemView.area.nombre,
+            secondary: itemView.area_info.nombre,
           };
         } else if (i.primary === "Tipo de trabajador") {
           return {

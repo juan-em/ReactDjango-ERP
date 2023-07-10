@@ -1,8 +1,9 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from "../api/axios";
 import { createContext, useState } from "react";
 
 const TrabajadoresContext = createContext();
-const URL = "http://localhost:8000/api/trabajadores/";
+const URL = "api/trabajadores/";
 // let [Trabajadores, setdataeerores] = useState([]);
 
 const setInitialDate = () => {

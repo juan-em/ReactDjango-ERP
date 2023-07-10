@@ -1,12 +1,13 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from "../api/axios";
 
-const URL = "http://localhost:8000/api/productos/";
-const URLPRODVA = "http://localhost:8000/api/prodvar/";
-const URLPRODDE = "http://localhost:8000/api/proddet/";
+const URL = "api/productos/";
+const URLPRODVA = "api/prodvar/";
+const URLPRODDE = "api/proddet/";
 
 export const getProd = async (set) => {
   const res = await axios
-    .get("http://localhost:8000/api/productos/")
+    .get("api/productos/")
     .catch((error) => console.log({ error }));
   set(res.data.content);
   return res.data.content;
@@ -86,7 +87,7 @@ export const get = async (set, url) => {
 export const postVar = async (data) => {
   try {
     console.log(data)
-    const response = await axios.post("http://localhost:8000/api/productos/variantes/",data);
+    const response = await axios.post("api/productos/variantes/",data);
     return response.data;
   } catch (error) {
     console.log(error);

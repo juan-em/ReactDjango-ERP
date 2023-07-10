@@ -149,7 +149,7 @@ const Proveedores = () => {
                         id="textfields"
                         onChange={handlerSearcher}
                         defaultValue=""
-                        name="codProvincia"
+                        name="codprovincia"
                       >
                         {provincias.map((item, i) => (
                           <MenuItem key={i} value={item.id}>

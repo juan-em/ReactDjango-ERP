@@ -37,8 +37,8 @@ const AddForm = ({
   item,
   setItem,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/impuestos/";
-  const URLID = `http://localhost:8000/api/mantenimientos/impuestos/${item.id}/`;
+  const URL = "api/mantenimientos/impuestos/";
+  const URLID = `api/mantenimientos/impuestos/${item.id}/`;
   const handleOpenPost = () => {
     setOpenModal(true);
   };

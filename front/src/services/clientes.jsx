@@ -1,8 +1,9 @@
-import axios from "axios";
+//import axios from "axios";
+import axios from "../api/axios";
 import { createContext, useState } from "react";
 import Clientes from "../pages/Clientes";
 
-const URL = "http://localhost:8000/api/clientes/";
+const URL = "api/clientes/";
 
 export const getClientes = async (set) => {
   const res_per = await axios
@@ -79,7 +80,7 @@ export const searcher = (fields, list) => {
 export const postClienteper = async (data) => {
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/clientes/per/",
+      "api/clientes/per/",
       data
     );
     // set(response.data)
@@ -93,7 +94,7 @@ export const postClienteper = async (data) => {
 export const postClienteemp = async (data) => {
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/clientes/emp/",
+      "api/clientes/emp/",
       data
     );
     return response.data;
@@ -106,7 +107,7 @@ export const postClienteemp = async (data) => {
 export const putClienteper = async (id, data) => {
   try {
     const response = await axios.put(
-      `http://localhost:8000/api/clientes/mod/per/${id}`,
+      `api/clientes/mod/per/${id}`,
       data
     );
     return response.data;
@@ -119,7 +120,7 @@ export const putClienteper = async (id, data) => {
 export const putClienteemp = async (id, data) => {
   try {
     const response = await axios.put(
-      `http://localhost:8000/api/clientes/mod/emp/${id}`,
+      `api/clientes/mod/emp/${id}`,
       data
     );
     return response.data;
@@ -132,7 +133,7 @@ export const putClienteemp = async (id, data) => {
 export const deleteClienteper = async (id, data) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/api/clientes/mod/per/${id}`
+      `api/clientes/mod/per/${id}`
     );
     return response.data;
   } catch (error) {
@@ -144,7 +145,7 @@ export const deleteClienteper = async (id, data) => {
 export const deleteClienteemp = async (id, data) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/api/clientes/mod/per/${id}`
+      `api/clientes/mod/per/${id}`
     );
     return response.data;
   } catch (error) {

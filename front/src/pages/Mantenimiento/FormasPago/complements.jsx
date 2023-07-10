@@ -32,7 +32,7 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/formapago/";
+  const URL = "api/mantenimientos/formapago/";
   const [formaPago, setFormaPago] = useState([]);
   useEffect(() => {
     if (render.current) {

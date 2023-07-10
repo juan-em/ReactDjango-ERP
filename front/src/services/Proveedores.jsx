@@ -1,8 +1,9 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from "../api/axios";
 import { createContext, useState } from "react";
 
 const ProveedoresContext = createContext();
-const URL = "http://localhost:8000/api/proveedores/";
+const URL = "api/proveedores/";
 // let [proveedores, setProveerores] = useState([]);
 
 export const getProveedores = async (set) => {
