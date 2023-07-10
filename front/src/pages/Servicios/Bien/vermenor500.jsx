@@ -60,7 +60,7 @@ const VerMenor500 = ({
   const handleDelete = async(id) => {
     try {
       Swal.fire({
-        title: '¿Desea eliminar el la cotización?',
+        title: '¿Desea eliminar la cotización?',
         showDenyButton: true,
         confirmButtonText: 'SI',
         denyButtonText: `NO`,
