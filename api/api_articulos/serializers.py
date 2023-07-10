@@ -2,6 +2,7 @@ from rest_framework import serializers
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from api_models.models import *
+from erp.utils import URLGENERAL
 
 class EMSerilizer(serializers.ModelSerializer):
     class Meta:
@@ -29,7 +30,7 @@ class ArticuloVarianteSerializer(serializers.ModelSerializer):
             'ubicacion': instance.ubicacion,
             'almacen': almacen_info,
             'descripcion': instance.descripcion,
-            'imagen': "http://localhost:8000" + instance.articulo.imagen.url,
+            'imagen': URLGENERAL + instance.articulo.imagen.url,
             'codigo': instance.codigo
         }
 
@@ -75,7 +76,7 @@ class ArticuloSerializer(WritableNestedModelSerializer):
             'marca': instance.marca,
             'nombre_categoria':instance.categoria.nombre if instance.categoria else None,
             'categoria': ser_categoria.data if instance.categoria else None,
-            'imagen': "http://localhost:8000"+instance.imagen.url,
+            'imagen': URLGENERAL + instance.imagen.url,
             'variantes': ser_variantes.data
         }
 
