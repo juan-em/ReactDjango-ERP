@@ -52,7 +52,7 @@ const AddVariante = ({
         await postVar(val)
         variante.push()
       } else {
-        await put(`http://localhost:8000/api/productos/prodvar/${id}/`, val);
+        await put(`api/productos/prodvar/${id}/`, val);
       }
       
       // Swal.fire({
@@ -79,9 +79,9 @@ const AddVariante = ({
   };
 
   useEffect(() => {
-    const URLA = "http://localhost:8000/api/articulos/";
-    const URLAV = "http://localhost:8000/api/articulos/variantes/";
-    const URL_AL = "http://localhost:8000/api/mantenimientos/almacenes/";
+    const URLA = "api/articulos/";
+    const URLAV = "api/articulos/variantes/";
+    const URL_AL = "api/mantenimientos/almacenes/";
     artget(setArt, URLA);
     artget(setVArt, URLAV);
     get(setAlmacenes, URL_AL);

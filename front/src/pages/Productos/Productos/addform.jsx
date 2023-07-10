@@ -152,10 +152,10 @@ const AddForm = ({
   };
 
   useEffect(() => {
-    const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
-    const URLA = "http://localhost:8000/api/articulos/";
-    const URLAV = "http://localhost:8000/api/articulos/variantes/";
-    const URL_ALMACEN = "http://localhost:8000/api/mantenimientos/almacenes/";
+    const URL = "api/mantenimientos/categoria_productos/";
+    const URLA = "api/articulos/";
+    const URLAV = "api/articulos/variantes/";
+    const URL_ALMACEN = "api/mantenimientos/almacenes/";
     get(setCatProd, URL);
     get(setAlmacenes, URL_ALMACEN);
     artget(setArt, URLA);

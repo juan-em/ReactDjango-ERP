@@ -46,7 +46,7 @@ const Productos = () => {
   };
 
   useEffect(() => {
-    const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
+    const URL = "api/mantenimientos/categoria_productos/";
     get(setCategoria, URL);
   }, []);
 

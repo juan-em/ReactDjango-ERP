@@ -26,7 +26,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const Detalles = ({ item, openModal, setOpenModal }) => {
-  const URL = "http://localhost:8000/api/productos/detalles/";
+  const URL = "api/productos/detalles/";
   const [putItem, setPutItem] = useState({});
   const [detalles, setDetalles] = useState([]);
   const handleClose = () => {

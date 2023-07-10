@@ -29,7 +29,7 @@ export const Tabla = ({
   setItemView,
   setFullProduct
 }) => {
-  const URL = "http://localhost:8000/api/productos/";
+  const URL = "api/productos/";
   const [producto, setProducto] = useState([]);
   useEffect(() => {
     if (render.current) {
