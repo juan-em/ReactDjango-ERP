@@ -58,7 +58,7 @@ const VerRemision = ({ itemView }) => {
         } else if (i.primary === "Trabajador") {
           return {
             ...i,
-            secondary: itemView.trabajador?itemView.trabajador.nombre:'-',
+            secondary: itemView.trabajador?itemView.trabajador:'-',
           };
         } else if (i.primary === "Fecha") {
           return {

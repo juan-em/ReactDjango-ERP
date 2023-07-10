@@ -205,8 +205,8 @@ const AddFormVariantes = ({
                     />
                     <TextField
                       fullWidth
-                      label="Costo de Manufactura"
-                      type="number"
+                      label="Descripción"
+                      type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
@@ -214,9 +214,6 @@ const AddFormVariantes = ({
                       id="textfields"
                       value={values.descripcion}
                       onChange={handleChange}
-                      inputProps={{
-                        step: 0.1
-                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>

@@ -169,7 +169,7 @@ const Table =({state, dispatch})=> {
                 </Grid>
                 <Grid item xs>
                 <Typography align="right" sx={{fontFamily:"inherit"}}>
-                    S/. {getTotal(state.compra.detalle_compra)}
+                    S/. {getTotal(state.compra.detalle_compra).toFixed(2)}
                 </Typography>
                 </Grid>
             </Grid>
@@ -203,7 +203,7 @@ const Table =({state, dispatch})=> {
                 </Grid>
                 <Grid item xs>
                 <Typography align="right" sx={{fontFamily:"inherit"}}>
-                    S/. {getTotal(state.compra.detalle_compra)}
+                    S/. {getTotal(state.compra.detalle_compra).toFixed(2)}
                 </Typography>
                 </Grid>
             </Grid>

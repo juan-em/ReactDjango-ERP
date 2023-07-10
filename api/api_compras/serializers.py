@@ -45,11 +45,12 @@ class RemisionesCompraSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         detalle_remision_compra = RemisionDetalleCompra.objects.filter(remision_compra=instance.pk)
         ser_detalle_remision_compra = RemisionesDetalleCompraSerializer(detalle_remision_compra, many=True)
+        
         return {
             'id': instance.id,
             'codigo': instance.codigo,
             'fecha': instance.fecha,
-            'trabajador': instance.trabajador,
+            'trabajador': instance.trabajador.persona.nombre if instance.trabajador else None,
             'remision_compra_detalle': ser_detalle_remision_compra.data,
             'compra': instance.compra.id,
             'codigo_compra':instance.compra.codigo,
