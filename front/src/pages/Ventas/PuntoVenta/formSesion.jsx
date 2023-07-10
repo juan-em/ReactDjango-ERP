@@ -96,15 +96,16 @@ const FormSesion = ({
         component="form"
         textAlign="center"
         sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-          m: 2,
+          paddingLeft: "16rem",
+          paddingRight: "16rem"
         }}
         noValidate
         autoComplete="off"
       >
-        <Grid container>
+        <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={12}>
             <TextField
+              fullWidth
               label="Nombre Encargado"
               variant="standard"
               onChange={(e, value) => {
