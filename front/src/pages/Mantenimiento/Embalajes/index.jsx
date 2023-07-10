@@ -24,7 +24,7 @@ import { useRef } from "react";
 import VerCategoria from "./vercategoria";
 
 const Embalajes = () => {
-  const URL = "http://localhost:8000/api/mantenimientos/embalajes/";
+  const URL = "api/mantenimientos/embalajes/";
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
@@ -38,6 +38,7 @@ const Embalajes = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   return (

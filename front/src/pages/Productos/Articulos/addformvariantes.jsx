@@ -44,9 +44,14 @@ const AddFormVariantes = ({
   };
 
   const artVarSubmit = async (val) => {
-    console.log(val)
+    let {embalaje, almacen} = val
+    var dataToSubmit = {
+      "embalaje":embalaje ? embalaje.id : null, 
+      "almacen":almacen ? almacen.id : null
+    }
+    dataToSubmit = {...val,...dataToSubmit, "articulo":itemView.id};
     try {
-      if (!variantes.id) {
+      if (!item.id) {
         var res = await postArticulosVariantes(dataToSubmit)
         itemView.variantes.push(res.content)
       } else {
@@ -76,7 +81,6 @@ const AddFormVariantes = ({
       });
     }
     setOpenAddModal(false)
-
   }
 
   console.log(item)
@@ -201,8 +205,8 @@ const AddFormVariantes = ({
                     />
                     <TextField
                       fullWidth
-                      label="Costo de Manufactura"
-                      type="number"
+                      label="Descripción"
+                      type="text"
                       size="small"
                       color="secondary"
                       margin="dense"
@@ -210,9 +214,6 @@ const AddFormVariantes = ({
                       id="textfields"
                       value={values.descripcion}
                       onChange={handleChange}
-                      inputProps={{
-                        step: 0.1
-                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>

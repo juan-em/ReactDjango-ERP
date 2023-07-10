@@ -1,15 +1,26 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from "../api/axios";
 import { createContext, useState } from "react";
 
 const TrabajadoresContext = createContext();
-const URL = "http://localhost:8000/api/trabajadores/";
+const URL = "api/trabajadores/";
 // let [Trabajadores, setdataeerores] = useState([]);
+
+const setInitialDate = () => {
+  let actualdate = new Date();
+  var event = new Date(actualdate);
+  return JSON.stringify(event).slice(1, -1);
+};
+
+export const initialState = {
+  fecha_nacimiento: setInitialDate(),
+};
 
 export const getTrabajadores = async (set) => {
   const res = await axios
     .get(`${URL}`)
     .catch((error) => console.log({ error }));
-  set(res.data.content)
+  set(res.data.content);
   return { trabajadores: res.data };
 };
 
@@ -23,9 +34,10 @@ export const postTrabajadores = async (data) => {
   }
 };
 
-export const putTrabajadores = async (data, id) => {
+export const putTrabajadores = async (id, data) => {
   try {
-    const response = await axios.put(`${URL}${id}`, data);
+    const response = await axios.put(`${URL}${id}/`, data);
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.log(error);
@@ -44,33 +56,38 @@ export const delTrabajadores = async (id) => {
 };
 
 export const searcher = (fields, list) => {
-  console.log(list);
+  //console.log(list);
   let resultData = list;
-  /*
   resultData = fields.codigo
-    ? resultData.filter(
-        (item) => item.codigo.toString() === fields.codigo.toString()
-      )
+    ? resultData.filter((item) => {
+        return item.codigo
+          .toString()
+          .toLowerCase()
+          .includes(fields.codigo.toString().toLowerCase());
+      })
     : resultData;
-
-    
   resultData = fields.nombre
     ? resultData.filter((item) => {
-        if (item.persona)
-          return item.persona.nombre === fields.nombre.toString()
-        else
-          return item.empresa.nombre === fields.nombre.toString()
+        return item.persona.nombre
+          .toString()
+          .toLowerCase()
+          .includes(fields.nombre.toString().toLowerCase());
       })
     : resultData;
-  resultData = fields.telefono
+  resultData = fields.dni
     ? resultData.filter((item) => {
-        if (item.persona)
-          return item.persona.telefono.toString() === fields.telefono.toString()
-        else
-          return item.empresa.telefono.toString() === fields.telefono.toString()
+        return item.persona.dni
+          .toString()
+          .toLowerCase()
+          .includes(fields.dni.toString().toLowerCase());
       })
     : resultData;
-*/
-    //console.log(resultData)
+  resultData = fields.area
+    ? resultData.filter((item) => {
+        return (
+          item.area?.toString() == fields.area.toString()
+        );
+      })
+    : resultData;
   return resultData;
 };

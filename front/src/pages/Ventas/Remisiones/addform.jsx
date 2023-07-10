@@ -37,7 +37,7 @@ const AddForm = ({
   }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  const URL = "http://localhost:8000/api/mantenimientos/almacenes/";
+  const URL = "api/mantenimientos/almacenes/";
   const [idAlamcenPt, setidAlmacenPt] = useState(0)
   const [idAlmacen, setIdAlmacen] = useState(0)
 

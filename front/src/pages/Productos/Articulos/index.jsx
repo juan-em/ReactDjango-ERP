@@ -49,11 +49,12 @@ const Articulos = () => {
   
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   useEffect(()=>{
-    const URL_M = "http://localhost:8000/api/mantenimientos/almacenes/";
-    const URL_E = "http://localhost:8000/api/mantenimientos/embalajes/";
+    const URL_M = "api/mantenimientos/almacenes/";
+    const URL_E = "api/mantenimientos/embalajes/";
     get(setEmbalajes, URL_E)
     get(setAlmacenes, URL_M)
   },[])

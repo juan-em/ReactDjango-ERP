@@ -10,7 +10,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Grid,
-  Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 //icons
@@ -26,16 +25,15 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import PinIcon from "@mui/icons-material/Pin";
 import KeyIcon from "@mui/icons-material/Key";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import WebhookIcon from "@mui/icons-material/Webhook";
-import { Box } from "@mui/system";
-
-import Swal from "sweetalert2";
 
 const VerTrabajador = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombres", secondary: "" },
-    { icon: <DriveFileRenameOutlineIcon />, primary: "Apellidos", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Nombre", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Area", secondary: "" },
+    { icon: <DriveFileRenameOutlineIcon />, primary: "Tipo de trabajador", secondary: "" },
+    { icon: <AttachMoneyIcon />, primary: "Tipo de contrato", secondary: "" },
+    { icon: <AttachMoneyIcon />, primary: "Cargo que ocupa en la empresa", secondary: "" },
     { icon: <FingerprintIcon />, primary: "DNI", secondary: "" },
     { icon: <FingerprintIcon />, primary: "Fecha de nacimiento", secondary: "" },
     { icon: <DeckIcon />, primary: "Provincia", secondary: "" },
@@ -45,9 +43,6 @@ const VerTrabajador = ({ itemView }) => {
     { icon: <KeyIcon />, primary: "Cuenta Bancaria", secondary: "" },
     { icon: <LocalPhoneIcon />, primary: "Teléfono", secondary: "" },
     { icon: <PhoneAndroidIcon />, primary: "Móvil", secondary: "" },
-    { icon: <AttachMoneyIcon />, primary: "Forma de Pago", secondary: "" },
-    { icon: <AttachMoneyIcon />, primary: "Tipo de contrato", secondary: "" },
-    { icon: <AttachMoneyIcon />, primary: "Cargo que ocupa en la empresa", secondary: "" },
   ]);
 
   const seti = () => {
@@ -63,30 +58,25 @@ const VerTrabajador = ({ itemView }) => {
             ...i,
             secondary: itemView.codigo,
           };
-        } /*else if (i.primary === "Nombre") {
+        } else if (i.primary === "Nombre") {
           return {
             ...i,
             secondary: itemView.persona.nombre,
           };
-         } else if (i.primary === "Apellidos") {
-            return {
-              ...i,
-              secondary: itemView.persona.nombre,
-            };
-        } else if (i.primary === "DNI") {
-          return {
-            ...i,
-            secondary: itemView.persona.dni,
-          };
-        }else if (i.primary === "Fecha de nacimiento") {
+         } else if (i.primary === "DNI") {
             return {
               ...i,
               secondary: itemView.persona.dni,
             };
+        } else if (i.primary === "Fecha de nacimiento") {
+            return {
+              ...i,
+              secondary: itemView.fecha_nacimiento,
+            };
         } else if (i.primary === "Provincia") {
           return {
             ...i,
-            secondary: itemView.persona.codprovincia,
+            secondary: itemView.persona.provincia_info?.nombreprovincia,
           };
         } else if (i.primary === "Localidad") {
           return {
@@ -118,25 +108,27 @@ const VerTrabajador = ({ itemView }) => {
             ...i,
             secondary: itemView.persona.movil,
           };
-        } else if (i.primary === "Forma de Pago") {
+        } else if (i.primary === "Tipo de contrato") {
+          return {
+            ...i, 
+            secondary: itemView.tipo_contrato,
+          };
+        } else if (i.primary === "Cargo que ocupa en la empresa") {
           return {
             ...i,
-            secondary: itemView.codformapago,
+            secondary: itemView.cargo,
           };
-        }
-        else if (i.primary === "Tipo de contrato") {
+        } else if (i.primary === "Area") {
           return {
             ...i,
-            secondary: itemView.codformapago,
+            secondary: itemView.area_info.nombre,
           };
-        }
-        else if (i.primary === "Cargo que ocupa en la empresa") {
+        } else if (i.primary === "Tipo de trabajador") {
           return {
             ...i,
-            secondary: itemView.codformapago,
+            secondary: itemView.tipo_trabajador,
           };
         }
-        */
       }
     });
     setItemsPer(newItem);

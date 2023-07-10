@@ -58,7 +58,7 @@ const Paso2 = ({state, dispatch}) => {
     //para el buscador de articulos
     const render = useRef(true);
     const [fields, setFields] = useState({}); 
-    const URL = "http://localhost:8000/api/articulos/variantes/";
+    const URL = "api/articulos/variantes/";
     const [articulos, setArticulos] = useState([]);
     useEffect(() => {
         if (render.current) {

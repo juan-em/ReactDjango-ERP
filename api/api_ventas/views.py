@@ -2,6 +2,9 @@ from django.shortcuts import render
 from api_models.models import *
 from .serializers import *
 
+from api_cajadiaria.models import Caja_Diaria
+from api_cajadiaria.serializers import IngresosVentaSerializer, IngresosSesionVentaSerializer
+
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -20,31 +23,35 @@ class VentasView(APIView):
         return Response(context)
     
     def post(self, request):
-        #registro caja
-        # tipo_pago = request.data.pop('tipo_pago', None)
-        
+        ultima_caja = Caja_Diaria.objects.last()
+        estado_ultima_caja = ultima_caja.estado_caja
+        data_ingreso_venta = request.data.pop("ingreso_venta")
+        print("data_ingreso_venta ==> ", data_ingreso_venta)
 
-        serializer = VentaSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        if estado_ultima_caja:
+            serializer = VentaSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
 
-        #registro caja
-        # if tipo_pago:
-        #     data = {
-        #         'tipo_movimiento': 'Venta',
-        #         'venta': Venta.objects.get(id=serializer.data["id"]),
-        #         'tipo_pago': Formapago.objects.get(id=tipo_pago),
-        #         'caja_diaria': Caja_diaria.objects.get(estado=True)
-        #     }
-        #     cajaMovimiento = Caja_diaria_movimientos.objects.create(**data)
-        #     cajaMovimiento.save()
+            data_ingreso_venta["venta"] = serializer.data.get("id")            
+            serializer_ingreso_venta = IngresosVentaSerializer(data=data_ingreso_venta)
+            serializer_ingreso_venta.is_valid(raise_exception=True)
+            serializer_ingreso_venta.save()
 
-
-        context = {
+            context = {
                 'data':'OK',
                 'status':status.HTTP_201_CREATED,
                 'content':serializer.data
-        }
+            }
+
+            print("serializer.data ==> ", serializer.data)
+        else: 
+            context = {
+                'data': 'ERROR',
+                'status': status.HTTP_400_BAD_REQUEST,
+                'content': 'Debes abrir una caja antes de hacer la compra'
+            }
+
         return Response(context)
     
 
@@ -93,9 +100,29 @@ class Sesion_ventaView(APIView):
         return Response(context)
 
     def post(self, request):
-        serializer = SesionVentaSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        ultima_caja = Caja_Diaria.objects.last()
+        estado_ultima_caja = ultima_caja.estado_caja
+        data_ingreso_sesion_venta = request.data.pop("ingreso_sesion_venta")
+        print("data_ingreso_sesion_venta ==> ", data_ingreso_sesion_venta)
+
+        if estado_ultima_caja:
+            serializer = SesionVentaSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            data_ingreso_sesion_venta["sesion_venta"] = serializer.data.get("id")            
+            serializer_ingreso_venta = IngresosSesionVentaSerializer(data=data_ingreso_sesion_venta)
+            serializer_ingreso_venta.is_valid(raise_exception=True)
+            serializer_ingreso_venta.save()
+
+            print("serializer.data ==> ", serializer.data)
+        else: 
+            context = {
+                'data': 'ERROR',
+                'status': status.HTTP_400_BAD_REQUEST,
+                'content': 'Debes abrir una caja antes de hacer la compra'
+            }
+
         context = {
                 'data':'OK',
                 'status':status.HTTP_201_CREATED,
@@ -277,6 +304,12 @@ class SalidaProductos(APIView):
     def patch(self, request, productoid, almacenid):
         data = Ubicacion_almacen_producto.objects.filter(producto_variante = productoid).filter(almacen = almacenid).first()
         serializer_data = SalidaProductoSerializer(data)
+        print('//////////////////////////////////')
+        # print(producto_variante)
+        print(serializer_data.data)
+        print('//////////////////////////////////')
+        print(request.data['cantidad'])
+        print('//////////////////////////////////')
         result = serializer_data.data['cantidad'] - request.data['cantidad']
         serializer = SalidaProductoSerializer(data, data={"cantidad":result}, partial=True)
         serializer.is_valid(raise_exception=True)

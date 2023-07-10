@@ -34,6 +34,7 @@ const Provincias = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   return (

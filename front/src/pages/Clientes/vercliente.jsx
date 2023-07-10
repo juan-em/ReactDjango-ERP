@@ -10,7 +10,6 @@ import {
   AccordionSummary,
   AccordionDetails,
   Grid,
-  Typography,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 //icons
@@ -26,10 +25,6 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import PinIcon from "@mui/icons-material/Pin";
 import KeyIcon from "@mui/icons-material/Key";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import WebhookIcon from "@mui/icons-material/Webhook";
-import { Box } from "@mui/system";
-
-import Swal from "sweetalert2";
 
 const VerCliente = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
@@ -73,8 +68,8 @@ const VerCliente = ({ itemView }) => {
           return {
             ...i,
             secondary: itemView.persona
-              ? itemView.persona.codprovincia
-              : itemView.empresa.codprovincia,
+              ? itemView.persona.provincia_info?.nombreprovincia
+              : itemView.empresa.provincia_info?.nombreprovincia,
           };
         } else if (i.primary === "Localidad") {
           return {
@@ -119,7 +114,7 @@ const VerCliente = ({ itemView }) => {
         } else if (i.primary === "Forma de Pago") {
           return {
             ...i,
-            secondary: itemView.codformapago,
+            secondary: itemView.forma_dp_info?.nombrefp,
           };
         }
       }

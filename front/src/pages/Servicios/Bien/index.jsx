@@ -35,6 +35,7 @@ const Bien = () => {
   
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
 

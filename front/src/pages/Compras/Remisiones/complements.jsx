@@ -162,7 +162,7 @@ export const Tabla = ({
               <TableCell align="right">{row.codigo_compra}</TableCell>
               <TableCell align="right">{row.numero_factura}</TableCell>
               <TableCell align="right">{row.proveedor}</TableCell>
-              <TableCell align="right">{row.trabajador?row.trabajador.codigo:'-'}</TableCell>
+              <TableCell align="right">{row.trabajador?row.trabajador:'-'}</TableCell>
               <TableCell align="right">{formateoFecha(row.fecha)}</TableCell>
               <TableCell align="right">S/. {row.totalRemision}</TableCell>
               <TableCell align="right" component="th" scope="row">

@@ -25,7 +25,7 @@ import Swal from "sweetalert2";
 
 const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
   
-  const URL = "http://localhost:8000/api/mantenimientos/formapago/";
+  const URL = "api/mantenimientos/formapago/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };

@@ -27,7 +27,7 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoria_productos/";
+  const URL = "api/mantenimientos/categoria_productos/";
   const [categoria_productos, setCategoriaProductos] = useState([]);
   useEffect(() => {
     if (render.current) {

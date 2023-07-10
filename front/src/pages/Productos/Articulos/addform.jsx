@@ -100,7 +100,7 @@ const AddForm = ({
 
 
   useEffect(()=>{
-    const URL_C = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
+    const URL_C = "api/mantenimientos/categoriaarticulos/";
     getProveedores(setProveedores)
     get(setCategorias, URL_C)
   },[])

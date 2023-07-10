@@ -16,10 +16,11 @@ import { TabContext, TabPanel, TabList } from "@mui/lab";
 
 import { Formik } from "formik";
 //Componentes pra el input de fecha
-import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import dayjs from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 //iconos
 import CloseIcon from "@mui/icons-material/Close";
@@ -35,6 +36,8 @@ import {
 } from "../../services/clientes";
 
 import { get } from "../../services/mantenimiento";
+import { postTrabajadores, putTrabajadores } from "../../services/trabajadores";
+import { initialState } from "../../services/trabajadores";
 
 import Swal from "sweetalert2";
 
@@ -48,6 +51,7 @@ const AddForm = ({
   setItem,
   value,
   setValue,
+  handleClean
 }) => {
   const handleOpenPost = () => {
     setOpenModal(true);
@@ -57,32 +61,33 @@ const AddForm = ({
   const handleClose = () => {
     if (item.id) setItem({});
     setOpenModal(false);
-    setItem({})
+    setItem({});
   };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
 
   const [provincias, setProvincias] = useState([]);
-  const [formPagos, setFormPago] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const tipos_trabajador = [
+    'Interno', 'Contratista', 'Ninguno'
+  ]
 
-  // Formik
-
-  const perSubmit = async (val) => {
+  const handleSubmit = async (val) => {
+    console.log(val)
     try {
       !item.id
-        ? await postClienteper(val)
-        : await putClienteper(item.id, val);
-
+        ? await postTrabajadores(val)
+        : await putTrabajadores(item.id, val);
       Swal.fire({
         icon: "success",
         title: "Ok",
         text: "Se registro el Cliente",
       });
-      if (item.id) setItem({});
+      if (item.id) setItem(initialState);
       setRenderizar(!renderizar);
+      handleClean()
       render.current = true;
     } catch (error) {
       Swal.fire({
@@ -93,43 +98,14 @@ const AddForm = ({
     }
     setOpenModal(false);
   };
-  const handlerSearcher = (e) => {
-    const { name, value } = e.target;
-    setFields({ ...fields, [name]: value });
-  };
-  const empSubmit = async (val) => {
-    try {
-      !item.id
-        ? await postClienteemp(val)
-        : await putClienteemp(item.id, val);
-
-      Swal.fire({
-        icon: "success",
-        title: "Ok",
-        text: "Se registro el Cliente",
-      });
-      if (item.id) setItem({});
-      setRenderizar(!renderizar);
-      render.current = true;
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${error}`,
-      });
-    }
-    setOpenModal(false);
-  };
-
 
   useEffect(() => {
-    const URLP = "http://localhost:8000/api/mantenimientos/provincias/";
-    const URLF = "http://localhost:8000/api/mantenimientos/formapago/";
+    const URLP = "api/mantenimientos/provincias/";
+    const URLA = "api/mantenimientos/areas/";
     get(setProvincias, URLP);
-    get(setFormPago, URLF);
+    get(setAreas, URLA);
   }, []);
 
-  
   return (
     <>
       <IconButton
@@ -157,11 +133,10 @@ const AddForm = ({
               indicatorColor="secondary"
             >
               <Tab label={<span>Trabajador</span>} value="1" />
-             
             </TabList>
             <TabPanel value="1" color="secondary">
-              <Formik initialValues={item} onSubmit={perSubmit}>
-                {({ values, handleSubmit, handleChange }) => (
+              <Formik initialValues={item} onSubmit={handleSubmit}>
+                {({ values, handleSubmit, handleChange, setFieldValue }) => (
                   <form onSubmit={handleSubmit}>
                     <Grid container spacing={1}>
                       <Grid item xs={12} sm={6} md={6}>
@@ -178,43 +153,38 @@ const AddForm = ({
                           onChange={handleChange}
                           value={values.persona ? values.persona.nombre : ""}
                         />
-                        <TextField
-                          fullWidth
-                          label="Apellidos"
-                          required
-                          size="small"
-                          color="secondary"
-                          id="textfields"
-                          variant="filled"
-                          margin="dense"
-                          name="persona.nombre"
-                          onChange={handleChange}
-                          value={values.persona ? values.persona.nombre : ""}
-                        />
-                         <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DesktopDatePicker
-                          label="Fecha de nacimiento"
-                          name="fecha"
-                          inputFormat="DD/MM/YYYY"
-                         
-                          onChange={( value)=>{handleChange(value, null, ACTION_TYPES.SET_FECHA)}}
-                          renderInput={(params) => <TextField 
-                            {...params} 
-                            fullWidth
-                            size="small"
-                            color="secondary"
-                            variant="filled"
-                            id="textfields"
-                            margin="dense"
-                            />}
+                            label="Fecha de nacimiento"
+                            name="fecha_nacimiento"
+                            inputFormat="DD/MM/YYYY"
+                            onChange={(newValue) => {
+                              var event = new Date(newValue.$d);
+                              let date = JSON.stringify(event);
+                              date = date.slice(1, 11);
+                              setFieldValue("fecha_nacimiento", date);
+                            }}
+                            value={values.fecha_nacimiento}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                fullWidth
+                                size="small"
+                                color="secondary"
+                                variant="filled"
+                                id="textfields"
+                                margin="dense"
+                              />
+                            )}
                           />
                         </LocalizationProvider>
-                         
+
                         <FormControl
                           fullWidth
                           margin="dense"
                           size="small"
                           color="secondary"
+                          variant="filled"
                         >
                           <InputLabel id="prov">Provincia</InputLabel>
                           <Select
@@ -228,7 +198,7 @@ const AddForm = ({
                             variant="filled"
                             onChange={handleChange}
                             value={
-                              values.persona ? values.persona.codprovincia : ""
+                              values.persona? values.persona.codprovincia : ""
                             }
                           >
                             {provincias.map((item) => (
@@ -284,23 +254,52 @@ const AddForm = ({
                           margin="dense"
                           size="small"
                           color="secondary"
+                          variant="filled"
                         >
-                          <InputLabel id="prov">Forma de pago</InputLabel>
+                          <InputLabel id="prov">Area</InputLabel>
                           <Select
-                            label="Forma de pago"
+                            label="Area"
                             required
                             fullWidth
                             size="small"
                             color="secondary"
                             variant="filled"
                             id="textfields"
-                            name="codformapago"
+                            name="area"
                             onChange={handleChange}
-                            value={values.persona ? values.codformapago : ""}
+                            value={
+                              values.area ? values.area : ""}
                           >
-                            {formPagos.map((item) => (
+                            {areas.map((item) => (
                               <MenuItem key={item.id} value={item.id}>
-                                {item.nombrefp}
+                                {item.nombre}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        <FormControl
+                          fullWidth
+                          margin="dense"
+                          size="small"
+                          color="secondary"
+                          variant="filled"
+                        >
+                          <InputLabel>Tipo de trabajador</InputLabel>
+                          <Select
+                            label="Tipo de trabajador"
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            onChange={handleChange}
+                            name="tipo_trabajador"
+                            variant="filled"
+                            value={
+                              values.tipo_trabajador ? values.tipo_trabajador : ""
+                            }
+                          >
+                            {tipos_trabajador.map((item, i) => (
+                              <MenuItem key={i} value={item}>
+                                {item}
                               </MenuItem>
                             ))}
                           </Select>
@@ -384,36 +383,37 @@ const AddForm = ({
                           variant="filled"
                           name="cargo"
                           onChange={handleChange}
-                          value={values.persona ? values.persona.web : ""}
+                          value={values.cargo ? values.cargo : ""}
                         />
-                          
-                          <FormControl
-                      fullWidth
-                      margin="dense"
-                      size="small"
-                      color="secondary"
-                      variant="filled"
-                    >
-                      <InputLabel>Tipo de contrato</InputLabel>
-                      <Select
-                        label="Tipo de contrato"
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        onChange={handlerSearcher}
-                        defaultValue=""
-                        name="codprovincia"
-                        variant="filled"
-                      >
-                        <MenuItem key={1} value={1}>
-                          Tiempo parcial
-                        </MenuItem>
-                        <MenuItem key={1} value={1}>
-                          Tiempo completo
-                        </MenuItem>
-                      
-                      </Select>
-                    </FormControl>
+
+                        <FormControl
+                          fullWidth
+                          margin="dense"
+                          size="small"
+                          color="secondary"
+                          variant="filled"
+                        >
+                          <InputLabel>Tipo de contrato</InputLabel>
+                          <Select
+                            label="Tipo de contrato"
+                            size="small"
+                            color="secondary"
+                            id="textfields"
+                            onChange={handleChange}
+                            name="tipo_contrato"
+                            variant="filled"
+                            value={
+                              values.tipo_contrato ? values.tipo_contrato : ""
+                            }
+                          >
+                            <MenuItem key={1} value={"Tiempo parcial"}>
+                              Tiempo parcial
+                            </MenuItem>
+                            <MenuItem key={2} value={"Tiempo completo"}>
+                              Tiempo completo
+                            </MenuItem>
+                          </Select>
+                        </FormControl>
                       </Grid>
                       <Grid item xs={12} sm={6} md={6} sx={{ mt: 4 }}>
                         <Button
@@ -447,7 +447,6 @@ const AddForm = ({
                 )}
               </Formik>
             </TabPanel>
-            
           </TabContext>
         </DialogContent>
       </Dialog>

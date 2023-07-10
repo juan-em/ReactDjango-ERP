@@ -51,10 +51,11 @@ const Proveedores = () => {
   };
   const handleClean = () => {
     searchform.reset();
+    setFields({})
   };
 
   useEffect(() => {
-    const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+    const URL = "api/mantenimientos/provincias/";
     get(setProvincias, URL);
   }, []);
 
@@ -84,7 +85,7 @@ const Proveedores = () => {
                   Buscar Proveedor
                 </AccordionSummary>
                 <AccordionDetails>
-                  <form id="serachform">
+                  <form id="searchform">
                     <TextField
                       fullWidth
                       label="Código"
@@ -99,7 +100,7 @@ const Proveedores = () => {
                     />
                     <TextField
                       fullWidth
-                      label="RUC/DNI"
+                      label="RUC"
                       type="text"
                       size="small"
                       color="secondary"
@@ -148,7 +149,7 @@ const Proveedores = () => {
                         id="textfields"
                         onChange={handlerSearcher}
                         defaultValue=""
-                        name="codProvincia"
+                        name="codprovincia"
                       >
                         {provincias.map((item, i) => (
                           <MenuItem key={i} value={item.id}>

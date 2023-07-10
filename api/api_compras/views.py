@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from api_models.models import *
+from api_cajadiaria.models import Caja_Diaria
+from api_cajadiaria.serializers import EgresosCompraSerializer
+
 # Create your views here.
 from .serializers import *
 
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 class ComprasView(APIView):
@@ -21,30 +22,40 @@ class ComprasView(APIView):
         return Response(context)
 
     def post(self, request):
+        ultima_caja = Caja_Diaria.objects.last()
+        estado_ultima_caja = ultima_caja.estado_caja
+        print("request.data ==> ", request.data)
+        data_egreso_registro = request.data.pop("egresos_compra")
+        print("data_egreso_registro ==> ", data_egreso_registro)
 
-        #registro caja
-        tipo_pago = request.data.pop('tipo_pago', None)
-        
-        serializer = CompraSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        #registro caja
-        if tipo_pago:
-            data = {
-                'tipo_movimiento': 'Compra',
-                'compra': Compra.objects.get(id=serializer.data["id"]),
-                'tipo_pago': Formapago.objects.get(id=tipo_pago),
-                'caja_diaria': Caja_diaria.objects.get(estado=True)
-            }
-            cajaMovimiento = Caja_diaria_movimientos.objects.create(**data)
-            cajaMovimiento.save()
-
-        context = {
+        if estado_ultima_caja: 
+            serializer = CompraSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+    
+            context = {
                 'data':'OK',
                 'status':status.HTTP_201_CREATED,
                 'content':serializer.data
-        }
+            }
+
+            print("data_egreso_registro ==> ", data_egreso_registro)
+            print("serializer.data ==> ", serializer.data)
+
+            data_egreso_registro["compra"] = serializer.data.get("id")            
+            serializer_egresos_compra = EgresosCompraSerializer(data=data_egreso_registro)
+            serializer_egresos_compra.is_valid(raise_exception=True)
+            serializer_egresos_compra.save()
+
+            print("Egresos_compra ==>", serializer_egresos_compra.data)
+
+        else:
+            context = {
+                'data': 'ERROR',
+                'status': status.HTTP_400_BAD_REQUEST,
+                'content': 'Debes abrir una caja antes de hacer la compra'
+            }
+
         return Response(context)
 
 class ComprasDetailView(APIView):
@@ -60,8 +71,7 @@ class ComprasDetailView(APIView):
     
     def patch(self, request, id):
         dataCompra = Compra.objects.get(id=id)
-        serCompra = CompraSerializer(dataCompra, data=request.data,
-                                            partial=True)
+        serCompra = CompraSerializer(dataCompra, data=request.data, partial=True)
         serCompra.is_valid(raise_exception=True)
         serCompra.save()
         context = {
@@ -93,9 +103,10 @@ class RemisionesView(APIView):
 
     def post(self, request):
         compra_id = request.data.pop('compra')
-        
+        trabajador_id = request.data.pop('trabajador')
         remision = RemisionCompra()
         remision.compra_id = compra_id
+        remision.trabajador_id = trabajador_id
         remision.save()
 
         lista_detalles_remision = request.data.get('remision_compra_detalle')
@@ -108,8 +119,6 @@ class RemisionesView(APIView):
             detalle_remision.remision_compra=remision
             detalle_remision.compra_detalle=compra_detalle
             detalle_remision.save()
-
-
 
             entrada_almacen = EntradaAlmacenCompra.objects.create(remision=detalle_remision)
             entrada_almacen.save()

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from drf_writable_nested.serializers import WritableNestedModelSerializer
-
+from erp.utils import URLGENERAL
 from .models import *
 
 # Serializers ordenes de bienes
@@ -10,9 +10,9 @@ class PropuestaEmpresaBienDocumentosSerializer(serializers.ModelSerializer):
         fields = ['id', 'propuesta_tecnica_documento', 'propuesta_economica_documento', 'bien_cotizacion_documento']
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['propuesta_tecnica_documento'] = "http://localhost:8000" + instance.propuesta_tecnica_documento.url if instance.propuesta_tecnica_documento else '#'
-        representation['propuesta_economica_documento'] = "http://localhost:8000" + instance.propuesta_economica_documento.url if instance.propuesta_economica_documento else '#'
-        representation['bien_cotizacion_documento'] = "http://localhost:8000" + instance.bien_cotizacion_documento.url if instance.bien_cotizacion_documento else '#'
+        representation['propuesta_tecnica_documento'] = URLGENERAL + instance.propuesta_tecnica_documento.url if instance.propuesta_tecnica_documento else '#'
+        representation['propuesta_economica_documento'] = URLGENERAL + instance.propuesta_economica_documento.url if instance.propuesta_economica_documento else '#'
+        representation['bien_cotizacion_documento'] = URLGENERAL + instance.bien_cotizacion_documento.url if instance.bien_cotizacion_documento else '#'
         return representation 
 
 class PropuestaEmpresaBienSerializer(WritableNestedModelSerializer):
@@ -37,9 +37,9 @@ class PropuestaEmpresaServicioDocumentosSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['propuesta_tecnica_documento'] = "http://localhost:8000" + instance.propuesta_tecnica_documento.url if instance.propuesta_tecnica_documento else '#'
-        representation['propuesta_economica_documento'] = "http://localhost:8000" + instance.propuesta_economica_documento.url if instance.propuesta_economica_documento else '#'
-        representation['servicio_cotizacion_documento'] = "http://localhost:8000" + instance.servicio_cotizacion_documento.url if instance.servicio_cotizacion_documento else '#'
+        representation['propuesta_tecnica_documento'] = URLGENERAL + instance.propuesta_tecnica_documento.url if instance.propuesta_tecnica_documento else '#'
+        representation['propuesta_economica_documento'] = URLGENERAL + instance.propuesta_economica_documento.url if instance.propuesta_economica_documento else '#'
+        representation['servicio_cotizacion_documento'] = URLGENERAL + instance.servicio_cotizacion_documento.url if instance.servicio_cotizacion_documento else '#'
         return representation 
 
 class PropuestaEmpresaServicioSerializer(WritableNestedModelSerializer):

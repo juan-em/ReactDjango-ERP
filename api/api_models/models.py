@@ -26,6 +26,84 @@ def upload_toProd(instance, filename):
 def upload_toCom(instance, filename):
     return 'compras/{filename}'.format(filename=filename)
 
+class Areas(models.Model):
+    nombre = models.CharField(max_length=100, default='UNDEFINED')
+    abreviacion = models.CharField(max_length=20, blank=True, null=True)
+    def __str__(self):
+        return self.nombre.upper()
+
+class Provincias(models.Model):
+    nombreprovincia = models.CharField(max_length=100)
+    borrado = models.BooleanField(default=False, null=True)
+    def __str__(self):
+        return self.nombreprovincia
+
+class Persona(models.Model):
+    nombre = models.CharField(max_length=100, default="-")
+    dni = models.CharField(max_length=100, default="-")
+    codprovincia = models.ForeignKey(Provincias, on_delete=models.CASCADE, null=True)
+    localidad = models.CharField(max_length=100, default="-")
+    direccion = models.CharField(max_length=500, default="-")
+    codpostal = models.CharField(max_length=100, default="-")
+    cuentabancaria = models.CharField(max_length=100, default="-")
+    telefono = models.CharField(max_length=100, default="-")
+    movil = models.CharField(max_length=100, default="-")
+    web = models.CharField(max_length=100, default="-")
+    borrado = models.BooleanField(default=False, null=True)
+
+    def __str__(self):
+        return self.nombre
+
+############################################################
+#TRABAJADOR
+############################################################
+
+def get_default_area():
+    """ get a default value for action status; create new status if not available """
+    return Areas.objects.get_or_create(nombre="Ninguno")[0].pk
+
+
+class Trabajador(models.Model):
+    INTERNO = 'Interno'
+    CONTRATISTA = 'Contratista'
+    NINGUNO = 'Ninguno'
+
+    TIPOS = [
+        (INTERNO, 'Interno'),
+        (CONTRATISTA, 'Contratista'),
+        (NINGUNO, 'Ninguno')
+    ]
+
+    TIEMPO_PARCIAL = 'Tiempo parcial'
+    TIEMPO_COMPLETO = 'Tiempo completo'
+
+    TIPOS_CONTRATOS = [
+        (TIEMPO_PARCIAL, 'Tiempo parcial'),
+        (TIEMPO_COMPLETO, 'Tiempo completo'),
+    ]
+
+    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
+    tipo_trabajador = models.CharField(max_length=30, choices=TIPOS, default=NINGUNO)
+    tipo_contrato = models.CharField(max_length=30, choices=TIPOS_CONTRATOS, default=TIEMPO_COMPLETO)
+    cargo = models.CharField(max_length=50, default=NINGUNO)
+    area = models.ForeignKey(Areas, on_delete=models.CASCADE, default=get_default_area, null=True)
+    fecha_nacimiento = models.DateField(null=True)
+    borrado = models.CharField(max_length=1, default=0)
+
+    def __str__(self):
+        if self.persona:
+            return "Nombre trabajador:{}, Tipo:{}".format(self.persona.nombre, self.tipo_trabajador)    
+        else:
+            return "Nombre trabajador:{}, Tipo:{}".format(self.empresa.nombre, self.tipo_trabajador)
+
+    @property
+    def codigo(self):
+        id = str(self.pk)
+        tt = str(self.tipo_trabajador)[0]
+        tc = 'TC' if self.tipo_contrato == 'Tiempo Completo' else 'TP'
+        a = str(self.area.abreviacion)
+        return f'{tc}-{tt}-{a}-'+'0'*(5-len(id))+id
+
 # USER AUTHENTICATION
 class Profile_User(models.Model):
 
@@ -48,8 +126,8 @@ class Profile_User(models.Model):
     ]
  
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile_user")
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE, null=True)
     rol = models.CharField(max_length=100, choices=ROLES, default=NINGUNO)
-    area = models.CharField(max_length=50, choices=AREAS, default=NINGUNO)
     fecha_registro = models.DateField(auto_now_add=True)
     fecha_ultima_modificacion = models.DateField(auto_now=True)
 
@@ -68,11 +146,6 @@ class Profile_User(models.Model):
 ############################################################
 # MODELOS DE MANTENIMIENTO
 ############################################################
-class Provincias(models.Model):
-    nombreprovincia = models.CharField(max_length=100)
-    borrado = models.BooleanField(default=False, null=True)
-    def __str__(self):
-        return self.nombreprovincia
 
 class Formapago(models.Model):
     nombrefp = models.CharField(max_length=100)
@@ -111,30 +184,9 @@ class Embalajes(models.Model):
     def __str__(self):
         return self.nombre
 
-class Areas(models.Model):
-    nombre = models.CharField(max_length=100, default='UNDEFINED')
-    abreviacion = models.CharField(max_length=20, blank=True, null=True)
-    def __str__(self):
-        return self.nombre.upper()
-
 ############################################################
 #MODELOS GENERALES PERSONA Y EMPRESA
 ############################################################
-class Persona(models.Model):
-    nombre = models.CharField(max_length=100, default="-")
-    dni = models.CharField(max_length=100, default="-")
-    codprovincia = models.ForeignKey(Provincias, on_delete=models.CASCADE)
-    localidad = models.CharField(max_length=100, default="-")
-    direccion = models.CharField(max_length=500, default="-")
-    codpostal = models.CharField(max_length=100, default="-")
-    cuentabancaria = models.CharField(max_length=100, default="-")
-    telefono = models.CharField(max_length=100, default="-")
-    movil = models.CharField(max_length=100, default="-")
-    web = models.CharField(max_length=100, default="-")
-    borrado = models.BooleanField(default=False, null=True)
-
-    def __str__(self):
-        return self.nombre
 
 class Empresa(models.Model):
     nombre = models.CharField(max_length=100, default="-")
@@ -209,7 +261,7 @@ class Categoria(models.Model):
         return self.nombre
 
 
-class Articulo (models.Model): 
+class Articulo(models.Model): 
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=100, default='-')
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True, blank=True)
@@ -337,39 +389,6 @@ class Factura(models.Model):
     fecha = models.DateField(null=True)
     iva = models.IntegerField()
     totalfactura = models.FloatField(default=0, null=True) 
-
-
-############################################################
-#TRABAJADOR
-############################################################
-
-def get_default_area():
-    """ get a default value for action status; create new status if not available """
-    return Areas.objects.get_or_create(nombre="No definida")[0].pk
-
-
-class Trabajador(models.Model):
-    INTERNO = 'Interno'
-    CONTRATISTA = 'Contratista'
-    NINGUNO = 'Ninguno'
-
-    TIPOS = [
-        (INTERNO, 'Interno'),
-        (CONTRATISTA, 'Contratista'),
-        (NINGUNO, 'Ninguno')
-    ]
-
-    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
-    tipo_trabajador = models.CharField(max_length=30, choices=TIPOS, default=NINGUNO)
-    area = models.ForeignKey(Areas, on_delete=models.CASCADE, default=get_default_area)
-    borrado = models.CharField(max_length=1, default=0)
-
-    def __str__(self):
-        if self.persona:
-            return "Nombre trabajador:{}, Tipo:{}".format(self.persona.nombre, self.tipo_trabajador)    
-        else:
-            return "Nombre trabajador:{}, Tipo:{}".format(self.empresa.nombre, self.tipo_trabajador)
-
 
 ###########################################################
 #----------------------- SERVICIOS -----------------------#
@@ -640,7 +659,6 @@ class Remision_venta_detalle(models.Model):
 
 class Sesion_venta(models.Model):
     fecha = models.DateTimeField(null=True)
-    monto_inicial = models.FloatField(default=0, null=True)
     responsable = models.CharField(max_length=100)
     # trabajador = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True)
     hora_fin = models.DateTimeField(null=True)
@@ -789,51 +807,6 @@ class SalidaProducto(models.Model):
     cantidad = models.PositiveIntegerField(default=0)
     def __str__(self):
         return self.pk
-
-
-###########################################################
-#----------------------- TESORERIA -----------------------#
-###########################################################
-class Caja_diaria(models.Model):
-    descripcion = models.CharField(max_length=300, default='-')
-    fecha_apertura = models.DateTimeField(null=True, auto_now_add=True)
-    fecha_cierre = models.DateTimeField(null=True)
-    monto_inicial = models.FloatField(null=True, default=0)
-    monto_final = models.FloatField(null=True, default=0)
-    responsable = models.ForeignKey(Trabajador, on_delete=models.SET_NULL, null=True, blank=True)
-    estado = models.BooleanField(default=True)
-
-    def __str__(self):
-        return "Monto inicial:{}, Monto final:{}, Estado:{}".format(self.monto_inicial, self.monto_final, self.estado)
-
-    @property
-    def codigo(self):
-        id = str(self.pk)
-        return 'CD-'+'0'*(5-len(id))+id
-
-class Caja_diaria_movimientos(models.Model):
-    COMPRA = 'Compra'
-    VENTA = 'Venta'
-    NINGUNO = 'Ninguno'
-
-    TIPOS = [
-        (COMPRA, 'Compra'),
-        (VENTA, 'Venta'),
-        (NINGUNO, 'Ninguno')
-    ]
-    tipo_movimiento = models.CharField(max_length=20, choices=TIPOS, default=NINGUNO)
-    venta = models.ForeignKey(Venta, on_delete=models.CASCADE, null=True, blank=True)
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE, null=True, blank=True)
-    tipo_pago = models.ForeignKey(Formapago, on_delete=models.CASCADE, null=True)
-    caja_diaria = models.ForeignKey(Caja_diaria, on_delete=models.CASCADE, null=True)
-    
-    @property
-    def total_movimiento(self):
-        if (self.venta):
-            return self.venta.total
-        if (self.compra):
-            return self.compra.totalCompra
-
 
 ##############################################################
 #----------------------- LIBRO DIARIO -----------------------#
