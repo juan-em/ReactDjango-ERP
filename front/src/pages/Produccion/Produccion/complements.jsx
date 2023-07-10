@@ -39,7 +39,7 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
+  const URL = "api/mantenimientos/categoriaarticulos/";
   const [produccion, setProduccion] = useState([]);
   const [numProductos, setNumProductos] = useState(0);
   const [estadoProd, setEstadoProd] = useState("");
@@ -53,7 +53,7 @@ export const Tabla = ({
   }, [renderizar]);
 
   let data = searcher(fields, produccion);
-  console.log(data);
+  console.log(produccion);
 
   const handlePut = (row) => {
     setItem(row);

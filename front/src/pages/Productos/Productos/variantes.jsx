@@ -51,7 +51,7 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
   const [detalle, setDetalle] = useState();
   const [variante, setVariante] = useState([]);
 
-  const URL = "http://localhost:8000/api/productos/variantes/";
+  const URL = "api/productos/variantes/";
 
   // const handleOpenPost = () => {
   //   setOpenModal(true);

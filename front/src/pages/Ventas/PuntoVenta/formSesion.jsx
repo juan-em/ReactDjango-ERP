@@ -86,7 +86,7 @@ const FormSesion = ({
   };
 
   useEffect(() => {
-    const URL_M = "http://localhost:8000/api/mantenimientos/almacenes/";
+    const URL_M = "api/mantenimientos/almacenes/";
     get(setAlmacenes, URL_M);
   }, []);
 

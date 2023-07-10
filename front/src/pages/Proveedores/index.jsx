@@ -55,7 +55,7 @@ const Proveedores = () => {
   };
 
   useEffect(() => {
-    const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+    const URL = "api/mantenimientos/provincias/";
     get(setProvincias, URL);
   }, []);
 
