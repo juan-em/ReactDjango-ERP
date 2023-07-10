@@ -12,16 +12,14 @@ import {
   Alert,
   AlertTitle
 } from "@mui/material";
-import { TabContext, TabPanel, TabList } from "@mui/lab";
-import { DataGrid, renderEditInputCell } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 //iconos
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from '@mui/icons-material/Description';
 //componentes
-import { get, searcher, post_put, del } from "../../../services/mantenimiento";
-import { BuildRemissionPayload, postRemision } from "../../../services/compras";
 
+import { BuildRemissionPayload, postRemision } from "../../../services/compras";
+import UserRequest from "../../../components/User/Requests/UserRequest";
 
 import Swal from "sweetalert2";
 
@@ -36,13 +34,13 @@ const AddForm = ({
   setRenderizar,
   render
 }) => {
+  const user = UserRequest()
   const [openModal, setOpenModal] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+  const URL = "api/mantenimientos/provincias/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
-
   const handleClose = () => {
     setOpenModal(false)
   };
@@ -70,6 +68,7 @@ const AddForm = ({
 
   const handleDoRemission = async () => {
     var payload = BuildRemissionPayload(idCompra, selectedRows)
+    payload.trabajador = user.trabajador.id
     try {
       const res = await postRemision(payload)
       Swal.fire({

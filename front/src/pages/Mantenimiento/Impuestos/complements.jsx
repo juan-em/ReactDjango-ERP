@@ -26,7 +26,7 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/impuestos/";
+  const URL = "api/mantenimientos/impuestos/";
   const [impuestos, setImpuestos] = useState([]);
   useEffect(() => {
     if (render.current) {

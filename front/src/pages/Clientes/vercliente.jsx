@@ -69,7 +69,7 @@ const VerCliente = ({ itemView }) => {
             ...i,
             secondary: itemView.persona
               ? itemView.persona.provincia_info?.nombreprovincia
-              : itemView.empresa.codprovincia,
+              : itemView.empresa.provincia_info?.nombreprovincia,
           };
         } else if (i.primary === "Localidad") {
           return {
@@ -114,7 +114,7 @@ const VerCliente = ({ itemView }) => {
         } else if (i.primary === "Forma de Pago") {
           return {
             ...i,
-            secondary: itemView.codformapago,
+            secondary: itemView.forma_dp_info?.nombrefp,
           };
         }
       }

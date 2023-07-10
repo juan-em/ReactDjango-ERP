@@ -26,7 +26,7 @@ import Swal from "sweetalert2";
 
 const AddForm = ({render, renderizar, setRenderizar, openModal, setOpenModal, item, setItem}) => {
   
-  const URL = "http://localhost:8000/api/mantenimientos/provincias/";
+  const URL = "api/mantenimientos/provincias/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };

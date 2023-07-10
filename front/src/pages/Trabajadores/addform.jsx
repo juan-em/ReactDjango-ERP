@@ -100,8 +100,8 @@ const AddForm = ({
   };
 
   useEffect(() => {
-    const URLP = "http://localhost:8000/api/mantenimientos/provincias/";
-    const URLA = "http://localhost:8000/api/mantenimientos/areas/";
+    const URLP = "api/mantenimientos/provincias/";
+    const URLA = "api/mantenimientos/areas/";
     get(setProvincias, URLP);
     get(setAreas, URLA);
   }, []);

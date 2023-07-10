@@ -304,6 +304,12 @@ class SalidaProductos(APIView):
     def patch(self, request, productoid, almacenid):
         data = Ubicacion_almacen_producto.objects.filter(producto_variante = productoid).filter(almacen = almacenid).first()
         serializer_data = SalidaProductoSerializer(data)
+        print('//////////////////////////////////')
+        # print(producto_variante)
+        print(serializer_data.data)
+        print('//////////////////////////////////')
+        print(request.data['cantidad'])
+        print('//////////////////////////////////')
         result = serializer_data.data['cantidad'] - request.data['cantidad']
         serializer = SalidaProductoSerializer(data, data={"cantidad":result}, partial=True)
         serializer.is_valid(raise_exception=True)

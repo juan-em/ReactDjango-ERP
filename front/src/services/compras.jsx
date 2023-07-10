@@ -1,4 +1,5 @@
-import axios from "axios";
+
+import axios from "../api/axios";
 
 //---------------Compra-----------------//
 
@@ -16,16 +17,20 @@ export const searcher = (fields, list) => {
         )
         : resultData;
     resultData = fields.almacen
-        ? resultData.filter((item) => 
-            item.almacen.id == fields.almacen
-        )
+        ? resultData.filter((item) => {
+            if (item.almacen) {
+                return item.almacen.id == fields.almacen
+            } else {
+                return false
+            }
+        })
         : resultData;
     return resultData;
 };
 
 // Registro de la compra
 
-const URL_COMPRAS = "http://localhost:8000/api/compras/"
+const URL_COMPRAS = "api/compras/"
 
 export const RegistroCompra = async (payload) => {
     try {

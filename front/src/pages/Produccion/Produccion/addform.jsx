@@ -46,7 +46,6 @@ const AddForm = ({
   item,
   setItem,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/categoriaarticulos/";
   const handleOpenPost = () => {
     setOpenModal(true);
   };
@@ -94,7 +93,7 @@ const AddForm = ({
   ];
   useEffect(() => {
     // getProd(setProducto);
-    getVenta(setVenta, "http://localhost:8000/api/ventas/");
+    getVenta(setVenta, "api/ventas/");
   }, []);
   console.log(producto)
   return (

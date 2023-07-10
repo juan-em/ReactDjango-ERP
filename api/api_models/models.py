@@ -261,7 +261,7 @@ class Categoria(models.Model):
         return self.nombre
 
 
-class Articulo (models.Model): 
+class Articulo(models.Model): 
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=100, default='-')
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True, blank=True)

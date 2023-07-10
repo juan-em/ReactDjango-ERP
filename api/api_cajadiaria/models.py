@@ -87,6 +87,8 @@ class Ingresos_Otros (Registros_Caja):
     documento = models.FileField(upload_to="documents/caja_diaria/ingresos_otros", blank=True, null=True)
     tipo_pago = models.CharField(max_length=50, choices=TIPO_PAGO)
     monto = models.FloatField()
+    tipo_documento = models.CharField(max_length=50 ,null=True, blank=True)
+    codigo_documento = models.CharField(max_length=50 ,null=True, blank=True)
     @property
     def codigo(self):
         id = str(self.pk)
@@ -98,6 +100,8 @@ class Egresos_Otros (Registros_Caja):
     documento = models.FileField(upload_to="documents/caja_diaria/egresos_otros", blank=True, null=True)
     tipo_pago = models.CharField(max_length=50, choices=TIPO_PAGO)
     monto = models.FloatField()
+    tipo_documento = models.CharField(max_length=50 ,null=True, blank=True)
+    codigo_documento = models.CharField(max_length=50 ,null=True, blank=True)
     @property
     def codigo(self):
         id = str(self.pk)

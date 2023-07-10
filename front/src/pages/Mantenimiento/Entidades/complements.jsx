@@ -32,7 +32,7 @@ export const Tabla = ({
   setItem,
   setItemView,
 }) => {
-  const URL = "http://localhost:8000/api/mantenimientos/entidades/";
+  const URL = "api/mantenimientos/entidades/";
   const [entidades, setEntidades] = useState([]);
   useEffect(() => {
     if (render.current) {

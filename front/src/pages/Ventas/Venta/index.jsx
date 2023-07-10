@@ -441,6 +441,7 @@ const Venta = () => {
               dispatchSesion={dispatchSesion}
               sesionIniciada={sesionIniciada}
               setSesionIniciada={setSesionIniciada}
+              itemCaja = {itemCaja}
             />
           </>
         )}

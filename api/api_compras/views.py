@@ -103,9 +103,10 @@ class RemisionesView(APIView):
 
     def post(self, request):
         compra_id = request.data.pop('compra')
-        
+        trabajador_id = request.data.pop('trabajador')
         remision = RemisionCompra()
         remision.compra_id = compra_id
+        remision.trabajador_id = trabajador_id
         remision.save()
 
         lista_detalles_remision = request.data.get('remision_compra_detalle')
@@ -118,8 +119,6 @@ class RemisionesView(APIView):
             detalle_remision.remision_compra=remision
             detalle_remision.compra_detalle=compra_detalle
             detalle_remision.save()
-
-
 
             entrada_almacen = EntradaAlmacenCompra.objects.create(remision=detalle_remision)
             entrada_almacen.save()

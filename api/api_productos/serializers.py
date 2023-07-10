@@ -3,7 +3,7 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 from django.contrib.auth.models import User
 from api_models.serializers import EmpresaSerializer, PersonaSerializer
 from api_mantenimientos.serializers import AlmacenSerializer
-
+from erp.utils import URLGENERAL
 #Import Models
 from api_models.models import (
     Producto, Producto_detalle, Articulo, ArticuloVariante, Producto_variante, Ubicacion_almacen_producto, Almacen
@@ -72,7 +72,7 @@ class Producto_varianteSerializer(WritableNestedModelSerializer):
             'costo_produccion':instance.costo_produccion,
             'precio_venta':instance.precio_venta,
             'producto': instance.producto.nombre,
-            'imagen': "http://localhost:8000"+instance.producto.imagen.url,
+            'imagen': URLGENERAL+instance.producto.imagen.url,
             'producto_detalle' : ser_detalle.data,
             'producto_id':instance.producto.id
         }
@@ -98,7 +98,7 @@ class ProductoSerializer(WritableNestedModelSerializer):
             'descripcion_producto' : instance.descripcion_producto,
             'nombre_categoria':instance.categoria.nombre if instance.categoria else None,
             'categoria' : ser_categoria.data if instance.categoria else None,
-            'imagen' : "http://localhost:8000"+instance.imagen.url,
+            'imagen' : URLGENERAL+instance.imagen.url,
             'borrado' : instance.borrado,
             'producto_variante': ser_producto_variante.data
         }

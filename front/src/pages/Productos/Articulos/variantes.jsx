@@ -72,7 +72,14 @@ const Variantes = ({
           var res = await deleteArticuloVariante(item.id)
           if (!res.status) throw res.message
           variantes.splice(indexVarianteEliminada, 1)
-          Swal.fire('Eliminado', '', 'success')
+          Swal.fire({
+            icon: "success",
+            title: "Ok",
+            text: "Se eliminó la variante",
+            customClass: {
+              container: 'my-swal',
+            },
+          })
           setItem({});
         } 
       })

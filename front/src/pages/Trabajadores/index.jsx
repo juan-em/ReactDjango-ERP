@@ -57,7 +57,7 @@ const Trabajadores = () => {
   };
 
   useEffect(()=> {
-    const URL = "http://localhost:8000/api/mantenimientos/areas/";
+    const URL = "api/mantenimientos/areas/";
     get(setAreas, URL);
   }, [])
 

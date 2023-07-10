@@ -13,7 +13,16 @@ import {
 
 import FormSesion from "./formSesion";
 
-const SesionVenta = ({ setTipo, tipo, stateSesion, dispatchSesion, sesionIniciada, setSesionIniciada }) => {
+
+const SesionVenta = ({
+  setTipo,
+  tipo,
+  stateSesion,
+  dispatchSesion,
+  sesionIniciada,
+  setSesionIniciada,
+  itemCaja
+}) => {
   const handleCancelClick = () => {
     setTipo(false);
   };
@@ -36,7 +45,15 @@ const SesionVenta = ({ setTipo, tipo, stateSesion, dispatchSesion, sesionIniciad
       </Typography>
 
       <Box>
-        <FormSesion setTipo={setTipo} tipo={tipo} stateSesion={stateSesion} dispatchSesion={dispatchSesion} sesionIniciada={sesionIniciada} setSesionIniciada={setSesionIniciada}/>
+        <FormSesion
+          setTipo={setTipo}
+          tipo={tipo}
+          stateSesion={stateSesion}
+          dispatchSesion={dispatchSesion}
+          sesionIniciada={sesionIniciada}
+          setSesionIniciada={setSesionIniciada}
+          itemCaja = {itemCaja}
+        />
       </Box>
 
       <Box textAlign="center">

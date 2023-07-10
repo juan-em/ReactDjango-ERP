@@ -24,7 +24,7 @@ import { useRef } from "react";
 import VerCategoria from "./ver";
 
 const Impuestos = () => {
-  const URL = "http://localhost:8000/api/mantenimientos/impuestos/";
+  const URL = "api/mantenimientos/impuestos/";
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});

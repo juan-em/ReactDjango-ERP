@@ -3,7 +3,7 @@ from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from api_models.models import *
 from api_articulos.serializers import AVSerializer,PVSerializer
-
+from erp.utils import URLGENERAL
 
 class CompraDetalleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,11 +45,12 @@ class RemisionesCompraSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         detalle_remision_compra = RemisionDetalleCompra.objects.filter(remision_compra=instance.pk)
         ser_detalle_remision_compra = RemisionesDetalleCompraSerializer(detalle_remision_compra, many=True)
+        
         return {
             'id': instance.id,
             'codigo': instance.codigo,
             'fecha': instance.fecha,
-            'trabajador': instance.trabajador,
+            'trabajador': instance.trabajador.persona.nombre if instance.trabajador else None,
             'remision_compra_detalle': ser_detalle_remision_compra.data,
             'compra': instance.compra.id,
             'codigo_compra':instance.compra.codigo,
@@ -85,7 +86,7 @@ class CompraSerializer(WritableNestedModelSerializer):
             'estado': instance.estado,
             'detalle_entrega': instance.detalle_entrega,
             'totalCompra': instance.totalCompra,
-            'imagen_fac_compra': "http://localhost:8000" + instance.imagen_fac_compra.url,
+            'imagen_fac_compra': URLGENERAL + instance.imagen_fac_compra.url,
             'descuento': instance.descuento,
             'detalle_compra': ser_detalle_compra.data,  
             'codigo': instance.codigo,

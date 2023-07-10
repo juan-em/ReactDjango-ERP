@@ -115,8 +115,8 @@ const AddForm = ({
 
 
   useEffect(() => {
-    const URLP = "http://localhost:8000/api/mantenimientos/provincias/";
-    const URLF = "http://localhost:8000/api/mantenimientos/formapago/";
+    const URLP = "api/mantenimientos/provincias/";
+    const URLF = "api/mantenimientos/formapago/";
     get(setProvincias, URLP);
     get(setFormPago, URLF);
   }, []);

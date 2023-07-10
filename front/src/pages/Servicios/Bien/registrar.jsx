@@ -174,7 +174,7 @@ const Registar = ({
                         <Grid item xs={12} sm={6} md={6}>
                           <TextField
                             fullWidth
-                            label="Tipo de servicio (Viene al seleccionarlo)"
+                            label="Tipo de bien (Viene al seleccionarlo)"
                             required
                             size="small"
                             color="secondary"

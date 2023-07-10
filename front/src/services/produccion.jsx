@@ -1,7 +1,8 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from "../api/axiosNode";
 
-const URL = 'http://localhost:9090/api/produccion/'
-const URL_DET = 'http://localhost:9090/api/produccion/det/'
+const URL = 'api/produccion/'
+const URL_DET = 'api/produccion/det/'
 
 export const searcher = (fields, list) => {
   let resultData = list;

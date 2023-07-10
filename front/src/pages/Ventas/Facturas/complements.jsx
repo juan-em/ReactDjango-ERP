@@ -178,8 +178,8 @@ export const Tabla = ({
   setItemView,
   sesionCambio,
 }) => {
-  const URL_VENTA = "http://localhost:8000/api/ventas/";
-  const URL_SESION = "http://localhost:8000/api/ventas/sesion/";
+  const URL_VENTA = "api/ventas/";
+  const URL_SESION = "api/ventas/sesion/";
   const [provincias, setProvincias] = useState([]);
   const [facturasVentas, setFacturasVentas] = useState([]);
   const [facturasSesionVentas, setFacturasSesionVentas] = useState([]);
@@ -316,7 +316,7 @@ export const Tabla = ({
                   )}
                 </IconButton>
                 
-                {d.estado_remision !== 'Hecha' ? (
+                {d.estado_remision !== 'Hecha' && d.estado_remision ? (
                   <AddForm
                     itemView={itemView}
                     setItemView={setItemView}

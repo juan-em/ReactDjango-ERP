@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import './index.css';
 
 import {
@@ -22,7 +23,7 @@ import { useEffect, useRef } from "react";
 import { getProveedores } from "../../../services/Proveedores";
 
 const Paso1 = ({state, dispatch}) => {
-
+    const navigate = useNavigate()
     const render = useRef(true);
     const [dataProveedores, setDataProveedores] = useState([])
 
@@ -93,7 +94,7 @@ const Paso1 = ({state, dispatch}) => {
                           />
                           </Grid>
                           <Grid item xs={12} sm={4} md={3}>
-                            <Button variant="outlined" fullWidth color="primary" sx={{ height:'100%'}}>
+                            <Button variant="outlined" fullWidth color="primary" sx={{ height:'100%'}} onClick={()=>navigate("/proveedores/")}>
                               <AddIcon/>
                             </Button>
                           </Grid>
