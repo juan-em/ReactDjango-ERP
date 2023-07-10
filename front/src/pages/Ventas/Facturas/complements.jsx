@@ -316,7 +316,7 @@ export const Tabla = ({
                   )}
                 </IconButton>
                 
-                {d.estado_remision !== 'Hecha' ? (
+                {d.estado_remision !== 'Hecha' && d.estado_remision ? (
                   <AddForm
                     itemView={itemView}
                     setItemView={setItemView}

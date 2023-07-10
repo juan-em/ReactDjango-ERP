@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 import {
   TextField,
   FormControl,
@@ -10,15 +10,15 @@ import {
   InputAdornment,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
-import { get } from "../../../services/mantenimiento"
+import { get } from "../../../services/mantenimiento";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 import { ACTION_SESION_TYPES } from "../Venta/reducerVenta";
-
+import "./form.css";
 import Swal from "sweetalert2";
 
 const FormSesion = ({
@@ -29,7 +29,7 @@ const FormSesion = ({
   sesionIniciada,
   setSesionIniciada,
 }) => {
-  const[almacenes, setAlmacenes] = useState([])
+  const [almacenes, setAlmacenes] = useState([]);
   const handleChange = (e, value, ac) => {
     let action = {
       type: ac,
@@ -49,10 +49,10 @@ const FormSesion = ({
         break;
 
       case ACTION_SESION_TYPES.SET_ALMACEN:
-        console.log(e.target.value)
+        console.log(e.target.value);
         action.payload = e.target.value;
         dispatchSesion(action);
-        break; 
+        break;
       default:
         console.log("Acción no definida");
     }
@@ -111,36 +111,36 @@ const FormSesion = ({
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <FormControl
-                    fullWidth
-                    margin="dense"
-                    size="small"
-                    color="secondary"
-                >
-                    <InputLabel>Almacén</InputLabel>
-                    <Select
-                    label="Almacen"
-                    size="small"
-                    color="secondary"
-                    id="textfields"
-                    defaultValue=""
-                    name="almacen"
-                    onChange={(e, value) => {
-                handleChange(e, value, ACTION_SESION_TYPES.SET_ALMACEN);
-              }}
-                    >
-                    <MenuItem value="">
-                    all
-                    </MenuItem>
-                    {almacenes.map((item, i) => (
-                        <MenuItem key={1} value={item.id}>
-                        {item.nombre}
-                        </MenuItem>
-                    ))}
-                    </Select>
-                </FormControl> 
+              fullWidth
+              margin="dense"
+              size="small"
+              color="secondary"
+            >
+              <InputLabel>Almacén</InputLabel>
+              <Select
+                className="almacenInput"
+                label="Almacen"
+                size="small"
+                color="secondary"
+                id="textfields"
+                defaultValue=""
+                name="almacen"
+                onChange={(e, value) => {
+                  handleChange(e, value, ACTION_SESION_TYPES.SET_ALMACEN);
+                }}
+              >
+                <MenuItem value="">all</MenuItem>
+                {almacenes.map((item, i) => (
+                  <MenuItem key={1} value={item.id}>
+                    {item.nombre}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <TextField
+              fullWidth
               type="number"
               label="Monto Inicial"
               variant="standard"

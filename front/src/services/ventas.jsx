@@ -236,7 +236,7 @@ export const searcherRemisiones = (fields, list) => {
 // Punto venta salida de tienda 
 export const salidaProd = async (data, productoid, almacenid) => {
   try {
-    const response = await axios.patch(`http://localhost:8000/api/ventas/salida/${productoid}/${almacenid}/`, data);
+    const response = await axios.patch(`http://127.0.0.1:8000/api/ventas/salida/${productoid}/${almacenid}/`, data);
     console.log(response)
     return response.data;
   } catch (error) {
