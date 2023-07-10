@@ -91,7 +91,13 @@ const Compra = () => {
   console.log("itemCaja ==> ", itemCaja)
   console.log("itemCaja.id ==> ", itemCaja.id)
 
+  console.log(itemCaja)
+
   const handleRegister = async () => {
+
+
+
+
     if (Reflect.has(state.compra.proveedor, "id") && state.compra.detalle_compra.length) {
       var egresos_compra = {
         "responsable": user.trabajador.id,
@@ -99,9 +105,10 @@ const Compra = () => {
         "tipo": "Compras"
       }
       
-      var payload = BuildCompraPayload(state.compra);
-      payload.egresos_compra = egresos_compra
-      await RegistroCompra(payload);
+      console.log(state.compra)
+      // var payload = BuildCompraPayload(state.compra);
+      // payload.egresos_compra = egresos_compra
+      // await RegistroCompra(payload);
       handleNext();
     } else {
       Swal.fire({
