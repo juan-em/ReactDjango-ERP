@@ -124,7 +124,7 @@ export default Venta;
 
 const styles = StyleSheet.create({
   scrollView: {
-    maxHeight: "100vh",
+    maxHeight: "79vh",
     margin: "2rem",
   },
   step: {
