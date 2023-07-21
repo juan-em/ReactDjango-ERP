@@ -55,19 +55,19 @@ const AddVariante = ({
         await putVar(`api/productos/variantes/${variante.id}/`, val);
       }
 
-      // Swal.fire({
-      //   icon: "success",
-      //   title: "Ok",
-      //   text: "Se registro el impuesto",
-      // });
+      Swal.fire({
+        icon: "success",
+        title: "Ok",
+        text: "Se registro el impuesto",
+      });
       if (variante.id) setVariante({});
     } catch (error) {
       console.log(error);
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "Oops...",
-      //   text: `${error}`,
-      // });
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error}`,
+      });
     }
     setOpenModalVariante(false);
   };
@@ -133,7 +133,10 @@ const AddVariante = ({
                       onChange={handleChange}
                       value={values.descripcion}
                     />
-                    <TextField
+                    
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={6}>
+                  <TextField
                       fullWidth
                       label="Color"
                       required
@@ -158,23 +161,9 @@ const AddVariante = ({
                       onChange={handleChange}
                       value={values.talla}
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
                     <TextField
                       fullWidth
-                      label="Horas de Manufactura"
-                      type="number"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="horas_manufactura"
-                      id="textfields"
-                      onChange={handleChange}
-                      value={values.horas_manufactura}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Costo de Manufactura"
+                      label="Costo de Produccion"
                       type="number"
                       size="small"
                       color="secondary"
@@ -183,34 +172,6 @@ const AddVariante = ({
                       id="textfields"
                       onChange={handleChange}
                       value={values.costo_manufactura}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Gastos Generales"
-                      type="number"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="gastos_generales"
-                      id="textfields"
-                      onChange={handleChange}
-                      value={values.gastos_generales}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Precio Final"
-                      type="number"
-                      size="small"
-                      color="secondary"
-                      margin="dense"
-                      name="precio_final"
-                      id="textfields"
-                      onChange={handleChange}
-                      value={
-                        parseInt(values.gastos_generales) +
-                        parseInt(values.costo_manufactura) *
-                          parseInt(values.horas_manufactura)
-                      }
                     />
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
