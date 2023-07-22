@@ -33,7 +33,7 @@ const Register = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        const URL = "http://127.0.0.1:8000/api/mantenimientos/areas/";
+	const URL = "http://54.85.64.192:8000/api/mantenimientos/areas/";
         get(setAreas, URL);
     }, []);
 

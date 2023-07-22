@@ -109,7 +109,7 @@ export const Tabla = ({
                 <TableCell align="right">{formatearFechaTabla(item.fecha_apertura)}</TableCell>
                 <TableCell align="right">{formatearFechaTabla(item.fecha_cierre)}</TableCell>
                 <TableCell align="right">S/. {item.monto_inicial.toFixed(2)}</TableCell>
-                <TableCell align="right">{item.monto_final ? `S/. ${item.monto_final.toFixed(2)}` : "Aún abierta"}</TableCell>
+                <TableCell align="right">{item.monto_final != null ? `S/. ${item.monto_final.toFixed(2)}` : "Aún abierta"}</TableCell>
                 <TableCell align="right" component="th" scope="row">
                   <IconButton aria-label="delete" size="small" color="primary">
                     <VisibilityIcon
