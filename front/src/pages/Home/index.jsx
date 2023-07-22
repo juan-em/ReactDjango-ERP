@@ -1,4 +1,4 @@
-// import Menu from "../../components/Menu";
+import Menu from "../../components/Menu";
 import { Container, ImageListItem, Grid } from "@mui/material";
 import GeneralUserData from "../../components/User/Profile/GeneralUserData";
 import DashboardCompras from "../../components/Dashboard/Compras/DashboardCompras";
