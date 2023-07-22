@@ -28,8 +28,8 @@ const SearcherProductos = ({ fields, setFields }) => {
   
     useEffect(() => {
       const URL_C =
-        "http://localhost:8000/api/mantenimientos/categoria_productos/";
-      const URL_M = "http://localhost:8000/api/mantenimientos/almacenes/";
+        "api/mantenimientos/categoria_productos/";
+      const URL_M = "api/mantenimientos/almacenes/";
       getMan(setCategorias, URL_C);
       getMan(setAlmacenes, URL_M);
     }, []);

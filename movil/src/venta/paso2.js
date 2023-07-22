@@ -45,7 +45,7 @@ const Paso2 = ({ state, dispatch }) => {
   //para el buscador de productos
   const render = React.useRef(true);
   const [fields, setFields] = useState({});
-  const URL = "http://localhost:8000/api/productos/variantes/";
+  const URL = "api/productos/variantes/";
   const [productos, setProductos] = useState([]);
   useEffect(() => {
     if (render.current) {
