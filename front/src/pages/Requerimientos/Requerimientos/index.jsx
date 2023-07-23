@@ -2,14 +2,6 @@ import "./index.css";
 import "../../../fonts/poppins.ttf";
 import { alpha } from "@mui/material/styles";
 import Radio from "@mui/material/Radio";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import NumbersIcon from "@mui/icons-material/Numbers";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {

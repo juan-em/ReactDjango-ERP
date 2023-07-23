@@ -88,10 +88,12 @@ export const Tabla = ({
   ];
   const cambioEstado = async (i,row,value) => {
     console.log(row);
+    console.log(i)
+    console.log(value)
     row.estado = value
-    console.log(row)
-    await patchProduccion(row.estado, row.id);
-  }; 
+    console.log(row.estado)
+    await patchProduccion({"estado":value}, row.id);
+  };
 
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>

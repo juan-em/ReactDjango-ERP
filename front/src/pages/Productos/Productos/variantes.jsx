@@ -167,7 +167,7 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
                       sx={{ color: "#633256", fontFamily: "inherit" }}
                       align="right"
                     >
-                      Precio Final
+                      Precio Venta
                     </TableCell>
                     <TableCell
                       sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -204,7 +204,7 @@ const Variante = ({ item, itemId, prodid, open, setOpen }) => {
                         </TableCell>
                         <TableCell align="right">{vari.id}</TableCell>
                         <TableCell align="right">{vari.nombre}</TableCell>
-                        <TableCell align="right">{vari.precio_final}</TableCell>
+                        <TableCell align="right">{vari.precio_venta}</TableCell>
                         <TableCell align="right">{vari.color}</TableCell>
                         <TableCell align="right">{vari.talla}</TableCell>
                         <TableCell align="right">

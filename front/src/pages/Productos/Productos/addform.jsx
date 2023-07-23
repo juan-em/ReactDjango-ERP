@@ -352,7 +352,7 @@ const AddForm = ({
                                             />
                                             <TextField
                                               fullWidth
-                                              label="Costos de Manufactura"
+                                              label="Costos de Produccion"
                                               required
                                               size="small"
                                               color="secondary"
