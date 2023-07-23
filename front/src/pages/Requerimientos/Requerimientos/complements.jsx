@@ -11,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MenuItem from "@mui/material/MenuItem";
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
@@ -23,6 +22,7 @@ import {
   post_put,
   del,
 } from "../../../services/mantenimiento";
+import { getRequermientos, postRequerimientos } from "../../../services/requerimientos";
 
 export const Tabla = ({
   fields,
@@ -35,14 +35,16 @@ export const Tabla = ({
 }) => {
   const URL = "api/mantenimientos/provincias/";
   const [provincias, setProvincias] = useState([]);
+  const [req, setReq] = useState([])
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setProvincias, URL);
+      // get(setProvincias, URL);
+      getRequermientos(setReq)
     }
   }, [renderizar]);
 
-  let data = searcherprov(fields, provincias);
+  let data = searcherprov(fields, req);
 
   const handlePut = (row) => {
     setItem(row);
@@ -101,7 +103,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="center"
             >
-              Estado
+              Fecha de Registro
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -124,9 +126,9 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="center">{row.id}</TableCell>
-              <TableCell align="center">{row.nombreprovincia}</TableCell>
+              <TableCell align="center">{row.area_solicitante}</TableCell>
               <TableCell align="center" sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white' }} >
-                {row.nombreprovincia}
+                {row.fecha_registro}
                 <IconButton
                   aria-label="delete"
                   size="small"
@@ -136,7 +138,7 @@ export const Tabla = ({
                   <ChangeCircleIcon fontSize="inherit" />
                 </IconButton>
               </TableCell>
-              <TableCell align="center">{row.nombreprovincia}</TableCell>
+              <TableCell align="center">{row.tipo}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"

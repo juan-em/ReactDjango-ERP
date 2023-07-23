@@ -16,7 +16,7 @@ from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 class ProvinciasViewSet(viewsets.ModelViewSet):
-    queryset = Provincias.objects.all()
+    queryset = Provincias.objects.all().order_by('nombreprovincia')
     serializer_class = ProviciasSerializer
 
 class EntidadesViewSet(viewsets.ModelViewSet):

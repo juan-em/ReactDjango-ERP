@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'api_models',
     'api_proveedores',
     'api_ordenes_bienes_servicios',
+    'api_requerimientos',
     'api_autenticacion_usuarios',
     'api_clientes',
     'api_trabajadores',
@@ -57,7 +58,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000'
+    'http://localhost:3000',
+    'https://erp-tecsup.vercel.app'
 ]
 
 MIDDLEWARE = [
