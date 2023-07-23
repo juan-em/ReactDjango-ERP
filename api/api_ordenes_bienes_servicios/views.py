@@ -99,7 +99,21 @@ class OrdenBienDetailView (APIView):
             'message':'Delete succes',
             'content':content
         }
-        return Response(context) 
+        return Response(context)
+
+    def patch(self, request, id):
+        data = Orden_bien.objects.get(id=id)
+        serializer = OrdenBienSerializer(data, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+
 
 class OrdenServicioView(APIView):
     def get(self, request):

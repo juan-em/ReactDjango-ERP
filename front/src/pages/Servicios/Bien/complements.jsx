@@ -1,155 +1,219 @@
 import { useState, useEffect } from "react";
-import { Fragment } from 'react';
+import { Fragment } from "react";
 import { alpha } from "@mui/material/styles";
-import {
-  Button,
-  IconButton,
-} from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 
 //iconos
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import CheckCircle from "@mui/icons-material/CheckCircle";
 //AHORA
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
+import { FormControl, Select, MenuItem } from "@mui/material";
 
 import Swal from "sweetalert2";
 import AddForm from "./addform";
 
-import { getBienes, deleteBien, searcher } from "../../../services/Servicios/bienes";
+import {
+  getBienes,
+  deleteBien,
+  searcher,
+  patchOrdenBien,
+} from "../../../services/Servicios/bienes";
 
+export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
+  const [bienes, setBienes] = useState([]);
 
-export const Tabla = ({
-    fields,
-    render,
-    renderizar,
-    setRenderizar
-}) => {
-  const [bienes, setBienes] = useState([])
+  const cambioEstado = async (row, value) => {
+    var payload = { bien_estado: value };
+    console.log(payload);
+    console.log(row);
+    await patchOrdenBien(row.id, payload);
+    render.current = true;
+    setRenderizar(!renderizar);
+  };
 
-
-
-  const handleDelete = async(id) => {
+  const handleDelete = async (id) => {
     try {
       Swal.fire({
-        title: '¿Desea eliminar la cotización?',
+        title: "¿Desea eliminar la cotización?",
         showDenyButton: true,
-        confirmButtonText: 'SI',
+        confirmButtonText: "SI",
         denyButtonText: `NO`,
         customClass: {
-          container: 'my-swal',
+          container: "my-swal",
         },
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await deleteBien(id)
+          await deleteBien(id);
           Swal.fire({
-            title: 'Eliminado',
-            icon: 'success',
+            title: "Eliminado",
+            icon: "success",
             customClass: {
-              container: 'my-swal',
+              container: "my-swal",
             },
-          })
+          });
           render.current = true;
           setRenderizar(!renderizar);
-        } 
-      })
-      
+        }
+      });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: `${error}`,
         customClass: {
-          container: 'my-swal',
+          container: "my-swal",
         },
       });
     }
-  }
+  };
 
   //carga de datos
-  useEffect(()=>{
+  useEffect(() => {
     if (render.current) {
       render.current = false;
-      getBienes(setBienes)
+      getBienes(setBienes);
     }
-  },[renderizar])
+  }, [renderizar]);
 
+  const stateList = [
+    "Todos",
+    "Solicitando cotización",
+    "Aprobado",
+    "En progreso",
+    "Denegado",
+    "Ninguno",
+  ];
 
-  function createCotizaciones (arrayOrdenBien) {
+  function createCotizaciones(arrayOrdenBien) {
     return arrayOrdenBien.map((item, i) => {
       return {
-          cotizaciones_:
-             <div> Cotización {i+1}
-             <a href={item.propuesta_documentos_bien.bien_cotizacion_documento} target="_blank" rel="noopener noreferrer">
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                      mx:2,
-                   "&:hover": {
-                      backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                   }, }} 
-                   size="small">
-                   <span>Ver</span>
-                </Button>
-              </a>
-             </div>,
-          propuestas_tecnicas:
-             <div> Propuesta técnica {i+1}
-                <a href={item.propuesta_documentos_bien.propuesta_tecnica_documento} target="_blank" rel="noopener noreferrer">
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                   mx:2,
-                "&:hover": {
-                   backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                }, }} 
-                size="small">
+        estado : item.estado,
+        cotizaciones_: (
+          <div>
+            {" "}
+            Cotización {i + 1}
+            <a
+              href={item.propuesta_documentos_bien.bien_cotizacion_documento}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                sx={{
+                  backgroundColor: "#633256",
+                  fontFamily: "inherit",
+                  color: "white",
+                  mx: 2,
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25),
+                    color: "#633256",
+                  },
+                }}
+                size="small"
+              >
                 <span>Ver</span>
-                </Button>
-                </a>
-             </div>,
-          propuestas_economicas:
-             <div> Propuesta econónica {i+1}
-                <a href={item.propuesta_documentos_bien.propuesta_economica_documento} target="_blank" rel="noopener noreferrer">
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                   mx:2,
-                "&:hover": {
-                   backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                }, }} 
-                size="small">
+              </Button>
+            </a>
+          </div>
+        ),
+        propuestas_tecnicas: (
+          <div>
+            {" "}
+            Propuesta técnica {i + 1}
+            <a
+              href={item.propuesta_documentos_bien.propuesta_tecnica_documento}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                sx={{
+                  backgroundColor: "#633256",
+                  fontFamily: "inherit",
+                  color: "white",
+                  mx: 2,
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25),
+                    color: "#633256",
+                  },
+                }}
+                size="small"
+              >
                 <span>Ver</span>
-                </Button>
-                </a>
-             </div>,
-        }
-    })
+              </Button>
+            </a>
+          </div>
+        ),
+        propuestas_economicas: (
+          <div>
+            {" "}
+            Propuesta econónica {i + 1}
+            <a
+              href={
+                item.propuesta_documentos_bien.propuesta_economica_documento
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                sx={{
+                  backgroundColor: "#633256",
+                  fontFamily: "inherit",
+                  color: "white",
+                  mx: 2,
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25),
+                    color: "#633256",
+                  },
+                }}
+                size="small"
+              >
+                <span>Ver</span>
+              </Button>
+            </a>
+          </div>
+        ),
+      };
+    });
   }
 
-  
-  function createData(item, codigo, tipo_bien, estado, acciones, orden_bien) {
+  function createData(
+    item,
+    id,
+    codigo,
+    tipo_bien,
+    estado,
+    acciones,
+    orden_bien
+  ) {
     return {
       item,
+      id,
       codigo,
       tipo_bien,
       estado,
       acciones,
-      cotizaciones: createCotizaciones(orden_bien)
+      cotizaciones: createCotizaciones(orden_bien),
     };
   }
 
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
-  
+
     return (
       <Fragment>
-        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
           <TableCell>
             <IconButton
               aria-label="expand row"
@@ -164,7 +228,29 @@ export const Tabla = ({
           </TableCell>
           <TableCell>{row.codigo}</TableCell>
           <TableCell>{row.tipo_bien}</TableCell>
-          <TableCell>{row.estado}</TableCell>
+          <TableCell>
+            <FormControl
+              fullWidth
+              margin="dense"
+              size="small"
+              color="secondary"
+            >
+              <Select
+                size="small"
+                color="secondary"
+                id="textfields"
+                name={"bien_estado"}
+                onChange={(e) => cambioEstado(row, e.target.value)}
+                value={row.estado}
+              >
+                {stateList.map((item, i) => (
+                  <MenuItem key={i} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </TableCell>
           <TableCell>{row.acciones}</TableCell>
         </TableRow>
         <TableRow>
@@ -172,17 +258,28 @@ export const Tabla = ({
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Table size="small" aria-label="purchases">
-                <TableHead
-                        sx={{
-                          backgroundColor: alpha("#633256", 0.2),
-                          "&:hover": {
-                            backgroundColor: alpha("#633256", 0.25),
-                          },
-                        }}>
+                  <TableHead
+                    sx={{
+                      backgroundColor: alpha("#633256", 0.2),
+                      "&:hover": {
+                        backgroundColor: alpha("#633256", 0.25),
+                      },
+                    }}
+                  >
                     <TableRow>
-                      <TableCell align="center"> <span>Cotización</span></TableCell>
-                      <TableCell align="center"><span>Propuesta técnica</span></TableCell>
-                      <TableCell align="center"><span>Propuesta económica</span></TableCell>
+                      <TableCell align="center">
+                        {" "}
+                        <span>Cotización</span>
+                      </TableCell>
+                      <TableCell align="center">
+                        <span>Propuesta técnica</span>
+                      </TableCell>
+                      <TableCell align="center">
+                        <span>Propuesta económica</span>
+                      </TableCell>
+                      <TableCell align="center">
+                        <span></span>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -191,8 +288,23 @@ export const Tabla = ({
                         <TableCell component="th" scope="row" align="center">
                           {cotizacionesRow.cotizaciones_}
                         </TableCell>
-                        <TableCell align="center">{cotizacionesRow.propuestas_tecnicas}</TableCell>
-                        <TableCell align="center">{cotizacionesRow.propuestas_economicas}</TableCell>
+                        <TableCell align="center">
+                          {cotizacionesRow.propuestas_tecnicas}
+                        </TableCell>
+                        <TableCell align="center">
+                          {cotizacionesRow.propuestas_economicas}
+                        </TableCell>
+                        <TableCell align="center">
+                          <IconButton
+                            disabled={cotizacionesRow.estado ? false : true}
+                            // onClick={() => handlePut(row)}
+                            aria-label="delete"
+                            size="small"
+                            color="success"
+                          >
+                            <CheckCircle fontSize="inherit" />
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -205,25 +317,29 @@ export const Tabla = ({
     );
   }
 
-  function createRows (arrayBienes) {
-    return arrayBienes.map((item, i) => 
-      createData(i+1, item.codigo, item.bien_nombre, item.bien_estado,
-      <>
-      <IconButton
-        size="small"
-        color="error"
-      >
-        <DeleteIcon fontSize="inherit" onClick={() => handleDelete(item.id)}/>
-      </IconButton>
-      {/* Funcionalidad a futuro: Registrar orden de compra <AddForm/> */}
-      </>,
-      item.orden_bien
+  function createRows(arrayBienes) {
+    return arrayBienes.map((item, i) =>
+      createData(
+        i + 1,
+        item.id,
+        item.codigo,
+        item.bien_nombre,
+        item.bien_estado,
+        <>
+          <IconButton size="small" color="error">
+            <DeleteIcon
+              fontSize="inherit"
+              onClick={() => handleDelete(item.id)}
+            />
+          </IconButton>
+          {/* Funcionalidad a futuro: Registrar orden de compra <AddForm/> */}
+        </>,
+        item.orden_bien
       )
-    )
+    );
   }
 
-  const rows = createRows(searcher(fields, bienes))
-
+  const rows = createRows(searcher(fields, bienes));
 
   return (
     <TableContainer component={Paper}>

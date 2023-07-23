@@ -66,3 +66,13 @@ export const deleteBien = async (id) =>{
         return error
     }
   }
+
+  export const patchOrdenBien = async (id, data) => {
+    try {
+      const responsePatch = await axios.patch(`${BIENES_URL}${id}/`, data);
+      return responsePatch.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };

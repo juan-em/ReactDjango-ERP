@@ -23,7 +23,7 @@ ESTADO_SOLICITUD = [
 
 # Ordenes de bienes
 class Propuesta_Empresa_Bien_Documentos(models.Model):
-    #estado = true false
+    estado = models.BooleanField(default=False)
     propuesta_tecnica_documento = models.FileField(upload_to="documents/bienes/propuesta_tecnica", blank=True, null=True)
     propuesta_economica_documento = models.FileField(upload_to="documents/bienes/propuesta_economica", blank=True, null=True)
     bien_cotizacion_documento = models.FileField(upload_to="documents/bienes/cotizacion", blank=True, null=True)

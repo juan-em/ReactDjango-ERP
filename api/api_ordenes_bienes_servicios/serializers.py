@@ -7,7 +7,7 @@ from .models import *
 class PropuestaEmpresaBienDocumentosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Propuesta_Empresa_Bien_Documentos
-        fields = ['id', 'propuesta_tecnica_documento', 'propuesta_economica_documento', 'bien_cotizacion_documento']
+        fields = ['id', 'estado', 'propuesta_tecnica_documento', 'propuesta_economica_documento', 'bien_cotizacion_documento']
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['propuesta_tecnica_documento'] = URLGENERAL + instance.propuesta_tecnica_documento.url if instance.propuesta_tecnica_documento else '#'

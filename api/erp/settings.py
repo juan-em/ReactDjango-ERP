@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'api_models',
     'api_proveedores',
     'api_ordenes_bienes_servicios',
+    'api_requerimientos',
     'api_autenticacion_usuarios',
     'api_clientes',
     'api_trabajadores',

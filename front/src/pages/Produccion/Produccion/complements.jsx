@@ -91,7 +91,7 @@ export const Tabla = ({
     row.estado = value
     console.log(row)
     await patchProduccion(row.estado, row.id);
-  };
+  }; 
 
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
