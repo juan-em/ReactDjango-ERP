@@ -20,10 +20,12 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Grid } from "@mui/material";
 import { ACTION_TYPES } from "./reducerCompra";
+import CheckCircle from "@mui/icons-material/CheckCircle";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 import Swal from "sweetalert2";
 
-import { getBienes, deleteBien } from "../../../services/Servicios/bienes";
+import { getBienes, patchOrdenBien } from "../../../services/Servicios/bienes";
 
 export const Tabla = ({
   state,
@@ -37,11 +39,12 @@ export const Tabla = ({
   //carga de datos
   useEffect(() => {
     getBienes(setBienes);
-  }, []);
+  }, [renderizar]);
 
   function createCotizaciones(arrayOrdenBien) {
     return arrayOrdenBien.map((item, i) => {
       return {
+        estado : item.propuesta_documentos_bien.estado,
         cotizaciones_: (
           <div>
             {" "}
@@ -144,14 +147,14 @@ export const Tabla = ({
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
-    const [use, setUse] = useState(false);
-
-    const handleSetOrdenBien = async () => {
-      setUse(!use);
+   
+    const handleSetOrdenBien = async (row) => {
+      await patchOrdenBien(row.id, {uso_en_compra:!row.uso_en_compra})
       dispatch({
         type: ACTION_TYPES.SET_ORDEN_BIEN,
         payload: row.id,
       });
+      setRenderizar(!renderizar)
     };
 
     return (
@@ -179,7 +182,7 @@ export const Tabla = ({
                 id="textfields"
                 color={row.uso_en_compra ? "primary" : "secondary"}
                 variant="contained"
-                onClick={handleSetOrdenBien}
+                onClick={()=>handleSetOrdenBien(row)}
               >
                 {row.uso_en_compra ? "Usando" : "Usar"}
               </Button>
@@ -210,6 +213,9 @@ export const Tabla = ({
                       <TableCell align="center">
                         <span>Propuesta económica</span>
                       </TableCell>
+                      <TableCell align="center">
+                        <span></span>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -223,6 +229,21 @@ export const Tabla = ({
                         </TableCell>
                         <TableCell align="center">
                           {cotizacionesRow.propuestas_economicas}
+                        </TableCell>
+                        <TableCell align="center">
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            color="success"
+                          >
+                            {
+                              cotizacionesRow.estado == true?
+                              <CheckCircle fontSize="inherit" />
+                              :
+                              <RemoveCircleIcon color="primary" fontSize="inherit"/>
+                            }
+                            
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     ))}
