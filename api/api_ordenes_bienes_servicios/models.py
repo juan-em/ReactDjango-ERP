@@ -50,6 +50,7 @@ class Propuesta_Empresa_Bien(models.Model):
 
 # Ordenes de servicios
 class Propuesta_Empresa_Servicio_Documentos(models.Model):
+    estado = models.BooleanField(default=False)
     propuesta_tecnica_documento = models.FileField(upload_to="documents/servicios/propuesta_tecnica", blank=True, null=True)
     propuesta_economica_documento = models.FileField(upload_to="documents/servicios/propuesta_economica", blank=True, null=True)
     servicio_cotizacion_documento = models.FileField(upload_to="documents/servicios/cotizacion", blank=True, null=True)

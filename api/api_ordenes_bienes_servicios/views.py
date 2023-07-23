@@ -160,3 +160,44 @@ class OrdenServicioDetailView(APIView):
         }
 
         return Response(context)
+
+    def patch(self, request, id):
+        data = Orden_servicio.objects.get(id=id)
+        serializer = OrdenServicioSerializer(data, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+    
+class PropuestaEmpresaBienDocumentosDetailView(APIView):
+    def patch(self, request, id):
+        data = Propuesta_Empresa_Bien_Documentos.objects.get(id=id)
+        serializer = PropuestaEmpresaBienDocumentosSerializer(data, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+
+class PropuestaEmpresaServicioDocumentosDetailView(APIView):
+    def patch(self, request, id):
+        data = Propuesta_Empresa_Servicio_Documentos.objects.get(id=id)
+        serializer = PropuestaEmpresaServicioDocumentosSerializer(data, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }
+        
+        return Response(context)
