@@ -6,6 +6,7 @@ import { Button, IconButton } from "@mui/material";
 //iconos
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircle from "@mui/icons-material/CheckCircle";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 //AHORA
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -29,16 +30,24 @@ import {
   deleteBien,
   searcher,
   patchOrdenBien,
+  patchOrdenBienCotizacion
 } from "../../../services/Servicios/bienes";
 
 export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   const [bienes, setBienes] = useState([]);
 
-  const cambioEstado = async (row, value) => {
+  const cambioEstadoOrdenBien = async (row, value) => {
     var payload = { bien_estado: value };
-    console.log(payload);
-    console.log(row);
+    
     await patchOrdenBien(row.id, payload);
+    render.current = true;
+    setRenderizar(!renderizar);
+  };
+
+  const cambioEstadoOrdenBienCotizacion = async (row) => {
+    console.log(row.id, "<==================")
+    var payload = { estado: !row.estado };
+    await patchOrdenBienCotizacion(row.id, payload);
     render.current = true;
     setRenderizar(!renderizar);
   };
@@ -99,7 +108,8 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   function createCotizaciones(arrayOrdenBien) {
     return arrayOrdenBien.map((item, i) => {
       return {
-        estado : item.estado,
+        id: item.id,
+        estado : item.propuesta_documentos_bien.estado,
         cotizaciones_: (
           <div>
             {" "}
@@ -240,7 +250,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
                 color="secondary"
                 id="textfields"
                 name={"bien_estado"}
-                onChange={(e) => cambioEstado(row, e.target.value)}
+                onChange={(e) => cambioEstadoOrdenBien(row, e.target.value)}
                 value={row.estado}
               >
                 {stateList.map((item, i) => (
@@ -296,13 +306,19 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
                         </TableCell>
                         <TableCell align="center">
                           <IconButton
-                            disabled={cotizacionesRow.estado ? false : true}
-                            // onClick={() => handlePut(row)}
+                            // disabled={cotizacionesRow.estado ? false : true}
+                            onClick={() => cambioEstadoOrdenBienCotizacion(cotizacionesRow)}
                             aria-label="delete"
                             size="small"
                             color="success"
                           >
-                            <CheckCircle fontSize="inherit" />
+                            {
+                              cotizacionesRow.estado == true?
+                              <CheckCircle fontSize="inherit" />
+                              :
+                              <RemoveCircleIcon color="primary" fontSize="inherit"/>
+                            }
+                            
                           </IconButton>
                         </TableCell>
                       </TableRow>

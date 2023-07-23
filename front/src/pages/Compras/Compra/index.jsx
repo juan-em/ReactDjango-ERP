@@ -88,11 +88,6 @@ const Compra = () => {
     setActiveStep(0);
   };
 
-  console.log("itemCaja ==> ", itemCaja)
-  console.log("itemCaja.id ==> ", itemCaja.id)
-
-  console.log(itemCaja)
-
   const handleRegister = async () => {
 
     if (Reflect.has(state.compra.proveedor, "id") && state.compra.detalle_compra.length) {
@@ -142,7 +137,7 @@ const Compra = () => {
                   Nueva Compra
                 </Typography>
                 <Grid item xs={12} sm={12} md={12}>
-                    <Notificaciones/>
+                    <Notificaciones state={state} dispatch={dispatch}/>
                 </Grid>
             <Stepper activeStep={activeStep} sx={{ p: 5 }}>
               {steps.map((label, index) => {
