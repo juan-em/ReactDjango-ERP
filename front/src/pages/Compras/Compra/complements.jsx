@@ -22,7 +22,7 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {Grid} from "@mui/material";
-
+import { ACTION_TYPES } from "./reducerCompra";
 
 import Swal from "sweetalert2";
 
@@ -31,6 +31,8 @@ import { getBienes, deleteBien } from "../../../services/Servicios/bienes";
 
 
 export const Tabla = ({
+    state,
+    dispatch,
     fields,
     render,
     renderizar,
@@ -93,25 +95,34 @@ export const Tabla = ({
   }
 
   
-  function createData(item, codigo, tipo_bien, estado, orden_bien) {
+  function createData(item,id, codigo, tipo_bien, estado, orden_bien) {
     return {
       item,
+      id,
       codigo,
       tipo_bien,
       estado,
       cotizaciones: createCotizaciones(orden_bien)
     };
   }
-
+  
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
 
     const [use, setUse] = useState(false)
     
-    const handleSetOrdenBien = () => {
+    const handleSetOrdenBien = (row) => {
+      dispatch({
+        type: ACTION_TYPES.SET_ORDEN_BIEN,
+        payload: row.id
+      })
+      
       setUse(!use)
     }
+
+    console.log(state)
+
     return (
       <Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -137,7 +148,7 @@ export const Tabla = ({
                 id="textfields"
                 color={use ? "primary" : "secondary"}
                 variant="contained"
-                onClick={handleSetOrdenBien}
+                onClick={()=> handleSetOrdenBien(row)}
               >
                 {use ? "Usando" : "Usar"}
               </Button>
@@ -186,7 +197,7 @@ export const Tabla = ({
 
   function createRows (arrayBienes) {
     return arrayBienes.map((item, i) => 
-      createData(i+1, item.codigo, item.bien_nombre, item.bien_estado,
+      createData(i+1, item.id, item.codigo, item.bien_nombre, item.bien_estado,
       item.orden_bien
       )
     )

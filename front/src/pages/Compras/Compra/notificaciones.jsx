@@ -33,9 +33,8 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-const Notificaciones = (props) => {
+const Notificaciones = ({ window, state, dispatch}) => {
 
-  const { window } = props;
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -99,7 +98,7 @@ const Notificaciones = (props) => {
               overflow: 'auto',
             }}
           >
-            <Tabla/>
+            <Tabla state={state} dispatch={dispatch}/>
 
 
             {/* <Alert variant="outlined" severity="warning">
