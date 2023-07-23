@@ -21,32 +21,23 @@ import { useNavigate } from 'react-router-dom';
 import { useRef } from "react";
 import Registar from "../../Requerimientos/Requerimientos/registrar";
 
-// import { getArticulosVariantes } from "../../../services/articulos";
+import { getArticulosVariantes } from "../../../services/articulos";
   
-  const Notificaciones = ({articulos}) => {
-    const [openModal, setOpenModal] = useState(false);
-    const [item, setItem] = useState({});
-    const [itemView, setItemView] = useState({});
-  
-    const render = useRef(true);
-    const [renderizar, setRenderizar] = useState(true);
+  const Notificaciones = () => {
+    const [articulos, setArticulos] = useState([])
     const [fields, setFields] = useState({});
-    // const [articulos, setArticulos] = useState()
     const [articulosFilter, setArticulosFilter] = useState([])
-    useEffect(() => {
-    setArticulosFilter(articulos.filter(art => art.cantidad < 50))
-    // getArticulosVariantes(setArticulos)
-  },[])
-    const handlerSearcher = (e) => {
-      const { name, value } = e.target;
-      setFields({ ...fields, [name]: value });
-    };
-
+    
 
     const navigate = useNavigate()
     const requerimientos = async () => {
       navigate('/requerimientos/requerimientos')
   }
+
+  useEffect(() => {
+    getArticulosVariantes(setArticulos)
+    setArticulosFilter(articulos.filter(art => art.cantidad < 50))
+  }, [navigate])
   console.log(articulos)
   console.log(articulosFilter)
   

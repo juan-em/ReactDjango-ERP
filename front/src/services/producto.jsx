@@ -52,22 +52,22 @@ export const searcher = (fields, list) => {
   let resultData = list;
   resultData = fields.codigo
     ? resultData.filter(
-        (item) => item.codigo.toString() === fields.codigo.toString()
+        (item) => item.codigo.toString().toLowerCase().includes(fields.codigo.toString())
       )
     : resultData;
   resultData = fields.nombre
     ? resultData.filter((item) => {
-        return item.nombre.toString().includes(fields.nombre.toString());
+        return item.nombre.toString().toLowerCase().includes(fields.nombre.toString());
       })
     : resultData;
   resultData = fields.cantidad
     ? resultData.filter((item) => {
-        return item.cantidad.toString() === fields.cantidad.toString();
+        return item.cantidad.toString().toLowerCase().includes(fields.cantidad.toString());
       })
     : resultData;
   resultData = fields.categoria
     ? resultData.filter((item) => {
-        return item.categoria.toString() === fields.categoria.toString();
+        return item.categoria.toString().toLowerCase().includes(fields.categoria.toString());
       })
     : resultData;
   return resultData;

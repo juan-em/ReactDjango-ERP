@@ -61,6 +61,8 @@ export const Tabla = ({
     }
   };
 
+  console.log(data)
+
   return (
     <TableContainer component={Paper} sx={{ mt: 5 }} elevation={10}>
       <Table size="small" aria-label="a dense table">
@@ -99,12 +101,7 @@ export const Tabla = ({
             >
               Catogoria
             </TableCell>
-            <TableCell
-              sx={{ color: "#633256", fontFamily: "inherit" }}
-              align="right"
-            >
-              Cantidad
-            </TableCell>
+            
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
@@ -122,7 +119,6 @@ export const Tabla = ({
               <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">{row.nombre}</TableCell>
               <TableCell align="right">{row.nombre_categoria}</TableCell>
-              <TableCell align="right">{row.cantidad}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton aria-label="delete" size="small" color="primary">
                   <VisibilityIcon
