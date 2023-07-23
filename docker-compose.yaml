@@ -23,7 +23,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - react:/front
       - exclude:/front/node_modules/
   api-node:
     build: ./api_node
