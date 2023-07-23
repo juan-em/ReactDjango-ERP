@@ -1,131 +1,162 @@
 import { useState, useEffect } from "react";
-import { Fragment } from 'react';
+import { Fragment } from "react";
 import { alpha } from "@mui/material/styles";
-import {
-  Button,
-  IconButton,
-} from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 
 //iconos
 import DeleteIcon from "@mui/icons-material/Delete";
 
 //AHORA
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import {Grid} from "@mui/material";
+import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { Grid } from "@mui/material";
 import { ACTION_TYPES } from "./reducerCompra";
 
 import Swal from "sweetalert2";
 
-
 import { getBienes, deleteBien } from "../../../services/Servicios/bienes";
 
-
 export const Tabla = ({
-    state,
-    dispatch,
-    fields,
-    render,
-    renderizar,
-    setRenderizar
+  state,
+  dispatch,
+  fields,
+  render,
 }) => {
-  const [bienes, setBienes] = useState([])
-
-  
+  const [bienes, setBienes] = useState([]);
+  const [renderizar, setRenderizar] = useState(false)
 
   //carga de datos
-  useEffect(()=>{
-      getBienes(setBienes)
-  },[])
+  useEffect(() => {
+    getBienes(setBienes);
+  }, []);
 
-
-  function createCotizaciones (arrayOrdenBien) {
+  function createCotizaciones(arrayOrdenBien) {
     return arrayOrdenBien.map((item, i) => {
       return {
-          cotizaciones_:
-             <div> Cotización {i+1}
-             <a href={item.propuesta_documentos_bien.bien_cotizacion_documento} target="_blank" rel="noopener noreferrer">
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                      mx:2,
-                   "&:hover": {
-                      backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                   }, }} 
-                   size="small">
-                   <span>Ver</span>
-                </Button>
-              </a>
-             </div>,
-          propuestas_tecnicas:
-             <div> Propuesta técnica {i+1}
-                <a href={item.propuesta_documentos_bien.propuesta_tecnica_documento} target="_blank" rel="noopener noreferrer">
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                   mx:2,
-                "&:hover": {
-                   backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                }, }} 
-                size="small">
+        cotizaciones_: (
+          <div>
+            {" "}
+            Cotización {i + 1}
+            <a
+              href={item.propuesta_documentos_bien.bien_cotizacion_documento}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                sx={{
+                  backgroundColor: "#633256",
+                  fontFamily: "inherit",
+                  color: "white",
+                  mx: 2,
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25),
+                    color: "#633256",
+                  },
+                }}
+                size="small"
+              >
                 <span>Ver</span>
-                </Button>
-                </a>
-             </div>,
-          propuestas_economicas:
-             <div> Propuesta econónica {i+1}
-                <a href={item.propuesta_documentos_bien.propuesta_economica_documento} target="_blank" rel="noopener noreferrer">
-                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
-                   mx:2,
-                "&:hover": {
-                   backgroundColor: alpha("#633256", 0.25), color:'#633256'
-                }, }} 
-                size="small">
+              </Button>
+            </a>
+          </div>
+        ),
+        propuestas_tecnicas: (
+          <div>
+            {" "}
+            Propuesta técnica {i + 1}
+            <a
+              href={item.propuesta_documentos_bien.propuesta_tecnica_documento}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                sx={{
+                  backgroundColor: "#633256",
+                  fontFamily: "inherit",
+                  color: "white",
+                  mx: 2,
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25),
+                    color: "#633256",
+                  },
+                }}
+                size="small"
+              >
                 <span>Ver</span>
-                </Button>
-                </a>
-             </div>,
-        }
-    })
+              </Button>
+            </a>
+          </div>
+        ),
+        propuestas_economicas: (
+          <div>
+            {" "}
+            Propuesta econónica {i + 1}
+            <a
+              href={
+                item.propuesta_documentos_bien.propuesta_economica_documento
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                sx={{
+                  backgroundColor: "#633256",
+                  fontFamily: "inherit",
+                  color: "white",
+                  mx: 2,
+                  "&:hover": {
+                    backgroundColor: alpha("#633256", 0.25),
+                    color: "#633256",
+                  },
+                }}
+                size="small"
+              >
+                <span>Ver</span>
+              </Button>
+            </a>
+          </div>
+        ),
+      };
+    });
   }
 
-  
-  function createData(item,id, codigo, tipo_bien, estado, orden_bien) {
+  function createData(item, id,uso_en_compra, codigo, tipo_bien, estado, orden_bien) {
     return {
       item,
       id,
+      uso_en_compra,
       codigo,
       tipo_bien,
       estado,
-      cotizaciones: createCotizaciones(orden_bien)
+      cotizaciones: createCotizaciones(orden_bien),
     };
   }
-  
+
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
+    const [use, setUse] = useState(false);
 
-    const [use, setUse] = useState(false)
-    
-    const handleSetOrdenBien = (row) => {
+    const handleSetOrdenBien = async () => {
+      setUse(!use);
       dispatch({
         type: ACTION_TYPES.SET_ORDEN_BIEN,
-        payload: row.id
-      })
-      
-      setUse(!use)
-    }
-
-    console.log(state)
+        payload: row.id,
+      });
+    };
 
     return (
       <Fragment>
-        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
           <TableCell>
             <IconButton
               aria-label="expand row"
@@ -146,15 +177,13 @@ export const Tabla = ({
               <Button
                 fullWidth
                 id="textfields"
-                color={use ? "primary" : "secondary"}
+                color={row.uso_en_compra ? "primary" : "secondary"}
                 variant="contained"
-                onClick={()=> handleSetOrdenBien(row)}
+                onClick={handleSetOrdenBien}
               >
-                {use ? "Usando" : "Usar"}
+                {row.uso_en_compra ? "Usando" : "Usar"}
               </Button>
             </Grid>
-
-
           </TableCell>
         </TableRow>
         <TableRow>
@@ -162,17 +191,25 @@ export const Tabla = ({
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Table size="small" aria-label="purchases">
-                <TableHead
-                        sx={{
-                          backgroundColor: alpha("#633256", 0.2),
-                          "&:hover": {
-                            backgroundColor: alpha("#633256", 0.25),
-                          },
-                        }}>
+                  <TableHead
+                    sx={{
+                      backgroundColor: alpha("#633256", 0.2),
+                      "&:hover": {
+                        backgroundColor: alpha("#633256", 0.25),
+                      },
+                    }}
+                  >
                     <TableRow>
-                      <TableCell align="center"> <span>Cotización</span></TableCell>
-                      <TableCell align="center"><span>Propuesta técnica</span></TableCell>
-                      <TableCell align="center"><span>Propuesta económica</span></TableCell>
+                      <TableCell align="center">
+                        {" "}
+                        <span>Cotización</span>
+                      </TableCell>
+                      <TableCell align="center">
+                        <span>Propuesta técnica</span>
+                      </TableCell>
+                      <TableCell align="center">
+                        <span>Propuesta económica</span>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -181,8 +218,12 @@ export const Tabla = ({
                         <TableCell component="th" scope="row" align="center">
                           {cotizacionesRow.cotizaciones_}
                         </TableCell>
-                        <TableCell align="center">{cotizacionesRow.propuestas_tecnicas}</TableCell>
-                        <TableCell align="center">{cotizacionesRow.propuestas_economicas}</TableCell>
+                        <TableCell align="center">
+                          {cotizacionesRow.propuestas_tecnicas}
+                        </TableCell>
+                        <TableCell align="center">
+                          {cotizacionesRow.propuestas_economicas}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -195,16 +236,21 @@ export const Tabla = ({
     );
   }
 
-  function createRows (arrayBienes) {
-    return arrayBienes.map((item, i) => 
-      createData(i+1, item.id, item.codigo, item.bien_nombre, item.bien_estado,
-      item.orden_bien
+  function createRows(arrayBienes) {
+    return arrayBienes.map((item, i) =>
+      createData(
+        i + 1,
+        item.id,
+        item.uso_en_compra,
+        item.codigo,
+        item.bien_nombre,
+        item.bien_estado,
+        item.orden_bien
       )
-    )
+    );
   }
 
-  const rows = createRows(bienes)
-
+  const rows = createRows(bienes);
 
   return (
     <TableContainer component={Paper}>

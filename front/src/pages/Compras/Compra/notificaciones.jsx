@@ -100,10 +100,6 @@ const Notificaciones = ({ window, state, dispatch}) => {
           >
             <Tabla state={state} dispatch={dispatch}/>
 
-
-            {/* <Alert variant="outlined" severity="warning">
-              This is a warning alert — check it out!
-            </Alert> */}
           </StyledBox>
         </SwipeableDrawer>
       </Root>
