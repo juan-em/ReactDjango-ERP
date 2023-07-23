@@ -11,6 +11,7 @@ import Alert from '@mui/material/Alert';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { useState } from "react";
 import { alpha } from "@mui/material/styles";
+import { Tabla } from './complements';
 
 const drawerBleeding = 20;
 
@@ -98,9 +99,12 @@ const Notificaciones = (props) => {
               overflow: 'auto',
             }}
           >
-            <Alert variant="outlined" severity="warning">
+            <Tabla/>
+
+
+            {/* <Alert variant="outlined" severity="warning">
               This is a warning alert — check it out!
-            </Alert>
+            </Alert> */}
           </StyledBox>
         </SwipeableDrawer>
       </Root>

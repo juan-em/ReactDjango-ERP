@@ -21,12 +21,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import {Grid} from "@mui/material";
 
 
 import Swal from "sweetalert2";
-import AddForm from "./addform";
 
-import { getBienes, deleteBien, searcher } from "../../../services/Servicios/bienes";
+
+import { getBienes, deleteBien } from "../../../services/Servicios/bienes";
 
 
 export const Tabla = ({
@@ -37,52 +38,12 @@ export const Tabla = ({
 }) => {
   const [bienes, setBienes] = useState([])
 
-
-
-  const handleDelete = async(id) => {
-    try {
-      Swal.fire({
-        title: '¿Desea eliminar la cotización?',
-        showDenyButton: true,
-        confirmButtonText: 'SI',
-        denyButtonText: `NO`,
-        customClass: {
-          container: 'my-swal',
-        },
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await deleteBien(id)
-          Swal.fire({
-            title: 'Eliminado',
-            icon: 'success',
-            customClass: {
-              container: 'my-swal',
-            },
-          })
-          render.current = true;
-          setRenderizar(!renderizar);
-        } 
-      })
-      
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `${error}`,
-        customClass: {
-          container: 'my-swal',
-        },
-      });
-    }
-  }
+  
 
   //carga de datos
   useEffect(()=>{
-    if (render.current) {
-      render.current = false;
       getBienes(setBienes)
-    }
-  },[renderizar])
+  },[])
 
 
   function createCotizaciones (arrayOrdenBien) {
@@ -132,13 +93,12 @@ export const Tabla = ({
   }
 
   
-  function createData(item, codigo, tipo_bien, estado, acciones, orden_bien) {
+  function createData(item, codigo, tipo_bien, estado, orden_bien) {
     return {
       item,
       codigo,
       tipo_bien,
       estado,
-      acciones,
       cotizaciones: createCotizaciones(orden_bien)
     };
   }
@@ -146,7 +106,12 @@ export const Tabla = ({
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
-  
+
+    const [use, setUse] = useState(false)
+    
+    const handleSetOrdenBien = () => {
+      setUse(!use)
+    }
     return (
       <Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -165,7 +130,21 @@ export const Tabla = ({
           <TableCell>{row.codigo}</TableCell>
           <TableCell>{row.tipo_bien}</TableCell>
           <TableCell>{row.estado}</TableCell>
-          <TableCell>{row.acciones}</TableCell>
+          <TableCell>
+            <Grid item xs={8} sm={8} md={8} xl={8}>
+              <Button
+                fullWidth
+                id="textfields"
+                color={use ? "primary" : "secondary"}
+                variant="contained"
+                onClick={handleSetOrdenBien}
+              >
+                {use ? "Usando" : "Usar"}
+              </Button>
+            </Grid>
+
+
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -208,21 +187,12 @@ export const Tabla = ({
   function createRows (arrayBienes) {
     return arrayBienes.map((item, i) => 
       createData(i+1, item.codigo, item.bien_nombre, item.bien_estado,
-      <>
-      <IconButton
-        size="small"
-        color="error"
-      >
-        <DeleteIcon fontSize="inherit" onClick={() => handleDelete(item.id)}/>
-      </IconButton>
-      {/* Funcionalidad a futuro: Registrar orden de compra <AddForm/> */}
-      </>,
       item.orden_bien
       )
     )
   }
 
-  const rows = createRows(searcher(fields, bienes))
+  const rows = createRows(bienes)
 
 
   return (

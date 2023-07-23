@@ -460,6 +460,8 @@ class Unidad(models.Model):
 ###########################################################
 class Compra(models.Model):
     fecha = models.DateTimeField(null=True)
+    
+
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
     detalle_entrega = models.TextField(default='-', null=True, blank=True)
