@@ -21,3 +21,12 @@ export const postRequerimientos = async (data) => {
   }
 };
 
+export const delRequerimientos = async (id) => {
+  try {
+    const response = await axios.delete(`${URL}${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
