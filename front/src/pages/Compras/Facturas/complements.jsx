@@ -126,7 +126,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="right"
             >
-              N° de factura
+              N° de Orden Bien
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -168,7 +168,7 @@ export const Tabla = ({
               </TableCell>
               <TableCell align="right">{row.codigo}</TableCell>
               <TableCell align="right">
-                {row.numero_factura ? row.numero_factura : "-"}
+                {row.orden_bien ? row.orden_bien : "-"}
               </TableCell>
               <TableCell align="right">{formateoFecha(row.fecha)}</TableCell>
               <TableCell align="right">{row.nombre_proveedor}</TableCell>

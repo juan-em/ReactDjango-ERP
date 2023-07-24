@@ -44,7 +44,7 @@ export const Tabla = ({
   function createCotizaciones(arrayOrdenBien) {
     return arrayOrdenBien.map((item, i) => {
       return {
-        estado : item.propuesta_documentos_bien.estado,
+        estado : item.estado,
         cotizaciones_: (
           <div>
             {" "}
@@ -184,7 +184,7 @@ export const Tabla = ({
                 variant="contained"
                 onClick={()=>handleSetOrdenBien(row)}
               >
-                {row.uso_en_compra ? "Usando" : "Usar"}
+                {row.uso_en_compra ? "En uso" : "Usar"}
               </Button>
             </Grid>
           </TableCell>
@@ -271,7 +271,8 @@ export const Tabla = ({
     );
   }
 
-  const rows = createRows(bienes);
+
+  const rows = createRows(bienes.filter((item) => item.bien_estado == 'Aprobado'));
 
   return (
     <TableContainer component={Paper}>

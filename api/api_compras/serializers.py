@@ -64,7 +64,7 @@ class CompraSerializer(WritableNestedModelSerializer):
     detalle_compra = CompraDetalleSerializer(many=True)
     class Meta:
         model = Compra
-        fields = ['id','fecha', 'proveedor', 'estado', 'detalle_entrega', 'totalCompra', 'imagen_fac_compra', 'descuento', 'detalle_compra','numero_factura']
+        fields = ['id','fecha', 'orden_bien' , 'proveedor', 'estado', 'detalle_entrega', 'totalCompra', 'imagen_fac_compra', 'descuento', 'detalle_compra','numero_factura']
     
     def to_representation(self, instance):
         detalle_compra = CompraDetalle.objects.filter(compra=instance.pk)
@@ -77,6 +77,7 @@ class CompraSerializer(WritableNestedModelSerializer):
             'id': instance.id,
             'fecha':instance.fecha,
             'estado':instance.estado,
+            'orden_bien': instance.orden_bien.codigo if instance.orden_bien else None,
             'estado_remision': instance.estado_remision,
             'numero_factura': instance.numero_factura,
             #All prov's information -> 'proveedor': ser_prov.data if instance.proveedor else None,

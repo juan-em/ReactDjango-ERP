@@ -176,8 +176,8 @@ class OrdenServicioDetailView(APIView):
     
 class PropuestaEmpresaBienDocumentosDetailView(APIView):
     def patch(self, request, id):
-        data = Propuesta_Empresa_Bien_Documentos.objects.get(id=id)
-        serializer = PropuestaEmpresaBienDocumentosSerializer(data, data=request.data, partial=True)
+        data = Propuesta_Empresa_Bien.objects.get(id=id)
+        serializer = PropuestaEmpresaBienSerializer(data, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -190,8 +190,8 @@ class PropuestaEmpresaBienDocumentosDetailView(APIView):
 
 class PropuestaEmpresaServicioDocumentosDetailView(APIView):
     def patch(self, request, id):
-        data = Propuesta_Empresa_Servicio_Documentos.objects.get(id=id)
-        serializer = PropuestaEmpresaServicioDocumentosSerializer(data, data=request.data, partial=True)
+        data = Propuesta_Empresa_Servicio.objects.get(id=id)
+        serializer = PropuestaEmpresaServicioSerializer(data, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 

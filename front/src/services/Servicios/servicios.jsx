@@ -1,6 +1,7 @@
 import axios from "../../api/axios"
 
 const SERVICIOS_URL = "api/ordenes/servicio/"
+const SERVICIOS_DOCUMENTOS_URL = "api/ordenes/serviciodocumentos/"
 
 export const cotizacionInitialState = {orden_servicio:[{}]}
 
@@ -61,3 +62,23 @@ export const deleteServicio = async (id) =>{
         return error
     }
   }
+
+  export const patchOrdenServicio = async (id, data) => {
+    try {
+      const responsePatch = await axios.patch(`${SERVICIOS_URL}${id}/`, data);
+      return responsePatch.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+  export const patchOrdenServicioCotizacion = async (id, data) => {
+    try {
+      const responsePatch = await axios.patch(`${SERVICIOS_DOCUMENTOS_URL}${id}/`, data);
+      return responsePatch.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };

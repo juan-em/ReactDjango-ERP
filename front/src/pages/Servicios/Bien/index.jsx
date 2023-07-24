@@ -45,6 +45,7 @@ const Bien = () => {
     'Aprobado',
     'En progreso',
     'Denegado',
+    'Completado',
     'Ninguno'
 
   ];

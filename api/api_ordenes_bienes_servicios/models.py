@@ -12,18 +12,19 @@ SOLICITANDO_COTIZACION = "Solicitando cotización"
 APROBADO = "Aprobado"
 EN_PROGRESO = "En progreso"
 DENEGADO = "Denegado"
+COMPLETADO = "Completado"
 
 ESTADO_SOLICITUD = [
     (NINGUNO, "Ninguno"),
     (SOLICITANDO_COTIZACION, "Solicitando cotización"),
     (APROBADO, "Aprobado"),
     (EN_PROGRESO, "En progreso"),
-    (DENEGADO, "Denegado")
+    (DENEGADO, "Denegado"),
+    (COMPLETADO, "Completado")
 ]
 
 # Ordenes de bienes
 class Propuesta_Empresa_Bien_Documentos(models.Model):
-    estado = models.BooleanField(default=False)
     propuesta_tecnica_documento = models.FileField(upload_to="documents/bienes/propuesta_tecnica", blank=True, null=True)
     propuesta_economica_documento = models.FileField(upload_to="documents/bienes/propuesta_economica", blank=True, null=True)
     bien_cotizacion_documento = models.FileField(upload_to="documents/bienes/cotizacion", blank=True, null=True)
@@ -43,6 +44,7 @@ class Orden_bien(models.Model):
 
 
 class Propuesta_Empresa_Bien(models.Model):
+    estado = models.BooleanField(default=False)
     proveedor_id = models.ForeignKey(Proveedores, on_delete=models.CASCADE, null=True)
     orden_bien = models.ForeignKey(Orden_bien, related_name="orden_bien", on_delete=models.CASCADE, null=True)
     fecha_registro = models.DateField(auto_now_add=True)
@@ -69,6 +71,7 @@ class Orden_servicio(models.Model):
         return "OS-"+"0"*(5-len(pk))+pk
 
 class Propuesta_Empresa_Servicio(models.Model):
+    estado = models.BooleanField(default=False)
     empresa_servicio = models.CharField(max_length=250, null=True)
     orden_servicio = models.ForeignKey(Orden_servicio, related_name="orden_servicio", on_delete=models.CASCADE, null=True)
     fecha_registro = models.DateField(auto_now_add=True)

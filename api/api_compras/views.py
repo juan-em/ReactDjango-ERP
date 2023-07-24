@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from api_models.models import *
 from api_cajadiaria.models import Caja_Diaria
+from api_ordenes_bienes_servicios.models import Orden_bien
 from api_cajadiaria.serializers import EgresosCompraSerializer
 
 # Create your views here.
@@ -39,8 +40,10 @@ class ComprasView(APIView):
                 'content':serializer.data
             }
 
-            print("data_egreso_registro ==> ", data_egreso_registro)
-            print("serializer.data ==> ", serializer.data)
+            id_orden_bien = request.data.get('orden_bien')
+            orden_bien = Orden_bien.objects.get(id=id_orden_bien)
+            orden_bien.bien_estado = 'Completado'
+            orden_bien.save()
 
             data_egreso_registro["compra"] = serializer.data.get("id")            
             serializer_egresos_compra = EgresosCompraSerializer(data=data_egreso_registro)
@@ -114,6 +117,11 @@ class RemisionesView(APIView):
             compra_detalle = CompraDetalle.objects.get(id=item["compra_detalle"])
             compra_detalle.remision_hecha = True
             compra_detalle.save()
+
+            total_articulos_ingresados = compra_detalle.unidad * compra_detalle.cantidad
+            articulo_variante = compra_detalle.articulo
+            articulo_variante.cantidad += total_articulos_ingresados
+            articulo_variante.save()
             
             detalle_remision = RemisionDetalleCompra()
             detalle_remision.remision_compra=remision
@@ -139,6 +147,12 @@ class RemisionDetailView(APIView):
             compra_detalle = detalle_remision.compra_detalle
             compra_detalle.remision_hecha = False
             compra_detalle.save()
+
+            total_articulos_anulados = compra_detalle.unidad * compra_detalle.cantidad
+            articulo_variante = compra_detalle.articulo
+            articulo_variante.cantidad -= total_articulos_anulados
+            articulo_variante.save()
+
         data.delete()
         context = {
             'status':True,
@@ -158,6 +172,12 @@ class RemisionDetalleDetailView(APIView):
         compra_detalle = data.compra_detalle
         compra_detalle.remision_hecha = False
         compra_detalle.save()
+
+        total_articulos_anulados = compra_detalle.unidad * compra_detalle.cantidad
+        articulo_variante = compra_detalle.articulo
+        articulo_variante.cantidad -= total_articulos_anulados
+        articulo_variante.save()
+
         data.delete()
         
         context = {
