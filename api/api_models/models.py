@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _ 
 
+
+
 #CHOICES
 CHOICES_YES_NO = (("Sí", "Sí"),
     ("No", "No"))
@@ -459,9 +461,9 @@ class Unidad(models.Model):
 #----------------------- COMPRAS -----------------------#
 ###########################################################
 class Compra(models.Model):
+    from api_ordenes_bienes_servicios.models import Orden_bien
     fecha = models.DateTimeField(null=True)
-    
-
+    orden_bien = models.ForeignKey(Orden_bien, on_delete=models.SET_NULL, null=True)
     proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE)
     estado = models.BooleanField(null=True, blank=True, default=False)
     detalle_entrega = models.TextField(default='-', null=True, blank=True)

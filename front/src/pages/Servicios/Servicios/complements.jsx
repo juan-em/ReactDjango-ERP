@@ -4,34 +4,47 @@ import { alpha } from "@mui/material/styles";
 import { Button, IconButton } from "@mui/material";
 
 //iconos
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import CheckCircle from "@mui/icons-material/CheckCircle";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 //AHORA
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
+import { FormControl, Select, MenuItem } from "@mui/material";
 
 import Swal from "sweetalert2";
 
-import {
-  getServicios,
-  deleteServicio,
-  searcher,
-} from "../../../services/Servicios/servicios";
+import { getServicios, deleteServicio, searcher, patchOrdenServicio, patchOrdenServicioCotizacion } from "../../../services/Servicios/servicios";
 
 export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   const [servicios, setServicios] = useState([]);
 
-  const handleDelete = async (id) => {
+  const cambioEstadoOrdenServicio = async (row, value) => {
+    var payload = { servicio_estado: value };
+    await patchOrdenServicio(row.id, payload);
+    render.current = true;
+    setRenderizar(!renderizar);
+  };
+
+  const cambioEstadoOrdenServicioCotizacion = async (row) => {
+    var payload = { estado: !row.estado };
+    await patchOrdenServicioCotizacion(row.id, payload);
+    render.current = true;
+    setRenderizar(!renderizar);
+  };
+
+
+  const handleDelete = async(id) => {
     try {
       Swal.fire({
         title: "¿Desea eliminar el la cotización?",
@@ -75,102 +88,66 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
     }
   }, [renderizar]);
 
-  function createCotizaciones(arrayOrdenBien) {
+  const stateList = [
+    "Solicitando cotización",
+    "Aprobado",
+    "En progreso",
+    "Denegado",
+    "Ninguno",
+  ];
+
+
+  function createCotizaciones (arrayOrdenBien) {
     return arrayOrdenBien.map((item, i) => {
       return {
-        cotizaciones_: (
-          <div>
-            {" "}
-            Cotización {i + 1}
-            <a
-              href={
-                item.propuesta_documentos_servicio.servicio_cotizacion_documento
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                sx={{
-                  backgroundColor: "#633256",
-                  fontFamily: "inherit",
-                  color: "white",
-                  mx: 2,
-                  "&:hover": {
-                    backgroundColor: alpha("#633256", 0.25),
-                    color: "#633256",
-                  },
-                }}
-                size="small"
-              >
+          id: item.id,
+          estado:item.estado,
+          cotizaciones_:
+             <div> Cotización {i+1}
+             <a href={item.propuesta_documentos_servicio.servicio_cotizacion_documento} target="_blank" rel="noopener noreferrer">
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                      mx:2,
+                   "&:hover": {
+                      backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                   }, }} 
+                   size="small">
+                   <span>Ver</span>
+                </Button>
+              </a>
+             </div>,
+          propuestas_tecnicas:
+             <div> Propuesta técnica {i+1}
+                <a href={item.propuesta_documentos_servicio.propuesta_tecnica_documento} target="_blank" rel="noopener noreferrer">
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                   mx:2,
+                "&:hover": {
+                   backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                }, }} 
+                size="small">
                 <span>Ver</span>
-              </Button>
-            </a>
-          </div>
-        ),
-        propuestas_tecnicas: (
-          <div>
-            {" "}
-            Propuesta técnica {i + 1}
-            <a
-              href={
-                item.propuesta_documentos_servicio.propuesta_tecnica_documento
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                sx={{
-                  backgroundColor: "#633256",
-                  fontFamily: "inherit",
-                  color: "white",
-                  mx: 2,
-                  "&:hover": {
-                    backgroundColor: alpha("#633256", 0.25),
-                    color: "#633256",
-                  },
-                }}
-                size="small"
-              >
+                </Button>
+                </a>
+             </div>,
+          propuestas_economicas:
+             <div> Propuesta econónica {i+1}
+                <a href={item.propuesta_documentos_servicio.propuesta_economica_documento} target="_blank" rel="noopener noreferrer">
+                <Button  sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white',
+                   mx:2,
+                "&:hover": {
+                   backgroundColor: alpha("#633256", 0.25), color:'#633256'
+                }, }} 
+                size="small">
                 <span>Ver</span>
-              </Button>
-            </a>
-          </div>
-        ),
-        propuestas_economicas: (
-          <div>
-            {" "}
-            Propuesta econónica {i + 1}
-            <a
-              href={
-                item.propuesta_documentos_servicio.propuesta_economica_documento
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                sx={{
-                  backgroundColor: "#633256",
-                  fontFamily: "inherit",
-                  color: "white",
-                  mx: 2,
-                  "&:hover": {
-                    backgroundColor: alpha("#633256", 0.25),
-                    color: "#633256",
-                  },
-                }}
-                size="small"
-              >
-                <span>Ver</span>
-              </Button>
-            </a>
-          </div>
-        ),
-      };
-    });
+                </Button>
+                </a>
+             </div>,
+        }
+    })
   }
 
   function createData(
     item,
+    id,
     codigo,
     requerimiento,
     tipo_servicio,
@@ -180,6 +157,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   ) {
     return {
       item,
+      id,
       codigo,
       requerimiento,
       tipo_servicio,
@@ -211,7 +189,32 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
           <TableCell>{row.codigo}</TableCell>
           <TableCell>{row.requerimiento.codigo}</TableCell>
           <TableCell>{row.tipo_servicio}</TableCell>
-          <TableCell>{row.estado}</TableCell>
+          <TableCell>{
+              row.estado == 'Completado' ?
+              row.estado:
+              <FormControl
+              fullWidth
+              margin="dense"
+              size="small"
+              color="secondary"
+            >
+              <Select
+                size="small"
+                color="secondary"
+                id="textfields"
+                name={"bien_estado"}
+                onChange={(e) => cambioEstadoOrdenServicio(row, e.target.value)}
+                value={row.estado}
+              >
+                {stateList.map((item, i) => (
+                  <MenuItem key={i} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            }
+          </TableCell>
           <TableCell>{row.acciones}</TableCell>
         </TableRow>
         <TableRow>
@@ -246,11 +249,24 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
                         <TableCell component="th" scope="row" align="center">
                           {cotizacionesRow.cotizaciones_}
                         </TableCell>
+                        <TableCell align="center">{cotizacionesRow.propuestas_tecnicas}</TableCell>
+                        <TableCell align="center">{cotizacionesRow.propuestas_economicas}</TableCell>
                         <TableCell align="center">
-                          {cotizacionesRow.propuestas_tecnicas}
-                        </TableCell>
-                        <TableCell align="center">
-                          {cotizacionesRow.propuestas_economicas}
+                          <IconButton
+                            // disabled={cotizacionesRow.estado ? false : true}
+                            onClick={() => cambioEstadoOrdenServicioCotizacion(cotizacionesRow)}
+                            aria-label="delete"
+                            size="small"
+                            color="success"
+                          >
+                            {
+                              cotizacionesRow.estado == true?
+                              <CheckCircle fontSize="inherit" />
+                              :
+                              <RemoveCircleIcon color="primary" fontSize="inherit"/>
+                            }
+                            
+                          </IconButton>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -269,6 +285,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
     return arrayServicios.map((item, i) =>
       createData(
         i + 1,
+        item.id,
         item.codigo,
         item.requerimiento,
         item.servicio_nombre,

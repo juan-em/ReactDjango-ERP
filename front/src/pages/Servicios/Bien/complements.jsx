@@ -23,7 +23,6 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { FormControl, Select, MenuItem } from "@mui/material";
 
 import Swal from "sweetalert2";
-import AddForm from "./addform";
 
 import {
   getBienes,
@@ -99,7 +98,6 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   }, [renderizar]);
 
   const stateList = [
-    "Todos",
     "Solicitando cotización",
     "Aprobado",
     "En progreso",
@@ -112,7 +110,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
     return arrayOrdenBien.map((item, i) => {
       return {
         id: item.id,
-        estado : item.propuesta_documentos_bien.estado,
+        estado : item.estado,
         cotizaciones_: (
           <div>
             {" "}
@@ -245,7 +243,10 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
           <TableCell>{row.requerimiento.codigo}</TableCell>
           <TableCell>{row.tipo_bien}</TableCell>
           <TableCell>
-            <FormControl
+            {
+              row.estado == 'Completado' ?
+              row.estado:
+              <FormControl
               fullWidth
               margin="dense"
               size="small"
@@ -266,6 +267,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
                 ))}
               </Select>
             </FormControl>
+            }
           </TableCell>
           <TableCell>{row.acciones}</TableCell>
         </TableRow>

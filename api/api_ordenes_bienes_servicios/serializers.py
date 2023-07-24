@@ -8,7 +8,7 @@ from api_requerimientos.serializers import *
 class PropuestaEmpresaBienDocumentosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Propuesta_Empresa_Bien_Documentos
-        fields = ['id', 'estado', 'propuesta_tecnica_documento', 'propuesta_economica_documento', 'bien_cotizacion_documento']
+        fields = ['id', 'propuesta_tecnica_documento', 'propuesta_economica_documento', 'bien_cotizacion_documento']
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['propuesta_tecnica_documento'] = URLGENERAL + instance.propuesta_tecnica_documento.url if instance.propuesta_tecnica_documento else '#'
@@ -21,14 +21,14 @@ class PropuestaEmpresaBienSerializer(WritableNestedModelSerializer):
     
     class Meta:
         model = Propuesta_Empresa_Bien
-        fields = ['id', 'proveedor_id', 'propuesta_documentos_bien']
+        fields = ['id', 'proveedor_id', 'estado', 'propuesta_documentos_bien']
 
 class OrdenBienSerializer(WritableNestedModelSerializer):
     orden_bien = PropuestaEmpresaBienSerializer(many=True)
 
     class Meta:
         model = Orden_bien
-        fields = ['id', 'bien_nombre', 'bien_estado', 'orden_bien', 'mayor_500','codigo', 'requerimiento']
+        fields = ['id', 'bien_nombre', 'bien_estado', 'orden_bien', 'mayor_500','codigo', 'requerimiento', 'uso_en_compra']
     def to_representation(self, instance):
         print(instance)
         representation = super().to_representation(instance)
@@ -54,7 +54,7 @@ class PropuestaEmpresaServicioSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Propuesta_Empresa_Servicio
-        fields = ['id', 'empresa_servicio', 'propuesta_documentos_servicio']
+        fields = ['id', 'empresa_servicio', 'estado', 'propuesta_documentos_servicio']
 
 class OrdenServicioSerializer(WritableNestedModelSerializer):
     orden_servicio = PropuestaEmpresaServicioSerializer(many=True)
