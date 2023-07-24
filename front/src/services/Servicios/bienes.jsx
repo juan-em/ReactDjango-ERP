@@ -10,6 +10,7 @@ export function transformToFormData (values) {
     values.mayor_500 && formData.append('mayor_500', values.mayor_500);
     formData.append('bien_nombre', values.bien_nombre);
     formData.append('bien_estado', values.bien_estado);
+    formData.append('requerimiento', values.requerimiento);
     
     values.orden_bien.forEach((value, index) => {
         formData.append(`orden_bien[${index}][proveedor_id]`, value.proveedor_id);

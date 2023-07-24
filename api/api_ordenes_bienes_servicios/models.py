@@ -2,6 +2,8 @@ from django.db import models
 
 from api_models.models import Proveedores
 
+from api_requerimientos.models import Requerimiento
+
 # Create your models here.
 NINGUNO = "Ninguno"
 
@@ -35,6 +37,7 @@ class Orden_bien(models.Model):
     bien_nombre = models.CharField(max_length=500)
     bien_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
     mayor_500 = models.BooleanField(default=False)
+    requerimiento = models.ForeignKey(Requerimiento, on_delete=models.CASCADE, null=True)
 
     @property
     def codigo(self):
@@ -62,6 +65,7 @@ class Orden_servicio(models.Model):
     servicio_nombre = models.CharField(max_length=500)
     servicio_estado = models.CharField(max_length=50, choices=ESTADO_SOLICITUD, default=NINGUNO)
     mayor_500 = models.BooleanField(default=False)
+    requerimiento = models.ForeignKey(Requerimiento, on_delete=models.CASCADE, null=True)
 
     @property
     def codigo(self):

@@ -1,7 +1,7 @@
 import { alpha } from "@mui/material/styles";
 
 import "./index.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -33,7 +33,7 @@ import { Formik, Form, Field, FieldArray } from "formik";
 import { cotizacionInitialState, postServicios, transformToFormData } from "../../../services/Servicios/servicios";
 
 import PropTypes from "prop-types";
-
+import {getRequermientos} from '../../../services/requerimientos'
 import Swal from "sweetalert2";
 
 const Registar = ({ 
@@ -43,6 +43,7 @@ const Registar = ({
  }) => {
   const [open, setOpen] = useState(false);
   const [item, setItem] = useState(cotizacionInitialState);
+  const [req, setReq] = useState([])
 
   const handleOpen = () => {
     setOpen(true);
@@ -121,6 +122,11 @@ const Registar = ({
     "En proceso",
     "Denegado",
   ];
+
+  useEffect(() => {
+    getRequermientos(setReq);
+  },[]);
+
 
   return (
     <>
@@ -216,7 +222,35 @@ const Registar = ({
                             </Select>
                           </FormControl>
                         </Grid>
-
+                        <Grid item xs={12} sm={12} md={12}>
+                          <FormControl
+                            fullWidth
+                            margin="dense"
+                            size="small"
+                            color="secondary"
+                          >
+                            <InputLabel>
+                              Requerimiento
+                            </InputLabel>
+                            <Select
+                              label="Requerimientos"
+                              size="small"
+                              color="secondary"
+                              id="textfields"
+                              onChange={handleChange}
+                              name="requerimiento"
+                            >
+                              {req.map((item, i) => (
+                                item.tipo === "servicio" ?
+                                (<MenuItem key={i} value={item.id}>
+                                  {item.codigo}
+                                </MenuItem>) : (
+                                  <></>
+                                )
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Grid>
                         <Grid item xs={12} sm={12} md={12}>
                           <FieldArray
                             name="orden_servicio"

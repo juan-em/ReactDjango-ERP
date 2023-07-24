@@ -52,6 +52,7 @@ def querydict_to_dict(query_dict):
             add_to_dict(d, newKeys, get_value(value))
         else:
             d[key] = get_value(value)
+    print(d)
     return d
 
 

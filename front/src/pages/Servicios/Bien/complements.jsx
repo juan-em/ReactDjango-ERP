@@ -36,6 +36,8 @@ import {
 export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   const [bienes, setBienes] = useState([]);
 
+  console.log(bienes)
+
   const cambioEstadoOrdenBien = async (row, value) => {
     var payload = { bien_estado: value };
     
@@ -106,6 +108,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   ];
 
   function createCotizaciones(arrayOrdenBien) {
+    console.log(arrayOrdenBien)
     return arrayOrdenBien.map((item, i) => {
       return {
         id: item.id,
@@ -201,6 +204,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
     item,
     id,
     codigo,
+    requerimiento,
     tipo_bien,
     estado,
     acciones,
@@ -210,6 +214,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
       item,
       id,
       codigo,
+      requerimiento,
       tipo_bien,
       estado,
       acciones,
@@ -220,7 +225,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
-
+    console.log(row)
     return (
       <Fragment>
         <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -237,6 +242,7 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
             {row.item}
           </TableCell>
           <TableCell>{row.codigo}</TableCell>
+          <TableCell>{row.requerimiento.codigo}</TableCell>
           <TableCell>{row.tipo_bien}</TableCell>
           <TableCell>
             <FormControl
@@ -334,11 +340,13 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
   }
 
   function createRows(arrayBienes) {
+    console.log(arrayBienes)
     return arrayBienes.map((item, i) =>
       createData(
         i + 1,
         item.id,
         item.codigo,
+        item.requerimiento,
         item.bien_nombre,
         item.bien_estado,
         <>
@@ -375,6 +383,9 @@ export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
             </TableCell>
             <TableCell>
               <span>Código</span>
+            </TableCell>
+            <TableCell>
+              <span>Codigo Requerimiento</span>
             </TableCell>
             <TableCell>
               <span>Tipo de bien</span>
