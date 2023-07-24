@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
-import { Fragment } from 'react';
+import { Fragment } from "react";
 import { alpha } from "@mui/material/styles";
-import {
-  Button,
-  IconButton,
-} from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 
 //iconos
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import CheckCircle from "@mui/icons-material/CheckCircle";
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 //AHORA
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -23,70 +20,88 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
+import { FormControl, Select, MenuItem } from "@mui/material";
 
 import Swal from "sweetalert2";
 
-import { getServicios, deleteServicio, searcher } from "../../../services/Servicios/servicios";
+import { getServicios, deleteServicio, searcher, patchOrdenServicio, patchOrdenServicioCotizacion } from "../../../services/Servicios/servicios";
 
-export const Tabla = ({
-    fields,
-    render,
-    renderizar,
-    setRenderizar
-}) => {
-  const [servicios, setServicios] = useState([])
+export const Tabla = ({ fields, render, renderizar, setRenderizar }) => {
+  const [servicios, setServicios] = useState([]);
 
+  const cambioEstadoOrdenServicio = async (row, value) => {
+    var payload = { servicio_estado: value };
+    await patchOrdenServicio(row.id, payload);
+    render.current = true;
+    setRenderizar(!renderizar);
+  };
+
+  const cambioEstadoOrdenServicioCotizacion = async (row) => {
+    var payload = { estado: !row.estado };
+    await patchOrdenServicioCotizacion(row.id, payload);
+    render.current = true;
+    setRenderizar(!renderizar);
+  };
 
 
   const handleDelete = async(id) => {
     try {
       Swal.fire({
-        title: '¿Desea eliminar el la cotización?',
+        title: "¿Desea eliminar el la cotización?",
         showDenyButton: true,
-        confirmButtonText: 'SI',
+        confirmButtonText: "SI",
         denyButtonText: `NO`,
         customClass: {
-          container: 'my-swal',
+          container: "my-swal",
         },
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await deleteServicio(id)
+          await deleteServicio(id);
           Swal.fire({
-            title: 'Eliminado',
-            icon: 'success',
+            title: "Eliminado",
+            icon: "success",
             customClass: {
-              container: 'my-swal',
+              container: "my-swal",
             },
-          })
+          });
           render.current = true;
           setRenderizar(!renderizar);
-        } 
-      })
-      
+        }
+      });
     } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: `${error}`,
         customClass: {
-          container: 'my-swal',
+          container: "my-swal",
         },
       });
     }
-  }
+  };
 
   //carga de datos
-  useEffect(()=>{
+  useEffect(() => {
     if (render.current) {
       render.current = false;
-      getServicios(setServicios)
+      getServicios(setServicios);
     }
-  },[renderizar])
+  }, [renderizar]);
+
+  const stateList = [
+    "Solicitando cotización",
+    "Aprobado",
+    "En progreso",
+    "Denegado",
+    "Ninguno",
+  ];
 
 
   function createCotizaciones (arrayOrdenBien) {
     return arrayOrdenBien.map((item, i) => {
       return {
+          id: item.id,
+          estado:item.estado,
           cotizaciones_:
              <div> Cotización {i+1}
              <a href={item.propuesta_documentos_servicio.servicio_cotizacion_documento} target="_blank" rel="noopener noreferrer">
@@ -130,25 +145,35 @@ export const Tabla = ({
     })
   }
 
-  
-  function createData(item, codigo, tipo_servicio, estado, acciones, orden_servicio) {
+  function createData(
+    item,
+    id,
+    codigo,
+    requerimiento,
+    tipo_servicio,
+    estado,
+    acciones,
+    orden_servicio
+  ) {
     return {
       item,
+      id,
       codigo,
+      requerimiento,
       tipo_servicio,
       estado,
       acciones,
-      cotizaciones: createCotizaciones(orden_servicio)
+      cotizaciones: createCotizaciones(orden_servicio),
     };
   }
 
   function Row(props) {
     const { row } = props;
     const [open, setOpen] = useState(false);
-  
+
     return (
       <Fragment>
-        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
           <TableCell>
             <IconButton
               aria-label="expand row"
@@ -162,8 +187,34 @@ export const Tabla = ({
             {row.item}
           </TableCell>
           <TableCell>{row.codigo}</TableCell>
+          <TableCell>{row.requerimiento.codigo}</TableCell>
           <TableCell>{row.tipo_servicio}</TableCell>
-          <TableCell>{row.estado}</TableCell>
+          <TableCell>{
+              row.estado == 'Completado' ?
+              row.estado:
+              <FormControl
+              fullWidth
+              margin="dense"
+              size="small"
+              color="secondary"
+            >
+              <Select
+                size="small"
+                color="secondary"
+                id="textfields"
+                name={"bien_estado"}
+                onChange={(e) => cambioEstadoOrdenServicio(row, e.target.value)}
+                value={row.estado}
+              >
+                {stateList.map((item, i) => (
+                  <MenuItem key={i} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            }
+          </TableCell>
           <TableCell>{row.acciones}</TableCell>
         </TableRow>
         <TableRow>
@@ -171,17 +222,25 @@ export const Tabla = ({
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Table size="small" aria-label="purchases">
-                <TableHead
-                        sx={{
-                          backgroundColor: alpha("#633256", 0.2),
-                          "&:hover": {
-                            backgroundColor: alpha("#633256", 0.25),
-                          },
-                        }}>
+                  <TableHead
+                    sx={{
+                      backgroundColor: alpha("#633256", 0.2),
+                      "&:hover": {
+                        backgroundColor: alpha("#633256", 0.25),
+                      },
+                    }}
+                  >
                     <TableRow>
-                      <TableCell align="center"> <span>Cotización</span></TableCell>
-                      <TableCell align="center"><span>Propuesta técnica</span></TableCell>
-                      <TableCell align="center"><span>Propuesta económica</span></TableCell>
+                      <TableCell align="center">
+                        {" "}
+                        <span>Cotización</span>
+                      </TableCell>
+                      <TableCell align="center">
+                        <span>Propuesta técnica</span>
+                      </TableCell>
+                      <TableCell align="center">
+                        <span>Propuesta económica</span>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -192,6 +251,23 @@ export const Tabla = ({
                         </TableCell>
                         <TableCell align="center">{cotizacionesRow.propuestas_tecnicas}</TableCell>
                         <TableCell align="center">{cotizacionesRow.propuestas_economicas}</TableCell>
+                        <TableCell align="center">
+                          <IconButton
+                            // disabled={cotizacionesRow.estado ? false : true}
+                            onClick={() => cambioEstadoOrdenServicioCotizacion(cotizacionesRow)}
+                            aria-label="delete"
+                            size="small"
+                            color="success"
+                          >
+                            {
+                              cotizacionesRow.estado == true?
+                              <CheckCircle fontSize="inherit" />
+                              :
+                              <RemoveCircleIcon color="primary" fontSize="inherit"/>
+                            }
+                            
+                          </IconButton>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -204,11 +280,18 @@ export const Tabla = ({
     );
   }
 
-  function createRows (arrayServicios) {
-    return arrayServicios.map((item, i) => 
-      createData(i+1, item.codigo, item.servicio_nombre, item.servicio_estado,
-      <>
-      {/* <IconButton
+  function createRows(arrayServicios) {
+    console.log(arrayServicios);
+    return arrayServicios.map((item, i) =>
+      createData(
+        i + 1,
+        item.id,
+        item.codigo,
+        item.requerimiento,
+        item.servicio_nombre,
+        item.servicio_estado,
+        <>
+          {/* <IconButton
         aria-label="delete"
         size="small"
         color="primary"
@@ -216,20 +299,19 @@ export const Tabla = ({
       >
         <VisibilityIcon fontSize="inherit" />
       </IconButton> */}
-      <IconButton
-        size="small"
-        color="error"
-      >
-        <DeleteIcon fontSize="inherit" onClick={() => handleDelete(item.id)}/>
-      </IconButton>
-      </>,
-      item.orden_servicio
+          <IconButton size="small" color="error">
+            <DeleteIcon
+              fontSize="inherit"
+              onClick={() => handleDelete(item.id)}
+            />
+          </IconButton>
+        </>,
+        item.orden_servicio
       )
-    )
+    );
   }
 
-  const rows = createRows(searcher(fields, servicios))
-
+  const rows = createRows(searcher(fields, servicios));
 
   return (
     <TableContainer component={Paper}>
@@ -249,6 +331,9 @@ export const Tabla = ({
             </TableCell>
             <TableCell>
               <span>Código</span>
+            </TableCell>
+            <TableCell>
+              <span>Codigo Requerimiento</span>
             </TableCell>
             <TableCell>
               <span>Tipo de servicio</span>

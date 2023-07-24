@@ -23,7 +23,7 @@ const VerRequerimiento = ({ itemView }) => {
   const [itemsPer, setItemsPer] = useState([
     { icon: <NumbersIcon />, primary: "Código", secondary: "" },
     { icon: <DriveFileRenameOutlineIcon />, primary: "Area solicitante", secondary: "" },
-    { icon: <InfoIcon />, primary: "Estado", secondary: "" },
+    { icon: <InfoIcon />, primary: "Fecha Registro", secondary: "" },
     { icon: <DescriptionIcon />, primary: "Tipo", secondary: "" }
   ]);
 
@@ -42,18 +42,18 @@ const VerRequerimiento = ({ itemView }) => {
         } else if (i.primary === "Area solicitante") {
           return {
             ...i,
-            secondary: itemView.nombreprovincia,
+            secondary: itemView.area_solicitante.nombre,
           };
         } 
-       else if (i.primary === "Estado") {
+       else if (i.primary === "Fecha Registro") {
         return {
           ...i,
-          secondary: itemView.nombreprovincia,
+          secondary: itemView.fecha_registro,
         };
        } else if (i.primary === "Tipo") {
           return {
             ...i,
-            secondary: itemView.nombreprovincia,
+            secondary: itemView.tipo,
           };
       } 
       }

@@ -43,8 +43,9 @@ const Bien = () => {
     'Todos',
     'Solicitando cotización',
     'Aprobado',
-    'En proceso',
+    'En progreso',
     'Denegado',
+    'Completado',
     'Ninguno'
 
   ];

@@ -39,34 +39,37 @@ import VerProduccion from "./verproduccion";
 import Estados from "./estados";
 import Notificaciones from "./notificaciones";
 
-import { getArticulosVariantes } from "../../../services/articulos";
+
 
 const Produccion = () => {
   const [openModal, setOpenModal] = useState(false);
   const [item, setItem] = useState({});
   const [itemView, setItemView] = useState({});
-const [articulos, setArticulos] = useState([])
+
   const render = useRef(true);
   const [renderizar, setRenderizar] = useState(true);
   const [fields, setFields] = useState({});
-  const handlerSearcher = (e) => {
-    const { name, value } = e.target;
-    setFields({ ...fields, [name]: value });
+  const handlerSearcher = (e, val) => {
+    console.log(e.target)
+    if (e.$d) {
+      setValue(e);
+      var fechaInicio = new Date(e.$d)
+      var offsetPeru = -5; 
+      var fechaPeru = new Date(fechaInicio.getTime() + offsetPeru * 60 * 60 * 1000);
+      var fechaConvertida = fechaPeru.toISOString().slice(0, 10);
+      fields.fechaInicio = fechaConvertida
+    } else {
+      const { name, value } = e.target;
+      setFields({ ...fields, [name]: value });
+    }
+    val && setFields({...fields, ...val})
   };
   const handleClean = () => {
     searchform.reset();
     setFields({})
   };
 
-  const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
-  ];
+
 
   //para el input de fecha
   const [value, setValue] = useState(dayjs(new Date()));
@@ -76,16 +79,15 @@ const [articulos, setArticulos] = useState([])
   };
 
   useEffect(() => {
-    getArticulosVariantes(setArticulos)
+    
   },[])
-  console.log(articulos)
   return (
     <section>
       <div>
         <Grid container spacing={4} style={{ marginTop: '10px'}}>
         
         <Grid item xs={12} sm={12} md={12} xl={3}>
-          <Notificaciones articulos={articulos} />
+          <Notificaciones />
         </Grid>
           <Grid item xs={12} sm={12} md={5} xl={4}>
             
@@ -112,7 +114,7 @@ const [articulos, setArticulos] = useState([])
                   <form id="searchform">
                     <TextField
                       fullWidth
-                      label="Código"
+                      label="N° de producción"
                       type="text"
                       size="small"
                       color="secondary"
@@ -127,7 +129,8 @@ const [articulos, setArticulos] = useState([])
                       label="Fecha de inicio"
                       inputFormat="DD/MM/YYYY"
                       value={value}
-                      onChange={handleChange}
+                      onChange={handlerSearcher}
+                      name="fechaInicio"
                       renderInput={(params) => <TextField 
                         {...params} 
                         fullWidth
@@ -139,23 +142,7 @@ const [articulos, setArticulos] = useState([])
                         />}
                       />
                     </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DesktopDatePicker
-                      label="Fecha de fin"
-                      inputFormat="DD/MM/YYYY"
-                      value={value}
-                      onChange={handleChange}
-                      renderInput={(params) => <TextField 
-                        {...params} 
-                        fullWidth
-                        size="small"
-                        color="secondary"
-                        id="textfields"
-                        margin="dense"
-                        variant="filled"
-                        />}
-                      />
-                    </LocalizationProvider>
+                    
                     <FormControl
                       fullWidth
                       margin="dense"
@@ -171,19 +158,19 @@ const [articulos, setArticulos] = useState([])
                         id="textfields"
                         onChange={handlerSearcher}
                         defaultValue=""
-                        name="codprovincia"
+                        name="estProduccion"
                         variant="filled"
                       >
-                        <MenuItem key={1} value={1}>
+                        <MenuItem key={1} value={'No Iniciado'}>
                           No Iniciado
                         </MenuItem>
-                        <MenuItem key={1} value={1}>
+                        <MenuItem key={2} value={'En proceso'}>
                           En proceso
                         </MenuItem>
-                        <MenuItem key={1} value={1}>
+                        <MenuItem key={3} value={'Terminado'}>
                           Terminado
                         </MenuItem>
-                        <MenuItem key={1} value={1}>
+                        <MenuItem key={4} value={'Saliendo'}>
                           Saliendo
                         </MenuItem>
                       </Select>

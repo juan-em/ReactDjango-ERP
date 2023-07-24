@@ -7,6 +7,7 @@ const setInitialDate = () => {
 
 export const ACTION_TYPES = {
     SET_FECHA: "SET_FECHA",
+    SET_ORDEN_BIEN: "SET_ORDEN_BIEN",
     SET_PROVEEDOR: "SET_PROVEEDOR",
     ADD_DETALLE: "ADD_DETALLE",
     LOW_DETALLE: "LOW_DETALLE",
@@ -17,6 +18,7 @@ export const ACTION_TYPES = {
 export const INITIAL_STATE = {
     compra: {
         fecha:setInitialDate(),
+        orden_bien:"",
         proveedor:{persona:{nombre:""}},
         detalle_compra: [],
     }
@@ -39,6 +41,14 @@ export const comprasReducer = (state, action) => {
                 compra:{
                     ...state.compra,
                     fecha:action.payload
+                }
+            }
+        case ACTION_TYPES.SET_ORDEN_BIEN:
+            return {
+                ...state,
+                compra:{
+                    ...state.compra,
+                    orden_bien:action.payload
                 }
             }
         case ACTION_TYPES.SET_PROVEEDOR:

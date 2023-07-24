@@ -11,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import MenuItem from "@mui/material/MenuItem";
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 import { styled, useTheme, alpha } from "@mui/material/styles";
@@ -23,6 +22,7 @@ import {
   post_put,
   del,
 } from "../../../services/mantenimiento";
+import { getRequermientos, postRequerimientos, delRequerimientos } from "../../../services/requerimientos";
 
 export const Tabla = ({
   fields,
@@ -35,14 +35,16 @@ export const Tabla = ({
 }) => {
   const URL = "api/mantenimientos/provincias/";
   const [provincias, setProvincias] = useState([]);
+  const [req, setReq] = useState([])
   useEffect(() => {
     if (render.current) {
       render.current = false;
-      get(setProvincias, URL);
+      // get(setProvincias, URL);
+      getRequermientos(setReq)
     }
   }, [renderizar]);
 
-  let data = searcherprov(fields, provincias);
+  let data = searcherprov(fields, req);
 
   const handlePut = (row) => {
     setItem(row);
@@ -55,7 +57,7 @@ export const Tabla = ({
 
   const handleDelete = async (id) => {
     try {
-      let res = await del(id, URL);
+      let res = await delRequerimientos(id);
       render.current = true;
       setRenderizar(!renderizar);
       return res;
@@ -101,7 +103,7 @@ export const Tabla = ({
               sx={{ color: "#633256", fontFamily: "inherit" }}
               align="center"
             >
-              Estado
+              Fecha de Registro
             </TableCell>
             <TableCell
               sx={{ color: "#633256", fontFamily: "inherit" }}
@@ -124,9 +126,10 @@ export const Tabla = ({
                 {i + 1}
               </TableCell>
               <TableCell align="center">{row.id}</TableCell>
-              <TableCell align="center">{row.nombreprovincia}</TableCell>
-              <TableCell align="center" sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white' }} >
-                {row.nombreprovincia}
+              <TableCell align="center">{row.area_solicitante.nombre}</TableCell>
+              <TableCell align="center">{row.fecha_registro}</TableCell>
+              {/* <TableCell align="center" sx={{ backgroundColor: "#633256", fontFamily: "inherit", color:'white' }} >
+                {row.fecha_registro}
                 <IconButton
                   aria-label="delete"
                   size="small"
@@ -135,8 +138,8 @@ export const Tabla = ({
                 >
                   <ChangeCircleIcon fontSize="inherit" />
                 </IconButton>
-              </TableCell>
-              <TableCell align="center">{row.nombreprovincia}</TableCell>
+              </TableCell> */}
+              <TableCell align="center">{row.tipo}</TableCell>
               <TableCell align="right" component="th" scope="row">
                 <IconButton
                   aria-label="delete"
@@ -146,14 +149,14 @@ export const Tabla = ({
                 >
                   <VisibilityIcon fontSize="inherit" />
                 </IconButton>
-                <IconButton
+                {/* <IconButton
                   onClick={() => handlePut(row)}
                   aria-label="delete"
                   size="small"
                   color="success"
                 >
                   <EditIcon fontSize="inherit" />
-                </IconButton>
+                </IconButton> */}
                 <IconButton
                   onClick={() => handleDelete(row.id)}
                   aria-label="delete"

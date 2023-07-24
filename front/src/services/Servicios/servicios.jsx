@@ -1,6 +1,7 @@
 import axios from "../../api/axios"
 
 const SERVICIOS_URL = "api/ordenes/servicio/"
+const SERVICIOS_DOCUMENTOS_URL = "api/ordenes/serviciodocumentos/"
 
 export const cotizacionInitialState = {orden_servicio:[{}]}
 
@@ -9,6 +10,7 @@ export function transformToFormData (values) {
     values.mayor_500 && formData.append('mayor_500', values.mayor_500);
     formData.append('servicio_nombre', values.servicio_nombre);
     formData.append('servicio_estado', values.servicio_estado);
+    formData.append('requerimiento', values.requerimiento);
     
     values.orden_servicio.forEach((value, index) => {
         formData.append(`orden_servicio[${index}][proveedor_id]`, value.empresa_servicio);
@@ -61,3 +63,23 @@ export const deleteServicio = async (id) =>{
         return error
     }
   }
+
+  export const patchOrdenServicio = async (id, data) => {
+    try {
+      const responsePatch = await axios.patch(`${SERVICIOS_URL}${id}/`, data);
+      return responsePatch.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+  export const patchOrdenServicioCotizacion = async (id, data) => {
+    try {
+      const responsePatch = await axios.patch(`${SERVICIOS_DOCUMENTOS_URL}${id}/`, data);
+      return responsePatch.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };

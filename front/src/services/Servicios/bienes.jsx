@@ -1,6 +1,7 @@
 import axios from "../../api/axios";
 
 const BIENES_URL = "api/ordenes/bien/"
+const BIENES_DOCUMENTOS_URL = "api/ordenes/biendocumentos/"
 
 export const cotizacionInitialState = {orden_bien:[{}]}
 
@@ -9,6 +10,7 @@ export function transformToFormData (values) {
     values.mayor_500 && formData.append('mayor_500', values.mayor_500);
     formData.append('bien_nombre', values.bien_nombre);
     formData.append('bien_estado', values.bien_estado);
+    formData.append('requerimiento', values.requerimiento);
     
     values.orden_bien.forEach((value, index) => {
         formData.append(`orden_bien[${index}][proveedor_id]`, value.proveedor_id);
@@ -66,3 +68,23 @@ export const deleteBien = async (id) =>{
         return error
     }
   }
+
+  export const patchOrdenBien = async (id, data) => {
+    try {
+      const responsePatch = await axios.patch(`${BIENES_URL}${id}/`, data);
+      return responsePatch.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+  export const patchOrdenBienCotizacion = async (id, data) => {
+    try {
+      const responsePatch = await axios.patch(`${BIENES_DOCUMENTOS_URL}${id}/`, data);
+      return responsePatch.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };

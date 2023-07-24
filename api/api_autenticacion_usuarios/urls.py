@@ -43,4 +43,7 @@ urlpatterns = [
 
     #Trabajadores
     path('trabajadores/', include('api_trabajadores.urls')),
+
+    #Requerimientos
+    path('requerimientos/', include('api_requerimientos.urls')),
 ]

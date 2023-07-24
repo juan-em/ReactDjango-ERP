@@ -52,6 +52,7 @@ def querydict_to_dict(query_dict):
             add_to_dict(d, newKeys, get_value(value))
         else:
             d[key] = get_value(value)
+    print(d)
     return d
 
 
@@ -99,7 +100,21 @@ class OrdenBienDetailView (APIView):
             'message':'Delete succes',
             'content':content
         }
-        return Response(context) 
+        return Response(context)
+
+    def patch(self, request, id):
+        data = Orden_bien.objects.get(id=id)
+        serializer = OrdenBienSerializer(data, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+
 
 class OrdenServicioView(APIView):
     def get(self, request):
@@ -145,4 +160,45 @@ class OrdenServicioDetailView(APIView):
             'content':content
         }
 
+        return Response(context)
+
+    def patch(self, request, id):
+        data = Orden_servicio.objects.get(id=id)
+        serializer = OrdenServicioSerializer(data, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+    
+class PropuestaEmpresaBienDocumentosDetailView(APIView):
+    def patch(self, request, id):
+        data = Propuesta_Empresa_Bien.objects.get(id=id)
+        serializer = PropuestaEmpresaBienSerializer(data, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }
+        
+        return Response(context)
+
+class PropuestaEmpresaServicioDocumentosDetailView(APIView):
+    def patch(self, request, id):
+        data = Propuesta_Empresa_Servicio.objects.get(id=id)
+        serializer = PropuestaEmpresaServicioSerializer(data, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        context = {
+            'status':True,
+            'content':serializer.data
+        }
+        
         return Response(context)

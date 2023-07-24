@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../front/src/api/axios";
 
 //Buscador de productos
 export const searcher = (fields, list) => {
@@ -29,7 +29,7 @@ export const searcher = (fields, list) => {
 // Registro de la venta
 export const RegistroVenta = (payload) => {
   axios
-    .post("http://54.85.64.192:8000/api/ventas/", payload)
+    .post("api/ventas/", payload)
     .then((res) => {
       console.log(res.data);
     })
@@ -107,10 +107,10 @@ export const getInd = (id, set, url) => {
 
 export const getClientes = async (set) => {
   const res_per = await axios
-    .get("http://54.85.64.192:8000/api/clientes/per/")
+    .get("api/clientes/per/")
     .catch((error) => console.log({ error }));
   const res_emp = await axios
-    .get("http://54.85.64.192:8000/api/clientes/emp/")
+    .get("api/clientes/emp/")
     .catch((error) => console.log({ error }));
   set(res_per.data.content.concat(res_emp.data.content));
   return { clientesPersonas: res_per.data, clientesEmpresas: res_emp.data };
@@ -121,7 +121,7 @@ export const getClientes = async (set) => {
 
 export const postCaja = async (data) => {
   try {
-    const response = await axios.post('http://54.85.64.192:8000/api/cajadiaria/', data);
+    const response = await axios.post('api/cajadiaria/', data);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -132,7 +132,7 @@ export const postCaja = async (data) => {
 
 export const patchCaja = async (id, data) => {
   try {
-    const responsePatch = await axios.patch('http://54.85.64.192:8000/api/cajadiaria/' + `${id}/`, data);
+    const responsePatch = await axios.patch('api/cajadiaria/' + `${id}/`, data);
     return responsePatch.data;
   } catch (err) {
     console.log(err);
@@ -142,7 +142,7 @@ export const patchCaja = async (id, data) => {
 
 export const getLastCaja = async (set, tipo) => {
   try {
-    const responseLast = await axios.get("http://54.85.64.192:8000/api/cajadiaria/ultimacaja/" + tipo + "/");
+    const responseLast = await axios.get("api/cajadiaria/ultimacaja/" + tipo + "/");
 
     if (responseLast.data.status !== false) {
       set(responseLast.data.content);

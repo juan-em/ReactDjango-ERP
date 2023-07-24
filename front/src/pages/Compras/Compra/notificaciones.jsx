@@ -11,6 +11,7 @@ import Alert from '@mui/material/Alert';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { useState } from "react";
 import { alpha } from "@mui/material/styles";
+import { Tabla } from './complements';
 
 const drawerBleeding = 20;
 
@@ -32,9 +33,8 @@ const Puller = styled(Box)(({ theme }) => ({
   left: 'calc(50% - 15px)',
 }));
 
-const Notificaciones = (props) => {
+const Notificaciones = ({ window, state, dispatch}) => {
 
-  const { window } = props;
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -98,9 +98,8 @@ const Notificaciones = (props) => {
               overflow: 'auto',
             }}
           >
-            <Alert variant="outlined" severity="warning">
-              This is a warning alert — check it out!
-            </Alert>
+            <Tabla state={state} dispatch={dispatch}/>
+
           </StyledBox>
         </SwipeableDrawer>
       </Root>

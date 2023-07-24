@@ -31,7 +31,7 @@ const FacturaVentas = () => {
   const to = Math.min((page + 1) * itemsPerPage, facturas.length);
 
   useEffect(() => {
-    getVenta(setFacturas, "http://localhost:8000/api/ventas/");
+    getVenta(setFacturas, "api/ventas/");
     setPage(0);
   }, [itemsPerPage]);
 

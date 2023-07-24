@@ -7,7 +7,7 @@ services:
     environment:
         MYSQL_DATABASE: erp
         MYSQL_PASSWORD: test
-        MYSQL_ROOT_PASSWORD: test 
+        MYSQL_ROOT_PASSWORD: test
     volumes:
         - ./db:/var/lib/mysql
         - my-db:/var/lib/mysql
